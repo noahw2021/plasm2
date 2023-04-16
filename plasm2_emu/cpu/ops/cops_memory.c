@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __LDW(void) {
+void LDW(void) {
 	union {
 		byte Input;
 		struct {
@@ -25,7 +25,7 @@ void __LDW(void) {
 	return;
 }
 
-void __LDB(void) {
+void LDB(void) {
 	union {
 		byte Input;
 		struct {
@@ -43,7 +43,7 @@ void __LDB(void) {
 	return;
 }
 
-void __STW(void) {
+void STW(void) {
 	union {
 		byte Input;
 		struct {
@@ -61,7 +61,7 @@ void __STW(void) {
 	return;
 }
 
-void __STB(void) {
+void STB(void) {
 	union {
 		byte Input;
 		struct {
@@ -79,41 +79,41 @@ void __STB(void) {
 	return;
 }
 
-void __PSH(void) {
+void PSH(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	mmu_push(i->rs_gprs[Register]);
 	return;
 }
 
-void __POP(void) {
+void POP(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	i->rs_gprs[Register] = mmu_pop();
 	return;
 }
 
-void __PSR(void) {
+void PSR(void) {
 	for (int i = 0; i < 16; i++)
 		mmu_push(i->rs_gprs[i]);
 	return;
 }
 
-void __POR(void) {
+void POR(void) {
 	for (int i = 0; i < 16; i++)
 		i->rs_gprs[i] = mmu_pop();
 	return;
 }
 
-void __VME(void) {
+void VME(void) {
 	i->flags_s.VF = 1;
 	return;
 }
 
-void __VMD(void) {
+void VMD(void) {
 	i->flags_s.VF = 0;
 	return;
 }
 
-void __VPC(void) {
+void VPC(void) {
 	union {
 		byte Input;
 		struct {
@@ -133,7 +133,7 @@ void __VPC(void) {
 	return;
 }
 
-void __VPD(void) {
+void VPD(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	if (!i->flags_s.VF)
 		return;
@@ -145,30 +145,30 @@ void __VPD(void) {
 	return;
 }
 
-void __VSI(void) {
+void VSI(void) {
 	i->security_s.SecurityLevel++;
 	return;
 }
 
-void __VSD(void) {
+void VSD(void) {
 	if (!i->flags_s.AF)
 		i->security_s.SecurityLevel--;
 	return;
 }
 
-void __SPS(void) {
+void SPS(void) {
 	byte Register = mmu_read1() & 0xF;
 	i->sp = i->rs_gprs[Register];
 	return;
 }
 
-void __SPG(void) {
+void SPG(void) {
 	byte Register = mmu_read1() & 0xF;
 	i->rs_gprs[Register] = i->sp;
 	return;
 }
 
-void __VSS(void) {
+void VSS(void) {
 	byte Register = mmu_read1() & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
@@ -178,7 +178,7 @@ void __VSS(void) {
 	return;
 }
 
-void __VES(void) {
+void VES(void) {
 	byte Register = mmu_read1() & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)

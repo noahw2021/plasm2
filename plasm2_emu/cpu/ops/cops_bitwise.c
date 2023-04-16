@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __AND(void) {
+void AND(void) {
 	union {
 		byte Input;
 		struct {
@@ -20,7 +20,7 @@ void __AND(void) {
 	return;
 }
 
-void __BOR(void) {
+void BOR(void) {
 	union {
 		byte Input;
 		struct {
@@ -33,7 +33,7 @@ void __BOR(void) {
 	return;
 }
 
-void __XOR(void) {
+void XOR(void) {
 	union {
 		byte Input;
 		struct {

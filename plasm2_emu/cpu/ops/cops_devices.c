@@ -8,13 +8,13 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __DSQ(void) {
+void DSQ(void) {
 	byte Register = mmu_read1() & 0xF;
 	devicesi_statusquery(i->rs_gprs[Register] & 0xFFFFFFFF);
 	return;
 }
 
-void __DSC(void) {
+void DSC(void) {
 	union {
 		byte Input;
 		struct {
@@ -27,7 +27,7 @@ void __DSC(void) {
 	return;
 }
 
-void __DSD(void) {
+void DSD(void) {
 	union {
 		byte Input;
 		struct {
@@ -40,7 +40,7 @@ void __DSD(void) {
 	return;
 }
 
-void __DGD(void) {
+void DGD(void) {
 	union {
 		byte Input;
 		struct {
@@ -53,25 +53,25 @@ void __DGD(void) {
 	return;
 }
 
-void __DRS(void) {
+void DRS(void) {
 	u32 Device = i->rs_gprs[mmu_read1() & 0xF];
 	devicesi_reset(Device);
 	return;
 }
 
-void __DPE(void) {
+void DPE(void) {
 	u32 Device = i->rs_gprs[mmu_read1() & 0xF];
 	devicesi_on(Device);
 	return;
 }
 
-void __DPD(void) {
+void DPD(void) {
 	u32 Device = i->rs_gprs[mmu_read1() & 0xF];
 	devicesi_off(Device);
 	return;
 }
 
-void __DGC(void) {
+void DGC(void) {
 	byte Register = mmu_read1() & 0xF;
 	i->rs_gprs[Register] = devicesi_devcount();
 	return;

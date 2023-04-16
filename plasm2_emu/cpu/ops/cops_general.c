@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __MOV(void) {
+void MOV(void) {
 	union {
 		byte Byte;
 		struct {
@@ -20,7 +20,7 @@ void __MOV(void) {
 	return;
 }
 
-void __LDI(void) {
+void LDI(void) {
 	byte Destination = mmu_read1(++i->ip) & 0xF;
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
@@ -28,7 +28,7 @@ void __LDI(void) {
 	return;
 }
 
-void __JMP(void) {
+void JMP(void) {
 	byte Address = mmu_read1(++i->ip) & 0xF;
 	u64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC);
 	if (PhysicalAddress)
@@ -38,32 +38,32 @@ void __JMP(void) {
 	return;
 }
 
-void __NXC(void) {
+void NXC(void) {
 	i->flags_s.NF = 0;
 	return;
 }
 
-void __NXE(void) {
+void NXE(void) {
 	i->flags_s.NF = !i->flags_s.EF;
 	return;
 }
 
-void __NXZ(void) {
+void NXZ(void) {
 	i->flags_s.NF = !i->flags_s.ZF;
 	return;
 }
 
-void __NXG(void) {
+void NXG(void) {
 	i->flags_s.NF = !i->flags_s.GF;
 	return;
 }
 
-void __NXL(void) {
+void NXL(void) {
 	i->flags_s.NF = i->flags_s.GF;
 	return;
 }
 
-void __CLL(void) {
+void CLL(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	u64 Address = i->rs_gprs[Register];
 	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ);
@@ -92,7 +92,7 @@ void __CLL(void) {
 	return;
 }
 
-void __RET(void) {
+void RET(void) {
 	if (!i->flags_s.CF)
 		return;
 	if (i->sp != i->pti.ral) {
@@ -120,15 +120,15 @@ void __RET(void) {
 	return;
 }
 
-void __IMR(void) {
+void IMR(void) {
 	u16 ReturnValue = mmu_readx(i->ip, 2);
 	i->ip += 2;
 	i->r0 = ReturnValue;
-	__RET(); // reuse
+	RET(); // reuse
 	return;
 }
 
-void __SHF(void) {
+void SHF(void) {
 	i->flags_s.HF = 1;
 	return;
 }

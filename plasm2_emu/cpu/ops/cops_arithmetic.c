@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __ADD(void) {
+void ADD(void) {
 	union {
 		byte Input;
 		struct {
@@ -20,7 +20,7 @@ void __ADD(void) {
 	return;
 }
 
-void __SUB(void) {
+void SUB(void) {
 	union {
 		byte Input;
 		struct {
@@ -33,7 +33,7 @@ void __SUB(void) {
 	return;
 }
 
-void __MUL(void) {
+void MUL(void) {
 	union {
 		byte Input;
 		struct {
@@ -46,7 +46,7 @@ void __MUL(void) {
 	return;
 }
 
-void __DIV(void) {
+void DIV(void) {
 	union {
 		byte Input;
 		struct {
@@ -59,7 +59,7 @@ void __DIV(void) {
 	return;
 }
 
-void __MOD(void) {
+void MOD(void) {
 	union {
 		byte Input;
 		struct {

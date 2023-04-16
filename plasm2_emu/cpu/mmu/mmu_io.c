@@ -32,7 +32,7 @@ u64  mmu_readx(u64 Address, byte BytesToRead) {
 }
 
 void mmu_put8(u64 Address, u64 Value) {
-	byte* PhysicalBytes = (byte*)(cpuctx->PhysicalMemory + Address);
+	byte* PhysicalBytes = (byte*)((byte*)cpuctx->PhysicalMemory + Address);
 	u64* PhysicalWords = (u64*)PhysicalBytes;
 	if (Address > PHYS_MEMSZ)
 		i->flags_s.XF = 1;

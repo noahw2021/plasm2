@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void __INT(void) {
+void INT(void) {
 	byte Interrupt = i->rs_gprs[mmu_read1(++i->ip) & 0xF] & 0xFF;
 	u64* InterruptTable = (u64*)i->pti.it;
 	u64 VirtualAddress = InterruptTable[Interrupt];
@@ -39,7 +39,7 @@ void __INT(void) {
 	return;
 }
 
-void __HND(void) {
+void HND(void) {
 	union {
 		byte Byte;
 		struct {
@@ -64,7 +64,7 @@ void __HND(void) {
 	return;
 }
 
-void __IRT(void) {
+void IRT(void) {
 	if (i->sp != i->pti.ral) {
 		i->flags_s.XF = 1;
 		if (i->flags_s.AF) {
@@ -90,17 +90,17 @@ void __IRT(void) {
 	return;
 }
 
-void __ENI(void) {
+void ENI(void) {
 	i->flags_s.IF = 1;
 	return;
 }
 
-void __DSI(void) {
+void DSI(void) {
 	i->flags_s.IF = 0;
 	return;
 }
 
-void __SMH(void) {
+void SMH(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	if (i->security_s.SecurityLevel == 0)
 		cpui_csm_set(i->rs_gprs[Register]);
@@ -109,7 +109,7 @@ void __SMH(void) {
 	return;
 }
 
-void __SIT(void) {
+void SIT(void) {
 	u64 PhysicalAddress = i->rs_gprs[mmu_read1(++i->ip) & 0xF];
 	if (i->security_s.SecurityLevel < 2)
 		i->pti.it = PhysicalAddress;
