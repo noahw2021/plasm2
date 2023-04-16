@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include "mmu/mmu.h"
 #include <stdlib.h>
 #include <string.h>
 /*
@@ -15,10 +16,14 @@ void cpu_init(void) {
 	memset(cpuctx, 0, sizeof(cputctx_t));
 
 	cpuctx->ClocksPerSecond = BASE_CLOCK;
+
+	mmu_init();
 	return;
 }
 
 void cpu_shutdown(void) {
+	mmu_shutdown();
+
 	free(cpuctx);
 	return;
 }

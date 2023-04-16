@@ -82,6 +82,11 @@ typedef struct _cpuctx {
 }cpuctx_t;
 extern cpuctx_t* cpuctx;
 
+#define Instruction(Name) void Name(void)
+#define ListInstruction(Name) [__##Name] = Name
+#define DeclInstruction(Name) void Name(void);
+extern void(*Instructions[256])(void);
+
 struct {
 	union {
 		union {

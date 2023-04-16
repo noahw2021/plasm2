@@ -1,0 +1,107 @@
+#include "cpu.h"
+/*
+cpu_handlers.c
+plasm2
+plasm2_emu
+(c) Noah Wooten 2023, All Rights Reserved
+*/
+
+ListInstruction(__MOV);
+ListInstruction(__LDI);
+ListInstruction(__JMP);
+ListInstruction(__NXC);
+ListInstruction(__NXE);
+ListInstruction(__NXZ);
+ListInstruction(__NXG);
+ListInstruction(__NXL);
+ListInstruction(__CLL);
+ListInstruction(__RET);
+ListInstruction(__IMR);
+ListInstruction(__ADD);
+ListInstruction(__SUB);
+ListInstruction(__MUL);
+ListInstruction(__DIV);
+ListInstruction(__MOD);
+ListInstruction(__AND);
+ListInstruction(__BOR);
+ListInstruction(__XOR);
+ListInstruction(__LDW);
+ListInstruction(__LDB);
+ListInstruction(__STW);
+ListInstruction(__STB);
+ListInstruction(__PSH);
+ListInstruction(__POP);
+ListInstruction(__PSR);
+ListInstruction(__POR);
+ListInstruction(__VME);
+ListInstruction(__VMD);
+ListInstruction(__VPC);
+ListInstruction(__VPD);
+ListInstruction(__VSI);
+ListInstruction(__VSD);
+ListInstruction(__SPS);
+ListInstruction(__SPG);
+ListInstruction(__DSQ);
+ListInstruction(__DSC);
+ListInstruction(__DSD);
+ListInstruction(__DGD);
+ListInstruction(__DRS);
+ListInstruction(__DPE);
+ListInstruction(__DPD);
+ListInstruction(__DGC);
+ListInstruction(__INT);
+ListInstruction(__HND);
+ListInstruction(__IRT);
+ListInstruction(__ENI);
+ListInstruction(__DSI);
+
+void(*Instructions[256])(void) = {
+	DeclInstruction(__MOV),
+	DeclInstruction(__LDI),
+	DeclInstruction(__JMP),
+	DeclInstruction(__NXC),
+	DeclInstruction(__NXE),
+	DeclInstruction(__NXZ),
+	DeclInstruction(__NXG),
+	DeclInstruction(__NXL),
+	DeclInstruction(__CLL),
+	DeclInstruction(__RET),
+	DeclInstruction(__IMR),
+	DeclInstruction(__ADD),
+	DeclInstruction(__SUB),
+	DeclInstruction(__MUL),
+	DeclInstruction(__DIV),
+	DeclInstruction(__MOD),
+	DeclInstruction(__AND),
+	DeclInstruction(__BOR),
+	DeclInstruction(__XOR),
+	DeclInstruction(__LDW),
+	DeclInstruction(__LDB),
+	DeclInstruction(__STW),
+	DeclInstruction(__STB),
+	DeclInstruction(__PSH),
+	DeclInstruction(__POP),
+	DeclInstruction(__PSR),
+	DeclInstruction(__POR),
+	DeclInstruction(__VME),
+	DeclInstruction(__VMD),
+	DeclInstruction(__VPC),
+	DeclInstruction(__VPD),
+	DeclInstruction(__VSI),
+	DeclInstruction(__VSD),
+	DeclInstruction(__SPS),
+	DeclInstruction(__SPG),
+	DeclInstruction(__DSQ),
+	DeclInstruction(__DSC),
+	DeclInstruction(__DSD),
+	DeclInstruction(__DGD),
+	DeclInstruction(__DRS),
+	DeclInstruction(__DPE),
+	DeclInstruction(__DPD),
+	DeclInstruction(__DGC),
+	DeclInstruction(__INT),
+	DeclInstruction(__HND),
+	DeclInstruction(__IRT),
+	DeclInstruction(__ENI),
+	DeclInstruction(__DSI),
+};

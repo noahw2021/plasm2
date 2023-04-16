@@ -38,5 +38,8 @@
     <ClCompile Include="cpu\cpu_clock.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\cpu_handlers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

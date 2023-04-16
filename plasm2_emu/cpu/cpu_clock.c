@@ -1,4 +1,5 @@
 #include "cpu.h"
+#include "mmu/mmu.h"
 #include <stdlib.h>
 #include <string.h>
 /*
@@ -9,5 +10,6 @@ plasm2_emu
 */
 
 void cpu_clock(void) {
+	byte ThisInstruction = mmu_read1(++i->ip);
 
 }
