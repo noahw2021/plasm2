@@ -149,6 +149,7 @@
     <ClCompile Include="cpu\cpu_init.c" />
     <ClCompile Include="cpu\mmu\mmu_init.c" />
     <ClCompile Include="cpu\mmu\mmu_io.c" />
+    <ClCompile Include="cpu\mmu\mmu_virt.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

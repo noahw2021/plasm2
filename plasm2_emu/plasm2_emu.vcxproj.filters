@@ -47,5 +47,8 @@
     <ClCompile Include="cpu\mmu\mmu_io.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\mmu\mmu_virt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
