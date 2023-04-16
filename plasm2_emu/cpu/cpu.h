@@ -14,8 +14,8 @@ enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
 	__LDI = 0x01, // LDI 01 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Load Immediate
-	__JMP = 0x02, // JMP : Jump
-	__NXC = 0x03, // NXC : Next Execute Clear
+	__JMP = 0x02, // JMP 02 : Jump
+	__NXC = 0x03, // NXC 03 : Next Execute Clear
 	__NXE = 0x04, // NXE : Next Execute If Equal
 	__NXZ = 0x05, // NXZ : Next Execute If Equal
 	__NXG = 0x06, // NXG : Next Execute If Greater
