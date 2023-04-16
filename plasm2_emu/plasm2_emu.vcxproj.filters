@@ -27,6 +27,15 @@
     <ClInclude Include="cpu\mmu\mmu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="devices\devices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="devices\video\video.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="devices\kb\kb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -60,6 +69,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cpu\ops\cops_memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\devices_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
