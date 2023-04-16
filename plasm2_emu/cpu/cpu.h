@@ -109,6 +109,7 @@ struct {
 					byte EF : 1; // Equal flag
 					byte ZF : 1; // Zero flag
 					byte HF : 1; // Halt flag
+					byte IF : 1; // Interrupt flag
 				}flags_s;
 			};
 			union {

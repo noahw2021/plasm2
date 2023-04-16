@@ -13,7 +13,7 @@ cpuctx_t* cpuctx;
 
 void cpu_init(void) {
 	cpuctx = malloc(sizeof(cpuctx_t));
-	memset(cpuctx, 0, sizeof(cputctx_t));
+	memset(cpuctx, 0, sizeof(cpuctx_t));
 
 	cpuctx->ClocksPerSecond = BASE_CLOCK;
 
