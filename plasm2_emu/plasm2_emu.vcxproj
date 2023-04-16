@@ -152,6 +152,7 @@
     <ClCompile Include="cpu\cpu_init.c" />
     <ClCompile Include="cpu\mmu\mmu_init.c" />
     <ClCompile Include="cpu\mmu\mmu_io.c" />
+    <ClCompile Include="cpu\mmu\mmu_stack.c" />
     <ClCompile Include="cpu\mmu\mmu_virt.c" />
     <ClCompile Include="cpu\ops\cops_arithmetic.c" />
     <ClCompile Include="cpu\ops\cops_bitwise.c" />

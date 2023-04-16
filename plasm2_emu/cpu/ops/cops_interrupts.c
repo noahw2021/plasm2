@@ -9,7 +9,7 @@ plasm2_emu
 
 void INT(void) {
 	byte Interrupt = i->rs_gprs[mmu_read1(++i->ip) & 0xF] & 0xFF;
-	u64* InterruptTable = (u64*)i->pti.it;
+	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it);
 	u64 VirtualAddress = InterruptTable[Interrupt];
 	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
 	byte BackupLevel = i->security_s.SecurityLevel;

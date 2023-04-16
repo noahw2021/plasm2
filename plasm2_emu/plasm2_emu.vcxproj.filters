@@ -80,5 +80,8 @@
     <ClCompile Include="cpu\ops\cops_interrupts.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\mmu\mmu_stack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
