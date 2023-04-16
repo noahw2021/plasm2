@@ -1,3 +1,4 @@
+#include "../../cpu.h"
 #include "../mmu.h"
 /*
 mmup_delete.c
@@ -7,5 +8,11 @@ plasm2_emu
 */
 
 void mmu_deletepage(u64 VirtualAddress) {
-
+	for (int c = 0; c < mmuctx->PageCount; c++) {
+		if (InRange(VirtualAddress, mmuctx->Pages[c].Virtual, mmuctx->Pages[c].Virtual + Size)) {
+			mmuctx->Pages[c].Active = 0;
+			break;
+		}
+	}
+	return;
 }

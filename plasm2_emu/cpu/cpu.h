@@ -13,6 +13,7 @@ plasm2_emu
 
 // Critical System Malfunctions
 #define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)
+#define CSM_PTFAILNOTSIZE 0x02 // Page table fail not big enough
 
 enum {
 	// Generic Instructions
@@ -103,10 +104,10 @@ extern void(*Instructions[256])(void);
 struct {
 	union {
 		union {
-			u64 rs_64[24];
+			u64 rs_64[32];
 			struct {
 				u64 rs_gprs[16];
-				u64 rs_spec[8];
+				u64 rs_spec[16];
 			};
 		};
 		struct {
@@ -143,6 +144,8 @@ struct {
 				u64 pe; // page end
 				u64 ral; // return address location, backup stack pointer
 				u64 it; // interrupt table
+				u64 vsp; // virtual trailing arm
+				u64 reserved[7];
 			}pti;
 		};
 	};

@@ -34,6 +34,7 @@ void mmu_push(u64 Value);
 u64 mmu_pop(void);
 
 typedef struct _mmuctx {
+	u32 MaxPageCount;
 	u32 PageCount;
 	struct {
 		u64 Physical;
@@ -45,6 +46,7 @@ typedef struct _mmuctx {
 				byte Execute : 1;
 				byte Read : 1;
 				byte Write : 1;
+				byte Active : 1;
 			};
 		};
 	}*Pages;
