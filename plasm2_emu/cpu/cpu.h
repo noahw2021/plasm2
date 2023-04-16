@@ -65,7 +65,7 @@ enum {
 	__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query
 	__DSC = 0x81, // DSC 81 (R:04,04 ___DEV) (R:04,04 ___CMD) 16 : Device Send Command
 	__DSD = 0x82, // DSD 82 (R:04,04 ___DEV) (R:04,04 __DATA) 16 : Device Send Data
-	__DGD = 0x83, // DGD 83 (R:04,04 ___DEV)                  16 : Device Get Data
+	__DGD = 0x83, // DGD 83 (R:04,04 ___DEV) (R:04,04 __DEST) 16 : Device Get Data
 	__DRS = 0x84, // DRS 84 (R:04,04 ___DEV)                  16 : Device Reset State
 	__DPE = 0x85, // DPE 85 (R:04,08 ___DEV)                  16 : Device Power Enable
 	__DPD = 0x86, // DPD 86 (R:04,08 ___DEV)                  16 : Device Power Disable
