@@ -2,6 +2,7 @@
 #include "mmu/mmu.h"
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 /*
 cpu_clock.c
 plasm2
@@ -10,6 +11,13 @@ plasm2_emu
 */
 
 void cpu_clock(void) {
-	byte ThisInstruction = mmu_read1(++i->ip);
+	time_t CurrentTime = time(NULL);
+	if (CurrentTime >= (cpuctx->LastClockTime + (1000 / cpuctx->ClocksPerSecond))) { // 1000 is the clock resolution :)
+		cpuctx->LastClockTime = CurrentTime;
+	} else {
+		return;
+	}
 
+	byte ThisInstruction = mmu_read1(++i->ip);
+	Instructions[ThisInstruction]();
 }

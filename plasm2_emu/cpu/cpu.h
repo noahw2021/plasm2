@@ -8,7 +8,7 @@ plasm2_emu
 */
 
 // Current clock speed
-#define BASE_CLOCK 1000000
+#define BASE_CLOCK 1000
 
 enum {
 	// Generic Instructions
@@ -23,6 +23,7 @@ enum {
 	__CLL = 0x08, // CLL : Call
 	__RET = 0x09, // RET : Return
 	__IMR = 0x0A, // IMR : Immediate Return
+	__SHF = 0x0B, // SHF : Set Half Flags
 
 	// Arithmetic Instructions
 	__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add
@@ -79,6 +80,7 @@ void cpu_clock(void);
 
 typedef struct _cpuctx {
 	u64 ClocksPerSecond;
+	u64 LastClockTime;
 }cpuctx_t;
 extern cpuctx_t* cpuctx;
 
@@ -106,12 +108,13 @@ struct {
 					byte GF : 1; // Greater flag
 					byte EF : 1; // Equal flag
 					byte ZF : 1; // Zero flag
+					byte HF : 1; // Halt flag
 				}flags_s;
 			};
 			union {
 				u64 security;
 				struct {
-
+					byte __resevered;
 				}security_s;
 			};
 		};
