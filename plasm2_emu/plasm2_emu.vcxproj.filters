@@ -41,5 +41,8 @@
     <ClCompile Include="cpu\cpu_handlers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\mmu\mmu_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

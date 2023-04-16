@@ -54,6 +54,8 @@ enum {
 	__VSD = 0x6D, // VSD : Virtual Security Decrement
 	__SPS = 0x6E, // SPS : Stack Pointer Set
 	__SPG = 0x6F, // SPG : Stack Pointer Get
+	__VSS = 0x70, // VSS : Virtual Pagetable Start Set
+	__VES = 0x71, // VES : Virtual Pagetable End Set
 
 	// Device Instructions
 	__DSQ = 0x80, // DSQ : Device Status Query
@@ -92,10 +94,10 @@ extern void(*Instructions[256])(void);
 struct {
 	union {
 		union {
-			u64 rs_64[20];
+			u64 rs_64[24];
 			struct {
 				u64 rs_gprs[16];
-				u64 rs_spec[4];
+				u64 rs_spec[8];
 			};
 		};
 		struct {
@@ -118,6 +120,11 @@ struct {
 					byte __resevered;
 				}security_s;
 			};
+			struct {
+				u64 ps; // page start
+				u64 pe; // page end
+				u64 res[2]; // reserved
+			}pti;
 		};
 	};
 }i[1];

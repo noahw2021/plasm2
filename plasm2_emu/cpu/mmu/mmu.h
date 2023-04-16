@@ -18,3 +18,20 @@ void mmu_put64(u64 Address, u64 Value);
 u64  mmu_get64(u64 Address);
 
 u64 mmu_translate(u64 VirtualAddress);
+
+typedef struct _mmuctx {
+	u32 PageCount;
+	struct {
+		u64 Physical;
+		u64 Virtual;
+		union {
+			byte Permissions;
+			struct {
+				byte Execute : 1;
+				byte Read : 1;
+				byte Write : 1;
+			};
+		};
+	}*Pages;
+}mmuctx_t;
+extern mmuctx_t* mmuctx;
