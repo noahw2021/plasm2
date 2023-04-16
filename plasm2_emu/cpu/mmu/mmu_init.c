@@ -1,4 +1,4 @@
-#include "cpu.h"
+#include "../cpu.h"
 #include "mmu.h"
 #include <stdlib.h>
 #include <string.h>
@@ -12,9 +12,14 @@ plasm2_emu
 
 mmuctx_t* mmuctx;
 
+#pragma warning(disable: 6387)
+
 void mmu_init(void) {
 	mmuctx = malloc(sizeof(mmuctx_t));
 	memset(mmuctx, 0, sizeof(mmuctx_t));
+
+	cpuctx->PhysicalMemorySize = PHYS_MEMSZ;
+	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize);
 
 	return;
 }

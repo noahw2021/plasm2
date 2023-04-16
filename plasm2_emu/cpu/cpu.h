@@ -9,7 +9,7 @@ plasm2_emu
 
 // Current clock speed
 #define BASE_CLOCK 1000
-
+#define PHYS_MEMSZ 1000000
 enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
@@ -83,6 +83,9 @@ void cpu_clock(void);
 typedef struct _cpuctx {
 	u64 ClocksPerSecond;
 	u64 LastClockTime;
+
+	void* PhysicalMemory;
+	u64 PhysicalMemorySize;
 }cpuctx_t;
 extern cpuctx_t* cpuctx;
 
@@ -112,6 +115,8 @@ struct {
 					byte ZF : 1; // Zero flag
 					byte HF : 1; // Halt flag
 					byte IF : 1; // Interrupt flag
+					byte VF : 1; // Virtual flag
+					byte XF : 1; // Exception flag
 				}flags_s;
 			};
 			union {
