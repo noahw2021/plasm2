@@ -83,5 +83,14 @@
     <ClCompile Include="cpu\mmu\mmu_stack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\mmu\pages\mmup_create.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu\mmu\pages\mmup_delete.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu\mmu\pages\mmup_misc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -154,6 +154,9 @@
     <ClCompile Include="cpu\mmu\mmu_io.c" />
     <ClCompile Include="cpu\mmu\mmu_stack.c" />
     <ClCompile Include="cpu\mmu\mmu_virt.c" />
+    <ClCompile Include="cpu\mmu\pages\mmup_delete.c" />
+    <ClCompile Include="cpu\mmu\pages\mmup_create.c" />
+    <ClCompile Include="cpu\mmu\pages\mmup_misc.c" />
     <ClCompile Include="cpu\ops\cops_arithmetic.c" />
     <ClCompile Include="cpu\ops\cops_bitwise.c" />
     <ClCompile Include="cpu\ops\cops_devices.c" />

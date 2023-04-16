@@ -11,7 +11,7 @@ plasm2_emu
 */
 
 void mmu_push(u64 Value) {
-	while(InRange(i->sp, i->pti.ral, i->pti.rap + 16))
+	while(InRange(i->sp, i->pti.ral, i->pti.ral + 16))
 		i->sp += 1;
 	u64* Stack = (u64*)((byte*)cpuctx->PhysicalMemory + i->sp);
 	Stack[0] = Value;
