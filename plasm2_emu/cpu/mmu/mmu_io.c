@@ -41,7 +41,7 @@ void mmu_put8(u64 Address, u64 Value) {
 	return;
 }
 void mmu_put1(u64 Address, byte Value) {
-	byte* PhysicalBytes = (byte*)(cpuctx->PhysicalMemory + Address);
+	byte* PhysicalBytes = (byte*)((byte*)cpuctx->PhysicalMemory + Address);
 	if (Address > PHYS_MEMSZ)
 		i->flags_s.XF = 1;
 	else

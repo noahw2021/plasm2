@@ -14,7 +14,7 @@ void INT(void) {
 	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
 	byte BackupLevel = i->security_s.SecurityLevel;
 	i->security_s.SecurityLevel = SecurityLevel;
-	u64 PhysicalAddress = mmu_translate(Address & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ);
+	u64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ);
 	if (!PhysicalAddress) {
 		i->flags_s.XF = 1;
 		return;

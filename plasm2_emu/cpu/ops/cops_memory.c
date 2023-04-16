@@ -92,14 +92,14 @@ void POP(void) {
 }
 
 void PSR(void) {
-	for (int i = 0; i < 16; i++)
-		mmu_push(i->rs_gprs[i]);
+	for (int c = 0; c < 16; c++)
+		mmu_push(i->rs_gprs[c]);
 	return;
 }
 
 void POR(void) {
-	for (int i = 0; i < 16; i++)
-		i->rs_gprs[i] = mmu_pop();
+	for (int c = 0; c < 16; c++)
+		i->rs_gprs[c] = mmu_pop();
 	return;
 }
 
@@ -157,19 +157,19 @@ void VSD(void) {
 }
 
 void SPS(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	i->sp = i->rs_gprs[Register];
 	return;
 }
 
 void SPG(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	i->rs_gprs[Register] = i->sp;
 	return;
 }
 
 void VSS(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
@@ -179,7 +179,7 @@ void VSS(void) {
 }
 
 void VES(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
