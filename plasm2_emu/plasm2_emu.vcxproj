@@ -155,6 +155,7 @@
     <ClCompile Include="cpu\mmu\mmu_virt.c" />
     <ClCompile Include="cpu\ops\cops_arithmetic.c" />
     <ClCompile Include="cpu\ops\cops_bitwise.c" />
+    <ClCompile Include="cpu\ops\cops_devices.c" />
     <ClCompile Include="cpu\ops\cops_general.c" />
     <ClCompile Include="cpu\ops\cops_memory.c" />
     <ClCompile Include="devices\devices_init.c" />
