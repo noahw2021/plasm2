@@ -14,16 +14,16 @@ enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
 	__LDI = 0x01, // LDI 01 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Load Immediate
-	__JMP = 0x02, // JMP 02 : Jump
-	__NXC = 0x03, // NXC 03 : Next Execute Clear
-	__NXE = 0x04, // NXE : Next Execute If Equal
-	__NXZ = 0x05, // NXZ : Next Execute If Equal
-	__NXG = 0x06, // NXG : Next Execute If Greater
-	__NXL = 0x07, // NXL : Next Execute If Less
-	__CLL = 0x08, // CLL : Call
-	__RET = 0x09, // RET : Return
-	__IMR = 0x0A, // IMR : Immediate Return
-	__SHF = 0x0B, // SHF : Set Half Flags
+	__JMP = 0x02, // JMP 02 (R:04,08 ___ADR)                  16 : Jump
+	__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear
+	__NXE = 0x04, // NXE 04                                   08 : Next Execute If Equal
+	__NXZ = 0x05, // NXZ 05                                   08 : Next Execute If Equal
+	__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater
+	__NXL = 0x07, // NXL 07                                   08 : Next Execute If Less
+	__CLL = 0x08, // CLL 08 (R:04,08 ___ADR)                  16 : Call
+	__RET = 0x09, // RET 09                                   08 : Return
+	__IMR = 0x0A, // IMR 0A (I:16,16 _VALUE)                  24 : Immediate Return
+	__SHF = 0x0B, // SHF 0B                                   08 : Set Halt Flags
 
 	// Arithmetic Instructions
 	__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add
@@ -42,37 +42,37 @@ enum {
 	__LDB = 0x61, // LDB 61 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Byte From Memory
 	__STW = 0x62, // STW 62 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
 	__STB = 0x63, // STB 63 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
-	__PSH = 0x64, // PSH : Push to Stack
-	__POP = 0x65, // POP : Pop from Stock
-	__PSR = 0x66, // PSR : Push all Registers
-	__POR = 0x67, // POR : Pop all Registers
-	__VME = 0x68, // VME : Virtual Memory Enable
-	__VMD = 0x69, // VMD : Virtual Memory Disable
-	__VPC = 0x6A, // VPC : Virtual Page Create
-	__VPD = 0x6B, // VPD : Virtual Page Delete
-	__VSI = 0x6C, // VSI : Virtual Security Increment
-	__VSD = 0x6D, // VSD : Virtual Security Decrement
-	__SPS = 0x6E, // SPS : Stack Pointer Set
-	__SPG = 0x6F, // SPG : Stack Pointer Get
-	__VSS = 0x70, // VSS : Virtual Pagetable Start Set
-	__VES = 0x71, // VES : Virtual Pagetable End Set
+	__PSH = 0x64, // PSH 64 (R:04,08 ___SRC)                  16 : Push to Stack
+	__POP = 0x65, // POP 65 (R:04,08 __DEST)                  16 : Pop from Stock
+	__PSR = 0x66, // PSR 66                                   08 : Push all Registers
+	__POR = 0x67, // POR 67                                   08 : Pop all Registers
+	__VME = 0x68, // VME 68                                   08 : Virtual Memory Enable
+	__VMD = 0x69, // VMD 69                                   08 : Virtual Memory Disable 
+	__VPC = 0x6A, // VPC 6A (R:04,04 __PHYS) (R:04,04 __SIZE) 16 : Virtual Page Create, Virtual Address Pushed
+	__VPD = 0x6B, // VPD 6B (R:04,08 __VIRT)                  16 : Virtual Page Delete
+	__VSI = 0x6C, // VSI 6C                                   08 : Virtual Security Increment
+	__VSD = 0x6D, // VSD 6D                                   08 : Virtual Security Decrement
+	__SPS = 0x6E, // SPS 6E (R:04,08 ___SRC)                  16 : Stack Pointer Set
+	__SPG = 0x6F, // SPG 6F (R:04,08 __DEST)                  16 : Stack Pointer Get
+	__VSS = 0x70, // VSS 70 (R:04,08 __LOCR)                  16 : Virtual Pagetable Start Set
+	__VES = 0x71, // VES 71 (R:04,08 __ENPR)                  16 : Virtual Pagetable End Set
 
 	// Device Instructions
-	__DSQ = 0x80, // DSQ : Device Status Query
-	__DSC = 0x81, // DSC : Device Send Command
-	__DSD = 0x82, // DSD : Device Send Data
-	__DGD = 0x83, // DGD : Device Get Data
-	__DRS = 0x84, // DRS : Device Reset State
-	__DPE = 0x85, // DPE : Device Power Enable
-	__DPD = 0x86, // DPD : Device Power Disable
-	__DGC = 0x87, // DGC : Device Get Count
+	__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query
+	__DSC = 0x81, // DSC 81 (R:04,04 ___DEV) (R:04,04 ___CMD) 16 : Device Send Command
+	__DSD = 0x82, // DSD 82 (R:04,04 ___DEV) (R:04,04 __DATA) 16 : Device Send Data
+	__DGD = 0x83, // DGD 83 (R:04,04 ___DEV)                  16 : Device Get Data
+	__DRS = 0x84, // DRS 84 (R:04,04 ___DEV)                  16 : Device Reset State
+	__DPE = 0x85, // DPE 85 (R:04,08 ___DEV)                  16 : Device Power Enable
+	__DPD = 0x86, // DPD 86 (R:04,08 ___DEV)                  16 : Device Power Disable
+	__DGC = 0x87, // DGC 87 (R:04,08 __DEST)                  16 : Device Get Count
 
 	// Interrupts
-	__INT = 0x90, // INT : Call Interrupt
-	__HND = 0x91, // HND : Handle Interrupt
-	__IRT = 0x92, // IRT : Interrupt Return
-	__ENI = 0x93, // ENI : Enable Interrupts
-	__DSI = 0x94, // DSI : Disable Interrupts
+	__INT = 0x90, // INT 90 (R:04,08 __INTR)                  16 : Call Interrupt
+	__HND = 0x91, // HND 91 (R:04,04 __INTR) (R:04,04 __VADR) 16 : Handle Interrupt
+	__IRT = 0x92, // IRT 92                                   08 : Interrupt Return
+	__ENI = 0x93, // ENI 93                                   08 : Enable Interrupts
+	__DSI = 0x94, // DSI 94                                   08 : Disable Interrupts
 };
 
 void cpu_init(void);
