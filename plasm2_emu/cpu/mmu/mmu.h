@@ -7,6 +7,10 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
+#define REASON_EXEC 0x01
+#define REASON_WRTE 0x02
+#define REASON_READ 0x04
+
 void mmu_init(void);
 void mmu_shutdown(void);
 
@@ -17,7 +21,10 @@ u64  mmu_readx(u64 Address, byte BytesToRead);
 void mmu_put8(u64 Address, u64 Value);
 void mmu_put1(u64 Address, byte Value);
 
-u64 mmu_translate(u64 VirtualAddress);
+u64 mmu_translate(u64 VirtualAddress, byte Reason);
+
+void mmu_push(u64 Value);
+u64 mmu_pop(void);
 
 typedef struct _mmuctx {
 	u32 PageCount;

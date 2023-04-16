@@ -9,7 +9,11 @@ plasm2_emu
 
 // Current clock speed
 #define BASE_CLOCK 1000
-#define PHYS_MEMSZ 1000000
+#define PHYS_MEMSZ 1048576
+
+// Critical System Malfunctions
+#define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)
+
 enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
@@ -73,6 +77,7 @@ enum {
 	__IRT = 0x92, // IRT 92                                   08 : Interrupt Return
 	__ENI = 0x93, // ENI 93                                   08 : Enable Interrupts
 	__DSI = 0x94, // DSI 94                                   08 : Disable Interrupts
+	__SMH = 0x95, // SMH 95 (R:04,08 HANDLR)                  16 : Set System Malfunction Handler
 };
 
 void cpu_init(void);
@@ -117,6 +122,11 @@ struct {
 					byte IF : 1; // Interrupt flag
 					byte VF : 1; // Virtual flag
 					byte XF : 1; // Exception flag
+					byte NF : 1; // Next Execute skip flag
+					byte OF : 1; // Overflow flag
+					byte SF : 1; // StackSkip flag
+					byte CF : 1; // Call flag
+					byte AF : 1; // Extra security flag
 				}flags_s;
 			};
 			union {
@@ -128,8 +138,11 @@ struct {
 			struct {
 				u64 ps; // page start
 				u64 pe; // page end
-				u64 res[2]; // reserved
+				u64 ral; // return address location, backup stack pointer
+				u64 reserved;
 			}pti;
 		};
 	};
 }i[1];
+
+void cpui_csm(byte Code, u64 AddtData);

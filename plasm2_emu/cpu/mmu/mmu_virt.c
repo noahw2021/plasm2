@@ -10,10 +10,12 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64 mmu_translate(u64 VirtualAddress) {
+u64 mmu_translate(u64 VirtualAddress, byte Reason) {
 	if (i->flags_s.VF) {
+		VirtualAddress &= (PHYS_MEMSZ - 1); // temporary
 		return VirtualAddress;
 	} else {
+		VirtualAddress &= (PHYS_MEMSZ - 1);
 		return VirtualAddress;
 	}
 }
