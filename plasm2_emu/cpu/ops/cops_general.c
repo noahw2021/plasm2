@@ -82,7 +82,7 @@ void __CLL(void) {
 			u16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF = 1;
+	SecurityPacket.CallFlag = i->flags_s.CF;
 	SecurityPacket.Flags = i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);

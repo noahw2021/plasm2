@@ -73,11 +73,12 @@ enum {
 
 	// Interrupts
 	__INT = 0x90, // INT 90 (R:04,08 __INTR)                  16 : Call Interrupt
-	__HND = 0x91, // HND 91 (R:04,04 __INTR) (R:04,04 __VADR) 16 : Handle Interrupt
+	__HND = 0x91, // HND 91 (R:04,04 __INTR) (R:04,04 __VADR) 16 : Handle Interrupt, Security level on stack
 	__IRT = 0x92, // IRT 92                                   08 : Interrupt Return
 	__ENI = 0x93, // ENI 93                                   08 : Enable Interrupts
 	__DSI = 0x94, // DSI 94                                   08 : Disable Interrupts
 	__SMH = 0x95, // SMH 95 (R:04,08 HANDLR)                  16 : Set System Malfunction Handler
+	__SIT = 0x96, // SIT 96 (R:04,08 IHNDLR)                  16 : Set Interrupt Table
 };
 
 void cpu_init(void);
@@ -127,6 +128,7 @@ struct {
 					byte SF : 1; // StackSkip flag
 					byte CF : 1; // Call flag
 					byte AF : 1; // Extra security flag
+					byte IT : 1; // Interrupt table set
 				}flags_s;
 			};
 			union {
@@ -140,10 +142,11 @@ struct {
 				u64 ps; // page start
 				u64 pe; // page end
 				u64 ral; // return address location, backup stack pointer
-				u64 reserved;
+				u64 it; // interrupt table
 			}pti;
 		};
 	};
 }i[1];
 
-void cpui_csm(byte Code, u64 AddtData);
+void cpui_csm_set(u64 Handler);
+void cpui_csm_msg(byte Code, u64 AddtData);

@@ -146,8 +146,7 @@ void __VPD(void) {
 }
 
 void __VSI(void) {
-	if (!i->flags_s.AF)
-		i->security_s.SecurityLevel++;
+	i->security_s.SecurityLevel++;
 	return;
 }
 

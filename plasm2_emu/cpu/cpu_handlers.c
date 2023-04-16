@@ -56,6 +56,7 @@ DeclInstruction(ENI);
 DeclInstruction(DSI);
 DeclInstruction(SHF);
 DeclInstruction(SMH);
+DeclInstruction(SIT);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -108,4 +109,5 @@ void(*Instructions[256])(void) = {
 	ListInstruction(DSI),
 	ListInstruction(SHF),
 	ListInstruction(SMH),
+	ListInstruction(SIT),
 };
