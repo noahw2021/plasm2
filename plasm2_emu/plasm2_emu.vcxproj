@@ -153,6 +153,7 @@
     <ClCompile Include="cpu\ops\cops_arithmetic.c" />
     <ClCompile Include="cpu\ops\cops_bitwise.c" />
     <ClCompile Include="cpu\ops\cops_general.c" />
+    <ClCompile Include="cpu\ops\cops_memory.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

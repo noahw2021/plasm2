@@ -59,5 +59,8 @@
     <ClCompile Include="cpu\ops\cops_bitwise.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\ops\cops_memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

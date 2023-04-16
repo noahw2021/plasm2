@@ -132,7 +132,8 @@ struct {
 			union {
 				u64 security;
 				struct {
-					byte __resevered;
+					byte SecurityLevel : 5;
+					u64 Reserved : 59;
 				}security_s;
 			};
 			struct {

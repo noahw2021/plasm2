@@ -73,12 +73,28 @@ void __CLL(void) {
 	}
 	i->pti.ral = i->sp;
 	mmu_push(i->ip);
+	union {
+		u64 Raw;
+		struct {
+			u32 Flags;
+			byte SecurityLevel;
+			byte CallFlag;
+			u16 Reserved;
+		};
+	}SecurityPacket;
+	SecurityPacket.CallFlag = i->flags_s.CF = 1;
+	SecurityPacket.Flags = i->flags;
+	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
+	mmu_push(SecurityPacket.Raw);
 	i->flags_s.SF = 1;
 	i->ip = PhysicalAddress;
+	i->flags_s.CF = 1;
 	return;
 }
 
 void __RET(void) {
+	if (!i->flags_s.CF)
+		return;
 	if (i->sp != i->pti.ral) {
 		i->flags_s.XF = 1;
 		if (i->flags_s.AF) {
@@ -87,6 +103,19 @@ void __RET(void) {
 		}
 	}
 	i->sp = i->pti.ral;
+	union {
+		u64 Raw;
+		struct {
+			u32 Flags;
+			byte SecurityLevel;
+			byte CallFlag;
+			u16 Reserved;
+		};
+	}SecurityPacket;
+	SecurityPacket.Raw = mmu_pop();
+	i->flags = SecurityPacket.Flags;
+	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
+	i->flags_s.CF = SecurityPacket.CallFlag;
 	i->ip = mmu_pop();
 	return;
 }
