@@ -26,6 +26,8 @@ void mmu_put1(u64 Address, byte Value);
 u64 mmu_translate(u64 VirtualAddress, byte Reason);
 u64 mmu_createpage(u64 PhysicalAddress, u64 Size, byte Permissions);
 void mmu_deletepage(u64 VirtualAddress);
+void mmu_setptstart(u64 New);
+void mmu_setptend(u64 New);
 
 // stack
 void mmu_push(u64 Value);

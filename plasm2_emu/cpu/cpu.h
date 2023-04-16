@@ -52,7 +52,7 @@ enum {
 	__POR = 0x67, // POR 67                                   08 : Pop all Registers
 	__VME = 0x68, // VME 68                                   08 : Virtual Memory Enable
 	__VMD = 0x69, // VMD 69                                   08 : Virtual Memory Disable 
-	__VPC = 0x6A, // VPC 6A (R:04,04 __PHYS) (R:04,04 __SIZE) 16 : Virtual Page Create, Virtual Address Pushed
+	__VPC = 0x6A, // VPC 6A (R:04,04 __PHYS) (R:04,04 __SIZE) 16 : Virtual Page Create, Virtual Address Pushed, Permissions in r0
 	__VPD = 0x6B, // VPD 6B (R:04,08 __VIRT)                  16 : Virtual Page Delete
 	__VSI = 0x6C, // VSI 6C                                   08 : Virtual Security Increment
 	__VSD = 0x6D, // VSD 6D                                   08 : Virtual Security Decrement

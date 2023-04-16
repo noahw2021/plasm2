@@ -15,6 +15,7 @@ void __LDW(void) {
 			byte Address : 4;
 		};
 	}Inputs;
+	Inputs.Input = mmu_read1(++i->ip);
 	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
@@ -31,7 +32,8 @@ void __LDB(void) {
 			byte Destination : 4;
 			byte Address : 4;
 		};
-	}Inputs; 
+	}Inputs;
+	Inputs.Input = mmu_read1(++i->ip);
 	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
@@ -49,6 +51,7 @@ void __STW(void) {
 			byte Register : 4;
 		};
 	}Inputs;
+	Inputs.Input = mmu_read1(++i->ip);
 	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
@@ -66,6 +69,7 @@ void __STB(void) {
 			byte Register : 4;
 		};
 	}Inputs; 
+	Inputs.Input = mmu_read1(++i->ip);
 	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
@@ -76,13 +80,13 @@ void __STB(void) {
 }
 
 void __PSH(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	mmu_push(i->rs_gprs[Register]);
 	return;
 }
 
 void __POP(void) {
-	byte Register = mmu_read1() & 0xF;
+	byte Register = mmu_read1(++i->ip) & 0xF;
 	i->rs_gprs[Register] = mmu_pop();
 	return;
 }
@@ -110,39 +114,77 @@ void __VMD(void) {
 }
 
 void __VPC(void) {
+	union {
+		byte Input;
+		struct {
+			byte PhysicalAddress : 4;
+			byte Size : 4;
+		};
+	}Inputs;
+	Inputs.Input = mmu_read1(++i->ip);
 	if (!i->flags_s.VF)
 		return;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
 	}
-
+	u64 VirtualAddr = mmu_createpage(i->rs_gprs[Inputs.PhysicalAddress], i->rs_gprs[Inputs.Size], i->r0& (REASON_EXEC | REASON_READ | REASON_WRTE));
+	mmu_push(VirtualAddr);
+	return;
 }
 
 void __VPD(void) {
-
+	byte Register = mmu_read1(++i->ip) & 0xF;
+	if (!i->flags_s.VF)
+		return;
+	if (i->flags_s.AF) {
+		if (i->security_s.SecurityLevel > 1)
+			return;
+	}
+	mmu_deletepage(i->rs_gprs[Register]);
+	return;
 }
 
 void __VSI(void) {
-
+	if (!i->flags_s.AF)
+		i->security_s.SecurityLevel++;
+	return;
 }
 
 void __VSD(void) {
-
+	if (!i->flags_s.AF)
+		i->security_s.SecurityLevel--;
+	return;
 }
 
 void __SPS(void) {
-
+	byte Register = mmu_read1() & 0xF;
+	i->sp = i->rs_gprs[Register];
+	return;
 }
 
 void __SPG(void) {
-
+	byte Register = mmu_read1() & 0xF;
+	i->rs_gprs[Register] = i->sp;
+	return;
 }
 
 void __VSS(void) {
-
+	byte Register = mmu_read1() & 0xF;
+	if (i->flags_s.AF) {
+		if (i->security_s.SecurityLevel > 1)
+			return;
+	}
+	mmu_setptstart(i->rs_gprs[Register]);
+	return;
 }
 
 void __VES(void) {
-
+	byte Register = mmu_read1() & 0xF;
+	if (i->flags_s.AF) {
+		if (i->security_s.SecurityLevel > 1)
+			return;
+	}
+	mmu_setptend(i->rs_gprs[Register]);
+	return;
 }
