@@ -106,7 +106,7 @@ struct {
 			union {
 				u64 security;
 				struct {
-					byte SecurityLevel : 8;
+
 				}security_s;
 			};
 		};
