@@ -141,8 +141,10 @@
   <ItemGroup>
     <ClInclude Include="basetypes.h" />
     <ClInclude Include="cpu\cpu.h" />
+    <ClInclude Include="cpu\mmu\mmu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cpu\cpu_clock.c" />
     <ClCompile Include="cpu\cpu_init.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>

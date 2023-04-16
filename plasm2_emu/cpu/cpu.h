@@ -41,6 +41,18 @@ enum {
 	__LDB = 0x61, // LDB 61 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Byte From Memory
 	__STW = 0x62, // STW 62 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
 	__STB = 0x63, // STB 63 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
+	__PSH = 0x64, // PSH : Push to Stack
+	__POP = 0x65, // POP : Pop from Stock
+	__PSR = 0x66, // PSR : Push all Registers
+	__POR = 0x67, // POR : Pop all Registers
+	__VME = 0x68, // VME : Virtual Memory Enable
+	__VMD = 0x69, // VMD : Virtual Memory Disable
+	__VPC = 0x6A, // VPC : Virtual Page Create
+	__VPD = 0x6B, // VPD : Virtual Page Delete
+	__VSI = 0x6C, // VSI : Virtual Security Increment
+	__VSD = 0x6D, // VSD : Virtual Security Decrement
+	__SPS = 0x6E, // SPS : Stack Pointer Set
+	__SPG = 0x6F, // SPG : Stack Pointer Get
 
 	// Device Instructions
 	__DSQ = 0x80, // DSQ : Device Status Query
@@ -69,3 +81,34 @@ typedef struct _cpuctx {
 	u64 ClocksPerSecond;
 }cpuctx_t;
 extern cpuctx_t* cpuctx;
+
+struct {
+	union {
+		union {
+			u64 rs_64[20];
+			struct {
+				u64 rs_gprs[16];
+				u64 rs_spec[4];
+			};
+		};
+		struct {
+			u64 r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15;
+			u64 ip;
+			u64 sp;
+			union {
+				u64 flags;
+				struct {
+					byte GF : 1; // Greater flag
+					byte EF : 1; // Equal flag
+					byte ZF : 1; // Zero flag
+				}flags_s;
+			};
+			union {
+				u64 security;
+				struct {
+					byte SecurityLevel : 8;
+				}security_s;
+			};
+		};
+	};
+}i[1];

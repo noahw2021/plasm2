@@ -24,12 +24,18 @@
     <ClInclude Include="basetypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="cpu\mmu\mmu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cpu\cpu_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu\cpu_clock.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
