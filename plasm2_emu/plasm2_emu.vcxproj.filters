@@ -36,9 +36,6 @@
     <ClInclude Include="devices\kb\kb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="devices\cpud\cpud.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -105,6 +102,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="devices\devices_registry.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\kb\kb_handlers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\video\video_handlers.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\kb\kb_collect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\video\video_collect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
