@@ -36,6 +36,9 @@
     <ClInclude Include="devices\kb\kb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="devices\cpud\cpud.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -96,6 +99,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cpu\cpu_inst.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\devices_collect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\devices_registry.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

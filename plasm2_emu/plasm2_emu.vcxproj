@@ -142,6 +142,7 @@
     <ClInclude Include="basetypes.h" />
     <ClInclude Include="cpu\cpu.h" />
     <ClInclude Include="cpu\mmu\mmu.h" />
+    <ClInclude Include="devices\cpud\cpud.h" />
     <ClInclude Include="devices\devices.h" />
     <ClInclude Include="devices\kb\kb.h" />
     <ClInclude Include="devices\video\video.h" />
@@ -165,7 +166,9 @@
     <ClCompile Include="cpu\ops\cops_general.c" />
     <ClCompile Include="cpu\ops\cops_interrupts.c" />
     <ClCompile Include="cpu\ops\cops_memory.c" />
+    <ClCompile Include="devices\devices_collect.c" />
     <ClCompile Include="devices\devices_init.c" />
+    <ClCompile Include="devices\devices_registry.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

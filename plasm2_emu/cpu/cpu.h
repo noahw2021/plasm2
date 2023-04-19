@@ -160,7 +160,8 @@ struct {
 				u64 it; // interrupt table
 				u64 vsp; // virtual trailing arm
 				u64 csm; // csm handler
-				u64 reserved[6];
+				u64 dvptr; // device map pointer
+				u64 reserved[5];
 			}pti;
 		};
 	};

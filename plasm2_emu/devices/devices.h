@@ -9,6 +9,7 @@ plasm2_emu
 
 void devices_init(void);
 void devices_shutdown(void);
+void devices_collect(void);
 
 u32 devices_register(const char* DeviceName, u32 Serial, u32 Model, u64(*Calls[7])(u32, u64));
 void devices_disconnect(u32 DeviceId);
@@ -22,7 +23,30 @@ void devicesi_off(u32 Device);
 void devicesi_on(u32 Device);
 u32  devicesi_devcount(void);
 
+#define DEVTYPE_KB			0x10000001
+#define DEVTYPE_MOUSE		0x10000002
+#define DEVTYPE_CPU			0x10000003
+#define DEVTYPE_TERMINAL	0x10000004
+
 typedef struct _devicesctx {
 	u32 DeviceCount;
+	struct {
+		int DeviceType;
+		char DeviceName[32];
+		char DeviceVendor[32];
+		u32 VendorId;
+		u32 DeviceModel;
+		u32 DeviceSerial;
+		u64(*Callbacks[7])(u32 DeviceId, u64 Argument);
+		union {
+			u32 FlagsRaw;
+			struct {
+				byte Active : 1;
+				byte On : 1;
+				byte Sleep : 1;
+				byte Hotswappable : 1;
+			};
+		}Flags;
+	}Devices*;
 }devicesctx_t;
 extern devicesctx_t* devicesctx;
