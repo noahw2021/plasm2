@@ -116,5 +116,11 @@
     <ClCompile Include="devices\video\video_collect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devices\video\video_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

@@ -47,6 +47,6 @@ typedef struct _devicesctx {
 				byte Hotswappable : 1;
 			};
 		}Flags;
-	}Devices*;
+	}*Devices;
 }devicesctx_t;
 extern devicesctx_t* devicesctx;

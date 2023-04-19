@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
 	i->ip = 0x3A0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
-	fread(cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
+	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
 
 	devices_init();
 	devices_collect();
