@@ -23,6 +23,6 @@ void cpui_csm_msg(byte Code, u64 AddtData) {
 		mmu_push(i->rs_spec[c]);
 	mmu_push(Code);
 	mmu_push(AddtData);
-
+	cpui_inst_cll(i->pti.csm);
 	return;
 }
