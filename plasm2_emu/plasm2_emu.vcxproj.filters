@@ -92,5 +92,11 @@
     <ClCompile Include="cpu\mmu\pages\mmup_misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\cpu_csm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cpu\cpu_inst.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

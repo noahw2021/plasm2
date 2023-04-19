@@ -15,6 +15,16 @@ plasm2_emu
 #define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)
 #define CSM_PTFAILNOTSIZE 0x02 // Page table fail not big enough
 
+// System Rings (i->security_s.SecurityLevel), 0-31
+/*
+0: System Ring: Kernel
+1: System Drivers Ring: Kernel-mode Drivers
+2: Elevated User Ring: User-mode Drivers, executive applications
+3: Administrator Ring: Administrator permission applications
+4: Application Ring: Regular permission application
+5+: Operating system discretion
+*/
+
 enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
@@ -101,13 +111,17 @@ extern cpuctx_t* cpuctx;
 #define DeclInstruction(Name) void Name(void);
 extern void(*Instructions[256])(void);
 
+#define REGCOUNT_GPRS  16
+#define REGCOUNT_SPEC  16
+#define REGCOUNT_TOTAL REGCOUNT_GPRS + REGCOUNT_SPEC
+
 struct {
 	union {
 		union {
-			u64 rs_64[32];
+			u64 rs_64[REGCOUNT_TOTAL];
 			struct {
-				u64 rs_gprs[16];
-				u64 rs_spec[16];
+				u64 rs_gprs[REGCOUNT_GPRS];
+				u64 rs_spec[REGCOUNT_SPEC];
 			};
 		};
 		struct {
@@ -145,7 +159,8 @@ struct {
 				u64 ral; // return address location, backup stack pointer
 				u64 it; // interrupt table
 				u64 vsp; // virtual trailing arm
-				u64 reserved[7];
+				u64 csm; // csm handler
+				u64 reserved[6];
 			}pti;
 		};
 	};
@@ -153,3 +168,9 @@ struct {
 
 void cpui_csm_set(u64 Handler);
 void cpui_csm_msg(byte Code, u64 AddtData);
+
+// addresses are physical
+void cpui_inst_jmp(u64 Address);
+void cpui_inst_cll(u64 Address);
+void cpui_inst_ret(void);
+void cpui_inst_int(byte Interrupt);

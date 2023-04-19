@@ -9,33 +9,7 @@ plasm2_emu
 
 void INT(void) {
 	byte Interrupt = i->rs_gprs[mmu_read1(++i->ip) & 0xF] & 0xFF;
-	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it);
-	u64 VirtualAddress = InterruptTable[Interrupt];
-	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
-	byte BackupLevel = i->security_s.SecurityLevel;
-	i->security_s.SecurityLevel = SecurityLevel;
-	u64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ);
-	if (!PhysicalAddress) {
-		i->flags_s.XF = 1;
-		return;
-	}
-	i->pti.ral = i->sp;
-	mmu_push(i->ip);
-	union {
-		u64 Raw;
-		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
-		};
-	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
-	i->flags_s.SF = 1;
-	i->ip = PhysicalAddress;
+	cpui_inst_int(Interrupt);
 	return;
 }
 
@@ -68,7 +42,7 @@ void IRT(void) {
 	if (i->sp != i->pti.ral) {
 		i->flags_s.XF = 1;
 		if (i->flags_s.AF) {
-			cpui_csm(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
+			cpui_csm_msg(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
 			return;
 		}
 	}

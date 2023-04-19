@@ -32,7 +32,7 @@ void JMP(void) {
 	byte Address = mmu_read1(++i->ip) & 0xF;
 	u64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC);
 	if (PhysicalAddress)
-		i->ip = PhysicalAddress;
+		cpui_inst_jmp(PhysicalAddress);
 	else
 		i->flags_s.XF = 1;
 	return;
@@ -67,57 +67,11 @@ void CLL(void) {
 	byte Register = mmu_read1(++i->ip) & 0xF;
 	u64 Address = i->rs_gprs[Register];
 	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ);
-	if (!PhysicalAddress) {
-		i->flags_s.XF = 1;
-		return;
-	}
-	i->pti.ral = i->sp;
-	mmu_push(i->ip);
-	union {
-		u64 Raw;
-		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
-		};
-	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
-	i->flags_s.SF = 1;
-	i->ip = PhysicalAddress;
-	i->flags_s.CF = 1;
-	return;
+	cpui_inst_cll(PhysicalAddress);
 }
 
 void RET(void) {
-	if (!i->flags_s.CF)
-		return;
-	if (i->sp != i->pti.ral) {
-		i->flags_s.XF = 1;
-		if (i->flags_s.AF) {
-			cpui_csm(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
-			return;
-		}
-	}
-	i->sp = i->pti.ral;
-	union {
-		u64 Raw;
-		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
-		};
-	}SecurityPacket;
-	SecurityPacket.Raw = mmu_pop();
-	i->flags = SecurityPacket.Flags;
-	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
-	i->flags_s.CF = SecurityPacket.CallFlag;
-	i->ip = mmu_pop();
-	return;
+	cpui_inst_ret();
 }
 
 void IMR(void) {
