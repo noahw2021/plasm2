@@ -21,7 +21,7 @@ void mmu_init(void) {
 	cpuctx->PhysicalMemorySize = PHYS_MEMSZ;
 	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize);
 	
-	i->sp = 0x800;
+	i->sp = 0x3A0;
 
 	return;
 }
