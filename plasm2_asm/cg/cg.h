@@ -14,6 +14,9 @@ void cg_parse(const char* Line);
 void cge_error(int Line, const char* Reason);
 int  cge_errorcnt(void);
 
+void cgp_put1(byte Data);
+void cgp_put8(u64 Data);
+
 typedef struct _cgctx {
 	int LineCount;
 	int CurrentLine;
