@@ -49,9 +49,9 @@ void videoii_loop(void) {
 			if (Event.type == SDL_QUIT)
 				Quit = 1;
 			if (Event.type == SDL_KEYDOWN)
-				KeysDown[Event.key.keysym.scancode] = 1;
+				kbii_markkey(Event.key.keysym.scancode, 1);
 			if (Event.type == SDL_KEYUP)
-				KeysDown[Event.key.keysym.scancode] = 0;
+				kbii_markkey(Event.key.keysym.scancode, 0);
 		}
 		while (PauseDrawing)
 			SDL_Delay(100);

@@ -8,4 +8,4 @@ plasm2
 plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
-byte KeysDown[256];
+u64 KeysDown[4];
