@@ -140,9 +140,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="psin2\psin2_data.c" />
+    <ClCompile Include="psin2\psin2_parse.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h" />
+    <ClInclude Include="cg\cg.h" />
+    <ClInclude Include="link\link.h" />
+    <ClInclude Include="psin2\psin2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
