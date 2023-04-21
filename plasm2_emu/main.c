@@ -2,6 +2,7 @@
 #include "basetypes.h"
 #include "cpu/cpu.h"
 #include "devices/devices.h"
+#include "devices/kb/kb.h"
 /*
 main.c
 plasm2
@@ -27,6 +28,10 @@ int main(int argc, char** argv) {
 	i->ip = 0x3A0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
+	if (!Bios) {
+		printf("[ERR]: Failed to open BIOS!\n");
+		return -1;
+	}
 	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
 
 	devices_init();
@@ -34,6 +39,7 @@ int main(int argc, char** argv) {
 
 	while (1) {
 		cpu_clock();
+		kb_clock();
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}

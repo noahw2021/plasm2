@@ -13,6 +13,7 @@ extern u64 KeysDown[4];
 
 void kb_init(void);
 void kb_shutdown(void);
+void kb_clock(void);
 void kb_collect(void);
 
 u64  kb_statusquery(u32 Device);
