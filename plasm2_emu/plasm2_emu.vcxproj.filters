@@ -101,9 +101,6 @@
     <ClCompile Include="devices\devices_collect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="devices\devices_registry.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="devices\kb\kb_handlers.c">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -11,9 +11,6 @@ void devices_init(void);
 void devices_shutdown(void);
 void devices_collect(void);
 
-u32 devices_register(const char* DeviceName, u32 Serial, u32 Model, u64(*Calls[7])(u32, u64));
-void devices_disconnect(u32 DeviceId);
-
 u64 devicesi_statusquery(u32 Device);
 void devicesi_sendcommand(u32 Device, u64 Command);
 void devicesi_senddata(u32 Device, u64 Command);
