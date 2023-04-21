@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cg\cg_errors.c" />
+    <ClCompile Include="cg\cg_init.c" />
+    <ClCompile Include="cg\cg_parse.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="psin2\psin2_data.c" />
     <ClCompile Include="psin2\psin2_getcg.c" />
