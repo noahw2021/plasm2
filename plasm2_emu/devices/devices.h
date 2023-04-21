@@ -28,6 +28,11 @@ u32  devicesi_devcount(void);
 #define DEVTYPE_CPU			0x10000003
 #define DEVTYPE_TERMINAL	0x10000004
 
+#define DEVSTATUS_GOOD 0x1100100A
+#define DEVSTATUS_FAIL 0x1100100B
+#define DEVSTATUS_WARN 0x1100100C
+#define DEVSTAUTS_INVL 0x11002000
+
 typedef struct _devicesctx {
 	u32 DeviceCount;
 	struct {

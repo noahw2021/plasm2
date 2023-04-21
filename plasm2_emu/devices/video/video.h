@@ -17,7 +17,6 @@ u64  video_getdata(u32 Device);
 void video_reset(u32 Device);
 void video_off(u32 Device);
 void video_on(u32 Device);
-u32  video_devcount(void);
 
 /*
 defaults:
@@ -32,7 +31,12 @@ commands
 
 GetTextBuffer 00 : Returns text buffer pointer to R0
 SetTextBuffer 01 : Adjusts the text buffer position, Argument
-DrawLine      02 : Draws a line 
+DrawLine      02 : Draws a line v
+DrawRect      03 : Draws a rect (color from stack)
+DrawFill      04 : Draws a filled rect ^
+CopyRect      05 : Copies a rectangular bitmap (32bit color), ptr on stack
+GetWh         06 : Get width (hi) and height (lo)
+SuggestWh     07 : Suggest a width (hi32) and height (lo32)
 */
 
 u64 videoi_gettextbuffer(void);
@@ -47,6 +51,11 @@ void videoi_suggestwh(u16 w, u16 h);
 typedef struct _videoctx {
 	byte TextMode;
 	byte SizeLocked;
+	u64 Status;
+	byte AwaitingData;
+	byte DestinationCommand;
+	byte PendingDataSend;
+	u64 Outgoing;
 	int w;
 	int h;
 	struct {

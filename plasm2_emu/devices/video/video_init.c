@@ -16,11 +16,15 @@ SDL_Renderer* Renderer;
 byte PauseDrawing;
 videoctx_t* videoctx;
 
+#pragma warning(disable: 6011 6387)
+
 void videoii_loop(void);
 
 void video_init(void) {
 	videoctx = malloc(sizeof(videoctx_t));
 	memset(videoctx, 0, sizeof(videoctx_t));
+	
+	videoctx->Status = DEVSTATUS_GOOD;
 
 	PauseDrawing = 0;
 	SDL_Init(SDL_INIT_VIDEO);
