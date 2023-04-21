@@ -1,5 +1,7 @@
 #include "devices.h"
 #include "../cpu/cpu.h"
+#include "kb/kb.h"
+#include "video/video.h"
 #include <string.h>
 /*
 devices_init.c
@@ -14,6 +16,10 @@ void devices_init(void) {
 	memset(devicesctx, 0, sizeof(devicesctx_t));
 	
 	devicesctx->DeviceCount = 2;
+	devicesctx->Devices = cpuctx->PhysicalMemory;
+
+	kb_init();
+	video_init();
 }
 void devices_shutdown(void) {
 

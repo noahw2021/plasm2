@@ -23,6 +23,6 @@ void cpu_clock(void) {
 		return;
 	}
 
-	byte ThisInstruction = mmu_read1(++i->ip);
+	byte ThisInstruction = mmu_read1(i->ip++);
 	Instructions[ThisInstruction]();
 }

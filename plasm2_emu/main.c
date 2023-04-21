@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "basetypes.h"
 #include "cpu/cpu.h"
 #include "devices/devices.h"
@@ -22,7 +23,10 @@ Starting physical memory map:
 */
 
 int main(int argc, char** argv) {
+	fgetc(stdin);
 	cpu_init();
+
+	memset(i, 0, sizeof(*i));
 
 	i->pti.dvptr = 0x000;
 	i->ip = 0x3A0;
