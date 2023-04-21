@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{84e590f8-f306-4e64-8606-e9780427b615}</ProjectGuid>
-    <RootNamespace>plasm2emu</RootNamespace>
+    <ProjectGuid>{afa36a6e-49a1-4119-b2d4-ff11748736b7}</ProjectGuid>
+    <RootNamespace>plasm2asm</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,9 +86,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir)sdl\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,9 +100,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir)sdl\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,9 +114,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir)sdl\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,9 +128,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(ProjectDir)sdl\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,58 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="basetypes.h" />
-    <ClInclude Include="cpu\cpu.h" />
-    <ClInclude Include="cpu\mmu\mmu.h" />
-    <ClInclude Include="devices\devices.h" />
-    <ClInclude Include="devices\kb\kb.h" />
-    <ClInclude Include="devices\video\video.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cpu\cpu_clock.c" />
-    <ClCompile Include="cpu\cpu_csm.c" />
-    <ClCompile Include="cpu\cpu_handlers.c" />
-    <ClCompile Include="cpu\cpu_init.c" />
-    <ClCompile Include="cpu\cpu_inst.c" />
-    <ClCompile Include="cpu\mmu\mmu_init.c" />
-    <ClCompile Include="cpu\mmu\mmu_io.c" />
-    <ClCompile Include="cpu\mmu\mmu_stack.c" />
-    <ClCompile Include="cpu\mmu\mmu_virt.c" />
-    <ClCompile Include="cpu\mmu\pages\mmup_delete.c" />
-    <ClCompile Include="cpu\mmu\pages\mmup_create.c" />
-    <ClCompile Include="cpu\mmu\pages\mmup_misc.c" />
-    <ClCompile Include="cpu\ops\cops_arithmetic.c" />
-    <ClCompile Include="cpu\ops\cops_bitwise.c" />
-    <ClCompile Include="cpu\ops\cops_devices.c" />
-    <ClCompile Include="cpu\ops\cops_general.c" />
-    <ClCompile Include="cpu\ops\cops_interrupts.c" />
-    <ClCompile Include="cpu\ops\cops_memory.c" />
-    <ClCompile Include="devices\devices_collect.c" />
-    <ClCompile Include="devices\devices_handlers.c" />
-    <ClCompile Include="devices\devices_init.c" />
-    <ClCompile Include="devices\kb\kb_collect.c" />
-    <ClCompile Include="devices\kb\kb_handlers.c" />
-    <ClCompile Include="devices\kb\kb_init.c" />
-    <ClCompile Include="devices\kb\kb_native.c" />
-    <ClCompile Include="devices\video\video_collect.c" />
-    <ClCompile Include="devices\video\video_handlers.c" />
-    <ClCompile Include="devices\video\video_init.c" />
-    <ClCompile Include="devices\video\video_native.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ClInclude Include="basetypes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets" Condition="Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" />
-    <Import Project="..\packages\sdl2.2.0.5\build\native\sdl2.targets" Condition="Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.redist.2.0.5\build\native\sdl2.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\sdl2.2.0.5\build\native\sdl2.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\sdl2.2.0.5\build\native\sdl2.targets'))" />
-  </Target>
 </Project>

@@ -2,7 +2,7 @@
 /*
 basetypes.h
 plasm2
-plasm2_emu
+plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
