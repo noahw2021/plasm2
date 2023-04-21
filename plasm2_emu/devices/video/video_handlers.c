@@ -97,5 +97,7 @@ void video_off(u32 Device) {
 	return;
 }
 void video_on(u32 Device) {
+	if (i->security_s.SecurityLevel < 2)
+		video_init();
 	return;
 }
