@@ -29,7 +29,11 @@ byte  psin2i_getavailsize(int Id, byte OperandId) {
 }
 
 char* psin2i_getoperandname(int Id, byte OperandId) {
-	return psin2ctx->Instructions[Id].Operands[OperandId].OperandName;
+	char* ret = psin2ctx->Instructions[Id].Operands[OperandId].OperandName;
+	int r = 0;
+	while (ret[r] == ' ')
+		r++;
+	return ret + r;
 }
 
 byte  psin2i_totalsize(int Id) {
@@ -38,4 +42,8 @@ byte  psin2i_totalsize(int Id) {
 
 char* psin2i_description(int Id) {
 	return psin2ctx->Instructions[Id].InstructionDescription;
+}
+
+int	  psin2i_getoperandcnt(int Id) {
+	return psin2ctx->Instructions[Id].OperandCount;
 }

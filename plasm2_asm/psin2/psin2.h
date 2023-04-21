@@ -19,6 +19,7 @@ typedef struct _psininstruction {
 		byte PhysicalSize, AvailableSize;
 		char OperandName[7];
 	}Operands[2];
+	byte OperandCount;
 	byte TotalInstructionSize;
 	char* InstructionDescription;
 }psininstruction_t;
@@ -41,3 +42,4 @@ byte  psin2i_getavailsize(int Id, byte OperandId);
 char* psin2i_getoperandname(int Id, byte OperandId);
 byte  psin2i_totalsize(int Id);
 char* psin2i_description(int Id);
+int	  psin2i_getoperandcnt(int Id);

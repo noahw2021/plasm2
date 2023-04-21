@@ -8,7 +8,7 @@ plasm2_asm
 */
 
 void psin2_load(void) {
-	psin2_parse(" __LDI = 0x01, // LDI 01 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Load Immediate");
+	psin2_parse("__LDI = 0x01, // LDI 01 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Load Immediate");
 	psin2_parse("__JMP = 0x02, // JMP 02 (R:04,08 ___ADR)                  16 : Jump");
 	psin2_parse("__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear");
 	psin2_parse("__NXE = 0x04, // NXE 04                                   08 : Next Execute If Equal");

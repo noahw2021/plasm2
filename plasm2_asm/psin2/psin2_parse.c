@@ -13,6 +13,9 @@ plasm2_asm
 #pragma warning(disable: 6308 26451 28182)
 
 int psin2_parse(const char* InstructionData) {
+	if (InstructionData[0] == '/')
+		return;
+
 	if (!psin2ctx->Instructions) {
 		psin2ctx->Instructions = malloc(sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
 		memset(psin2ctx->Instructions, 0, sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
@@ -31,17 +34,22 @@ int psin2_parse(const char* InstructionData) {
 	int c = 0;
 	while (InstructionData[c++] != '/')
 		c++;
-	c += 2; // first char = 'M' in example
+	c += 1; // first char = 'M' in example
 
-	memcpy(Target->Instruction, InstructionData[c], 4); // MOV
-	c += 5;
+	if (InstructionData[c] == ' ')
+		c++;
 
-	memcpy(Temporary, InstructionData[c], 2);
+	memcpy(Target->Instruction, InstructionData + c, 3); // MOV
+	Target->Instruction[3] = 0x00;
+	c += 4;
+
+	memcpy(Temporary, InstructionData + c, 2);
 	Temporary[2] = 0x00;
 	Target->Opcode = strtoul(Temporary, NULL, 16);
 	c += 3;
 
 	if (InstructionData[c] == '(') { // Operand A
+		Target->OperandCount++;
 		c++;
 		if (InstructionData[c] == 'R') {
 			Target->Operands[0].Type = 0;
@@ -58,24 +66,25 @@ int psin2_parse(const char* InstructionData) {
 		}
 		c += 2;
 		
-		memcpy(Temporary, InstructionData[c], 2);
+		memcpy(Temporary, InstructionData + c, 2);
 		Temporary[2] = 0x00;
 		Target->Operands[0].PhysicalSize = atoi(Temporary);
 		c += 3;
-		memcpy(Temporary, InstructionData[c], 2);
+		memcpy(Temporary, InstructionData + c, 2);
 		Target->Operands[0].AvailableSize = atoi(Temporary);
 		c += 3;
 
-		memcpy(Temporary, InstructionData[c], 6);
+		memcpy(Temporary, InstructionData + c, 6);
 		Temporary[6] = 0x00;
 		for (int i = 0; i < 6; i++) {
 			if (Temporary[i] == '_')
 				Temporary[i] = ' ';
 		}
 		strcpy(Target->Operands[0].OperandName, Temporary);
-		c += 2;
+		c += 8;
 
 		if (InstructionData[c] == '(') { // operand b
+			Target->OperandCount++;
 			c++;
 			if (InstructionData[c] == 'R') {
 				Target->Operands[1].Type = 0;
@@ -94,30 +103,30 @@ int psin2_parse(const char* InstructionData) {
 			}
 			c += 2;
 
-			memcpy(Temporary, InstructionData[c], 2);
+			memcpy(Temporary, InstructionData + c, 2);
 			Temporary[2] = 0x00;
 			Target->Operands[1].PhysicalSize = atoi(Temporary);
 			c += 3;
-			memcpy(Temporary, InstructionData[c], 2);
+			memcpy(Temporary, InstructionData + c, 2);
 			Target->Operands[1].AvailableSize = atoi(Temporary);
 			c += 3;
 
-			memcpy(Temporary, InstructionData[c], 6);
+			memcpy(Temporary, InstructionData + c, 6);
 			Temporary[6] = 0x00;
 			for (int i = 0; i < 6; i++) {
 				if (Temporary[i] == '_')
 					Temporary[i] = ' ';
 			}
 			strcpy(Target->Operands[1].OperandName, Temporary);
-			c += 2;
+			c += 8;
 		} else {
-			c += 18;
+			c += 17;
 		}
 	} else { // account for no register being there
 		c += 34;
 	}
 
-	memcpy(Temporary, InstructionData[c], 2);
+	memcpy(Temporary, InstructionData + c, 2);
 	Temporary[2] = 0x00;
 	Target->TotalInstructionSize = atoi(Temporary);
 	c += 5;
@@ -126,7 +135,7 @@ int psin2_parse(const char* InstructionData) {
 	while (InstructionData[c + DescriptionStringLength])
 		DescriptionStringLength++;
 	Target->InstructionDescription = malloc(DescriptionStringLength + 1);
-	strcpy(Target->InstructionDescription, InstructionData[c]);
+	strcpy(Target->InstructionDescription, InstructionData + c);
 
 	// :)
 	free(Temporary);
