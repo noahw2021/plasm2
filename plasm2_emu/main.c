@@ -38,8 +38,8 @@ int main(int argc, char** argv) {
 	devices_collect();
 
 	while (1) {
-		cpu_clock();
 		kb_clock();
+		cpu_clock();
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}

@@ -36,7 +36,7 @@ void video_init(void) {
 
 void video_shutdown(void) {
 	PauseDrawing = 1;
-	SDL_DestroyRenderer(Renderer);
+	SDL_DestroyRenderer(Renderer); 
 	SDL_DestroyWindow(Window);
 	SDL_DetachThread(LoopThread);
 	SDL_Quit();
