@@ -48,5 +48,7 @@ int main(int argc, char** argv) {
 			break;
 	}
 
+	printf("CPU Halted.\n");
+
 	return 0;
 }

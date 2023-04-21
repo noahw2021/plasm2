@@ -15,13 +15,13 @@ void MOV(void) {
 			byte Source : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1(++i->ip);
+	Input.Byte = mmu_read1(i->ip++);
 	i->rs_gprs[Input.Dest] = i->rs_gprs[Input.Source];
 	return;
 }
 
 void LDI(void) {
-	byte Destination = mmu_read1(++i->ip) & 0xF;
+	byte Destination = mmu_read1(i->ip++) & 0xF;
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 	i->rs_gprs[Destination] = Immediate;
@@ -29,7 +29,7 @@ void LDI(void) {
 }
 
 void JMP(void) {
-	byte Address = mmu_read1(++i->ip) & 0xF;
+	byte Address = mmu_read1(i->ip++) & 0xF;
 	u64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC);
 	if (PhysicalAddress)
 		cpui_inst_jmp(PhysicalAddress);
@@ -64,7 +64,7 @@ void NXL(void) {
 }
 
 void CLL(void) {
-	byte Register = mmu_read1(++i->ip) & 0xF;
+	byte Register = mmu_read1(i->ip++) & 0xF;
 	u64 Address = i->rs_gprs[Register];
 	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ);
 	cpui_inst_cll(PhysicalAddress);

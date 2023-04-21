@@ -8,7 +8,7 @@ plasm2_emu
 */
 
 void INT(void) {
-	byte Interrupt = i->rs_gprs[mmu_read1(++i->ip) & 0xF] & 0xFF;
+	byte Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;
 	cpui_inst_int(Interrupt);
 	return;
 }
@@ -21,7 +21,7 @@ void HND(void) {
 			byte Handler : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1(++i->ip);
+	Input.Byte = mmu_read1(i->ip++);
 	byte SecurityLevel = mmu_pop();
 	if (!i->flags_s.IT) {
 		i->flags_s.XF = 1;
@@ -75,7 +75,7 @@ void DSI(void) {
 }
 
 void SMH(void) {
-	byte Register = mmu_read1(++i->ip) & 0xF;
+	byte Register = mmu_read1(i->ip++) & 0xF;
 	if (i->security_s.SecurityLevel == 0)
 		cpui_csm_set(i->rs_gprs[Register]);
 	else
@@ -84,7 +84,7 @@ void SMH(void) {
 }
 
 void SIT(void) {
-	u64 PhysicalAddress = i->rs_gprs[mmu_read1(++i->ip) & 0xF];
+	u64 PhysicalAddress = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
 	if (i->security_s.SecurityLevel < 2)
 		i->pti.it = PhysicalAddress;
 	return;

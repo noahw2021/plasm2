@@ -24,5 +24,10 @@ void cpu_clock(void) {
 	}
 
 	byte ThisInstruction = mmu_read1(i->ip++);
-	Instructions[ThisInstruction]();
+	if (!Instructions[ThisInstruction])
+		i->flags_s.HF = 1;
+	else
+		Instructions[ThisInstruction]();
+
+	return;
 }

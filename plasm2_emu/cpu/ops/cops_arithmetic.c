@@ -15,7 +15,7 @@ void ADD(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] += i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -28,7 +28,7 @@ void SUB(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] -= i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -41,7 +41,7 @@ void MUL(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] *= i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -54,7 +54,7 @@ void DIV(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] /= i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -67,7 +67,7 @@ void MOD(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] %= i->rs_gprs[Inputs.Source];
 	return;
 }

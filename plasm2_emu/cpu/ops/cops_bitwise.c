@@ -15,7 +15,7 @@ void AND(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] &= i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -28,7 +28,7 @@ void BOR(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] |= i->rs_gprs[Inputs.Source];
 	return;
 }
@@ -41,7 +41,7 @@ void XOR(void) {
 			byte Source : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(++i->ip);
+	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] ^= i->rs_gprs[Inputs.Source];
 	return;
 }
