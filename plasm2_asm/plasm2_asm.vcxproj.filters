@@ -27,6 +27,9 @@
     <ClCompile Include="psin2\psin2_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="psin2\psin2_getcg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h">
