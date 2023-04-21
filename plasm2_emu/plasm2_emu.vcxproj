@@ -174,9 +174,11 @@
     <ClCompile Include="devices\devices_registry.c" />
     <ClCompile Include="devices\kb\kb_collect.c" />
     <ClCompile Include="devices\kb\kb_handlers.c" />
+    <ClCompile Include="devices\kb\kb_init.c" />
     <ClCompile Include="devices\video\video_collect.c" />
     <ClCompile Include="devices\video\video_handlers.c" />
     <ClCompile Include="devices\video\video_init.c" />
+    <ClCompile Include="devices\video\video_native.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>

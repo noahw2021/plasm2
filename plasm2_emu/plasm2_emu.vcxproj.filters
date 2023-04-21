@@ -119,6 +119,12 @@
     <ClCompile Include="devices\video\video_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devices\kb\kb_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\video\video_native.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

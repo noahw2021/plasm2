@@ -23,22 +23,46 @@ u32  video_devcount(void);
 defaults:
 
 text buffer, 50x50x2, x*y*(char + color)
-default colors R:2, G:2, B:2, Blink:1, 
+default colors R:2, G:2, B:2, Blink:1, Reserved:1
 
-/
+*/
 
 /*
 commands
 
 GetTextBuffer 00 : Returns text buffer pointer to R0
-SetTextBuffer 01 : Adjusts the text buffer position
+SetTextBuffer 01 : Adjusts the text buffer position, Argument
+DrawLine      02 : Draws a line 
 */
 
 u64 videoi_gettextbuffer(void);
-void videoi_settextbuffer(u64 Offset);
-void videoi_drawline(u32 x1, u32 y1, u32 x2, u32 y2, u32 color);
-void videoi_drawrect(u32 x, u32 y, u32 w, u32 h, u32 color);
-void videoi_drawfill(u32 x, u32 y, u32 w, u32 h, u32 color);
-u64  videoi_getfb(void);
+void videoi_settextbuffer(u64 NewOffset);
+void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color); // color pulled from stack
+void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
+void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
+void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from stack. size = (w * h * 4)
 u32  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);
+
+typedef struct _videoctx {
+	byte TextMode;
+	byte SizeLocked;
+	int w;
+	int h;
+	struct {
+		union {
+			byte RawBytes[2];
+			u16 RawU16;
+			struct {
+				char Character;
+				byte R : 2;
+				byte G : 2;
+				byte B : 2;
+				byte Blink : 1;
+				byte Reserved : 1;
+			};
+		};
+	}*textmode;
+	u64 TextmodePointer;
+}videoctx_t;
+extern videoctx_t* videoctx;
