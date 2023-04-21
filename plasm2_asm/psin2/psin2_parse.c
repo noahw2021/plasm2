@@ -10,21 +10,21 @@ plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-#pragma warning(disable: 26451)
+#pragma warning(disable: 6308 26451 28182)
 
 int psin2_parse(const char* InstructionData) {
 	if (!psin2ctx->Instructions) {
 		psin2ctx->Instructions = malloc(sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
-		memset(psin2ctx->Instructions, 0, sizeof(psininstruction_t * (psin2ctx->InstructionCount + 1)));
+		memset(psin2ctx->Instructions, 0, sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
 	} else {
-		psin2ctx->Instructions = realloc(psin2ctx->Instructions, (sizeof(psininstruction_t * (psin2ctx->InstructionCount + 1)));
+		psin2ctx->Instructions = realloc(psin2ctx->Instructions, (sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1)));
 		memset(&psin2ctx->Instructions[psin2ctx->InstructionCount], 0, sizeof(psininstruction_t));
 	}
 
 	psininstruction_t* Target = &psin2ctx->Instructions[psin2ctx->InstructionCount];
 	psin2ctx->InstructionCount++;
 
-	char Temporary = malloc(64);
+	char* Temporary = malloc(64);
 
 	// __MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers
 
@@ -37,7 +37,7 @@ int psin2_parse(const char* InstructionData) {
 	c += 5;
 
 	memcpy(Temporary, InstructionData[c], 2);
-	InstructionData[c + 2] = 0x00;
+	Temporary[2] = 0x00;
 	Target->Opcode = strtoul(Temporary, NULL, 16);
 	c += 3;
 
@@ -129,6 +129,7 @@ int psin2_parse(const char* InstructionData) {
 	strcpy(Target->InstructionDescription, InstructionData[c]);
 
 	// :)
+	free(Temporary);
 	return;
 }
 
