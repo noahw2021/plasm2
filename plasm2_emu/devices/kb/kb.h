@@ -24,6 +24,14 @@ void kb_off(u32 Device);
 void kb_on(u32 Device);
 
 typedef struct _kbctx {
+	byte AwaitingData;
+	byte DataQueued;
+	u64 OutputQueue;
+	byte AwaitingCommand;
+	u64 Status;
+	byte HoldUp;
+	byte NotifyUp, NotifyDown;
+
 	byte KeyUp, KeyDown;
 }kbctx_t;
 extern kbctx_t* kbctx;

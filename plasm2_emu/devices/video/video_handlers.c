@@ -2,6 +2,7 @@
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include "video.h"
+#include "../kb/kb.h"
 #include <string.h>
 /*
 video_handlers.c
@@ -45,6 +46,7 @@ void video_sendcommand(u32 Device, u64 Command) {
 	}
 
 	videoctx->DestinationCommand = Command;
+	kbctx->Status = DEVSTATUS_GOOD;
 	return;
 }
 
