@@ -48,7 +48,7 @@ int	  psin2i_getoperandcnt(int Id) {
 	return psin2ctx->Instructions[Id].OperandCount;
 }
 
-int   psin2i_getoperandname(const char* Operand) {
+int  psin2i_getinstructionname(const char* Operand) {
 	for (int i = 0; i < psin2ctx->InstructionCount; i++) {
 		if (!strcmp(psin2ctx->Instructions[i].Instruction, Operand))
 			return i;

@@ -35,7 +35,7 @@ void cg_parse(const char* Line) {
 	char** OperandNamePtrs[2];
 	OperandNamePtrs[0] = &OperandA;
 	OperandNamePtrs[1] = &OperandB;
-	byte OperandPtrSizes[2];
+	byte OperandPtrSizes[2] = { 0, 0 };
 	byte OperandSingleByte = 0x00;
 
 	// Grab operand name
@@ -110,7 +110,7 @@ void cg_parse(const char* Line) {
 			}
 		} else {
 			OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
-			if (!InRange(*OperandPhysPtrs[o][0], '0', '9')) { // symbol
+			if (!InRange(*OperandPhysPtrs[o], '0', '9')) { // symbol
 				*OperandPhysPtrs[o] = link_getsymbol(OperandNamePtrs[o]);
 			} else { // phyiscal number
 				*OperandPhysPtrs[o] = strtoull(OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
