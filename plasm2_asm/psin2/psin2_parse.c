@@ -4,7 +4,7 @@
 #include <string.h>
 #include "psin2.h"
 /*
-psin2_data.c
+psin2_parse.c
 plasm2
 plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved

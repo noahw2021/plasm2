@@ -15,6 +15,7 @@ void cg_compile(void);
 
 void cge_error(int Line, const char* Reason);
 int  cge_errorcnt(void);
+char* cge_geterr(int i );
 
 void cgp_put1(byte Data);
 void cgp_put8(u64 Data);

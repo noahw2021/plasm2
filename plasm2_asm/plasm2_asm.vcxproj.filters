@@ -39,6 +39,12 @@
     <ClCompile Include="cg\cg_parse.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cg\cg_put.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cg\cg_compile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h">

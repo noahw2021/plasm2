@@ -3,6 +3,7 @@
 #include "../link/link.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 /*
 cg_parse.c
 plasm2
@@ -11,6 +12,8 @@ plasm2_asm
 */
 
 #pragma warning(disable: 6011 6387)
+
+extern FILE* PrimaryOutput;
 
 void cg_parse(const char* Line) {
 	cgctx->CurrentLine++;
@@ -48,6 +51,7 @@ void cg_parse(const char* Line) {
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
 			cgctx->DataPosition = strtoull(Temporary + 3, NULL, cgctx->CurrentRadix);
+			fseek(PrimaryOutput, cgctx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
 			cgctx->CurrentRadix = atoi(Temporary + 3);
