@@ -15,7 +15,9 @@ cgctx_t* cgctx;
 void cg_init(void) {
 	cgctx = malloc(sizeof(cgctx_t));
 	memset(cgctx, 0, sizeof(cgctx_t));
-	
+
+	cgctx->CurrentRadix = 10;
+
 	return;
 }
 
