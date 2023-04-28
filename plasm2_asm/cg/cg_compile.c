@@ -14,6 +14,8 @@ plasm2_asm
 extern FILE* PrimaryInput, * PrimaryOutput;
 
 void cg_compile(void) {
+	link_go();
+
 	int ErrorCount = cge_errorcnt();
 	for (int i = 0; i < ErrorCount; i++)
 		fprintf(stdout, "%s\n", cge_geterr(i));
@@ -25,6 +27,4 @@ void cg_compile(void) {
 		fprintf(PrimaryOutput, "Complation complete, executible size: 0x%08llX", cgctx->DataPosition);
 	if (PrimaryInput != stdin)
 		fclose(PrimaryInput);
-
-
 }
