@@ -45,6 +45,12 @@
     <ClCompile Include="cg\cg_compile.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="link\link_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="link\link_symbols.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h">

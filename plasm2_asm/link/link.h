@@ -17,10 +17,14 @@ void link_go(void);
 typedef struct _linkctx {
 	u32 SymbolCount;
 	struct {
-		u64 Location;
 		u64 Resolution;
 		char* SymbolName;
 		byte Resolved;
+
+		u32 LocationCount;
+		struct {
+			u64 Location;
+		}*Locations;
 	}*Symbols;
 }linkctx_t;
 extern linkctx_t* linkctx;
