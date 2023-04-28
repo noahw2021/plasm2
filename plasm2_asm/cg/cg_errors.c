@@ -1,6 +1,7 @@
 #include "cg.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 /*
 cg_errors.c
 plasm2
@@ -29,4 +30,21 @@ void cge_error(int Line, const char* Reason) {
 	
 int  cge_errorcnt(void) {
 	return cgctx->ErrorCount;
+}
+
+char* cge_geterr(int i) {
+	for (int e = 0; e < cgctx->ErrorCount; e++) {
+		if (e != i)
+			continue;
+		char* Return = malloc(512);
+
+		if (cgctx->Errors[e].Line == 0xFFFF)
+			sprintf(Return, "[LINK]: %s", cgctx->Errors[e].Reason);
+		else
+			sprintf(Return, "[%04i]: %s", cgctx->Errors[e].Line, cgctx->Errors[e].Reason);
+
+		return Return;
+	}
+
+	return NULL;
 }

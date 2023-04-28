@@ -144,6 +144,7 @@
     <ClCompile Include="cg\cg_init.c" />
     <ClCompile Include="cg\cg_parse.c" />
     <ClCompile Include="cg\cg_put.c" />
+    <ClCompile Include="link\link_go.c" />
     <ClCompile Include="link\link_init.c" />
     <ClCompile Include="link\link_symbols.c" />
     <ClCompile Include="main.c" />
