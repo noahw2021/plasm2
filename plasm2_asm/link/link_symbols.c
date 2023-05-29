@@ -16,18 +16,23 @@ u64 link_getsymbol(const char* Name) {
 	for (int i = 0; i < linkctx->SymbolCount; i++) {
 		if (!strcmp(linkctx->Symbols[i].SymbolName, Name)) {
 			linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, sizeof(*linkctx->Symbols[i].Locations) * (linkctx->Symbols[i].LocationCount + 1));
-			linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount] = cgctx->DataPosition;
+			linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
 			linkctx->Symbols[i].LocationCount++;
 			return linkctx->Symbols[i].Resolution;
 		}
 	}
 
-	linkctx->Symbols = realloc(linkctx->Symbols, sizeof(*linkctx->Symbols) * (linkctx->SymbolCount + 1));
+	if (linkctx->Symbols)
+		linkctx->Symbols = realloc(linkctx->Symbols, sizeof(*linkctx->Symbols) * (linkctx->SymbolCount + 1));
+	else
+		linkctx->Symbols = malloc(sizeof(*linkctx->Symbols));
+
 	linkctx->Symbols[linkctx->SymbolCount].LocationCount = 1;
 	linkctx->Symbols[linkctx->SymbolCount].Locations = malloc(sizeof(*linkctx->Symbols[0].Locations));
 	linkctx->Symbols[linkctx->SymbolCount].Locations[0].Location = cgctx->DataPosition;
 	linkctx->Symbols[linkctx->SymbolCount].Resolution = 0;
 	linkctx->Symbols[linkctx->SymbolCount].Resolved = 0;
+	linkctx->Symbols[linkctx->SymbolCount].SymbolName = malloc(strlen(Name) + 1);
 	strcpy(linkctx->Symbols[linkctx->SymbolCount].SymbolName, Name);
 	linkctx->SymbolCount++;
 

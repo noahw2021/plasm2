@@ -3,6 +3,8 @@
 #include <string.h>
 #include "basetypes.h"
 #include "psin2/psin2.h"
+#include "cg/cg.h"
+#include "link/link.h"
 /*
 main.c
 plasm2
@@ -13,8 +15,13 @@ plasm2_asm
 FILE* PrimaryInput;
 FILE* PrimaryOutput;
 
+#pragma warning(disable: 6387)
+
 int main(int argc, char** argv) {
+	cg_init(); 
 	psin2_init();
+	link_init();
+
 	psin2_load();
 
 	for (int i = 0; i < argc; i++) {
@@ -72,7 +79,12 @@ int main(int argc, char** argv) {
 	if (!PrimaryInput)
 		PrimaryInput = stdin;
 
-
+	char* Line = malloc(2048);
+	while (cgctx) {
+		printf("[%04hX]: ", cgctx->DataPosition);
+		fgets(Line, 2048, PrimaryInput);
+		cg_parse(Line);
+	}
 
 	return 0;
 }

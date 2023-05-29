@@ -15,6 +15,7 @@ extern FILE* PrimaryOutput;
 
 void cgp_put1(byte Data) {
 	fputc(Data, PrimaryOutput);
+	cgctx->DataPosition++;
 }
 void cgp_put8(u64 Data) {
 	cgp_putx(Data, 8);

@@ -33,5 +33,7 @@ typedef struct _cgctx {
 		int Line;
 		char* Reason;
 	}*Errors;
+
+	byte Shutdown;
 }cgctx_t;
 extern cgctx_t* cgctx;

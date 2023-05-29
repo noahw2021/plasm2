@@ -17,6 +17,7 @@ void cg_init(void) {
 	memset(cgctx, 0, sizeof(cgctx_t));
 
 	cgctx->CurrentRadix = 10;
+	cgctx->Shutdown = 0;
 
 	return;
 }
@@ -25,6 +26,7 @@ void cg_shutdown(void) {
 	if (cgctx->Errors)
 		free(cgctx->Errors);
 	free(cgctx);
+	cgctx = NULL;
 
 	return;
 }
