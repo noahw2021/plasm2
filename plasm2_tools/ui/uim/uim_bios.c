@@ -1,5 +1,6 @@
 #include "../ui.h"
 #include "../../basetypes.h"
+#include "../../tools/tools.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,5 +50,22 @@ void uim_biosgen(void) {
 		}
 	}
 
+	int Return = tl_bios_gen(DesiredInput, DesiredOutput);
+	if (Return != 0) {
+		switch (Return) {
+		case 1: // Failed to open Input
+			printf("Failed to open input!\n");
+			break;
+		case 2: // Failed to open Output
+			printf("Failed to open output!\n");
+			break;
+		case 3: // Input too big
+			printf("Failed to write, input too big!\n");
+			break;
+		}
+		free(DesiredInput);
+		free(DesiredOutput);
+	}
 
+	return;
 }
