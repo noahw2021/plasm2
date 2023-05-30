@@ -4,6 +4,7 @@
 #include "cpu/cpu.h"
 #include "devices/devices.h"
 #include "devices/kb/kb.h"
+#include "devices/video/video.h"
 /*
 main.c
 plasm2
@@ -43,6 +44,7 @@ int main(int argc, char** argv) {
 
 	while (1) {
 		kb_clock();
+		video_clock();
 		cpu_clock();
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;

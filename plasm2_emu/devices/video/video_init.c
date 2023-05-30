@@ -4,6 +4,7 @@
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
+
 /*
 video_init.c
 plasm2

@@ -10,6 +10,7 @@ plasm2_emu
 void video_init(void);
 void video_shutdown(void);
 void video_collect(void);
+void video_clock(void);
 
 u64  video_statusquery(u32 Device);
 void video_sendcommand(u32 Device, u64 Command);
