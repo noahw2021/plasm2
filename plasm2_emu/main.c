@@ -23,7 +23,7 @@ Starting physical memory map:
 */
 
 int main(int argc, char** argv) {
-	fgetc(stdin);
+	//fgetc(stdin);
 	cpu_init();
 
 	memset(i, 0, sizeof(*i));

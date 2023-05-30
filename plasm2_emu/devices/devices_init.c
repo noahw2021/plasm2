@@ -3,6 +3,7 @@
 #include "kb/kb.h"
 #include "video/video.h"
 #include <string.h>
+#include <stdlib.h>
 /*
 devices_init.c
 plasm2
