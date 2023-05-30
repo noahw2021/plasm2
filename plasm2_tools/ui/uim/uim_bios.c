@@ -65,6 +65,8 @@ void uim_biosgen(void) {
 		}
 		free(DesiredInput);
 		free(DesiredOutput);
+	} else {
+		printf("Successfully wrote file!\n");
 	}
 
 	return;

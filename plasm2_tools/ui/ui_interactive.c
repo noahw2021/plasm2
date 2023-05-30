@@ -11,8 +11,7 @@ plasm2_tools
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-extern int __argc;
-extern char** __argv;
+#pragma warning(disable: 6031)
 
 void ui_interactive(void) {
 	int SelectedOption = 0;
@@ -26,17 +25,17 @@ void ui_interactive(void) {
 MakeTheSelection:
 	scanf("%i", &SelectedOption);
 
-	if (!InRange(SelectedOption, 1, 2)) {
-		printf("Invalid option. Please try again: ");
-		goto MakeTheSelection;
-	}
-
 	switch (SelectedOption) {
 	case 1: // BIOS generator
-		uim_biosgen();
+	 	uim_biosgen();
 		break;
 	case 2: // Exit
 		exit(0);
 		break;
+	default:
+		printf("Invalid option selected. Try again: ");
+		goto MakeTheSelection;
 	}
+
+
 }
