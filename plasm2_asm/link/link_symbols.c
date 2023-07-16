@@ -53,6 +53,7 @@ void link_resolve(const char* Name, u64 Pointer) {
 	linkctx->Symbols[linkctx->SymbolCount].Locations = NULL;
 	linkctx->Symbols[linkctx->SymbolCount].Resolution = Pointer;
 	linkctx->Symbols[linkctx->SymbolCount].Resolved = 1;
+	linkctx->Symbols[linkctx->SymbolCount].SymbolName = malloc(strlen(Name) + 1);
 	strcpy(linkctx->Symbols[linkctx->SymbolCount].SymbolName, Name);
 	linkctx->SymbolCount++;
 

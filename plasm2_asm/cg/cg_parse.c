@@ -58,11 +58,11 @@ void cg_parse(const char* Line) {
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
-			cgctx->DataPosition = strtoull(Temporary + 3, NULL, cgctx->CurrentRadix);
+			cgctx->DataPosition = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			fseek(PrimaryOutput, cgctx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
-			cgctx->CurrentRadix = atoi(Temporary + 3);
+			cgctx->CurrentRadix = atoi(Line  + 3);
 			break;
 		case 'c': // compile
 			cg_compile();
@@ -70,9 +70,11 @@ void cg_parse(const char* Line) {
 		}
 		goto ExitThis;
 	}
-	if (Temporary[strlen(Temporary) - 1] == ':') { // symbol resolve
-		Temporary[strlen(Temporary) - 1] = 0x00;
-		link_resolve(Temporary, cgctx->DataPosition);
+
+	char* _Line = (char*)Line;
+	if (_Line[strlen(Line) - 1] == ':') { // symbol resolve
+		_Line[strlen(Line) - 1] = 0x00;
+		link_resolve(Line, cgctx->DataPosition);
 		goto ExitThis;
 	}
 

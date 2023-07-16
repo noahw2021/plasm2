@@ -33,6 +33,8 @@ void video_init(void) {
 	Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
 	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
 	LoopThread = SDL_CreateThread(videoii_loop, "Plasm2EmuSDLLoop", NULL);
+
+	videof_init();
 }
 
 void video_shutdown(void) {

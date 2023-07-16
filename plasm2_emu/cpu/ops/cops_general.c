@@ -86,3 +86,21 @@ void SHF(void) {
 	i->flags_s.HF = 1;
 	return;
 }
+
+void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare
+	union {
+		byte Byte;
+		struct {
+			byte r1 : 4;
+			byte r2 : 4;
+		};
+	}Input;
+	Input.Byte = mmu_read1();
+
+	if (i->rs_gprs[Input.r1] > i->rs_gprs[Input.r2])
+		i->flags_s.GF = 1;
+	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
+		i->flags_s.EF = 1;
+	
+	return;
+}

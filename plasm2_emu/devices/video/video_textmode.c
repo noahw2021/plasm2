@@ -1,6 +1,5 @@
 #include "video.h"
 #include <SDL.h>
-
 /*
 video_textmode.c
 plasm2
@@ -16,4 +15,8 @@ void video_clock(void) {
 
 
 	return;
+}
+
+void videof_init(void) {
+	
 }
