@@ -104,6 +104,10 @@ void video_on(u32 Device) {
 	return;
 }
 
-void videof_clock(void) { // if anything here needs to be done in the future
-	return;
+void videof_clock(void) { 
+	if ((cput_gettime() % 2048) > 1023) { // % 2^x = & (2^x)-1, this is fast
+		videoctx->BlinkOff = 1;
+	} else {
+		videoctx->BlinkOff = 0;
+	}
 }

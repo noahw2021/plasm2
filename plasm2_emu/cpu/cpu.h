@@ -178,7 +178,16 @@ void cpui_inst_ret(void);
 void cpui_inst_int(byte Interrupt);
 
 // cpu advanced functions
-u64  cput_gettime(void);
+
+/*
+these functions need to be expanded on,
+but for now cput_gettime will return MS,
+but in the future I plan on a nanosecond
+timer, but cput_gettime will always return
+the time in MS.
+*/
+
+u64  cput_gettime(void); // get current ms since system start
 void cput_pwr_sleep(void);
 void cput_pwr_shutdown(void);
 void cput_pwr_restart(void);
