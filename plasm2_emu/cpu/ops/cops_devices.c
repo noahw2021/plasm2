@@ -10,7 +10,8 @@ plasm2_emu
 
 void DSQ(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;
-	devicesi_statusquery(i->rs_gprs[Register] & 0xFFFFFFFF);
+	u64 Status = devicesi_statusquery(i->rs_gprs[Register] & 0xFFFFFFFF);
+	mmu_push(Status);
 	return;
 }
 
