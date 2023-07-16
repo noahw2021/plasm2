@@ -28,3 +28,5 @@ STW r1, r3
 BiosLoop:
 LDI r4, BiosLoop
 JMP r4
+
+-c

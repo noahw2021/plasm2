@@ -23,7 +23,7 @@ void cg_parse(const char* Line) {
 	if (strstr(CommentCorrect, ";"))
 		*(char*)strstr(CommentCorrect, ";") = 0x00;
 
-	if (CommentCorrect[0] == 0x00)
+	if (CommentCorrect[0] == 0x00 || CommentCorrect[0] == '\n')
 		return;
 
 	// MOV r0, r1
@@ -114,6 +114,24 @@ void cg_parse(const char* Line) {
 	if (OperandBPresent) {
 		Temporary[t] = 0x00;
 		strcpy(OperandB, Temporary);
+
+		for (int i = 0; i < linkctx->SymbolCount; i++) {
+			if (!strcmp(OperandB, linkctx->Symbols[i].SymbolName)) {
+				if (linkctx->Symbols[i].Resolved) {
+					char* ToString = malloc(64);
+					if (cgctx->CurrentRadix == 16)
+						sprintf(ToString, "%LLX", linkctx->Symbols[i].Resolution);
+					else
+						sprintf(ToString, "%LLU", linkctx->Symbols[i].Resolution);
+					strcpy(OperandB, ToString);
+				} else {
+					linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
+					linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+					linkctx->Symbols[i].LocationCount++;
+					strcpy(OperandB, "0");
+				}
+			}
+		}
 	}
 
 	for (int o = 0; o < psin2i_getoperandcnt(Psin); o++) {
