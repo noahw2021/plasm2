@@ -58,7 +58,7 @@ enum {
 	__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory
 	__LDB = 0x61, // LDB 61 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Byte From Memory
 	__STW = 0x62, // STW 62 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
-	__STB = 0x63, // STB 63 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Word To Memory
+	__STB = 0x63, // STB 63 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Store Byte To Memory
 	__PSH = 0x64, // PSH 64 (R:04,08 ___SRC)                  16 : Push to Stack
 	__POP = 0x65, // POP 65 (R:04,08 __DEST)                  16 : Pop from Stock
 	__PSR = 0x66, // PSR 66                                   08 : Push all Registers

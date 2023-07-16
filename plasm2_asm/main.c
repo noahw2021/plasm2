@@ -17,7 +17,15 @@ FILE* PrimaryOutput;
 
 #pragma warning(disable: 6387)
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 int main(int argc, char** argv) {
+#ifdef _WIN32
+	if (!IsDebuggerPresent())
+		fgetc(stdin);
+#endif
 	cg_init(); 
 	psin2_init();
 	link_init();

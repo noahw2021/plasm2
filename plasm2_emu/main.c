@@ -20,7 +20,7 @@ Starting physical memory map:
 0x0360: End of devices, padding area (to be used)
 0x03A0: Instruction pointer, BIOS mapping point
 0x13AA: End of BIOS
-0x13F0: BIOS maps 4KiB of HDD0 here
+0x13F0: BIOS (should) map 4KiB of HDD0 here
 0x23F0: keyboard bitmap
 0x24F0: TBD (end of kb bitmap)
 */

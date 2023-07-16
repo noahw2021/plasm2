@@ -56,25 +56,31 @@ void video_senddata(u32 Device, u64 Data) {
 	u64 Color;
 	switch (videoctx->DestinationCommand) {
 	case 0x01:
+		videoctx->TextMode = TRUE;
 		videoi_settextbuffer(Data);
 		break;
 	case 0x02:
+		videoctx->TextMode = FALSE;
 		Color = mmu_pop();
 		videoi_drawline(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
 		break;
 	case 0x03:
+		videoctx->TextMode = FALSE;
 		Color = mmu_pop();
 		videoi_drawrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
 		break;
 	case 0x04:
+		videoctx->TextMode = FALSE;
 		Color = mmu_pop();
 		videoi_drawfill(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
 		break;
 	case 0x05:
+		videoctx->TextMode = FALSE;
 		Color = mmu_pop();
 		videoi_drawrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
 		break;
 	case 0x06:
+		videoctx->TextMode = FALSE;
 		Color = mmu_pop(); // aka pointer here
 		videoi_copyrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
 		break;

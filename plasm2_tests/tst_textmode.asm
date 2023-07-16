@@ -6,25 +6,25 @@
 -b 16 ; set to hex
 -a 3A0 ; set to bios address
 
+-a 10000
+BiosTextModeData:
+-a 3A0
+
+; we know in a test environment, video adatper is device 1
 BiosMain:
 
-; first we need to determine which device is the video adapter
-LDI r0, 0 ; r0 = Device ID
+LDI r0, 1 ; device id
+LDI r1, BiosTextModeData
+LDI r2, 1 ; command
 
-; first stage of the loop
-BiosMain_Loop0:
-DSQ r0 ; get device status to stack
-POP r1 ; pull this into r1 (r1 = device status)
-LDI r2, 1100100A ; device status 'good'
-CMP r1, r2
-LDI r3, BiosMain_Loop1
-NXE
-LDI r3, BiosMain_Loop2
+; send command and data
+DSC r0, r2
+DSD r0, r1
 
-; device not ready
-BiosMain_Loop1:
+; write to memory
+LDI r3, 
+STW r1, r3
 
-; device ready
-BiosMain_Loop2:
-
-
+BiosLoop:
+LDI r4, BiosLoop
+JMP r4

@@ -1,4 +1,5 @@
 #pragma once
+#include <stddef.h>
 #include "../basetypes.h"
 /*
 devices.h
@@ -53,3 +54,4 @@ typedef struct _devicesctx {
 	}*Devices;
 }devicesctx_t;
 extern devicesctx_t* devicesctx;
+
