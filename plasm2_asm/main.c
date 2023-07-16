@@ -91,6 +91,8 @@ int main(int argc, char** argv) {
 	while (cgctx) {
 		printf("[%04hX]: ", cgctx->DataPosition);
 		fgets(Line, 2048, PrimaryInput);
+		if (PrimaryInput != stdin)
+			printf("%s", Line);
 		cg_parse(Line);
 	}
 

@@ -145,7 +145,7 @@ void cg_parse(const char* Line) {
 				cge_error(cgctx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
 				goto ExitThis;
 			}
-			*OperandPhysPtrs[o] = atoi(OperandNamePtrs[o] + 1);
+			(char*)OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
 			if (psin2i_getphyssize(Psin, o) == 4) {
 				OperandSingleByte |= *OperandPhysPtrs[o] << (4 * (1 - o));
 				OperandPtrSizes[o] = 4;
@@ -179,7 +179,7 @@ void cg_parse(const char* Line) {
 	}
 
 	cgp_put1(psin2i_getopcode(Psin));
-	if (OperandSingleByte) {
+	if (OperandSingleByte && OperandPtrSizes[0] == 4) {
 		cgp_put1(OperandSingleByte);
 	} else {
 		if (TwoOpsOneByte) {

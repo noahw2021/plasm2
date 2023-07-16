@@ -4,11 +4,10 @@
 ; (c) Noah Wooten 2023, All Rights Reserved
 
 -b 16 ; set to hex
--a 3A0 ; set to bios address
 
 -a 10000
 BiosTextModeData:
--a 3A0
+-a 0
 
 ; we know in a test environment, video adatper is device 1
 BiosMain:
