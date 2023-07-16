@@ -149,6 +149,7 @@
     <ClInclude Include="devices\devices.h" />
     <ClInclude Include="devices\kb\kb.h" />
     <ClInclude Include="devices\video\video.h" />
+    <ClInclude Include="emu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpu\cpu_clock.c" />
@@ -181,6 +182,7 @@
     <ClCompile Include="devices\video\video_init.c" />
     <ClCompile Include="devices\video\video_native.c" />
     <ClCompile Include="devices\video\video_textmode.c" />
+    <ClCompile Include="emu.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>

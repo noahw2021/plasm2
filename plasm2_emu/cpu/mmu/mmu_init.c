@@ -27,5 +27,8 @@ void mmu_init(void) {
 }
 
 void mmu_shutdown(void) {
+	free(cpuctx->PhysicalMemory);
+	for (int i = 0; i < mmuctx->PageCount; i++)
+		free(mmuctx->Pages[i]);
 	free(mmuctx);
 }

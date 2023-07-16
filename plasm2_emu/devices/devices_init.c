@@ -23,5 +23,7 @@ void devices_init(void) {
 	video_init();
 }
 void devices_shutdown(void) {
-
+	kb_shutdown();
+	video_shutdown();
+	return;
 }

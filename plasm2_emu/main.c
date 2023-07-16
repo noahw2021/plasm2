@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "emu.h"
 #include "basetypes.h"
 #include "cpu/cpu.h"
 #include "devices/devices.h"
@@ -42,13 +43,23 @@ int main(int argc, char** argv) {
 	devices_init();
 	devices_collect();
 
+	char TheHaltReason[256];
+
 	while (1) {
+		if (emu_aufhoren(TheHaltReason)) {
+			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
+			printf("%s", TheHaltReason);
+			break;
+		}
 		kb_clock();
 		video_clock();
 		cpu_clock();
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}
+	
+	devices_shutdown();
+	cpu_shutdown();
 
 	printf("CPU Halted.\n");
 

@@ -4,6 +4,7 @@
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 /*
 video_init.c
@@ -17,6 +18,8 @@ SDL_Renderer* Renderer;
 byte PauseDrawing;
 videoctx_t* videoctx;
 SDL_Thread* LoopThread;
+TTF_Font* SdlFont;
+
 
 #pragma warning(disable: 6011 6387)
 
