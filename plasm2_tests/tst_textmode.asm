@@ -22,7 +22,7 @@ DSC r0, r2
 DSD r0, r1
 
 ; write to memory
-LDI r3, 
+LDI r3, D757D747D74CF759
 STW r1, r3
 
 BiosLoop:
