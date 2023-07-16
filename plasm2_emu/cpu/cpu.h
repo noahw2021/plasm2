@@ -10,7 +10,7 @@ plasm2_emu
 
 // Current clock speed
 #define BASE_CLOCK 1000
-#define PHYS_MEMSZ 1048576
+#define PHYS_MEMSZ 10485760
 
 // Critical System Malfunctions
 #define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)

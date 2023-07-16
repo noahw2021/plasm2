@@ -64,6 +64,8 @@ void cg_parse(const char* Line) {
 	c++;
 	Temporary[c] = 0x00;
 
+	int Usage = 0;
+
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
@@ -75,6 +77,11 @@ void cg_parse(const char* Line) {
 			break;
 		case 'c': // compile
 			cg_compile();
+			break;
+		case 'z': // fill with zero
+			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			for (int i = 0; i < Usage; i++)
+				cgp_put1('\0');
 			break;
 		}
 		goto ExitThis;
