@@ -16,7 +16,7 @@ void devices_init(void) {
 	devicesctx = malloc(sizeof(devicesctx_t));
 	memset(devicesctx, 0, sizeof(devicesctx_t));
 	
-	devicesctx->DeviceCount = 2;
+	devicesctx->DeviceCount = 0;
 	devicesctx->Devices = cpuctx->PhysicalMemory;
 
 	kb_init();
