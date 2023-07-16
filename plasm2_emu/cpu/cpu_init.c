@@ -10,12 +10,12 @@ plasm2_emu
 */
 
 cpuctx_t* cpuctx;
-extern void* __pls_free;
 
 void cpu_init(void) {
 	cpuctx = malloc(sizeof(cpuctx_t));
 	memset(cpuctx, 0, sizeof(cpuctx_t));
 
+	time(&cpuctx->SystemBoot);
 	cpuctx->ClocksPerSecond = BASE_CLOCK;
 
 	mmu_init();
@@ -26,6 +26,5 @@ void cpu_shutdown(void) {
 	mmu_shutdown();
 
 	free(cpuctx);
-	free(__pls_free);
 	return;
 }

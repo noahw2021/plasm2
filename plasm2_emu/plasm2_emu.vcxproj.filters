@@ -137,6 +137,9 @@
     <ClCompile Include="emu.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\xcc\xcc_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

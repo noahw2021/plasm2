@@ -1,5 +1,6 @@
 #pragma once
 #include "../basetypes.h"
+#include <time.h>
 /*
 cpu.h
 plasm2
@@ -101,6 +102,7 @@ void cpu_clock(void);
 typedef struct _cpuctx {
 	u64 ClocksPerSecond;
 	u64 LastClockTime;
+	time_t SystemBoot; // silly and quick 'timer'
 
 	void* PhysicalMemory;
 	u64 PhysicalMemorySize;
