@@ -120,9 +120,9 @@ void cg_parse(const char* Line) {
 				if (linkctx->Symbols[i].Resolved) {
 					char* ToString = malloc(64);
 					if (cgctx->CurrentRadix == 16)
-						sprintf(ToString, "%LLX", linkctx->Symbols[i].Resolution);
+						sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
 					else
-						sprintf(ToString, "%LLU", linkctx->Symbols[i].Resolution);
+						sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
 					strcpy(OperandB, ToString);
 				} else {
 					linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
@@ -154,11 +154,7 @@ void cg_parse(const char* Line) {
 			}
 		} else {
 			OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
-			if (!InRange(**OperandNamePtrs[o], '0', '9')) { // symbol
-				*OperandPhysPtrs[o] = link_getsymbol(OperandNamePtrs[o]);
-			} else { // phyiscal number
-				*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
-			}
+			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
 		}
 	}
 
