@@ -16,7 +16,8 @@ plasm2_emu
 /*
 Starting physical memory map:
 
-0x0000: Devices 0-7 location
+0x0000: Devices 0-6 location (144 per device struct)
+0x0360: End of devices, padding area (to be used)
 0x03A0: Instruction pointer, BIOS mapping point
 0x13AA: End of BIOS
 0x13F0: BIOS maps 4KiB of HDD0 here

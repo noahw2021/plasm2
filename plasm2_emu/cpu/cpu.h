@@ -33,7 +33,7 @@ enum {
 	__JMP = 0x02, // JMP 02 (R:04,08 ___ADR)                  16 : Jump
 	__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear
 	__NXE = 0x04, // NXE 04                                   08 : Next Execute If Equal
-	__NXZ = 0x05, // NXZ 05                                   08 : Next Execute If Equal
+	__NXZ = 0x05, // NXZ 05                                   08 : Next Execute If Zero
 	__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater
 	__NXL = 0x07, // NXL 07                                   08 : Next Execute If Less
 	__CLL = 0x08, // CLL 08 (R:04,08 ___ADR)                  16 : Call
