@@ -176,3 +176,10 @@ void cpui_inst_jmp(u64 Address);
 void cpui_inst_cll(u64 Address);
 void cpui_inst_ret(void);
 void cpui_inst_int(byte Interrupt);
+
+// cpu advanced functions
+u64  cput_gettime(void);
+void cput_pwr_sleep(void);
+void cput_pwr_shutdown(void);
+void cput_pwr_restart(void);
+void cput_pwr_awake(void);

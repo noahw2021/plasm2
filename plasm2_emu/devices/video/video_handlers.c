@@ -103,3 +103,7 @@ void video_on(u32 Device) {
 		video_init();
 	return;
 }
+
+void videof_clock(void) { // if anything here needs to be done in the future
+	return;
+}

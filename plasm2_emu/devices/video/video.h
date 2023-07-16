@@ -13,6 +13,8 @@ void video_collect(void);
 void video_clock(void);
 
 void videof_init(void);
+void videof_clock(void);
+void videof_shutdown(void);
 
 u64  video_statusquery(u32 Device);
 void video_sendcommand(u32 Device, u64 Command);
@@ -52,8 +54,30 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from st
 u32  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);
 
+// tmline and char
+typedef union _tmchar {
+	byte Bytes[2];
+	u16 UShort;
+
+	struct {
+		byte Character;
+		union {
+			byte Color;
+			struct {
+				byte r : 2;
+				byte g : 2;
+				byte b : 1;
+				byte Blink : 1;
+				byte Reserved : 1;
+			};
+		};
+	};
+}tmchar_t;
+typedef tmchar_t TMLine[80];
+
 typedef struct _videoctx {
 	byte TextMode;
+	BOOL BlinkOff;
 	byte SizeLocked;
 	u64 Status;
 	byte AwaitingData;
@@ -63,18 +87,7 @@ typedef struct _videoctx {
 	int w;
 	int h;
 	struct {
-		union {
-			byte RawBytes[2];
-			u16 RawU16;
-			struct {
-				char Character;
-				byte R : 2;
-				byte G : 2;
-				byte B : 2;
-				byte Blink : 1;
-				byte Reserved : 1;
-			};
-		};
+		TMLine Lines[50];
 	}*textmode;
 	u64 TextmodePointer;
 }videoctx_t;

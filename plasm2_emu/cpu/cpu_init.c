@@ -10,6 +10,7 @@ plasm2_emu
 */
 
 cpuctx_t* cpuctx;
+extern void* __pls_free;
 
 void cpu_init(void) {
 	cpuctx = malloc(sizeof(cpuctx_t));
@@ -25,5 +26,6 @@ void cpu_shutdown(void) {
 	mmu_shutdown();
 
 	free(cpuctx);
+	free(__pls_free);
 	return;
 }

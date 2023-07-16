@@ -18,7 +18,6 @@ SDL_Renderer* Renderer;
 byte PauseDrawing;
 videoctx_t* videoctx;
 SDL_Thread* LoopThread;
-TTF_Font* SdlFont;
 
 
 #pragma warning(disable: 6011 6387)
@@ -41,6 +40,7 @@ void video_init(void) {
 }
 
 void video_shutdown(void) {
+	videof_shutdown();
 	PauseDrawing = 1;
 	SDL_DestroyRenderer(Renderer); 
 	SDL_DestroyWindow(Window);

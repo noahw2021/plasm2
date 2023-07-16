@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 	while (1) {
 		if (emu_aufhoren(TheHaltReason)) {
 			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
-			printf("%s", TheHaltReason);
+			printf("%s\n", TheHaltReason);
 			break;
 		}
 		kb_clock();
