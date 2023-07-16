@@ -38,9 +38,9 @@ void video_init(void) {
 
 	videof_init();
 
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard VSA");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Display Adapter");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard VSA");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Display Adapter");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
 
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 0x1000200030004001;
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_VIDEO;

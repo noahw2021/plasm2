@@ -27,6 +27,7 @@ Starting physical memory map:
 
 int main(int argc, char** argv) {
 	//fgetc(stdin);
+	emu_init();
 	cpu_init();
 
 	memset(i, 0, sizeof(*i));
@@ -61,6 +62,7 @@ int main(int argc, char** argv) {
 	
 	devices_shutdown();
 	cpu_shutdown();
+	emu_shutdown();
 
 	printf("CPU Halted.\n");
 

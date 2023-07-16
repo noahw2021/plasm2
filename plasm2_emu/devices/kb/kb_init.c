@@ -32,9 +32,9 @@ void kb_init(void) {
 	kbctx = malloc(sizeof(kbctx_t));
 	memset(kbctx, 0, sizeof(kbctx_t));
 
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard ENUS");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Keyboard");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard ENUS");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Keyboard");
+	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
 
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 0x1000200030004000;
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_KB;
