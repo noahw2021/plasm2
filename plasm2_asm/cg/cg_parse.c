@@ -23,6 +23,9 @@ void cg_parse(const char* Line) {
 	if (strstr(CommentCorrect, ";"))
 		*(char*)strstr(CommentCorrect, ";") = 0x00;
 
+	if (CommentCorrect[0] == 0x00)
+		return;
+
 	// MOV r0, r1
 	int c = 0, t = 0;
 	byte OperandAPresent = 0, OperandBPresent = 0;
@@ -45,6 +48,7 @@ void cg_parse(const char* Line) {
 	OperandNamePtrs[1] = &OperandB;
 	byte OperandPtrSizes[2] = { 0, 0 };
 	byte OperandSingleByte = 0x00;
+
 
 	if (strstr(Line, "\n"))
 		*(char*)(strstr(Line, "\n")) = 0x00;
