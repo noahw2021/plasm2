@@ -121,23 +121,31 @@ void video_clock(void) {
 				LineHashes[i] = LineHash;
 
 				// draw line
+				byte TrackingX = 0;
 				linenugs_t* TheNuggets = videoif_getlinestr(&videoctx->textmode->Lines[i]);
 				for (int f = 0; f < TheNuggets->NuggetCount; f++) {
 					SDL_Color TheColor;
-					TheColor.r = (TheNuggets->Nuggets[i].r * 64) & 0xFF;
-					TheColor.g = (TheNuggets->Nuggets[i].g * 64) & 0xFF;
-					TheColor.b = (TheNuggets->Nuggets[i].b * 64) & 0xFF;
+					TheColor.r = (TheNuggets->Nuggets[f].r * 64) & 0xFF;
+					TheColor.g = (TheNuggets->Nuggets[f].g * 64) & 0xFF;
+					TheColor.b = (TheNuggets->Nuggets[f].b * 64) & 0xFF;
 
-					SDL_Surface* Line = TTF_RenderText_Blended(SdlFont, TheNuggets->Nuggets[f].String, TheColor);
-					SDL_Texture * TLine = SDL_CreateTextureFromSurface(Renderer, Line);
+					if (TheNuggets->Nuggets[f].Blink && !videoctx->BlinkOff) {
+						SDL_Surface* Line = TTF_RenderText_Blended(SdlFont, TheNuggets->Nuggets[f].String, TheColor);
+						SDL_Texture* TLine = SDL_CreateTextureFromSurface(Renderer, Line);
 
-					PauseDrawing = 1;
-					SDL_Rect DestinationRect = { 0, (i * 16), Line->w, Line->h) };
-					SDL_RenderCopy(Renderer, TLine, NULL, &DestinationRect);
-					SDL_FreeSurface(Line);
+						PauseDrawing = 1;
+						SDL_Rect DestinationRect = {(TrackingX * 8), (i * 16), Line->w, Line->h)};
+						SDL_RenderCopy(Renderer, TLine, NULL, &DestinationRect);
+						SDL_FreeSurface(Line);
+						SDL_DestroyTexture(TLine);
+						PauseDrawing = 0;
+					}
 
+					TrackingX += TheNuggets->Nuggets[f].StrLen;
 				}
 				
+			} else {
+				continue;
 			}
 		}
 	}
