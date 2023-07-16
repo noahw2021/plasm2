@@ -16,36 +16,14 @@ extern byte PauseDrawing;
 
 TTF_Font* SdlFont;
 
-typedef union _tmchar {
-	byte Bytes[2];
-	u16 UShort;
-
-	struct {
-		byte Character;
-		union {
-			byte Color;
-			struct {
-				byte r : 2;
-				byte g : 2;
-				byte b : 1;
-				byte Blink : 1;
-				byte Reserved : 1;
-			};
-		};
-	};
-}tmchar_t;
 typedef tmchar_t TMLine[80];
-typedef TMLine TMLines[50];
 u16 LineHashes[50];
-TMLines* WindowBuffer;
 
-u16 videoif_genlinehash(TMLine* Line) {
-	TMLine TheLine = *Line;
-
+u16 videoif_genlinehash(TMLine Line) {
 	u16 Hash = 0x0000;
 	for (int i = 0; i < 80; i++) {
-		Hash += TheLine[i].Character;
-		Hash ^= TheLine[i].Character - (Hash & 0x1FFB);
+		Hash += Line[i].Character;
+		Hash ^= Line[i].Character - (Hash & 0x1FFB);
 	}
 
 	return Hash;
@@ -75,24 +53,23 @@ linenugs_t* __pls_free; // horrible practice huh
 void videof_shutdown(void) {
 	for (int i = 0; i < 80; i++) {
 		free(__pls_free->Nuggets[i].String);
-		free(__pls_free->Nuggets[i]);
 	}
+	free(__pls_free->Nuggets);
 	free(__pls_free); // i can assure this is much better than what wasn't published...
 
 	return;
 }
 
 linenugs_t* videoif_getlinestr(TMLine* Line) {
-	TMLine TheLine = *Line;
 	
 	static linenugs_t* Nuggets = NULL;
 	if (!Nuggets) {
 		Nuggets = malloc(sizeof(linenugs_t));
 		Nuggets->NuggetCount = 0;
-		for (int i = 0; i < 80; i++) {
-			Nuggets->Nuggets[i] = malloc(sizeof(linenug_t));
+		Nuggets->Nuggets = malloc(sizeof(linenugs_t) * 80);
+		for (int i = 0; i < 80; i++)
 			Nuggets->Nuggets[i].String = malloc(80);
-		}
+
 
 		__pls_free = Nuggets; // :p
 	}
@@ -100,14 +77,14 @@ linenugs_t* videoif_getlinestr(TMLine* Line) {
 	byte LastColor = 0x00;
 
 	for (int i = 0; i < 80; i++) {
-		if (TheLine[i].Color != LastColor) {
-			Nuggets->Nuggets = realloc(Nuggets->Nuggets, (sizeof(linenug_t * Nuggets->NuggetCount));
-			Nuggets->Nuggets[Nuggets->NuggetCount].Color = TheLine[i].Color;
-			Nuggets->Nuggets[Nuggets->NuggetCount].String[0] = TheLine[i].Character;
+		if (Line[0][i].Color != LastColor) {
+			Nuggets->Nuggets = realloc(Nuggets->Nuggets, (sizeof(linenug_t) * Nuggets->NuggetCount));
+			Nuggets->Nuggets[Nuggets->NuggetCount].Color = Line[0][i].Color;
+			Nuggets->Nuggets[Nuggets->NuggetCount].String[0] = Line[0][i].Character;
 			Nuggets->Nuggets[i].StrLen = 1;
 			Nuggets->NuggetCount++;
 		} else {
-			Nuggets->Nuggets[Nuggets->NuggetCount - 1].String[Nuggets->Nuggets[Nuggets->NuggetCount - 1].StrLen] = TheLine[i].Character;
+			Nuggets->Nuggets[Nuggets->NuggetCount - 1].String[Nuggets->Nuggets[Nuggets->NuggetCount - 1].StrLen] = Line[0][i].Character;
 			Nuggets->Nuggets[Nuggets->NuggetCount - 1].StrLen++;
 		}
 	}
@@ -134,7 +111,7 @@ void video_clock(void) {
 						SDL_Texture* TLine = SDL_CreateTextureFromSurface(Renderer, Line);
 
 						PauseDrawing = 1;
-						SDL_Rect DestinationRect = {(TrackingX * 8), (i * 16), Line->w, Line->h)};
+						SDL_Rect DestinationRect = {(TrackingX * 8), (i * 16), Line->w, Line->h};
 						SDL_RenderCopy(Renderer, TLine, NULL, &DestinationRect);
 						SDL_FreeSurface(Line);
 						SDL_DestroyTexture(TLine);

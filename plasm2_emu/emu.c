@@ -35,7 +35,7 @@ void emu_halt(void) {
 }
 void emu_register_fatal(const char* Reason) {
 	if (strlen(Reason) > 255)
-		Reason[255] = 0x00;
+		((char*)(Reason))[255] = 0x00;
 	strcpy(emuctx->LastReason, Reason);
 	emuctx->RequiresHalt = TRUE;
 }

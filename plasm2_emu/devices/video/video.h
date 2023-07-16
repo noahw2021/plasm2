@@ -55,20 +55,22 @@ u32  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);
 
 // tmline and char
-typedef union _tmchar {
-	byte Bytes[2];
-	u16 UShort;
+typedef struct _tmchar {
+	union {
+		byte Bytes[2];
+		u16 UShort;
 
-	struct {
-		byte Character;
-		union {
-			byte Color;
-			struct {
-				byte r : 2;
-				byte g : 2;
-				byte b : 1;
-				byte Blink : 1;
-				byte Reserved : 1;
+		struct {
+			byte Character;
+			union {
+				byte Color;
+				struct {
+					byte r : 2;
+					byte g : 2;
+					byte b : 1;
+					byte Blink : 1;
+					byte Reserved : 1;
+				};
 			};
 		};
 	};

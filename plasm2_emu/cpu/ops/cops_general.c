@@ -95,7 +95,7 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 			byte r2 : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1();
+	Input.Byte = mmu_read1(i->ip++);
 
 	if (i->rs_gprs[Input.r1] > i->rs_gprs[Input.r2])
 		i->flags_s.GF = 1;
