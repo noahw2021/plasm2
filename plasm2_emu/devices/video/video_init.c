@@ -46,6 +46,14 @@ void video_init(void) {
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_VIDEO;
 	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 0x0010020030040567;
 
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = video_statusquery;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = video_sendcommand;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = video_senddata;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = video_getdata;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = video_reset;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = video_off;
+	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = video_on;
+
 	devicesctx->DeviceCount++;
 }
 
