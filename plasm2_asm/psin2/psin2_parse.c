@@ -24,9 +24,7 @@ int psin2_parse(const char* InstructionData) {
 		memset(&psin2ctx->Instructions[psin2ctx->InstructionCount], 0, sizeof(psininstruction_t));
 	}
 
-	// incredibly basic and temporary comment system
-	if (strstr(InstructionData, ";"))
-		InstructionData[strstr(InstructionData, ";")] = 0x00;
+	
 
 	psininstruction_t* Target = &psin2ctx->Instructions[psin2ctx->InstructionCount];
 	psin2ctx->InstructionCount++;

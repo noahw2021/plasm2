@@ -18,6 +18,11 @@ extern FILE* PrimaryOutput;
 void cg_parse(const char* Line) {
 	cgctx->CurrentLine++;
 
+	char* CommentCorrect = (char*)Line;
+	// incredibly basic and temporary comment system
+	if (strstr(CommentCorrect, ";"))
+		*(char*)strstr(CommentCorrect, ";") = 0x00;
+
 	// MOV r0, r1
 	int c = 0, t = 0;
 	byte OperandAPresent = 0, OperandBPresent = 0;
@@ -26,8 +31,8 @@ void cg_parse(const char* Line) {
 	OperandPtrs[1] = &OperandBPresent;
 
 	char* OperandA, * OperandB;
-	char* Temporary = malloc(64);
-	memset(Temporary, 0, 64);
+	char* Temporary = malloc(256);
+	memset(Temporary, 0, 256);
 	OperandA = malloc(64);
 	OperandB = malloc(64);
 	u64 OperandAPhys = 0, OperandBPhys = 0;
