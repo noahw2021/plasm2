@@ -40,7 +40,7 @@ void decoder_go(byte Instruction) {
 	u64  OperandValues[2] = { 0, 0 };
 
 	for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
-		if (psin2i_getphyssize(i) != 4)
+		if (psin2i_getphyssize(Psin2Id, i) != 4)
 			TwoArgsOneByte = FALSE;
 	}
 
@@ -48,8 +48,8 @@ void decoder_go(byte Instruction) {
 		union {
 			byte Raw;
 			struct {
-				BYTE r0 : 4;
-				BYTE r1 : 4;
+				byte r0 : 4;
+				byte r1 : 4;
 			};
 		}InputData;
 		InputData.Raw = decoderi_g1();
@@ -59,8 +59,8 @@ void decoder_go(byte Instruction) {
 		OperandValues[0] = InputData.r0;
 		OperandValues[1] = InputData.r1;
 	} else {
-		for (int i = 0; i < psin2i_getoperandcnt(i); i++) {
-			if ()
+		for (int i = 0; i < psin2i_getoperandcnt(Psin2Id, i); i++) {
+			
 		}
 	}
 }

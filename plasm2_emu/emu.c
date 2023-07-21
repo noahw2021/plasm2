@@ -12,10 +12,6 @@ plasm2_emu
 
 // this will be very simple, we can combine into one file
 
-typedef struct _emuctx {
-	BOOL RequiresHalt;
-	char LastReason[256];
-}emuctx_t;
 emuctx_t* emuctx;
 
 void emu_init(void) {
