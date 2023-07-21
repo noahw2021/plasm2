@@ -21,3 +21,11 @@ void emu_halt(void);
 void emu_register_fatal(const char* Reason);
 
 BOOL emu_aufhoren(char* ThePtr); // query if its time to stop
+
+typedef struct _emuctx {
+	BOOL RequiresHalt;
+	char LastReason[256];
+
+	BOOL DebuggerEnabled;
+}emuctx_t;
+extern emuctx_t* emuctx;

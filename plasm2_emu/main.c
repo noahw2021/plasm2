@@ -28,6 +28,20 @@ Starting physical memory map:
 int main(int argc, char** argv) {
 	//fgetc(stdin);
 	emu_init();
+	
+	for (int i = 0; i < argc; i++) {
+		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
+			emuctx->DebuggerEnabled = 1;
+		}
+		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
+			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
+			printf("%s -h | --help : Shows this screen.\n", argv[0]);
+			printf("\nBy default, PLASM emulator accepts a properly formed 'bios.bin'.\n");
+
+			return 0;
+		}
+	}
+	
 	cpu_init();
 
 	memset(i, 0, sizeof(*i));

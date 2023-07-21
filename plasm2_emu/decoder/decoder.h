@@ -17,7 +17,9 @@ u64  decoderi_gx(byte How Much);
 
 void decoder_go(byte Instruction);
 
+void decoder_print(const char* Format, ...);
+
 typedef struct _dcctx {
 	u64 SpeculativePointer; 
 }dcctx_t;
-extern dcctx_t* dctx;
+extern dcctx_t* dcctx;
