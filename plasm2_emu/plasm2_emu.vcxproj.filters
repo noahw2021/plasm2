@@ -39,6 +39,9 @@
     <ClInclude Include="emu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="decoder\decoder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -138,6 +141,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="cpu\xcc\xcc_timer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decoder\decoder_debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decoder\decoder_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="decoder\decoder_print.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
