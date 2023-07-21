@@ -30,7 +30,9 @@ void decoder_go(byte Instruction) {
 	encourage me to get on error checking within the cpu, as this debugger may
 	be slow and shouldn't be functioning all the time. thus, we will not do
 	any checking and pretend everything is all good, all the time. until the system
-	burns.
+	burns. right now, the only real thing that can go wrong is an invalid opcode,
+	or a malformed argument package. both of which should cause the cpu to go haywire,
+	but not crash the emulator.
 	*/
 
 	BOOL TwoArgsOneByte = TRUE;
@@ -58,7 +60,7 @@ void decoder_go(byte Instruction) {
 		OperandValues[1] = InputData.r1;
 	} else {
 		for (int i = 0; i < psin2i_getoperandcnt(i); i++) {
-
+			if ()
 		}
 	}
 }
