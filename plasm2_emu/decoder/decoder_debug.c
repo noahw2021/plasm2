@@ -1,6 +1,9 @@
 #include "decoder.h"
+#include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
 #include "../psin2/psin2.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 /*
 decoder_debug.c
@@ -8,6 +11,8 @@ plasm2
 plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
+
+#pragma warning(disable: 6387) // no it couldnt
 
 byte decoderi_g1(void) {
 	byte Return = mmu_read1(dcctx->SpeculativePointer);
@@ -35,9 +40,13 @@ void decoder_go(byte Instruction) {
 	but not crash the emulator.
 	*/
 
+	dcctx->SpeculativePointer = i->ip;
+
 	BOOL TwoArgsOneByte = TRUE;
 	BOOL IsOperandRegister[2] = { FALSE, FALSE };
 	u64  OperandValues[2] = { 0, 0 };
+	u32  ActiveOperandSize;
+	byte OperandCnt = 0;
 
 	for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
 		if (psin2i_getphyssize(Psin2Id, i) != 4)
@@ -58,9 +67,38 @@ void decoder_go(byte Instruction) {
 
 		OperandValues[0] = InputData.r0;
 		OperandValues[1] = InputData.r1;
+
+		OperandCnt = 2;
 	} else {
-		for (int i = 0; i < psin2i_getoperandcnt(Psin2Id, i); i++) {
-			
+		for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
+			ActiveOperandSize = psin2i_getphyssize(Psin2Id, i) / 8;
+			IsOperandRegister[i] = psin2i_getoperandtype(Psin2Id, i) ^ 1; // psin2 stores these opposite
+			OperandValues[i] = decoderi_gx(ActiveOperandSize);
+			OperandCnt++;
 		}
 	}
+
+	char* DebugStr = malloc(256);
+
+	switch (OperandCnt) {
+	case 0: // OPC
+		sprintf(DebugStr, "%s", psin2i_getname(Psin2Id));
+		break;
+	case 1: // OPC ARG
+		sprintf(DebugStr, "%s %s=%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0]);
+		break;
+	case 2: // OPC ARG, RG2
+		sprintf(DebugStr, "%s %s=%llu, %s=%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), OperandValues[1]);
+		break;
+	/*
+	default:
+		Eh(?); // we are confused
+		break;
+	*/
+	}
+
+	decoder_print(DebugStr);
+	free(DebugStr);
+
+	return ;
 }
