@@ -6,6 +6,7 @@
 #include "devices/devices.h"
 #include "devices/kb/kb.h"
 #include "devices/video/video.h"
+#include "psin2/psin2.h"
 /*
 main.c
 plasm2
@@ -28,6 +29,7 @@ Starting physical memory map:
 int main(int argc, char** argv) {
 	//fgetc(stdin);
 	emu_init();
+	psin2_init();
 	
 	for (int i = 0; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {

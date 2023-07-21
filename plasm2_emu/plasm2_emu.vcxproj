@@ -155,6 +155,7 @@
     <ClInclude Include="devices\kb\kb.h" />
     <ClInclude Include="devices\video\video.h" />
     <ClInclude Include="emu.h" />
+    <ClInclude Include="psin2\psin2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cpu\cpu_clock.c" />
@@ -193,6 +194,10 @@
     <ClCompile Include="devices\video\video_textmode.c" />
     <ClCompile Include="emu.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="psin2\psin2_data.c" />
+    <ClCompile Include="psin2\psin2_getcg.c" />
+    <ClCompile Include="psin2\psin2_init.c" />
+    <ClCompile Include="psin2\psin2_parse.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -42,6 +42,9 @@
     <ClInclude Include="decoder\decoder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="psin2\psin2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -150,6 +153,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="decoder\decoder_print.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="psin2\psin2_data.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="psin2\psin2_getcg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="psin2\psin2_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="psin2\psin2_parse.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
