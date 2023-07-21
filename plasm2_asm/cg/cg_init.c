@@ -10,7 +10,7 @@ plasm2_asm
 
 cgctx_t* cgctx;
 
-#pragma warning(disable: 6387)
+#pragma warning(disable: 6001 6011 6387)
 
 void cg_init(void) {
 	cgctx = malloc(sizeof(cgctx_t));
@@ -23,8 +23,13 @@ void cg_init(void) {
 }
 
 void cg_shutdown(void) {
-	if (cgctx->Errors)
+	if (cgctx->Errors) {
+		for (int i = 0; i < cgctx->ErrorCount; i++) {
+			if (cgctx->Errors[i].Reason)
+				free(cgctx->Errors[i].Reason);
+		}
 		free(cgctx->Errors);
+	}
 	free(cgctx);
 	cgctx = NULL;
 

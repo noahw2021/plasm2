@@ -13,7 +13,7 @@ void cg_shutdown(void);
 void cg_parse(const char* Line);
 void cg_compile(void);
 
-void cge_error(int Line, const char* Reason);
+void cge_error(int Line, const char* Reason, ...);
 int  cge_errorcnt(void);
 char* cge_geterr(int i );
 

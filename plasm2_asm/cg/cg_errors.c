@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdarg.h>
 /*
 cg_errors.c
 plasm2
@@ -11,7 +12,7 @@ plasm2_asm
 
 #pragma warning(disable: 6308 6387 26451 28182)
 
-void cge_error(int Line, const char* Reason) {
+void cge_error(int Line, const char* Reason, ...) {
 	if (!cgctx->Errors) {
 		cgctx->Errors = malloc(sizeof(cgctx->Errors[0]));
 		memset(cgctx->Errors, 0, sizeof(cgctx->Errors[0]));
@@ -22,8 +23,14 @@ void cge_error(int Line, const char* Reason) {
 		cgctx->ErrorCount++;
 	}
 
+	va_list VaList;
+	va_start(VaList, Reason);
+	char* ReasonBuffer = malloc(768);
+	vprintf(ReasonBuffer, Reason, VaList);
+	va_end(VaList);
+
 	cgctx->Errors[cgctx->ErrorCount - 1].Line = Line;
-	cgctx->Errors[cgctx->ErrorCount - 1].Reason = Reason;
+	cgctx->Errors[cgctx->ErrorCount - 1].Reason = ReasonBuffer;
 
 	return;
 }
