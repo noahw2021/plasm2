@@ -78,6 +78,11 @@ void cg_parse(const char* Line) {
 		case 'c': // compile
 			cg_compile();
 			break;
+		case 'p': // pad with zero until x size
+			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			while (cgctx->DataPosition < Usage)
+				cgp_put1('\0');
+			break;
 		case 'z': // fill with zero
 			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			for (int i = 0; i < Usage; i++)
@@ -175,8 +180,10 @@ void cg_parse(const char* Line) {
 				byte DualB : 4;
 			};
 		}SingleDual;
+
 		SingleDual.DualA = *OperandPhysPtrs[0];
 		SingleDual.DualB = *OperandPhysPtrs[1];
+
 		DualOutput = SingleDual.Single;	
 	} else {
 		for (int i = 0; i < 2; i++) {

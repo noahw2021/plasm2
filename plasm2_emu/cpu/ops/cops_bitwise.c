@@ -11,8 +11,8 @@ void AND(void) {
 	union {
 		byte Input;
 		struct {
-			byte Destination : 4;
 			byte Source : 4;
+			byte Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -24,8 +24,8 @@ void BOR(void) {
 	union {
 		byte Input;
 		struct {
-			byte Destination : 4;
 			byte Source : 4;
+			byte Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -37,8 +37,8 @@ void XOR(void) {
 	union {
 		byte Input;
 		struct {
-			byte Destination : 4;
 			byte Source : 4;
+			byte Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);

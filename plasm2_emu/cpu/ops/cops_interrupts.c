@@ -17,8 +17,8 @@ void HND(void) {
 	union {
 		byte Byte;
 		struct {
-			byte Interrupt : 4;
 			byte Handler : 4;
+			byte Interrupt : 4;
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);

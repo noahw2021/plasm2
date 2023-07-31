@@ -4,6 +4,7 @@
 #include "../psin2/psin2.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /*
 decoder_debug.c
@@ -59,8 +60,8 @@ void decoder_go(byte Instruction) {
 		union {
 			byte Raw;
 			struct {
-				byte r0 : 4;
 				byte r1 : 4;
+				byte r0 : 4;
 			};
 		}InputData;
 		InputData.Raw = decoderi_g1();
@@ -103,7 +104,38 @@ void decoder_go(byte Instruction) {
 	}
 
 	decoder_print(DebugStr);
-	free(DebugStr);
+	
+	char* Ctx = malloc(768);
+	Ctx[0] = '\t';
+	Ctx[1] = '\0';
 
+	char* CPart = malloc(256);
+	int Written = 0;
+	for (int c = 0; c < 2; c++) {
+		if (IsOperandRegister[c]) {
+			if (!strcmp(psin2i_getoperandname(Psin2Id, c), "DEST"))
+				continue;
+
+			CPart[0] = '\0';
+			if (Written)
+				strcat(CPart, ", ");
+			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], i->rs_gprs[OperandValues[c]]);
+
+			strcat(Ctx, CPart);
+			Written++;
+		}
+	}
+
+	if (Written)
+		strcat(Ctx, ", ");
+
+	sprintf(CPart, "ip=0x%llX", i->ip);
+	strcat(Ctx, CPart);
+
+	decoder_print(Ctx);
+
+	free(DebugStr);
+	free(Ctx);
+	free(CPart);
 	return ;
 }

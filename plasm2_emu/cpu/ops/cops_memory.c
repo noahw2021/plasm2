@@ -11,8 +11,8 @@ void LDW(void) {
 	union {
 		byte Input;
 		struct {
-			byte Destination : 4;
 			byte Address : 4;
+			byte Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -29,8 +29,8 @@ void LDB(void) {
 	union {
 		byte Input;
 		struct {
-			byte Destination : 4;
 			byte Address : 4;
+			byte Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -47,8 +47,8 @@ void STW(void) {
 	union {
 		byte Input;
 		struct {
-			byte Address : 4;
 			byte Register : 4;
+			byte Address : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -65,8 +65,8 @@ void STB(void) {
 	union {
 		byte Input;
 		struct {
-			byte Address : 4;
 			byte Register : 4;
+			byte Address : 4;
 		};
 	}Inputs; 
 	Inputs.Input = mmu_read1(i->ip++);
@@ -117,8 +117,8 @@ void VPC(void) {
 	union {
 		byte Input;
 		struct {
-			byte PhysicalAddress : 4;
 			byte Size : 4;
+			byte PhysicalAddress : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);

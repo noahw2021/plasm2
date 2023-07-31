@@ -11,8 +11,8 @@ void MOV(void) {
 	union {
 		byte Byte;
 		struct {
-			byte Dest : 4;
 			byte Source : 4;
+			byte Dest : 4;
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);
@@ -91,8 +91,8 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 	union {
 		byte Byte;
 		struct {
-			byte r1 : 4;
 			byte r2 : 4;
+			byte r1 : 4;
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);

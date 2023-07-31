@@ -19,8 +19,8 @@ void DSC(void) {
 	union {
 		byte Input;
 		struct {
-			byte Device : 4;
 			byte Command : 4;
+			byte Device : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -32,8 +32,8 @@ void DSD(void) {
 	union {
 		byte Input;
 		struct {
-			byte Device : 4;
 			byte Data : 4;
+			byte Device : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -45,8 +45,8 @@ void DGD(void) {
 	union {
 		byte Input;
 		struct {
-			byte Device : 4;
 			byte Destination : 4;
+			byte Device : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);

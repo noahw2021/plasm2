@@ -24,4 +24,5 @@ LDI r4, Eh2
 ADD r4, r5
 JMP r4
 
+-p 4096
 -c
