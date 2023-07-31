@@ -25,7 +25,8 @@ Starting physical memory map:
 0x13AA: End of BIOS
 0x13F0: BIOS (should) map 4KiB of HDD0 here
 0x23F0: keyboard bitmap
-0x24F0: TBD (end of kb bitmap)
+0x24F0: Base Stack Pointer
+0x25F0: End of stack
 */
 
 int main(int argc, char** argv) {
@@ -50,8 +51,11 @@ int main(int argc, char** argv) {
 
 	memset(i, 0, sizeof(*i));
 
-	i->pti.dvptr = 0x000;
-	i->ip = 0x3A0;
+	i->pti.dvptr = 0x0000;
+	i->ip = 0x03A0;
+	i->pti.slb = 0x24F0;
+	i->pti.spb = 0x25F0;
+	i->sp = 0x24F0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
 	if (!Bios) {

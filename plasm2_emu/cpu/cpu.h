@@ -164,7 +164,9 @@ struct {
 				u64 vsp; // virtual trailing arm
 				u64 csm; // csm handler
 				u64 dvptr; // device map pointer
-				u64 reserved[5];
+				u64 spb; // stack pointer upper bound
+				u64 slb; // stack lower bound
+				u64 reserved[3];
 			}pti;
 		};
 	};
