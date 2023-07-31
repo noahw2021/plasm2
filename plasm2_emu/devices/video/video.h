@@ -35,8 +35,8 @@ default colors R:2, G:2, B:2, Blink:1, Reserved:1
 /*
 commands
 
-GetTextBuffer 00 : Returns text buffer pointer to R0
-SetTextBuffer 01 : Adjusts the text buffer position, Argument
+GetTextBuffer 00 : Returns text buffer pointer to R0 (deprecated)
+SetTextBuffer 01 : Adjusts the text buffer position, Argument (deprecated)
 DrawLine      02 : Draws a line v
 DrawRect      03 : Draws a rect (color from stack)
 DrawFill      04 : Draws a filled rect ^
@@ -45,8 +45,8 @@ GetWh         06 : Get width (hi) and height (lo)
 SuggestWh     07 : Suggest a width (hi32) and height (lo32)
 */
 
-u64 videoi_gettextbuffer(void);
-void videoi_settextbuffer(u64 NewOffset);
+u64 videoi_gettextbuffer(void); // deprecated
+void videoi_settextbuffer(u64 NewOffset); // deprecated
 void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color); // color pulled from stack
 void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
 void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
@@ -54,32 +54,7 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from st
 u32  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);
 
-// tmline and char
-typedef struct _tmchar {
-	union {
-		byte Bytes[2];
-		u16 UShort;
-
-		struct {
-			byte Character;
-			union {
-				byte Color;
-				struct {
-					byte r : 2;
-					byte g : 2;
-					byte b : 1;
-					byte Blink : 1;
-					byte Reserved : 1;
-				};
-			};
-		};
-	};
-}tmchar_t;
-typedef tmchar_t TMLine[80];
-
 typedef struct _videoctx {
-	byte TextMode;
-	BOOL BlinkOff;
 	byte SizeLocked;
 	u64 Status;
 	byte AwaitingData;
@@ -88,9 +63,5 @@ typedef struct _videoctx {
 	u64 Outgoing;
 	int w;
 	int h;
-	struct {
-		TMLine Lines[50];
-	}*textmode;
-	u64 TextmodePointer;
 }videoctx_t;
 extern videoctx_t* videoctx;

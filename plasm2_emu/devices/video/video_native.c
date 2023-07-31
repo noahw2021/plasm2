@@ -21,20 +21,14 @@ extern byte PauseDrawing;
 #define A(x) (x & 0x000000FF) >> 0
 
 u64 videoi_gettextbuffer(void) {
-	if (videoctx->TextMode)
-		return videoctx->TextmodePointer;
-	return 0;
+	return 0; // deprecated
 }
 
 void videoi_settextbuffer(u64 NewOffset) {
-	if (videoctx->TextMode)
-		videoctx->TextmodePointer = NewOffset;
+	return; // deprecated
 }
 
 void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color) {
-	if (videoctx->TextMode)
-		return;
-
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_RenderDrawLine(Renderer, x1, y1, x2, y2);
@@ -44,9 +38,6 @@ void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color) {
 }
 
 void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color) {
-	if (videoctx->TextMode)
-		return;
-
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;
@@ -61,9 +52,6 @@ void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color) {
 }
 
 void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
-	if (videoctx->TextMode)
-		return;
-
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;
@@ -78,9 +66,6 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 }
 
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
-	if (videoctx->TextMode)
-		return;
-
 	PauseDrawing = 1;
 	SDL_Surface* Surface = SDL_CreateRGBSurface(0, w, h, 8, 0, 0, 0, 0);
 	memcpy(Surface->pixels, (void*)((byte*)cpuctx->PhysicalMemory + ptr), w * h * 4);
@@ -95,15 +80,10 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 }
 
 u32  videoi_getwh(void) {
-	if (videoctx->TextMode)
-		return 0;
 	return (videoctx->w << 16) | (videoctx->h);
 }
 
 void videoi_suggestwh(u16 w, u16 h) {
-	if (videoctx->TextMode)
-		return;
-
 	if (!videoctx->SizeLocked) {
 		videoctx->w = w;
 		videoctx->h = h;

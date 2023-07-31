@@ -137,9 +137,6 @@
     <ClCompile Include="devices\devices_handlers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="devices\video\video_textmode.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="emu.c">
       <Filter>Source Files</Filter>
     </ClCompile>

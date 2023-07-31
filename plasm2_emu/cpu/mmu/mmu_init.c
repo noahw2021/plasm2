@@ -20,7 +20,8 @@ void mmu_init(void) {
 
 	cpuctx->PhysicalMemorySize = PHYS_MEMSZ;
 	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize);
-	
+	memset(cpuctx->PhysicalMemory, 0, PHYS_MEMSZ);
+
 	i->sp = 0x3A0;
 
 	return;

@@ -85,9 +85,8 @@ void videoii_loop(void) {
 			}
 			
 		}
-		while (PauseDrawing)
-			SDL_Delay(16);
-		
-		SDL_RenderPresent(Renderer);
+		if (!PauseDrawing)
+			SDL_RenderPresent(Renderer);
+		SDL_Delay(16);
 	}
 }
