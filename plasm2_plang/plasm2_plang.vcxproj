@@ -143,11 +143,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c" />
+    <ClCompile Include="parse\parse_init.c" />
+    <ClCompile Include="parse\parse_line.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h" />
     <ClInclude Include="cg\cg.h" />
+    <ClInclude Include="error\error.h" />
     <ClInclude Include="parse\parse.h" />
+    <ClInclude Include="parse\token\token.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

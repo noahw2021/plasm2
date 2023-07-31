@@ -3,6 +3,8 @@
 #include <string.h>
 #include "basetypes.h"
 #include "parse/parse.h"
+#include "error/error.h"
+#include "cg/cg.h"
 /*
 main.c
 plasm2
@@ -42,6 +44,8 @@ int main(int argc, char** argv) {
 	}
 
 	parse_init();
+	error_init();
+	cg_init();
 
 	char* Buffer = malloc(4096);
 	while (!(Flags & FLAG_COMPLETE)) {
@@ -53,5 +57,7 @@ int main(int argc, char** argv) {
 	}
 	free(Buffer);
 
+	cg_shutdown();
+	error_shutdown();
 	parse_shutdown();
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "../basetypes.h"
 /*
 parse.h
 plasm2
@@ -10,3 +11,11 @@ void parse_init(void);
 void parse_shutdown(void);
 
 void parse_line(const char* Line);
+
+typedef struct _parsectx {
+	byte Started;
+
+	int CurrentCtx;
+	int CurrentLine;
+}parsectx_t;
+extern parsectx_t* parsectx;

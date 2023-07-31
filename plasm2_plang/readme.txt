@@ -17,12 +17,12 @@ void  ? Byte / ? Bits, a generic type.
 Any type can be converted to a pointer with a '*' suffix of the type.
 
 Function Definition:
-Type Name (void);
-Type Name (byte Test);
+Type Name(void);
+Type Name(byte Test);
 
 Variable Definition:
 u32 Var;
-u32* VarP;
+u32 * VarP;
 
 Structures:
 struct struct_t {
