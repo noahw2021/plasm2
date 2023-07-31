@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33717.318
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33920.266
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plasm2_emu", "plasm2_emu\plasm2_emu.vcxproj", "{84E590F8-F306-4E64-8606-E9780427B615}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plasm2_asm", "plasm2_asm\plasm2_asm.vcxproj", "{AFA36A6E-49A1-4119-B2D4-FF11748736B7}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "plasm2_tools", "plasm2_tools\plasm2_tools.vcxproj", "{75861159-487F-458B-AB19-866A0023B9D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +31,6 @@ Global
 		{AFA36A6E-49A1-4119-B2D4-FF11748736B7}.Release|x64.Build.0 = Release|x64
 		{AFA36A6E-49A1-4119-B2D4-FF11748736B7}.Release|x86.ActiveCfg = Release|Win32
 		{AFA36A6E-49A1-4119-B2D4-FF11748736B7}.Release|x86.Build.0 = Release|Win32
-		{75861159-487F-458B-AB19-866A0023B9D3}.Debug|x64.ActiveCfg = Debug|x64
-		{75861159-487F-458B-AB19-866A0023B9D3}.Debug|x64.Build.0 = Debug|x64
-		{75861159-487F-458B-AB19-866A0023B9D3}.Debug|x86.ActiveCfg = Debug|Win32
-		{75861159-487F-458B-AB19-866A0023B9D3}.Debug|x86.Build.0 = Debug|Win32
-		{75861159-487F-458B-AB19-866A0023B9D3}.Release|x64.ActiveCfg = Release|x64
-		{75861159-487F-458B-AB19-866A0023B9D3}.Release|x64.Build.0 = Release|x64
-		{75861159-487F-458B-AB19-866A0023B9D3}.Release|x86.ActiveCfg = Release|Win32
-		{75861159-487F-458B-AB19-866A0023B9D3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
