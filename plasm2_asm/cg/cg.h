@@ -27,6 +27,7 @@ typedef struct _cgctx {
 	int CurrentRadix;
 
 	u64 DataPosition;
+	u64 HighestPosition;
 
 	int ErrorCount;
 	struct {

@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <stdio.h>
+#include <string.h>
 /*
 video_textmode.c
 plasm2
@@ -26,7 +27,7 @@ u16 videoif_genlinehash(TMLine Line) {
 		Hash ^= Line[i].Character - (Hash & 0x1FFB);
 	}
 
-	return Hash;
+	return Hash ^ 0x2BBC;
 }
 
 typedef struct _linenug {
@@ -139,6 +140,9 @@ void videof_init(void) {
 		emu_register_fatal("Failed to load the textmode font.");
 		return;
 	}
+
+	videoctx->textmode = malloc(sizeof(*videoctx->textmode));
+	memset(videoctx->textmode, 0, sizeof(*videoctx->textmode));
 
 	return;
 }

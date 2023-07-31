@@ -78,6 +78,7 @@ void cg_parse(const char* Line) {
 			cgctx->CurrentRadix = atoi(Line  + 3);
 			break;
 		case 'c': // compile
+			cgctx->DataPosition = cgctx->HighestPosition;
 			cg_compile();
 			break;
 		case 'i': // include
@@ -85,11 +86,13 @@ void cg_parse(const char* Line) {
 			break;
 		case 'p': // pad with zero until x size
 			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			cgctx->DataPosition = cgctx->HighestPosition;
 			while (cgctx->DataPosition < Usage)
 				cgp_put1('\0');
 			break;
 		case 's': // string
-			while (FollowString[Usage])
+			Usage = 1;
+			while (FollowString[Usage] != '"')
 				cgp_put1(FollowString[Usage++]);
 			cgp_put1('\0');
 			break;

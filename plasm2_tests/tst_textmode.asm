@@ -5,27 +5,30 @@
 
 -b 16 ; set to hex
 
--a 10000
-BiosTextModeData:
--a 0
-
-; we know in a test environment, video adatper is device 1
-BiosMain:
 
 LDI r0, 1 ; device id
-LDI r1, BiosTextModeData
+LDI r1, 10000 ; bios text mode arena
 LDI r2, 1 ; command
 
-; send command and data
 DSC r0, r2
 DSD r0, r1
 
-; write to memory
-LDI r3, D757D747D74CF759
-STW r1, r3
+LDI r8, TestString
+LDW r6, r8
+LDI r7, 10000
+STW r7, r6
 
+-a 400
+TestString:
+-s "irql"
+
+-a 2E
+
+LDI r5, 3A0
 BiosLoop:
 LDI r4, BiosLoop
+ADD r4, r5
 JMP r4
 
+-p 1000
 -c
