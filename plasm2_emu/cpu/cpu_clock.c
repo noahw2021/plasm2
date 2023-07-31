@@ -1,5 +1,6 @@
 #include "cpu.h"
 #include "mmu/mmu.h"
+#include "../decoder/decoder.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -24,10 +25,8 @@ void cpu_clock(void) {
 	}
 
 	byte ThisInstruction = mmu_read1(i->ip++);
-	if (!Instructions[ThisInstruction])
-		i->flags_s.HF = 1;
-	else
-		Instructions[ThisInstruction]();
+
+	Instructions[ThisInstruction]();
 
 	return;
 }

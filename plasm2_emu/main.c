@@ -7,6 +7,8 @@
 #include "devices/kb/kb.h"
 #include "devices/video/video.h"
 #include "psin2/psin2.h"
+#include "decoder/decoder.h"
+
 /*
 main.c
 plasm2
@@ -61,6 +63,9 @@ int main(int argc, char** argv) {
 	devices_init();
 	devices_collect();
 
+	if (emuctx->DebuggerEnabled)
+		decoder_init();
+
 	char TheHaltReason[256];
 
 	while (1) {
@@ -77,6 +82,9 @@ int main(int argc, char** argv) {
 			break;
 	}
 	
+	if (emuctx->DebuggerEnabled)
+		decoder_shutdown();
+
 	devices_shutdown();
 	cpu_shutdown();
 	emu_shutdown();
