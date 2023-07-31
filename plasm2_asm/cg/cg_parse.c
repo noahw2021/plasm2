@@ -65,6 +65,7 @@ void cg_parse(const char* Line) {
 	Temporary[c] = 0x00;
 
 	int Usage = 0;
+	char* FollowString = Temporary + 3;
 
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
@@ -78,10 +79,18 @@ void cg_parse(const char* Line) {
 		case 'c': // compile
 			cg_compile();
 			break;
+		case 'i': // include
+			
+			break;
 		case 'p': // pad with zero until x size
 			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			while (cgctx->DataPosition < Usage)
 				cgp_put1('\0');
+			break;
+		case 's': // string
+			while (FollowString[Usage])
+				cgp_put1(FollowString[Usage++]);
+			cgp_put1('\0');
 			break;
 		case 'z': // fill with zero
 			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);

@@ -83,8 +83,11 @@ void videoii_loop(void) {
 				kbii_markkey(Event.key.keysym.scancode, 0);
 				kbctx->NotifyUp = Event.key.keysym.scancode;
 			}
+			
 		}
 		while (PauseDrawing)
-			SDL_Delay(100);
+			SDL_Delay(16);
+		
+		SDL_RenderPresent(Renderer);
 	}
 }
