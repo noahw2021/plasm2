@@ -145,6 +145,10 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="parse\parse_init.c" />
     <ClCompile Include="parse\parse_line.c" />
+    <ClCompile Include="parse\token\token_data.c" />
+    <ClCompile Include="parse\token\token_func.c" />
+    <ClCompile Include="parse\token\token_init.c" />
+    <ClCompile Include="parse\token\token_parse.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h" />
