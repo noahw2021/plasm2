@@ -14,6 +14,7 @@ cpuctx_t* cpuctx;
 
 // invalid opcode
 void __cpui_invopc(void) {
+	i->flags_s.HF = 1;
 	printf("[ERR]: Invalid opcode presented. Continuing...\n");
 	return;
 }

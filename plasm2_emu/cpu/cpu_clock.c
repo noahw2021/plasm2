@@ -1,6 +1,7 @@
 #include "cpu.h"
 #include "mmu/mmu.h"
 #include "../decoder/decoder.h"
+#include "../emu.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -25,6 +26,9 @@ void cpu_clock(void) {
 	}
 
 	byte ThisInstruction = mmu_read1(i->ip++);
+
+	if (emuctx->DebuggerEnabled)
+		decoder_go(ThisInstruction);
 
 	Instructions[ThisInstruction]();
 
