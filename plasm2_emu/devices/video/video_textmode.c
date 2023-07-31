@@ -134,7 +134,7 @@ void video_clock(void) {
 
 void videof_init(void) {
 	TTF_Init();
-	SdlFont = TTF_OpenFont("resources\\vgafon.ttf", 12);
+	SdlFont = TTF_OpenFont("..\\..\\resources\\vgafon.ttf", 12);
 	if (!SdlFont) {
 		emu_register_fatal("Failed to load the textmode font.");
 		return;

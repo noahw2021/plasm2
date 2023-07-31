@@ -26,8 +26,10 @@ void cpu_init(void) {
 	time(&cpuctx->SystemBoot);
 	cpuctx->ClocksPerSecond = BASE_CLOCK;
 
-	for (int i = 0; i < 256; i++)
-		Instructions[i] = __cpui_invopc;
+	for (int i = 0; i < 256; i++) {
+		if (Instructions[i] == NULL)
+			Instructions[i] = __cpui_invopc;
+	}
 
 	mmu_init();
 	return;
