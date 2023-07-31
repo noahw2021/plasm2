@@ -45,8 +45,15 @@ void parse_line(const char* Line) {
 	for (int i = 0; i < Primary->TokenCount; i++) {
 		if (InRange(Primary->Tokens[i].Token, TOKEN_TYPE_FIRST, TOKEN_TYPE_LAST)) {
 			if (Primary->Tokens[i].Token == TOKEN_TYPE_VOID && Primary->Tokens[i + 1].Token != TOKEN_MODI_POINTER) {
-				
+				error_send(ERR_SNTX_INVTYPE, parsectx->CurrentLine);
+				goto FreeAll;
+			}
+
+			if (Primary->Tokens[i + 1].Token == TOKEN_MODI_POINTER) {
+
 			}
 		}
 	}
+
+FreeAll:
 }
