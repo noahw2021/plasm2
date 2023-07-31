@@ -11,14 +11,15 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void decoder_print(const char* Format, ...) {
-	va_list ArgList;
-	va_start(ArgList, Format);
+void decoder_print(const char* Format) {
+	printf("[DBG]: ");
 	
-	char* Prepend = malloc(sizeof("[DBG]: ?") + strlen(Format));
-	strcpy(Prepend, "[DBG]: ");
-	strcat(Prepend, Format);
+	int i = 0;
+	while (Format[i]) {
+		if (Format[i] == 0xEE)
+			continue;
+		fputc(Format[i], stdout);
+	}
 
-	vprintf(Prepend, ArgList);
 	return;
 }

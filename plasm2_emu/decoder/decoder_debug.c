@@ -90,10 +90,10 @@ void decoder_go(byte Instruction) {
 		sprintf(DebugStr, "%s", psin2i_getname(Psin2Id));
 		break;
 	case 1: // OPC ARG
-		sprintf(DebugStr, "%s %s=%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0]);
+		sprintf(DebugStr, "%s %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0]);
 		break;
 	case 2: // OPC ARG, RG2
-		sprintf(DebugStr, "%s %s=%llu, %s=%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), OperandValues[1]);
+		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), OperandValues[1]);
 		break;
 	/*
 	default:
