@@ -5,6 +5,7 @@
 #include "psin2/psin2.h"
 #include "cg/cg.h"
 #include "link/link.h"
+#include "vf/vf.h"
 /*
 main.c
 plasm2
@@ -87,11 +88,13 @@ int main(int argc, char** argv) {
 	if (!PrimaryInput)
 		PrimaryInput = stdin;
 
+	vf_init(PrimaryInput);
+
 	char* Line = malloc(2048);
 	while (cgctx) {
 		printf("[%04hX]: ", cgctx->DataPosition);
-		fgets(Line, 2048, PrimaryInput);
-		if (PrimaryInput != stdin)
+		strcpy(Line, vf_get());
+		if (vf_ci() != stdin)
 			printf("%s", Line);
 		cg_parse(Line);
 	}

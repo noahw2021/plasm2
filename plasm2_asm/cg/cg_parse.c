@@ -1,6 +1,7 @@
 #include "cg.h"
 #include "../psin2/psin2.h"
 #include "../link/link.h"
+#include "../vf/vf.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -65,7 +66,7 @@ void cg_parse(const char* Line) {
 	Temporary[c] = 0x00;
 
 	int Usage = 0;
-	char* FollowString = Temporary + 3;
+	char* FollowString = Line + 3;
 
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
@@ -80,7 +81,7 @@ void cg_parse(const char* Line) {
 			cg_compile();
 			break;
 		case 'i': // include
-			
+			vf_register(FollowString);
 			break;
 		case 'p': // pad with zero until x size
 			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
