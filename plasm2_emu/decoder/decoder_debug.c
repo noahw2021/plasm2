@@ -52,6 +52,8 @@ void decoder_go(byte Instruction) {
 		if (psin2i_getphyssize(Psin2Id, i) != 4)
 			TwoArgsOneByte = FALSE;
 	}
+	if (psin2i_getoperandcnt(Psin2Id) == 1)
+		TwoArgsOneByte = FALSE;
 
 	if (TwoArgsOneByte) {
 		union {
@@ -90,16 +92,14 @@ void decoder_go(byte Instruction) {
 		sprintf(DebugStr, "%s", psin2i_getname(Psin2Id));
 		break;
 	case 1: // OPC ARG
-		sprintf(DebugStr, "%s %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0]);
+		sprintf(DebugStr, "%s %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
+			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0]);
 		break;
 	case 2: // OPC ARG, RG2
-		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), OperandValues[1]);
+		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
+			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), 
+			(IsOperandRegister[1] == 1 ? 'r' : 0xEE), OperandValues[1]);
 		break;
-	/*
-	default:
-		Eh(?); // we are confused
-		break;
-	*/
 	}
 
 	decoder_print(DebugStr);

@@ -16,10 +16,16 @@ void decoder_print(const char* Format) {
 	
 	int i = 0;
 	while (Format[i]) {
-		if (Format[i] == 0xEE)
+		if (Format[i] == -18) {
+			i++;
 			continue;
+		}
+
 		fputc(Format[i], stdout);
+		i++;
 	}
+
+	fputc('\n', stdout);
 
 	return;
 }
