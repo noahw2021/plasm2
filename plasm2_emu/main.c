@@ -72,6 +72,7 @@ int main(int argc, char** argv) {
 		kb_clock();
 		video_clock();
 		cpu_clock();
+
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}
