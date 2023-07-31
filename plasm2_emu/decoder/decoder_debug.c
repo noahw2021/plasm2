@@ -71,7 +71,12 @@ void decoder_go(byte Instruction) {
 		OperandCnt = 2;
 	} else {
 		for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
-			ActiveOperandSize = psin2i_getphyssize(Psin2Id, i) / 8;
+			byte StoredSize = psin2i_getphyssize(Psin2Id, i);
+			if (StoredSize == 4)
+				ActiveOperandSize = 1;
+			else
+				ActiveOperandSize = StoredSize / 8;
+
 			IsOperandRegister[i] = psin2i_getoperandtype(Psin2Id, i) ^ 1; // psin2 stores these opposite
 			OperandValues[i] = decoderi_gx(ActiveOperandSize);
 			OperandCnt++;

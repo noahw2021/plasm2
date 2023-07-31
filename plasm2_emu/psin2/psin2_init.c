@@ -16,6 +16,8 @@ void psin2_init(void) {
 	psin2ctx = malloc(sizeof(psin2ctx_t));
 	memset(psin2ctx, 0, sizeof(psin2ctx_t));
 
+	psin2_load();
+
 	return;
 }
 
