@@ -25,6 +25,20 @@ void fdisk_reset(u32 Device);
 void fdisk_off(u32 Device);
 void fdisk_on(u32 Device);
 
+#define FDISKHDR_MAGIC 'PLFD'
+typedef struct _fdiskhdr {
+	u32 Magic;
+
+	u64 DriveVirtualSize;
+	u64 ExpectedPhysicalSize;
+
+	char DeviceVendor[16];
+	u64 DeviceSerial;
+	u64 DeviceVendorId;
+	u64 DeviceModelNum;
+	u64 PartsSum; // not really a hash, but will tell us if something is wrong
+}fdiskhdr_t;
+
 typedef struct _fdiskctx {
 	int DriveCount;
 	struct {
@@ -41,6 +55,7 @@ typedef struct _fdiskctx {
 		char DeviceVendor[16];
 		u64 DeviceSerial;
 		u64 DeviceVendorId;
+		u64 DeviceModelNum;
 
 		u64 CurrentFilePointer;
 		u64 SpeculativeSeek;
