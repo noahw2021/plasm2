@@ -1,13 +1,17 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "emu.h"
 #include "basetypes.h"
 #include "cpu/cpu.h"
 #include "devices/devices.h"
 #include "devices/kb/kb.h"
 #include "devices/video/video.h"
+#include "devices/fdisk/fdisk.h"
 #include "psin2/psin2.h"
 #include "decoder/decoder.h"
+
+#pragma warning(disable: 6308 6387 26451 28182)
 
 /*
 main.c
@@ -34,6 +38,9 @@ int main(int argc, char** argv) {
 	emu_init();
 	psin2_init();
 	
+	char** FixedDisks = NULL;
+	int FixedDiskCount = 0;
+
 	for (int i = 0; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
 			emuctx->DebuggerEnabled = 1;
@@ -44,6 +51,16 @@ int main(int argc, char** argv) {
 			printf("\nBy default, PLASM emulator accepts a properly formed 'bios.bin'.\n");
 
 			return 0;
+		}
+		if (strstr(argv[i], "-f=")) {
+			if (!FixedDisks)
+				FixedDisks = malloc(sizeof(char*) * (FixedDiskCount + 1));
+			else
+				FixedDisks = realloc(FixedDisks, (sizeof(char*) * (FixedDiskCount + 1)));
+
+			FixedDisks[FixedDiskCount] = malloc(strlen(argv[i]) + 1);
+			strcpy(FixedDisks[FixedDiskCount], argv[i] + 3);
+			FixedDiskCount++;
 		}
 	}
 	
@@ -66,6 +83,13 @@ int main(int argc, char** argv) {
 
 	devices_init();
 	devices_collect();
+
+	for (int i = 0; i < FixedDiskCount; i++) {
+		fdisk_register(FixedDisks[i]);
+		free(FixedDisks[i]);
+	}
+	if (FixedDisks)
+		free(FixedDisks);
 
 	if (emuctx->DebuggerEnabled)
 		decoder_init();

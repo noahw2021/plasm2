@@ -167,6 +167,12 @@
     <ClCompile Include="psin2\psin2_parse.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devices\fdisk\fdisk_collect.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\fdisk\fdisk_init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

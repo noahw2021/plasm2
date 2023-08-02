@@ -15,6 +15,7 @@ void fdisk_init(void);
 void fdisk_shutdown(void);
 void fdisk_clock(void);
 void fdisk_collect(void);
+BOOL fdisk_register(const char* DiskFile);
 
 u64  fdisk_statusquery(u32 Device);
 void fdisk_sendcommand(u32 Device, u64 Command);
