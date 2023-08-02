@@ -48,6 +48,9 @@
     <ClInclude Include="devices\fdisk\fdisk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tools\tools.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
@@ -177,6 +180,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="devices\fdisk\fdisk_native.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\tools_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\tools_hddgen.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
