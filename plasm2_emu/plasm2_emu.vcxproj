@@ -152,6 +152,7 @@
     <ClInclude Include="cpu\mmu\mmu.h" />
     <ClInclude Include="decoder\decoder.h" />
     <ClInclude Include="devices\devices.h" />
+    <ClInclude Include="devices\fdisk\fdisk.h" />
     <ClInclude Include="devices\kb\kb.h" />
     <ClInclude Include="devices\video\video.h" />
     <ClInclude Include="emu.h" />
