@@ -85,7 +85,10 @@ int main(int argc, char** argv) {
 	devices_collect();
 
 	for (int i = 0; i < FixedDiskCount; i++) {
-		fdisk_register(FixedDisks[i]);
+		if (!fdisk_register(FixedDisks[i])) {
+			printf("[ERR]: Failed to open fixed disk '%s'!\n", FixedDisks[i]);
+			emu_register_fatal("Could not obtain drive.");
+		}
 		free(FixedDisks[i]);
 	}
 	if (FixedDisks)
