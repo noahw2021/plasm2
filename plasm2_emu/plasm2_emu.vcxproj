@@ -185,6 +185,7 @@
     <ClCompile Include="devices\devices_handlers.c" />
     <ClCompile Include="devices\devices_init.c" />
     <ClCompile Include="devices\fdisk\fdisk_collect.c" />
+    <ClCompile Include="devices\fdisk\fdisk_handlers.c" />
     <ClCompile Include="devices\fdisk\fdisk_init.c" />
     <ClCompile Include="devices\kb\kb_collect.c" />
     <ClCompile Include="devices\kb\kb_handlers.c" />

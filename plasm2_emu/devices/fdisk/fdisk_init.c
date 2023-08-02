@@ -15,6 +15,8 @@ fdiskctx_t* fdiskctx;
 void fdisk_init(void) {
 	fdiskctx = malloc(sizeof(fdiskctx_t));
 	memset(fdiskctx, 0, sizeof(fdiskctx_t));
+
+	fdiskctx->CurrentStatus = DEVSTATUS_GOOD;
 }
 
 void fdisk_shutdown(void) {

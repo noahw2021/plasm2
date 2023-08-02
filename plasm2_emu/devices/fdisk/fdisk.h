@@ -41,6 +41,7 @@ typedef struct _fdiskhdr {
 
 typedef struct _fdiskctx {
 	int DriveCount;
+	int CurrentDrive;
 	struct {
 		BOOL IsDriveAwake;
 		BOOL IsDriveActive;
@@ -60,6 +61,12 @@ typedef struct _fdiskctx {
 		u64 CurrentFilePointer;
 		u64 SpeculativeSeek;
 	}*Drives;
+
+	u64 OutgoingData;
+	byte RecvData;
+	byte CurrentCommand;
+	byte ExpectingData;
+	u32 CurrentStatus;
 }fdiskctx_t;
 extern fdiskctx_t* fdiskctx;
 
@@ -87,22 +94,22 @@ commands:
 12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
 */
 
-void kbi_setactivedrive(int DriveId);
-int  kbi_getdrivecnt(void);
-void kbi_drivesleep(int DriveId);
-void kbi_driveawake(int DriveId);
-u64  kbi_getdrivesize(int DriveId);
-BOOL kbi_isdriveready(int DriveId);
-u64  kbi_driveread(int DriveId);
-void kbi_drivewrite(int DriveId, u64 Data);
-u64  kbi_drivegetserial(int DriveId);
-void kbi_drivegetvendorsz(int DriveId, u64 Pointer);
-u64  kbi_drivegetmodel(int DriveId);
-u64  kbi_drivegetvendorid(int DriveId);
-void kbi_farseek(int DriveId, u64 SpecPos);
-void kbi_skipfpinc(int DriveId);
-void kbi_fpincon(int DriveId);
-void kbi_fpincoff(int DriveId);
-void kbi_driveseek(int DriveId, u64 NewPos);
-u64  kbi_drivereadstack(int DriveId);
-void kbi_drivewritestack(int DriveId, u64 Data);
+void fdiski_setactivedrive(int DriveId);
+int  fdiski_getdrivecnt(void);
+void fdiski_drivesleep(int DriveId);
+void fdiski_driveawake(int DriveId);
+u64  fdiski_getdrivesize(int DriveId);
+BOOL fdiski_isdriveready(int DriveId);
+u64  fdiski_driveread(int DriveId);
+void fdiski_drivewrite(int DriveId, u64 Data);
+u64  fdiski_drivegetserial(int DriveId);
+void fdiski_drivegetvendorsz(int DriveId, u64 Pointer);
+u64  fdiski_drivegetmodel(int DriveId);
+u64  fdiski_drivegetvendorid(int DriveId);
+void fdiski_farseek(int DriveId, u64 SpecPos);
+void fdiski_skipfpinc(int DriveId);
+void fdiski_fpincon(int DriveId);
+void fdiski_fpincoff(int DriveId);
+void fdiski_driveseek(int DriveId, u64 NewPos);
+u64  fdiski_drivereadstack(int DriveId);
+void fdiski_drivewritestack(int DriveId, u64 Data);
