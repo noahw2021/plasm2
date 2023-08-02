@@ -5,6 +5,7 @@
 // specific devices
 #include "kb/kb.h"
 #include "video/video.h"
+#include "fdisk/fdisk.h"
 
 /*
 devices_collect.c
@@ -16,6 +17,7 @@ plasm2_emu
 void devices_collect(void) {
 	video_collect();
 	kb_collect();
+	fdisk_collect();
 
 	return;
 }

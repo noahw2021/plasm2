@@ -2,6 +2,7 @@
 #include "../cpu/cpu.h"
 #include "kb/kb.h"
 #include "video/video.h"
+#include "fdisk/fdisk.h"
 #include <string.h>
 #include <stdlib.h>
 /*
@@ -21,6 +22,7 @@ void devices_init(void) {
 
 	kb_init();
 	video_init();
+	fdisk_init();
 }
 void devices_shutdown(void) {
 	kb_shutdown();
