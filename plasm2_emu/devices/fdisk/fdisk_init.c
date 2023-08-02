@@ -1,4 +1,5 @@
 #include "fdisk.h"
+#include "../cpu/cpu.h"
 #include <stdlib.h>
 #include <string.h>
 /*
@@ -59,16 +60,8 @@ BOOL fdisk_register(const char* DiskFile) {
 	}
 
 	fseek(Tfp, 0, SEEK_END);
-	u64 FileSize;
-#ifdef _WIN32
-	FileSize = _ftelli64(Tfp);
-#elif __linux__
-#error Please test this
-	FileSize = ftello(Tfp);
-#else
-#error Please test this
-	FileSize = ftell(Tfp);
-#endif
+	u64 FileSize = pftell(Tfp);
+	FileSize -= sizeof(fdiskhdr_t);
 
 	if (FileSize != PotHeader->ExpectedPhysicalSize) {
 		free(PotHeader);
@@ -94,4 +87,22 @@ BOOL fdisk_register(const char* DiskFile) {
 	fdiskctx->DriveCount++;
 
 	return;
+}
+
+void fdisk_clock(void) {
+	int OldestPair = 0;
+	u64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
+	for (int i = 0; i < fdiskctx->DriveCount; i++) {
+		if (fdiskctx->Drives[i].NextChunkScan > cput_gettime())
+			continue;
+		for (int c = 0; c < 4; c++) {
+			if (fdiskctx->Drives[i].LoadedChunkCpuTick[c] < OldestChunk) {
+				OldestChunk = fdiskctx->Drives[i].LoadedChunkCpuTick[c];
+				OldestPair = c;
+			}
+		}
+		fdiskctx->Drives[i].OldestChunk = OldestPair;
+	}
+
+	// write cache
 }

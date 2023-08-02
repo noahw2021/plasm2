@@ -9,6 +9,17 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
+#ifdef _WIN32
+#define pfseek _fseeki64
+#define pftell _ftelli64
+#elif __linux__
+#define pfseek fseeko
+#define pftell ftello
+#else
+#define pfseek fseek
+#define pftell ftell
+#endif
+
 // Fixed Disk Controller
 
 void fdisk_init(void);
@@ -24,6 +35,9 @@ u64  fdisk_getdata(u32 Device);
 void fdisk_reset(u32 Device);
 void fdisk_off(u32 Device);
 void fdisk_on(u32 Device);
+
+#define FDISK_CACHE_TOTAL 1048576
+#define FDISK_CACHE_CHUNK FDISK_CACHE_TOTAL / 4
 
 #define FDISKHDR_MAGIC 'PLFD'
 typedef struct _fdiskhdr {
@@ -52,6 +66,8 @@ typedef struct _fdiskctx {
 		u32 LoadedChunkSize[4];
 		u64 LoadedChunkBaseAddr[4];
 		u64 LoadedChunkCpuTick[4];
+		int OldestChunk;
+		u64 NextChunkScan;
 
 		char DeviceVendor[16];
 		u64 DeviceSerial;
@@ -60,6 +76,8 @@ typedef struct _fdiskctx {
 
 		u64 CurrentFilePointer;
 		u64 SpeculativeSeek;
+		byte DisableInc;
+		byte SkipInc;
 	}*Drives;
 
 	u64 OutgoingData;

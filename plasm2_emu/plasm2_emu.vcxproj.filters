@@ -176,6 +176,9 @@
     <ClCompile Include="devices\fdisk\fdisk_handlers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devices\fdisk\fdisk_native.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
