@@ -104,6 +104,6 @@ void video_on(u32 Device) {
 	return;
 }
 
-void videof_clock(void) { 
+void video_clock(void) { 
 	return;
 }

@@ -12,10 +12,6 @@ void video_shutdown(void);
 void video_collect(void);
 void video_clock(void);
 
-void videof_init(void);
-void videof_clock(void);
-void videof_shutdown(void);
-
 u64  video_statusquery(u32 Device);
 void video_sendcommand(u32 Device, u64 Command);
 void video_senddata(u32 Device, u64 Command);

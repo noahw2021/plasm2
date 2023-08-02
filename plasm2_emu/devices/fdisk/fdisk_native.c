@@ -281,4 +281,6 @@ void fdiski_drivewritestack(int DriveId, u64 Data) {
 	fdiskctx->Drives[DriveId].CurrentFilePointer = mmu_pop();
 	fdiski_drivewrite(DriveId, Data);
 	fdiskctx->Drives[DriveId].CurrentFilePointer = CFPBackup;
+
+	return;
 }

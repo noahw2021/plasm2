@@ -4,7 +4,6 @@
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
-#include <SDL_ttf.h>
 
 /*
 video_init.c
@@ -36,8 +35,6 @@ void video_init(void) {
 	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
 	LoopThread = SDL_CreateThread(videoii_loop, "Plasm2EmuSDLLoop", NULL);
 
-	videof_init();
-
 	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard VSA");
 	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Display Adapter");
 	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
@@ -58,7 +55,6 @@ void video_init(void) {
 }
 
 void video_shutdown(void) {
-	videof_shutdown();
 	PauseDrawing = 1;
 	SDL_DestroyRenderer(Renderer); 
 	SDL_DestroyWindow(Window);
