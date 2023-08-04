@@ -26,10 +26,6 @@ void sdbg_reset(u64 Device);
 void sdbg_off(u64 Device);
 void sdbg_on(u64 Device);
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
-
 typedef struct _sdbgctx {
 	char* CollectionBufferOut, *CollectionBufferIn;
 	u64 CollectionSizeOut, CollectionSizeIn;
@@ -43,11 +39,6 @@ typedef struct _sdbgctx {
 	byte Active;
 	byte AwaitingData;
 	u64 LastCommand;
-
-#ifdef _WIN32
-	HANDLE SecondProcess;
-	HANDLE DebugPipe;
-#endif
 }sdbgctx_t;
 extern sdbgctx_t* sdbgctx;
 

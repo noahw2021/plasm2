@@ -12,59 +12,10 @@ plasm2_emu
 
 sdbgctx_t* sdbgctx;
 
-#ifdef _WIN32
-#include <Windows.h>
-#endif
 
 void sdbg_init(void) {
 	sdbgctx = malloc(sizeof(sdbgctx_t));
 	memset(sdbgctx, 0, sizeof(sdbgctx_t));
-
-#ifdef _WIN32
-	HANDLE OutPipe = CreateNamedPipeW(
-		L"\\\\.\\pipe\\Plasm2Pipe",
-		PIPE_ACCESS_OUTBOUND,
-		PIPE_TYPE_MESSAGE,
-		PIPE_READMODE_BYTE,
-		PIPE_WAIT,
-		1,
-		256 * sizeof(wchar_t),
-		0,
-		1,
-		NULL
-	);
-
-	STARTUPINFOW StartupInfo;
-	PROCESS_INFORMATION ProcessInfo;
-	HANDLE SecondConsole = CreateProcessW(
-		L"Plasm2Helper", 
-		L"plasm2_dbgclient.exe", 
-		NULL, 
-		NULL, 
-		TRUE, 
-		CREATE_NEW_CONSOLE, 
-		NULL, 
-		NULL, 
-		&StartupInfo, 
-		&ProcessInfo
-	);
-
-	BOOLEAN CnntStatus = ConnectNamedPipe(OutPipe, NULL);
-	if (!CnntStatus) {
-		TerminateProcess(SecondConsole, FALSE);
-		CloseHandle(OutPipe);
-		emu_register_fatal("Failed to open 2nd console pipe.");
-		return;
-	}
-
-	LPCSTR OutgoingMessage = "PLASM2 Connection Successful.\n";
-	BYTE OutgoingMsgLength = strlen(OutgoingMessage);
-	WriteFile(OutPipe, &OutgoingMsgLength, 1, NULL, NULL);
-	WriteFile(OutPipe, OutgoingMessage, 31, NULL, NULL);
-
-	sdbgctx->SecondProcess = SecondConsole;
-	sdbgctx->DebugPipe = OutPipe;
-#endif
 
 	sdbgctx->CollectionBufferIn = malloc(sizeof(char) * 256);
 	sdbgctx->CollectionBufferOut = malloc(sizeof(char) * 256);
@@ -75,23 +26,13 @@ void sdbg_init(void) {
 }
 
 void sdbg_shutdown(void) {
-#ifdef _WIN32
-	TerminateProcess(sdbgctx->SecondProcess, FALSE);
-	CloseHandle(sdbgctx->DebugPipe);
-#endif
-
 	free(sdbgctx);
 }
 
 void sdbg_clock(void) {
 	if (sdbgctx->LastSend > cput_gettime()) {
 		if (sdbgctx->ReadyOut) {
-#ifdef _WIN32
-			WriteFile(sdbgctx->DebugPipe, sdbgctx->CollectionSizeOut, 1, NULL, NULL);
-			WriteFile(sdbgctx->DebugPipe, sdbgctx->CollectionBufferOut, sdbgctx->CollectionSizeOut, NULL, NULL);
-#else
-			wprintf("%ws", sdbgctx->CollectionBufferOut);
-#endif
+			printf("%s", sdbgctx->CollectionBufferOut);
 			sdbgctx->ReadyOut = 0;
 		}
 	}
