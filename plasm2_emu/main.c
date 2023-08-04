@@ -10,6 +10,7 @@
 #include "devices/fdisk/fdisk.h"
 #include "psin2/psin2.h"
 #include "decoder/decoder.h"
+#include "tools/tools.h"
 
 #pragma warning(disable: 6308 6387 26451 28182)
 
@@ -46,10 +47,19 @@ int main(int argc, char** argv) {
 			emuctx->DebuggerEnabled = 1;
 		}
 		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
+			printf("PLASM2Emu: Help & Usage\n\n");
+			
+			printf("General Switches: \n\n");
+			printf("%s -f=drive.pff : Mounts a fixed disk. Allows multiple.\n", argv[0]);
+			
+			printf("Alt Function Switches: \n\n");
+			printf("%s -t | --tools : Loads PLASM2Emu toolkit.\n", argv[0]);
+
+			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
-			printf("\nBy default, PLASM emulator accepts a properly formed 'bios.bin'.\n");
-
+			
+			printf("\nBy default, PLASM2Emu accepts a properly formed 'bios.bin'.\n");
 			return 0;
 		}
 		if (strstr(argv[i], "-f=")) {
@@ -61,6 +71,10 @@ int main(int argc, char** argv) {
 			FixedDisks[FixedDiskCount] = malloc(strlen(argv[i]) + 1);
 			strcpy(FixedDisks[FixedDiskCount], argv[i] + 3);
 			FixedDiskCount++;
+		}
+		if (strstr(argv[i], "-t") || strstr(argv[i], "--tools")) {
+			tools_main();
+			return 0;
 		}
 	}
 	
