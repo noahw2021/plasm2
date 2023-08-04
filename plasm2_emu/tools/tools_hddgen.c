@@ -15,10 +15,13 @@ plasm2_emu
 
 void toolsi_hddgen(void) {
 	printf("HDD File Generator: \n");
-	printf("\tOutput file name: ");
-
+	printf(" Output file name: ");
+	
+	fgetc(stdin);
 	char* InputFileName = malloc(240);
-	scanf("%s", InputFileName);
+	fgets(InputFileName, 240, stdin);
+	if (strstr(InputFileName, "\n"))
+		strstr(InputFileName, "\n")[0] = 0x00;
 
 	FILE* AttemptedFile = fopen(InputFileName, "wb");
 	if (!AttemptedFile) {
@@ -27,29 +30,30 @@ void toolsi_hddgen(void) {
 		return;
 	}
 
-	char YNInput;
-	printf("\tWould you like to mount a binary file in the disk? [Y/N]: ");
-	scanf("%c", &YNInput);
+	printf(" Would you like to mount a binary file in the disk? [Y/N]: ");
+	char YNInput = fgetc(stdin);
+	fgetc(stdin); // absorb said newline
+	
 
 	u32 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
 	void* AttemptedBuffer = NULL;
 	if ((YNInput & ~(0x20)) == 'Y') {
-		printf("Please enter the path: ");
-		scanf("%s", InputFileName);
+		printf("  Please enter the path: ");
+		fgets(InputFileName, 239, stdin);
 
 		FILE* AttemptedMount = fopen(InputFileName, "rb");
 		if (!AttemptedMount) {
-			printf("Failed to open the file.\n");
+			printf("  Failed to open the file.\n");
 			free(InputFileName);
 			fclose(AttemptedFile);
 			return;
 		}
 
 	GoBackHere:
-		printf("Where would you like to mount this file?: 0x");
-		scanf("%ulX", &WhereToMount);
+		printf("  Where would you like to mount this file?: 0x");
+		scanf("%ulX ", &WhereToMount);
 		if (WhereToMount == 0xFFFFFFFF) {
-			printf("Please choose a different mounting point.\n"); // this is dumb but whatever
+			printf("  Please choose a different mounting point.\n"); // this is dumb but whatever
 			goto GoBackHere;
 		}
 
@@ -64,36 +68,74 @@ void toolsi_hddgen(void) {
 	}
 
 	u64 WantedSize;
+	char* TempBfr = malloc(32);
 SizeTryAgain:
-	printf("How large would you like the drive in bytes?: ");
-	scanf("%llu", &WantedSize);
+	printf(" How large would you like the drive in bytes?: ");
+	fgets(TempBfr, 31, stdin);
+	WantedSize = strtoull(TempBfr, NULL, 10);
 	if (WhereToMount != 0xFFFFFFFF) {
 		if (WantedSize < (WhereToMount + DestinedSize)) {
-			printf("Invalid drive size. Drive must be able to at least the given map.\n");
+			printf(" Invalid drive size. Drive must be able to at least the given map.\n");
 			goto SizeTryAgain;
 		}
 	}
+	free(TempBfr);
 
-	byte* Zeros = malloc(1024);
-	memset(Zeros, 0, 1024);
-	for (int i = 0; i < (WantedSize / 1024); i++) {
-		fseek(AttemptedFile, (i * 1024) + sizeof(fdiskhdr_t), SEEK_SET);
-		fwrite(Zeros, 1024, 1, AttemptedFile);
+	u32 LBreak = 0x00;
+	if (WantedSize == DestinedSize) {
+		LBreak = WantedSize;
+	} else {
+		if (WhereToMount != 0xFFFFFFFF) {
+			byte* Zeros = malloc(1024);
+			memset(Zeros, 0, 1024);
+			for (int i = 0; i < (WantedSize / 1024); i++) {
+				fseek(AttemptedFile, (i * 1024) + sizeof(fdiskhdr_t), SEEK_SET);
+				fwrite(Zeros, 1024, 1, AttemptedFile);
+				if ((i * 1024) > WhereToMount) {
+					LBreak = (i * 1024);
+					break;
+				}
+			}
+
+			if (!LBreak) {
+				Zeros = realloc(Zeros, WantedSize % 1024);
+				fseek(AttemptedFile, sizeof(fdiskhdr_t) + (WantedSize / 1024), SEEK_SET);
+				if (Zeros) {
+					fwrite(Zeros, WantedSize % 1024, 1, AttemptedFile);
+					free(Zeros);
+				}
+			} // shouldnt ever happen
+
+			fseek(AttemptedFile, WhereToMount + sizeof(fdiskhdr_t), SEEK_SET);
+			fwrite(AttemptedBuffer, DestinedSize, 1, AttemptedFile);
+			free(AttemptedBuffer);
+		}
 	}
 
-	Zeros = realloc(Zeros, WantedSize % 1024);
-	fseek(AttemptedFile, (WantedSize / 1024), SEEK_SET);
-	fwrite(Zeros, WantedSize % 1024, 1, AttemptedFile);
-	free(Zeros);
-
-	if (WhereToMount != 0xFFFFFFFF) {
-		fseek(AttemptedFile, WhereToMount + sizeof(fdiskhdr_t), SEEK_SET);
-		fwrite(AttemptedBuffer, DestinedSize, 1, AttemptedFile);
-		free(AttemptedBuffer);
-	}
 
 	free(InputFileName);
+	
+	fdiskhdr_t* FdHdr = malloc(sizeof(fdiskhdr_t));
+	memset(FdHdr, 0, sizeof(fdiskhdr_t));
+	
+	FdHdr->Magic = FDISKHDR_MAGIC;
+	srand(time(NULL));
+	FdHdr->DeviceSerial = rand();
+	FdHdr->DeviceVendorId = 0x4273;
+	strcpy(FdHdr->DeviceVendor, "PLASM2 HDDGnr8r");
+	FdHdr->PartsSum = FdHdr->DeviceSerial + FdHdr->DeviceVendorId;
+	for (int i = 0; i < 16; i++)
+		FdHdr->PartsSum += FdHdr->DeviceVendor[i];
+	FdHdr->DriveVirtualSize = WantedSize;
+	if (LBreak)
+		FdHdr->ExpectedPhysicalSize = LBreak + sizeof(fdiskhdr_t);
+	else
+		FdHdr->ExpectedPhysicalSize = sizeof(fdiskhdr_t);
 
-	printf("Successfully wrote HDD file.\n");
+	fwrite(FdHdr, sizeof(fdiskhdr_t), 1, AttemptedFile);
+	fclose(AttemptedFile);
+	free(FdHdr);
+
+	printf(" Successfully wrote HDD file.\n");
 	return;
 }
