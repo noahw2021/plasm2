@@ -10,7 +10,7 @@ plasm2_emu
 */
 
 byte mmu_read1(u64 Address) {
-	byte* PhysicalMemory = (byte*)(cpuctx->PhysicalMemory);
+	byte* PhysicalMemory = (byte*)(cpuctx->PhysicalMemory); // PM usage good (reason: comes from trust)
 	if (Address > PHYS_MEMSZ)
 		i->flags_s.XF = 1;
 	else

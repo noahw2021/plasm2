@@ -1,6 +1,7 @@
 #include "../devices.h"
 #include "../kb/kb.h"
 #include "../../cpu/cpu.h"
+#include "../../cpu/mmu/mmu.h"
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
@@ -14,6 +15,8 @@ plasm2_emu
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
 extern byte PauseDrawing;
+
+#pragma warning(disable: 26451)
 
 #define R(x) (x & 0xFF000000) >> 24
 #define G(x) (x & 0x00FF0000) >> 16
@@ -68,7 +71,13 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	PauseDrawing = 1;
 	SDL_Surface* Surface = SDL_CreateRGBSurface(0, w, h, 8, 0, 0, 0, 0);
-	memcpy(Surface->pixels, (void*)((byte*)cpuctx->PhysicalMemory + ptr), w * h * 4);
+	if (mmu_maxaddr(ptr, REASON_READ) < (w * h * 4)) {
+		PauseDrawing = 0;
+		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
+		return;
+	}
+
+	memcpy(Surface->pixels, (void*)((byte*)(cpuctx->PhysicalMemory + mmu_translate(ptr, REASON_READ)), w * h * 4); // pm usage good (reason: sanity check)
 	SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_FreeSurface(Surface);
 	SDL_Rect DestRect = { x, y, w, h };

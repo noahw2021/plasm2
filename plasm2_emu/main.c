@@ -93,6 +93,7 @@ int main(int argc, char** argv) {
 		printf("[ERR]: Failed to open BIOS!\n");
 		return -1;
 	}
+	// pm usage good (reason: internal use only)
 	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
 
 	devices_init();

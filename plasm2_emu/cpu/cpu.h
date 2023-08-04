@@ -15,6 +15,7 @@ plasm2_emu
 // Critical System Malfunctions
 #define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)
 #define CSM_PTFAILNOTSIZE 0x02 // Page table fail not big enough
+#define CSM_PAGETOOSMALL  0x03 // Trying to read too much from a page
 
 // System Rings (i->security_s.SecurityLevel), 0-31
 /*

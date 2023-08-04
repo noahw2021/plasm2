@@ -11,9 +11,11 @@ plasm2_emu
 void sdbg_send(void) {
 	memset(sdbgctx->CollectionBufferOut, 0, 256);
 	
-	byte* RealPointer = (byte*)cpuctx->PhysicalMemory + mmu_translate(sdbgctx->VirtualPointer, REASON_READ);
-	if (sdbgctx->VirtualSize > mmu_maxaddr(sdbgctx->VirtualSize, REASON_READ))
+	byte* RealPointer = (byte*)cpuctx->PhysicalMemory + mmu_translate(sdbgctx->VirtualPointer, REASON_READ); // PM usage good (reason: sanity check)
+	if (sdbgctx->VirtualSize > mmu_maxaddr(sdbgctx->VirtualSize, REASON_READ)) {
+		cpui_csm_msg(CSM_PAGETOOSMALL, sdbgctx->VirtualPointer);
 		return;
+	}
 	memcpy(sdbgctx->CollectionBufferOut, RealPointer, sdbgctx->VirtualSize);
 
 	sdbgctx->Active = 1;
