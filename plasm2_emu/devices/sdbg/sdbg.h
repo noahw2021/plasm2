@@ -26,28 +26,30 @@ void sdbg_reset(u32 Device);
 void sdbg_off(u32 Device);
 void sdbg_on(u32 Device);
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 typedef struct _sdbgctx {
 	char* CollectionBufferOut, *CollectionBufferIn;
 	u32 CollectionSizeOut, CollectionSizeIn;
+	byte ReadyOut, ReadyIn;
+
+	u64 LastSend;
+
+#ifdef _WIN32
+	HANDLE SecondProcess;
+	HANDLE DebugPipe;
+#endif
 }sdbgctx_t;
 extern sdbgctx_t* sdbgctx;
 
 /*
-00 AddToCollection
-01 Send
-02 SetRecievePtr
-03 SetRecieveBfrSize
-04 Recieve
-05 SetRecieveHandler
-06 DisableRecieveHandler
-07 EnableRecieveHandler
+00 Send
+01 SetSendLoc
+02 SetSendSz
 */
 
-void sdbg_collect(u64 Data);
 void sdbg_send(void);
-void sdbg_setrecvptr(u64 Data);
-void sdbg_setbfrsize(u32 MaxBufferSize);
-void sdbg_recv(void);
-void sdbg_setrecvhndlr(u64 Address);
-void sdbg_recvhon(void);
-void sdbg_recvhoff(void);
+void sdbg_setsendloc(u64 Location);
+void sdbg_setsendsz(u64 Size);
