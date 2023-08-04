@@ -18,7 +18,7 @@ void devices_init(void) {
 	memset(devicesctx, 0, sizeof(devicesctx_t));
 	
 	devicesctx->DeviceCount = 0;
-	devicesctx->Devices = cpuctx->PhysicalMemory;
+	devicesctx->Devices = cpuctx->PhysicalMemory + 0x00; // PM usage good: (reason: internal usage only)
 
 	kb_init();
 	video_init();
