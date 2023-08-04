@@ -53,7 +53,7 @@ void video_sendcommand(u64 Device, u64 Command) {
 void video_senddata(u64 Device, u64 Data) {
 	if (!videoctx->AwaitingData)
 		return;
-	u64 Color;
+	u32 color;
 	switch (videoctx->DestinationCommand) {
 	case 0x01:
 		videoi_settextbuffer(Data);

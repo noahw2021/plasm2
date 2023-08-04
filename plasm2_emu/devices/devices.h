@@ -50,7 +50,7 @@ typedef struct _devicesctx {
 		u64 DeviceSerial;
 		u64(*Callbacks[7])(u32 DeviceId, u64 Argument);
 		union {
-			u64 FlagsRaw;
+			u32 FlagsRaw;
 			struct {
 				byte Active : 1;
 				byte On : 1;

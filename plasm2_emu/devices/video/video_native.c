@@ -31,7 +31,7 @@ void videoi_settextbuffer(u64 NewOffset) {
 	return; // deprecated
 }
 
-void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u64 color) {
+void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_RenderDrawLine(Renderer, x1, y1, x2, y2);
@@ -40,7 +40,7 @@ void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u64 color) {
 	return;
 }
 
-void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u64 color) {
+void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;
@@ -54,7 +54,7 @@ void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u64 color) {
 	return;
 }
 
-void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u64 color) {
+void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;

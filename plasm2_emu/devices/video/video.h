@@ -43,9 +43,9 @@ SuggestWh     07 : Suggest a width (hi32) and height (lo32)
 
 u64 videoi_gettextbuffer(void); // deprecated
 void videoi_settextbuffer(u64 NewOffset); // deprecated
-void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u64 color); // color pulled from stack
-void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u64 color);     // ^
-void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u64 color);     // ^
+void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color); // color pulled from stack
+void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
+void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from stack. size = (w * h * 4)
 u64  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);

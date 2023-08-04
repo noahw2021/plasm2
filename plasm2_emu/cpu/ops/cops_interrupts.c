@@ -50,7 +50,7 @@ void IRT(void) {
 	union {
 		u64 Raw;
 		struct {
-			u64 Flags;
+			u32 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
