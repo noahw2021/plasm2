@@ -104,7 +104,7 @@ typedef struct _cpuctx {
 	u64 LastClockTime;
 	time_t SystemBoot; // silly and quick 'timer'
 
-	void* PhysicalMemory;
+	void* PhysicalMemory; // PM usage good
 	u64 PhysicalMemorySize;
 }cpuctx_t;
 extern cpuctx_t* cpuctx;

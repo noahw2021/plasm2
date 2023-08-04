@@ -66,8 +66,9 @@ void cpui_inst_ret(void) {
 	i->ip = mmu_pop();
 	return;
 }
+
 void cpui_inst_int(byte Interrupt) {
-	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it);
+	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
 	u64 VirtualAddress = InterruptTable[Interrupt];
 	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
 	byte BackupLevel = i->security_s.SecurityLevel;

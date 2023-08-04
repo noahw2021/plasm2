@@ -19,8 +19,8 @@ void mmu_init(void) {
 	memset(mmuctx, 0, sizeof(mmuctx_t));
 
 	cpuctx->PhysicalMemorySize = PHYS_MEMSZ;
-	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize);
-	memset(cpuctx->PhysicalMemory, 0, PHYS_MEMSZ);
+	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize); // PM usage good (reason: internal use only)
+	memset(cpuctx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
 
 	i->sp = 0x3A0;
 
@@ -28,6 +28,6 @@ void mmu_init(void) {
 }
 
 void mmu_shutdown(void) {
-	free(cpuctx->PhysicalMemory);
+	free(cpuctx->PhysicalMemory); // PM usage good (reason: internal use only)
 	free(mmuctx);
 }
