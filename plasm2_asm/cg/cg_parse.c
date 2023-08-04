@@ -90,6 +90,9 @@ void cg_parse(const char* Line) {
 			while (cgctx->DataPosition < Usage)
 				cgp_put1('\0');
 			break;
+		case 'r': // set the current reference (location in memory)
+			cgctx->ReferencePtr = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			break;
 		case 's': // string
 			Usage = 1;
 			while (FollowString[Usage] != '"')
@@ -170,7 +173,7 @@ void cg_parse(const char* Line) {
 				cge_error(cgctx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
 				goto ExitThis;
 			}
-			(char*)OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
+			*(char*)OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
 			if (psin2i_getphyssize(Psin, o) == 4) {
 				OperandSingleByte |= *OperandPhysPtrs[o] << (4 * (1 - o));
 				OperandPtrSizes[o] = 4;
@@ -180,6 +183,7 @@ void cg_parse(const char* Line) {
 		} else {
 			OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
 			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
+			*OperandNamePtrs[0] += cgctx->ReferencePtr;
 		}
 	}
 
