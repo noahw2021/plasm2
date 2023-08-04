@@ -6,7 +6,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64  sdbg_statusquery(u32 Device) {
+u64  sdbg_statusquery(u64 Device) {
 	return sdbgctx->DeviceStatus;
 }
 /*
@@ -14,7 +14,7 @@ u64  sdbg_statusquery(u32 Device) {
 01 SetSendLoc
 02 SetSendSz
 */
-void sdbg_sendcommand(u32 Device, u64 Command) {
+void sdbg_sendcommand(u64 Device, u64 Command) {
 	switch (Command) {
 	case 0x00: // Send
 		sdbg_send();
@@ -27,7 +27,7 @@ void sdbg_sendcommand(u32 Device, u64 Command) {
 	}
 }
 
-void sdbg_senddata(u32 Device, u64 Command) {
+void sdbg_senddata(u64 Device, u64 Command) {
 	switch (sdbgctx->LastCommand) {
 	case 0x01:
 		sdbg_setsendloc(Command);
@@ -39,20 +39,20 @@ void sdbg_senddata(u32 Device, u64 Command) {
 	return 0;
 }
 
-u64  sdbg_getdata(u32 Device) {
+u64  sdbg_getdata(u64 Device) {
 	return 0;
 }
 
-void sdbg_reset(u32 Device) {
+void sdbg_reset(u64 Device) {
 	return;
 }
 
-void sdbg_off(u32 Device) {
+void sdbg_off(u64 Device) {
 	sdbgctx->Active = 0;
 	return;
 }
 
-void sdbg_on(u32 Device) {
+void sdbg_on(u64 Device) {
 	sdbgctx->Active = 1;
 	return;
 }

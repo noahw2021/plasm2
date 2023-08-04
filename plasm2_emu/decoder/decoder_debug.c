@@ -46,7 +46,7 @@ void decoder_go(byte Instruction) {
 	_bool TwoArgsOneByte = TRUE;
 	_bool IsOperandRegister[2] = { FALSE, FALSE };
 	u64  OperandValues[2] = { 0, 0 };
-	u32  ActiveOperandSize;
+	u64  ActiveOperandSize;
 	byte OperandCnt = 0;
 
 	for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {

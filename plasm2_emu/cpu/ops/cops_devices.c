@@ -55,19 +55,19 @@ void DGD(void) {
 }
 
 void DRS(void) {
-	u32 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	u64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
 	devicesi_reset(Device);
 	return;
 }
 
 void DPE(void) {
-	u32 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	u64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
 	devicesi_on(Device);
 	return;
 }
 
 void DPD(void) {
-	u32 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	u64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
 	devicesi_off(Device);
 	return;
 }

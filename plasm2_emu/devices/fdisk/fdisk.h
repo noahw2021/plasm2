@@ -28,20 +28,20 @@ void fdisk_clock(void);
 void fdisk_collect(void);
 _bool fdisk_register(const char* DiskFile);
 
-u64  fdisk_statusquery(u32 Device);
-void fdisk_sendcommand(u32 Device, u64 Command);
-void fdisk_senddata(u32 Device, u64 Command);
-u64  fdisk_getdata(u32 Device);
-void fdisk_reset(u32 Device);
-void fdisk_off(u32 Device);
-void fdisk_on(u32 Device);
+u64  fdisk_statusquery(u64 Device);
+void fdisk_sendcommand(u64 Device, u64 Command);
+void fdisk_senddata(u64 Device, u64 Command);
+u64  fdisk_getdata(u64 Device);
+void fdisk_reset(u64 Device);
+void fdisk_off(u64 Device);
+void fdisk_on(u64 Device);
 
 #define FDISK_CACHE_TOTAL 1048576
 #define FDISK_CACHE_CHUNK FDISK_CACHE_TOTAL / 4
 
 #define FDISKHDR_MAGIC 'PLFD'
 typedef struct _fdiskhdr {
-	u32 Magic;
+	u64 Magic;
 
 	u64 DriveVirtualSize;
 	u64 ExpectedPhysicalSize;
@@ -63,7 +63,7 @@ typedef struct _fdiskctx {
 		FILE* DrivePhysicalPointer;
 		u64 DrivePhysicalSize;
 		void* CurrentLoadedChunks[4];
-		u32 LoadedChunkSize[4];
+		u64 LoadedChunkSize[4];
 		u64 LoadedChunkBaseAddr[4];
 		u64 LoadedChunkCpuTick[4];
 		int OldestChunk;
@@ -84,7 +84,7 @@ typedef struct _fdiskctx {
 	byte RecvData;
 	byte CurrentCommand;
 	byte ExpectingData;
-	u32 CurrentStatus;
+	u64 CurrentStatus;
 }fdiskctx_t;
 extern fdiskctx_t* fdiskctx;
 

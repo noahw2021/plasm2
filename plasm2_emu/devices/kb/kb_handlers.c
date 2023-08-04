@@ -9,11 +9,11 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64  kb_statusquery(u32 Device) {
+u64  kb_statusquery(u64 Device) {
 	return kbctx->Status;
 }
 
-void kb_sendcommand(u32 Device, u64 Command) {
+void kb_sendcommand(u64 Device, u64 Command) {
 	switch (Command) {
 	case 0x00: // needs data block
 	case 0x01:
@@ -32,7 +32,7 @@ void kb_sendcommand(u32 Device, u64 Command) {
 	return;
 }
 
-void kb_senddata(u32 Device, u64 Data) {
+void kb_senddata(u64 Device, u64 Data) {
 	if (kbctx->AwaitingData) {
 		if (kbctx->AwaitingCommand == 0x00)
 			kbi_setkeydownint(Data);
@@ -44,7 +44,7 @@ void kb_senddata(u32 Device, u64 Data) {
 	kbctx->Status = DEVSTATUS_GOOD;
 }
 
-u64  kb_getdata(u32 Device) {
+u64  kb_getdata(u64 Device) {
 	if (kbctx->DataQueued) {
 		kbctx->DataQueued = 0;
 		return kbctx->OutputQueue;
@@ -52,18 +52,18 @@ u64  kb_getdata(u32 Device) {
 	return 0;
 }
 
-void kb_reset(u32 Device) {
+void kb_reset(u64 Device) {
 	for (int i = 0; i < 4; i++)
 		KeysDown[i] = 0;
 	return;
 }
 
-void kb_off(u32 Device) {
+void kb_off(u64 Device) {
 	kbctx->HoldUp = 1;
 	return;
 }
 
-void kb_on(u32 Device) {
+void kb_on(u64 Device) {
 	kbctx->HoldUp = 0;
 	return;
 }

@@ -35,7 +35,7 @@ void toolsi_hddgen(void) {
 	fgetc(stdin); // absorb said newline
 	
 
-	u32 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
+	u64 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
 	void* AttemptedBuffer = NULL;
 	if ((YNInput & ~(0x20)) == 'Y') {
 		printf("  Please enter the path: ");
@@ -81,7 +81,7 @@ SizeTryAgain:
 	}
 	free(TempBfr);
 
-	u32 LBreak = 0x00;
+	u64 LBreak = 0x00;
 	if (WantedSize == DestinedSize) {
 		LBreak = WantedSize;
 	} else {

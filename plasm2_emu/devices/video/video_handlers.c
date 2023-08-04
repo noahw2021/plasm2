@@ -16,11 +16,11 @@ plasm2_emu
 #define GET16_LOHI(x) (x & 0x00000000FFFF0000) >> 16
 #define GET16_LOLO(x) (x & 0x000000000000FFFF) >> 00
 
-u64  video_statusquery(u32 Device) {
+u64  video_statusquery(u64 Device) {
 	return DEVSTATUS_GOOD;
 }
 
-void video_sendcommand(u32 Device, u64 Command) {
+void video_sendcommand(u64 Device, u64 Command) {
 	switch (Command) {
 	case 0x06:
 	case 0x00:
@@ -50,7 +50,7 @@ void video_sendcommand(u32 Device, u64 Command) {
 	return;
 }
 
-void video_senddata(u32 Device, u64 Data) {
+void video_senddata(u64 Device, u64 Data) {
 	if (!videoctx->AwaitingData)
 		return;
 	u64 Color;
@@ -83,22 +83,22 @@ void video_senddata(u32 Device, u64 Data) {
 	}
 }
 
-u64  video_getdata(u32 Device) {
+u64  video_getdata(u64 Device) {
 	if (videoctx->PendingDataSend)
 		return videoctx->Outgoing;
 	return 0;
 }
 
-void video_reset(u32 Device) {
+void video_reset(u64 Device) {
 	videoi_drawrect(0, 0, videoctx->w, videoctx->h, 0x000000FF);
 }
 
-void video_off(u32 Device) {
+void video_off(u64 Device) {
 	if (i->security_s.SecurityLevel < 2)
 		video_shutdown();
 	return;
 }
-void video_on(u32 Device) {
+void video_on(u64 Device) {
 	if (i->security_s.SecurityLevel < 2)
 		video_init();
 	return;

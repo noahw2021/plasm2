@@ -15,13 +15,13 @@ void link_resolve(const char* Name, u64 Pointer);
 void link_go(void);
 
 typedef struct _linkctx {
-	u32 SymbolCount;
+	u64 SymbolCount;
 	struct {
 		u64 Resolution;
 		char* SymbolName;
 		byte Resolved;
 
-		u32 LocationCount;
+		u64 LocationCount;
 		struct {
 			u64 Location;
 		}*Locations;

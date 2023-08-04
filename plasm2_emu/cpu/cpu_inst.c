@@ -24,7 +24,7 @@ void cpui_inst_cll(u64 Address) {
 	union {
 		u64 Raw;
 		struct {
-			u32 Flags;
+			u64 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
@@ -53,7 +53,7 @@ void cpui_inst_ret(void) {
 	union {
 		u64 Raw;
 		struct {
-			u32 Flags;
+			u64 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
@@ -83,7 +83,7 @@ void cpui_inst_int(byte Interrupt) {
 	union {
 		u64 Raw;
 		struct {
-			u32 Flags;
+			u64 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
