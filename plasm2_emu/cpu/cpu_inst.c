@@ -58,7 +58,7 @@ void cpui_inst_ret(void) {
 			byte CallFlag;
 			u16 Reserved;
 		};
-	}SecurityPacket;
+	}SecurityPacket = { 0 };
 	SecurityPacket.Raw = mmu_pop();
 	i->flags = SecurityPacket.Flags;
 	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
