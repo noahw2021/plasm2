@@ -68,6 +68,8 @@ void sdbg_init(void) {
 
 	sdbgctx->CollectionBufferIn = malloc(sizeof(char) * 256);
 	sdbgctx->CollectionBufferOut = malloc(sizeof(char) * 256);
+	sdbgctx->Active = 1;
+	sdbgctx->DeviceStatus = DEVSTATUS_GOOD;
 
 	return;
 }

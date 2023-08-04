@@ -36,6 +36,13 @@ typedef struct _sdbgctx {
 	byte ReadyOut, ReadyIn;
 
 	u64 LastSend;
+	u64 VirtualPointer;
+	u32 VirtualSize;
+
+	u64 DeviceStatus;
+	byte Active;
+	byte AwaitingData;
+	u64 LastCommand;
 
 #ifdef _WIN32
 	HANDLE SecondProcess;

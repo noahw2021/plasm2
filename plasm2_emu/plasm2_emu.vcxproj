@@ -194,7 +194,9 @@
     <ClCompile Include="devices\kb\kb_handlers.c" />
     <ClCompile Include="devices\kb\kb_init.c" />
     <ClCompile Include="devices\kb\kb_native.c" />
+    <ClCompile Include="devices\sdbg\sdbg_handler.c" />
     <ClCompile Include="devices\sdbg\sdbg_init.c" />
+    <ClCompile Include="devices\sdbg\sdbg_natives.c" />
     <ClCompile Include="devices\video\video_collect.c" />
     <ClCompile Include="devices\video\video_handlers.c" />
     <ClCompile Include="devices\video\video_init.c" />

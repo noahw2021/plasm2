@@ -194,6 +194,12 @@
     <ClCompile Include="devices\sdbg\sdbg_init.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="devices\sdbg\sdbg_handler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="devices\sdbg\sdbg_natives.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
