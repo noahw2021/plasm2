@@ -154,6 +154,7 @@
     <ClInclude Include="devices\devices.h" />
     <ClInclude Include="devices\fdisk\fdisk.h" />
     <ClInclude Include="devices\kb\kb.h" />
+    <ClInclude Include="devices\sdbg\sdbg.h" />
     <ClInclude Include="devices\video\video.h" />
     <ClInclude Include="emu.h" />
     <ClInclude Include="psin2\psin2.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="devices\kb\kb_handlers.c" />
     <ClCompile Include="devices\kb\kb_init.c" />
     <ClCompile Include="devices\kb\kb_native.c" />
+    <ClCompile Include="devices\sdbg\sdbg_init.c" />
     <ClCompile Include="devices\video\video_collect.c" />
     <ClCompile Include="devices\video\video_handlers.c" />
     <ClCompile Include="devices\video\video_init.c" />
