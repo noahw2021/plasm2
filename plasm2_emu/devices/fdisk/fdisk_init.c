@@ -32,7 +32,7 @@ void fdisk_shutdown(void) {
 	free(fdiskctx);
 }
 
-BOOL fdisk_register(const char* DiskFile) {
+_bool fdisk_register(const char* DiskFile) {
 	FILE* Tfp = fopen(DiskFile, "wb+");
 	if (!Tfp)
 		return 0;

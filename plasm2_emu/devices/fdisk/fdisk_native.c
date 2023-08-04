@@ -60,7 +60,7 @@ u64  fdiski_getdrivesize(int DriveId) {
 	return fdiskctx->Drives[DriveId].DrivePhysicalSize;
 }
 
-BOOL fdiski_isdriveready(int DriveId) {
+_bool fdiski_isdriveready(int DriveId) {
 	if (DriveId >= fdiskctx->DriveCount)
 		return 0;
 	if (!fdiskctx->Drives[DriveId].IsDriveAwake)

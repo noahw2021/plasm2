@@ -57,8 +57,8 @@ void sdbg_init(void) {
 		return;
 	}
 
-	LPWSTR OutgoingMessage[31] = L"PLASM2 Connection Successful.\n";
-	BYTE OutgoingMsgLength = wcslen(OutgoingMessage);
+	LPCSTR OutgoingMessage = "PLASM2 Connection Successful.\n";
+	BYTE OutgoingMsgLength = strlen(OutgoingMessage);
 	WriteFile(OutPipe, &OutgoingMsgLength, 1, NULL, NULL);
 	WriteFile(OutPipe, OutgoingMessage, 31, NULL, NULL);
 

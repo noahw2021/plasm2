@@ -43,8 +43,8 @@ void decoder_go(byte Instruction) {
 
 	dcctx->SpeculativePointer = i->ip;
 
-	BOOL TwoArgsOneByte = TRUE;
-	BOOL IsOperandRegister[2] = { FALSE, FALSE };
+	_bool TwoArgsOneByte = TRUE;
+	_bool IsOperandRegister[2] = { FALSE, FALSE };
 	u64  OperandValues[2] = { 0, 0 };
 	u32  ActiveOperandSize;
 	byte OperandCnt = 0;

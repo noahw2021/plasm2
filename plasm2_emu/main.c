@@ -97,7 +97,7 @@ int main(int argc, char** argv) {
 	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
 
 	devices_init();
-	devices_collect();
+	devices_collect();// PM usage good (reason: comes from trust)
 
 	for (int i = 0; i < FixedDiskCount; i++) {
 		if (!fdisk_register(FixedDisks[i])) {

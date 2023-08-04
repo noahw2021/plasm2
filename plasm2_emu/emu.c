@@ -36,7 +36,7 @@ void emu_register_fatal(const char* Reason) {
 	emuctx->RequiresHalt = TRUE;
 }
 
-BOOL emu_aufhoren(char* ThePtr) {
+_bool emu_aufhoren(char* ThePtr) {
 	if (emuctx->RequiresHalt) {
 		strcpy(ThePtr, emuctx->LastReason);
 		return TRUE;

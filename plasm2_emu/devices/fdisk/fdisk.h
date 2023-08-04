@@ -26,7 +26,7 @@ void fdisk_init(void);
 void fdisk_shutdown(void);
 void fdisk_clock(void);
 void fdisk_collect(void);
-BOOL fdisk_register(const char* DiskFile);
+_bool fdisk_register(const char* DiskFile);
 
 u64  fdisk_statusquery(u32 Device);
 void fdisk_sendcommand(u32 Device, u64 Command);
@@ -57,8 +57,8 @@ typedef struct _fdiskctx {
 	int DriveCount;
 	int CurrentDrive;
 	struct {
-		BOOL IsDriveAwake;
-		BOOL IsDriveActive;
+		_bool IsDriveAwake;
+		_bool IsDriveActive;
 
 		FILE* DrivePhysicalPointer;
 		u64 DrivePhysicalSize;
@@ -117,7 +117,7 @@ int  fdiski_getdrivecnt(void);
 void fdiski_drivesleep(int DriveId);
 void fdiski_driveawake(int DriveId);
 u64  fdiski_getdrivesize(int DriveId);
-BOOL fdiski_isdriveready(int DriveId);
+_bool fdiski_isdriveready(int DriveId);
 u64  fdiski_driveread(int DriveId);
 void fdiski_drivewrite(int DriveId, u64 Data);
 u64  fdiski_drivegetserial(int DriveId);

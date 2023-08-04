@@ -77,7 +77,7 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 		return;
 	}
 
-	memcpy(Surface->pixels, (void*)((byte*)(cpuctx->PhysicalMemory + mmu_translate(ptr, REASON_READ)), w * h * 4); // pm usage good (reason: sanity check)
+	memcpy(Surface->pixels, cpuctx->PhysicalMemory + mmu_translate(ptr, REASON_READ), w * h * 4); // pm usage good (reason: sanity check)
 	SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_FreeSurface(Surface);
 	SDL_Rect DestRect = { x, y, w, h };

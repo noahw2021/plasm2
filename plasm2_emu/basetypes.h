@@ -9,7 +9,7 @@ plasm2_emu
 typedef unsigned long long u64;
 typedef unsigned long u32;
 typedef unsigned short u16;
-typedef unsigned char byte, BOOL;
+typedef unsigned char byte, _bool;
 
 #define InRange(x, min, max) (x > min && x < max)
 

@@ -18,7 +18,7 @@ this.
 
 #pragma warning(disable: 6029 6031 28251 26451)
 
-BOOL
+_bool
 APIENTRY
 wWinMain(
 	HINSTANCE Instance,
