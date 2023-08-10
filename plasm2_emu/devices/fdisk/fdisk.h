@@ -90,7 +90,7 @@ extern fdiskctx_t* fdiskctx;
 
 /*
 commands:
-
+c
 00 SetActiveDrive : Sets the active drive
 01 GetDriveCount : Gets the total number of drives
 02 DriveSleep : Puts a drive to sleep

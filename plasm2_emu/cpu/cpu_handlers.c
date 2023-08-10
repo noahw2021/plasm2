@@ -58,6 +58,10 @@ DeclInstruction(SHF);
 DeclInstruction(SMH);
 DeclInstruction(SIT);
 DeclInstruction(CMP);
+DeclInstruction(INC);
+DeclInstruction(DEC);
+DeclInstruction(BSL);
+DeclInstruction(BSR);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -112,4 +116,8 @@ void(*Instructions[256])(void) = {
 	ListInstruction(SMH),
 	ListInstruction(SIT),
 	ListInstruction(CMP),
+	ListInstruction(BSL),
+	ListInstruction(BSR),
+	ListInstruction(INC),
+	ListInstruction(DEC)
 };

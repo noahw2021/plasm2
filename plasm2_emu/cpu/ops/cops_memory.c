@@ -128,7 +128,7 @@ void VPC(void) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
 	}
-	u64 VirtualAddr = mmu_createpage(i->rs_gprs[Inputs.PhysicalAddress], i->rs_gprs[Inputs.Size], i->r0& (REASON_EXEC | REASON_READ | REASON_WRTE));
+	u64 VirtualAddr = mmu_createpage(i->rs_gprs[Inputs.PhysicalAddress], i->rs_gprs[Inputs.Size], i->r0 & (REASON_EXEC | REASON_READ | REASON_WRTE));
 	mmu_push(VirtualAddr);
 	return;
 }

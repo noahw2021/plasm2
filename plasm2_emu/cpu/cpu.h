@@ -49,11 +49,15 @@ enum {
 	__MUL = 0x22, // MUL 22 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Multiply
 	__DIV = 0x23, // DIV 23 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Divide
 	__MOD = 0x24, // MOD 24 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Modulo
+	__INC = 0x25, // INC 25 (R:04,08 __DEST)                  16 : Increment Register
+	__DEC = 0x26, // DEC 26 (R:04,08 __DEST)                  16 : Decrement Register
 
 	// Bitwise Instruction
 	__AND = 0x40, // AND 40 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise AND
 	__BOR = 0x41, // BOR 41 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise OR
 	__XOR = 0x42, // XOR 42 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise XOR
+	__BSL = 0x43, // BSL 43 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Left
+	__BSR = 0x44, // BSL 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right
 
 	// Memory Instructions
 	__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory
