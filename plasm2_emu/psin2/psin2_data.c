@@ -36,6 +36,7 @@ void psin2_load(void) {
 	psin2_parse("__XOR = 0x42, // XOR 42 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise XOR");
 	psin2_parse("__BSL = 0x43, // BSL 43 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Left");
 	psin2_parse("__BSR = 0x44, // BSL 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right");
+	psin2_parse("__NOT = 0x45, // NOT 45 (R:04,08 __DEST)                  16 : Bitwise NOT");
 
 	psin2_parse("// Memory Instructions");
 	psin2_parse("__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory");

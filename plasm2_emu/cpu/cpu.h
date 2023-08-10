@@ -58,6 +58,7 @@ enum {
 	__XOR = 0x42, // XOR 42 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise XOR
 	__BSL = 0x43, // BSL 43 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Left
 	__BSR = 0x44, // BSL 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right
+	__NOT = 0x45, // NOT 45 (R:04,08 __DEST)                  16 : Bitwise NOT
 
 	// Memory Instructions
 	__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory

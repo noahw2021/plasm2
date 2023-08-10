@@ -62,6 +62,7 @@ DeclInstruction(INC);
 DeclInstruction(DEC);
 DeclInstruction(BSL);
 DeclInstruction(BSR);
+DeclInstruction(NOT);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -119,5 +120,6 @@ void(*Instructions[256])(void) = {
 	ListInstruction(BSL),
 	ListInstruction(BSR),
 	ListInstruction(INC),
-	ListInstruction(DEC)
+	ListInstruction(DEC),
+	ListInstruction(NOT),
 };

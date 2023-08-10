@@ -69,3 +69,15 @@ void BSR(void) {
 	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] >>= i->rs_gprs[Inputs.Source];
 }
+
+void NOT(void) {
+	union {
+		byte Input;
+		struct {
+			byte Source : 4;
+			byte Destination : 4;
+		};
+	}Inputs;
+	Inputs.Input = mmu_read1(i->ip++);
+	i->rs_gprs[Inputs.Destination] ^= 0xFFFFFFFFFFFFFFFF;
+}
