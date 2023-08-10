@@ -8,7 +8,7 @@ bios00
 #include "../dvmgr/dvmgr.h"
 
 void HddReadBlock(int Drive, u64 BasePtr, u64 Size, void* Destination, u64 MaxSize) {
-     int DeviceCnt = __dgc();
+    int DeviceCnt = __dgc();
     PRDEVICE ADevice = (void*)0;
     int ADevId = 0;
 
@@ -39,9 +39,9 @@ LetsGo:
     if ((Size % 8) != 0x00) {
         __dsc(ADevId, 0x06); // DriveRead
         u64 ReadData = __dgd(ADevId);
-        for (int i = 0; i < (Size % 8); i++) {
-            *(byte*)(Destination + (Size - (Size % 8) + i)) = ReadData & (0xFF << (i * 8) >> (i * 8);
-        }
+        u64 Mask = ~(0xFFFFFFFFFFFFFFFF << (8 * ((Size % 8) + 1)));
+        As64s[(Size / 8) + 1] &= ~Mask;
+        As64s[(Size / 8) + 1] |= Mask & ReadData;
     }
 
     __dsc(ADevId, 0x10); // DriveSeek
