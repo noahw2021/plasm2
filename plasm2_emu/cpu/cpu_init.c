@@ -19,6 +19,7 @@ void __cpui_invopc(void) {
 	return;
 }
 
+#pragma warning(disable: 6011 6387)
 
 void cpu_init(void) {
 	cpuctx = malloc(sizeof(cpuctx_t));

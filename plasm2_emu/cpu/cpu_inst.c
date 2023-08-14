@@ -24,14 +24,14 @@ void cpui_inst_cll(u64 Address) {
 	union {
 		u64 Raw;
 		struct {
-			u64 Flags;
+			u32 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = i->flags;
+	SecurityPacket.Flags = (u32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
 	i->flags_s.SF = 1;
@@ -53,7 +53,7 @@ void cpui_inst_ret(void) {
 	union {
 		u64 Raw;
 		struct {
-			u64 Flags;
+			u32 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
@@ -83,14 +83,14 @@ void cpui_inst_int(byte Interrupt) {
 	union {
 		u64 Raw;
 		struct {
-			u64 Flags;
+			u32 Flags;
 			byte SecurityLevel;
 			byte CallFlag;
 			u16 Reserved;
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = i->flags;
+	SecurityPacket.Flags = (u32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
 	i->flags_s.SF = 1;
