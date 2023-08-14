@@ -52,4 +52,5 @@ u64 mmu_maxaddr(u64 VirtualAddress, byte Reason) {
 	} else {
 		return PHYS_MEMSZ;
 	}
+	return 0x00;
 }

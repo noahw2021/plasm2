@@ -12,13 +12,13 @@ void devices_init(void);
 void devices_shutdown(void);
 void devices_collect(void);
 
-u64 devicesi_statusquery(u64 Device);
-void devicesi_sendcommand(u64 Device, u64 Command);
-void devicesi_senddata(u64 Device, u64 Command);
-u64  devicesi_getdata(u64 Device);
-void devicesi_reset(u64 Device);
-void devicesi_off(u64 Device);
-void devicesi_on(u64 Device);
+u64 devicesi_statusquery(u32 Device);
+void devicesi_sendcommand(u32 Device, u64 Command);
+void devicesi_senddata(u32 Device, u64 Command);
+u64  devicesi_getdata(u32 Device);
+void devicesi_reset(u32 Device);
+void devicesi_off(u32 Device);
+void devicesi_on(u32 Device);
 u64  devicesi_devcount(void);
 
 #define DEVTYPE_KB			0x10000001

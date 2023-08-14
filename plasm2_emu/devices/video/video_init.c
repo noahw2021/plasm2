@@ -33,11 +33,10 @@ void video_init(void) {
 	SDL_Init(SDL_INIT_VIDEO);
 	Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
 	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
-	LoopThread = SDL_CreateThread(videoii_loop, "Plasm2EmuSDLLoop", NULL);
+	LoopThread = SDL_CreateThread((SDL_ThreadFunction)videoii_loop, "Plasm2EmuSDLLoop", NULL);
 
-	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceModel, "Standard VSA");
-	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Display Adapter");
-	strcpy(&devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
+	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Display Adapter");
+	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
 
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 0x1000200030004001;
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_VIDEO;

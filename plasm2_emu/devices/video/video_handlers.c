@@ -11,10 +11,10 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-#define GET16_HIHI(x) (x & 0xFFFF000000000000) >> 48
-#define GET16_HILO(x) (x & 0x0000FFFF00000000) >> 32
-#define GET16_LOHI(x) (x & 0x00000000FFFF0000) >> 16
-#define GET16_LOLO(x) (x & 0x000000000000FFFF) >> 00
+#define GET16_HIHI(x) (u64)((x & 0xFFFF000000000000) >> 48)
+#define GET16_HILO(x) (u64)((x & 0x0000FFFF00000000) >> 32)
+#define GET16_LOHI(x) (u64)((x & 0x00000000FFFF0000) >> 16)
+#define GET16_LOLO(x) (u64)((x & 0x000000000000FFFF) >> 00)
 
 u64  video_statusquery(u32 Device, u64 NullArg) {
 	return DEVSTATUS_GOOD;
@@ -45,7 +45,7 @@ u64 video_sendcommand(u32 Device, u64 Command) {
 		return 0;
 	}
 
-	videoctx->DestinationCommand = Command;
+	videoctx->DestinationCommand = (byte)Command;
 	kbctx->Status = DEVSTATUS_GOOD;
 	return 0;
 }
@@ -59,24 +59,24 @@ u64 video_senddata(u32 Device, u64 Data) {
 		videoi_settextbuffer(Data);
 		break;
 	case 0x02:
-		Color = mmu_pop();
-		videoi_drawline(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
+		Color = (u32)mmu_pop();
+		videoi_drawline((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x03:
-		Color = mmu_pop();
-		videoi_drawrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
+		Color = (u32)mmu_pop();
+		videoi_drawrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x04:
-		Color = mmu_pop();
-		videoi_drawfill(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
+		Color = (u32)mmu_pop();
+		videoi_drawfill((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x05:
-		Color = mmu_pop();
-		videoi_drawrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
+		Color = (u32)mmu_pop();
+		videoi_drawrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x06:
-		Color = mmu_pop(); // aka pointer here
-		videoi_copyrect(GET16_HIHI(Data), GET16_HILO(Data), GET16_LOHI(Data), GET16_LOLO(Data), Color);
+		Color = (u32)mmu_pop(); // aka pointer here
+		videoi_copyrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x07:
 		break;
@@ -92,6 +92,7 @@ u64  video_getdata(u32 Device, u64 NullArg) {
 
 u64 video_reset(u32 Device, u64 NullArg) {
 	videoi_drawrect(0, 0, videoctx->w, videoctx->h, 0x000000FF);
+	return 0;
 }
 
 u64 video_off(u32 Device, u64 NullArg) {

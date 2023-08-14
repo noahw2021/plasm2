@@ -18,10 +18,10 @@ extern byte PauseDrawing;
 
 #pragma warning(disable: 26451)
 
-#define R(x) (x & 0xFF000000) >> 24
-#define G(x) (x & 0x00FF0000) >> 16
-#define B(x) (x & 0x0000FF00) >> 8
-#define A(x) (x & 0x000000FF) >> 0
+#define R(x) (Uint8)((u32)(x & 0xFF000000) >> 24)
+#define G(x) (Uint8)((u32)(x & 0x00FF0000) >> 16)
+#define B(x) (Uint8)((u32)(x & 0x0000FF00) >> 8)
+#define A(x) (Uint8)((u32)(x & 0x000000FF) >> 0)
 
 u64 videoi_gettextbuffer(void) {
 	return 0; // deprecated

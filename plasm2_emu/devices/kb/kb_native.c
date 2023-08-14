@@ -21,14 +21,7 @@ void kbi_setkeyupint(u64 Interrupt) {
 }
 
 u64  kbi_getkeymapptr(void) {
-	if (i->flags_s.VF) {
-		for (int c = 0; c < mmuctx->PageCount; c++) {
-			if (mmuctx->Pages[c].Physical == 0x23F0)
-				return mmuctx->Pages[c].Virtual;
-		}
-	} else {
-		return 0x23F0;
-	}
+	return mmu_translate(0x23F0, REASON_READ);
 }
 
 void kbii_markkey(byte Keycode, byte Status) {

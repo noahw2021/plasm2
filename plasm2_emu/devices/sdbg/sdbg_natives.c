@@ -1,6 +1,7 @@
 #include "sdbg.h"
 #include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
+#include <string.h>
 /*
 sdbg_natives.c
 plasm2
@@ -22,9 +23,11 @@ void sdbg_send(void) {
 }
 
 void sdbg_setsendloc(u64 Location) {
-
+	sdbgctx->VirtualPointer = Location;
+	return;
 }
 
 void sdbg_setsendsz(u64 Size) {
-
+	sdbgctx->VirtualSize = Size;
+	return;
 }

@@ -14,7 +14,7 @@ plasm2_emu
 
 int psin2_parse(const char* InstructionData) {
 	if (InstructionData[0] == '/')
-		return;
+		return psin2ctx->InstructionCount;
 
 	if (!psin2ctx->Instructions) {
 		psin2ctx->Instructions = malloc(sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
@@ -47,7 +47,7 @@ int psin2_parse(const char* InstructionData) {
 
 	memcpy(Temporary, InstructionData + c, 2);
 	Temporary[2] = 0x00;
-	Target->Opcode = strtoul(Temporary, NULL, 16);
+	Target->Opcode = (byte)strtoul(Temporary, NULL, 16);
 	c += 3;
 
 	if (InstructionData[c] == '(') { // Operand A
@@ -64,7 +64,7 @@ int psin2_parse(const char* InstructionData) {
 			else
 				psin2ctx->Instructions = realloc(psin2ctx->Instructions, sizeof(psininstruction_t) * (psin2ctx->InstructionCount - 1));
 			psin2ctx->InstructionCount--;
-			return;
+			return psin2ctx->InstructionCount;
 		}
 		c += 2;
 		
@@ -101,7 +101,7 @@ int psin2_parse(const char* InstructionData) {
 				else
 					psin2ctx->Instructions = realloc(psin2ctx->Instructions, sizeof(psininstruction_t) * (psin2ctx->InstructionCount - 1));
 				psin2ctx->InstructionCount--;
-				return;
+				return psin2ctx->InstructionCount;
 			}
 			c += 2;
 
@@ -141,7 +141,7 @@ int psin2_parse(const char* InstructionData) {
 
 	// :)
 	free(Temporary);
-	return;
+	return psin2ctx->InstructionCount;
 }
 
 int psin2_getcnt(void) {

@@ -75,7 +75,7 @@ void STB(void) {
 		i->flags_s.XF = 1;
 		return;
 	}
-	mmu_put1(VirtualAddress, i->rs_gprs[Inputs.Register]);
+	mmu_put1(VirtualAddress, (byte)i->rs_gprs[Inputs.Register]);
 	return;
 }
 

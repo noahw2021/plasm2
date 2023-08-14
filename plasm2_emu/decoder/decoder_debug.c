@@ -13,7 +13,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-#pragma warning(disable: 6387) // no it couldnt
+#pragma warning(disable: 6011 6387) // no it couldnt
 
 byte decoderi_g1(void) {
 	byte Return = mmu_read1(dcctx->SpeculativePointer);
@@ -81,7 +81,7 @@ void decoder_go(byte Instruction) {
 				ActiveOperandSize = StoredSize / 8;
 
 			IsOperandRegister[i] = psin2i_getoperandtype(Psin2Id, i) ^ 1; // psin2 stores these opposite
-			OperandValues[i] = decoderi_gx(ActiveOperandSize);
+			OperandValues[i] = decoderi_gx((byte)ActiveOperandSize);
 			OperandCnt++;
 		}
 	}

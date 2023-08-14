@@ -1,4 +1,5 @@
 #include "fdisk.h"
+#include <string.h>
 /*
 fdisk_collect.c
 plasm2
@@ -9,6 +10,7 @@ plasm2_emu
 void fdisk_collect(void) {
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_FDISKC;
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
+
 	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Fixed Disk Controller");
 	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4272;

@@ -79,7 +79,7 @@ void RET(void) {
 }
 
 void IMR(void) {
-	u16 ReturnValue = mmu_readx(i->ip, 2);
+	u16 ReturnValue = (u16)mmu_readx(i->ip, 2);
 	i->ip += 2;
 	i->r0 = ReturnValue;
 	RET(); // reuse

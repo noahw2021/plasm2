@@ -12,6 +12,7 @@ plasm2_emu
 
 sdbgctx_t* sdbgctx;
 
+#pragma warning(disable: 6011 6387)
 
 void sdbg_init(void) {
 	sdbgctx = malloc(sizeof(sdbgctx_t));
@@ -41,6 +42,7 @@ void sdbg_clock(void) {
 void sdbg_collect(void) {
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_TERMINAL;
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
+
 	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Serialish Debugger");
 	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4279;

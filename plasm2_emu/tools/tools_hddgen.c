@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <time.h>
 #include "../basetypes.h"
 #include "../devices/fdisk/fdisk.h"
 /*
@@ -51,7 +52,7 @@ void toolsi_hddgen(void) {
 
 	GoBackHere:
 		printf("  Where would you like to mount this file?: 0x");
-		scanf("%ulX ", &WhereToMount);
+		scanf("%llX ", &WhereToMount);
 		if (WhereToMount == 0xFFFFFFFF) {
 			printf("  Please choose a different mounting point.\n"); // this is dumb but whatever
 			goto GoBackHere;
@@ -99,14 +100,14 @@ SizeTryAgain:
 
 			if (!LBreak) {
 				Zeros = realloc(Zeros, WantedSize % 1024);
-				fseek(AttemptedFile, sizeof(fdiskhdr_t) + (WantedSize / 1024), SEEK_SET);
+				fseek(AttemptedFile, (long)(sizeof(fdiskhdr_t) + (WantedSize / 1024)), SEEK_SET);
 				if (Zeros) {
 					fwrite(Zeros, WantedSize % 1024, 1, AttemptedFile);
 					free(Zeros);
 				}
 			} // shouldnt ever happen
 
-			fseek(AttemptedFile, WhereToMount + sizeof(fdiskhdr_t), SEEK_SET);
+			fseek(AttemptedFile, (long)WhereToMount + sizeof(fdiskhdr_t), SEEK_SET);
 			fwrite(AttemptedBuffer, DestinedSize, 1, AttemptedFile);
 			free(AttemptedBuffer);
 		}
@@ -119,7 +120,7 @@ SizeTryAgain:
 	memset(FdHdr, 0, sizeof(fdiskhdr_t));
 	
 	FdHdr->Magic = FDISKHDR_MAGIC;
-	srand(time(NULL));
+	srand((u32)time(NULL));
 	FdHdr->DeviceSerial = rand();
 	FdHdr->DeviceVendorId = 0x4273;
 	strcpy(FdHdr->DeviceVendor, "PLASM2 HDDGnr8r");

@@ -120,7 +120,7 @@ u64 fdisk_senddata(u32 Device, u64 Data) {
 	if (fdiskctx->ExpectingData) {
 		switch (fdiskctx->CurrentCommand) {
 		case 0x00:
-			fdiski_setactivedrive(Data);
+			fdiski_setactivedrive((int)Data);
 			break;
 		case 0x07:
 			fdiski_drivewrite(fdiskctx->CurrentDrive, Data);
