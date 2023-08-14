@@ -18,13 +18,13 @@ void sdbg_shutdown(void);
 void sdbg_clock(void);
 void sdbg_collect(void);
 
-u64  sdbg_statusquery(u64 Device);
-void sdbg_sendcommand(u64 Device, u64 Command);
-void sdbg_senddata(u64 Device, u64 Command);
-u64  sdbg_getdata(u64 Device);
-void sdbg_reset(u64 Device);
-void sdbg_off(u64 Device);
-void sdbg_on(u64 Device);
+u64 sdbg_statusquery(u32 Device, u64 NullArg);
+u64 sdbg_sendcommand(u32 Device, u64 Command);
+u64 sdbg_senddata(u32 Device, u64 Command);
+u64 sdbg_getdata(u32 Device, u64 NullArg);
+u64 sdbg_reset(u32 Device, u64 NullArg);
+u64 sdbg_off(u32 Device, u64 NullArg);
+u64 sdbg_on(u32 Device, u64 NullArg);
 
 typedef struct _sdbgctx {
 	char* CollectionBufferOut, *CollectionBufferIn;

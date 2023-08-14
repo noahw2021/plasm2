@@ -28,13 +28,13 @@ void fdisk_clock(void);
 void fdisk_collect(void);
 _bool fdisk_register(const char* DiskFile);
 
-u64  fdisk_statusquery(u64 Device);
-void fdisk_sendcommand(u64 Device, u64 Command);
-void fdisk_senddata(u64 Device, u64 Command);
-u64  fdisk_getdata(u64 Device);
-void fdisk_reset(u64 Device);
-void fdisk_off(u64 Device);
-void fdisk_on(u64 Device);
+u64 fdisk_statusquery(u32 Device, u64 NullArg);
+u64 fdisk_sendcommand(u32 Device, u64 Command);
+u64 fdisk_senddata(u32 Device, u64 Command);
+u64 fdisk_getdata(u32 Device, u64 NullArg);
+u64 fdisk_reset(u32 Device, u64 NullArg);
+u64 fdisk_off(u32 Device, u64 NullArg);
+u64 fdisk_on(u32 Device, u64 NullArg);
 
 #define FDISK_CACHE_TOTAL 1048576
 #define FDISK_CACHE_CHUNK FDISK_CACHE_TOTAL / 4

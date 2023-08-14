@@ -12,13 +12,13 @@ void video_shutdown(void);
 void video_collect(void);
 void video_clock(void);
 
-u64  video_statusquery(u64 Device);
-void video_sendcommand(u64 Device, u64 Command);
-void video_senddata(u64 Device, u64 Command);
-u64  video_getdata(u64 Device);
-void video_reset(u64 Device);
-void video_off(u64 Device);
-void video_on(u64 Device);
+u64 video_statusquery(u32 Device, u64 NullArg);
+u64 video_sendcommand(u32 Device, u64 Command);
+u64 video_senddata(u32 Device, u64 Command);
+u64 video_getdata(u32 Device, u64 NullArg);
+u64 video_reset(u32 Device, u64 NullArg);
+u64 video_off(u32 Device, u64 NullArg);
+u64 video_on(u32 Device, u64 NullArg);
 
 /*
 defaults:

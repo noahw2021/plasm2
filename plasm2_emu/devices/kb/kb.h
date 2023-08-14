@@ -16,13 +16,13 @@ void kb_shutdown(void);
 void kb_clock(void);
 void kb_collect(void);
 
-u64  kb_statusquery(u64 Device);
-void kb_sendcommand(u64 Device, u64 Command);
-void kb_senddata(u64 Device, u64 Command);
-u64  kb_getdata(u64 Device);
-void kb_reset(u64 Device);
-void kb_off(u64 Device);
-void kb_on(u64 Device);
+u64 kb_statusquery(u32 Device, u64 NullArg);
+u64 kb_sendcommand(u32 Device, u64 Command);
+u64 kb_senddata(u32 Device, u64 Command);
+u64 kb_getdata(u32 Device, u64 NullArg);
+u64 kb_reset(u32 Device, u64 NullArg);
+u64 kb_off(u32 Device, u64 NullArg);
+u64 kb_on(u32 Device, u64 NullArg);
 
 typedef struct _kbctx {
 	byte AwaitingData;

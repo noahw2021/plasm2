@@ -13,12 +13,14 @@ plasm2_emu
 */
 devicesctx_t* devicesctx;
 
+#pragma warning(disable: 6011 6387)
+
 void devices_init(void) {
 	devicesctx = malloc(sizeof(devicesctx_t));
 	memset(devicesctx, 0, sizeof(devicesctx_t));
 	
 	devicesctx->DeviceCount = 0;
-	devicesctx->Devices = cpuctx->PhysicalMemory + 0x00; // PM usage good: (reason: internal usage only)
+	devicesctx->Devices = (void*)cpuctx->PhysicalMemory; // PM usage good: (reason: internal usage only)
 
 	kb_init();
 	video_init();

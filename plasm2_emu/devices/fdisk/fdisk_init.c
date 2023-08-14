@@ -86,7 +86,7 @@ _bool fdisk_register(const char* DiskFile) {
 
 	fdiskctx->DriveCount++;
 
-	return;
+	return 0;
 }
 
 void fdisk_clock(void) {

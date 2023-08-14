@@ -6,7 +6,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64  fdisk_statusquery(u64 Device) {
+u64 fdisk_statusquery(u32 Device, u64 NullArg) {
 	u64 Return = fdiskctx->CurrentStatus;
 	fdiskctx->CurrentStatus &= ~(DEVSTATUS_RSN_CLEAR);
 	return Return;
@@ -36,7 +36,7 @@ commands:
 12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
 */
 
-void fdisk_sendcommand(u64 Device, u64 Command) {
+u64 fdisk_sendcommand(u32 Device, u64 Command) {
 	switch (Command) {
 	case 0x00:
 		fdiskctx->CurrentCommand = (byte)Command;
@@ -113,9 +113,10 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiskctx->CurrentStatus |= DEVSTATUS_RSN_INVCMD;
 		break;
 	}
+	return 0;
 }
 
-void fdisk_senddata(u64 Device, u64 Data) {
+u64 fdisk_senddata(u32 Device, u64 Data) {
 	if (fdiskctx->ExpectingData) {
 		switch (fdiskctx->CurrentCommand) {
 		case 0x00:
@@ -139,9 +140,10 @@ void fdisk_senddata(u64 Device, u64 Data) {
 		}
 		fdiskctx->ExpectingData = 0;
 	}
+	return 0;
 }
 
-u64  fdisk_getdata(u64 Device) {
+u64  fdisk_getdata(u32 Device, u64 NullArg) {
 	if (fdiskctx->RecvData) {
 		fdiskctx->RecvData = 0; 
 		return fdiskctx->OutgoingData;
@@ -149,18 +151,18 @@ u64  fdisk_getdata(u64 Device) {
 	return 0;
 }
 
-void fdisk_reset(u64 Device) {
-	return;
+u64 fdisk_reset(u32 Device, u64 NullArg) {
+	return 0;
 }
 
-void fdisk_off(u64 Device) {
+u64 fdisk_off(u32 Device, u64 NullArg) {
 	for (int i = 0; i < fdiskctx->DriveCount; i++)
 		fdiski_drivesleep(i);
-	return;
+	return 0;
 }
 
-void fdisk_on(u64 Device) {
+u64 fdisk_on(u32 Device, u64 NullArg) {
 	for (int i = 0; i < fdiskctx->DriveCount; i++)
 		fdiski_driveawake(i);
-	return;
+	return 0;
 }

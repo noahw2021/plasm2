@@ -16,11 +16,11 @@ plasm2_emu
 #define GET16_LOHI(x) (x & 0x00000000FFFF0000) >> 16
 #define GET16_LOLO(x) (x & 0x000000000000FFFF) >> 00
 
-u64  video_statusquery(u64 Device) {
+u64  video_statusquery(u32 Device, u64 NullArg) {
 	return DEVSTATUS_GOOD;
 }
 
-void video_sendcommand(u64 Device, u64 Command) {
+u64 video_sendcommand(u32 Device, u64 Command) {
 	switch (Command) {
 	case 0x06:
 	case 0x00:
@@ -42,17 +42,17 @@ void video_sendcommand(u64 Device, u64 Command) {
 		break;
 	default:
 		videoctx->Status = DEVSTAUTS_INVL; // invalid command
-		return;
+		return 0;
 	}
 
 	videoctx->DestinationCommand = Command;
 	kbctx->Status = DEVSTATUS_GOOD;
-	return;
+	return 0;
 }
 
-void video_senddata(u64 Device, u64 Data) {
+u64 video_senddata(u32 Device, u64 Data) {
 	if (!videoctx->AwaitingData)
-		return;
+		return 0;
 	u32 Color;
 	switch (videoctx->DestinationCommand) {
 	case 0x01:
@@ -81,27 +81,28 @@ void video_senddata(u64 Device, u64 Data) {
 	case 0x07:
 		break;
 	}
+	return 0;
 }
 
-u64  video_getdata(u64 Device) {
+u64  video_getdata(u32 Device, u64 NullArg) {
 	if (videoctx->PendingDataSend)
 		return videoctx->Outgoing;
 	return 0;
 }
 
-void video_reset(u64 Device) {
+u64 video_reset(u32 Device, u64 NullArg) {
 	videoi_drawrect(0, 0, videoctx->w, videoctx->h, 0x000000FF);
 }
 
-void video_off(u64 Device) {
+u64 video_off(u32 Device, u64 NullArg) {
 	if (i->security_s.SecurityLevel < 2)
 		video_shutdown();
-	return;
+	return 0;
 }
-void video_on(u64 Device) {
+u64 video_on(u32 Device, u64 NullArg) {
 	if (i->security_s.SecurityLevel < 2)
 		video_init();
-	return;
+	return 0;
 }
 
 void video_clock(void) { 
