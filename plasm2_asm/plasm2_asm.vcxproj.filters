@@ -60,6 +60,9 @@
     <ClCompile Include="vf\vf_files.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vf\vf_g.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="basetypes.h">

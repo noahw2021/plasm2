@@ -32,3 +32,5 @@ char* vf_get(void);
 FILE* vf_ci(void);
 
 void vfi_sort(void);
+
+void vfg_write(const char* Filename, u64 Dp);

@@ -81,6 +81,9 @@ void cg_parse(const char* Line) {
 			cgctx->DataPosition = cgctx->HighestPosition;
 			cg_compile();
 			break;
+		case 'f': // fill
+			vfg_write(Line + 3, cgctx->DataPosition);
+			break;
 		case 'i': // include
 			vf_register(FollowString);
 			break;
