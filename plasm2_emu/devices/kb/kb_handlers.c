@@ -27,7 +27,7 @@ void kb_sendcommand(u64 Device, u64 Command) {
 		kbctx->Status = DEVSTAUTS_INVL;
 		return;
 	}
-	kbctx->AwaitingCommand = Command;
+	kbctx->AwaitingCommand = (byte)Command;
 	kbctx->Status = DEVSTATUS_GOOD;
 	return;
 }

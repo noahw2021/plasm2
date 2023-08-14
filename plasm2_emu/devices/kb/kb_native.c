@@ -11,12 +11,12 @@ plasm2_emu
 */
 
 void kbi_setkeydownint(u64 Interrupt) {
-	kbctx->KeyDown = Interrupt;
+	kbctx->KeyDown = (byte)Interrupt;
 	return;
 }
 
 void kbi_setkeyupint(u64 Interrupt) {
-	kbctx->KeyUp = Interrupt;
+	kbctx->KeyUp = (byte)Interrupt;
 	return;
 }
 

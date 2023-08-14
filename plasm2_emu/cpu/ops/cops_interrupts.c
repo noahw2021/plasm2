@@ -22,7 +22,7 @@ void HND(void) {
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);
-	byte SecurityLevel = mmu_pop();
+	byte SecurityLevel = (byte)mmu_pop();
 	if (!i->flags_s.IT) {
 		i->flags_s.XF = 1;
 		return;
@@ -33,8 +33,8 @@ void HND(void) {
 	}
 	u64 VirtualAddress = i->rs_gprs[Input.Handler];
 	VirtualAddress &= 0x00FFFFFFFFFFFFFF;
-	VirtualAddress |= (SecurityLevel) << 56;
-	mmu_put8(i->pti.it + (Input.Interrupt * 8), VirtualAddress);
+	VirtualAddress |= ((u64)SecurityLevel) << 56;
+	mmu_put8(i->pti.it + ((u64)Input.Interrupt * 8), VirtualAddress);
 	return;
 }
 

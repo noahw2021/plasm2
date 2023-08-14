@@ -34,6 +34,7 @@ typedef struct _kbctx {
 	byte NotifyUp, NotifyDown;
 
 	byte KeyUp, KeyDown;
+	u64 KeyUpHandlr, KeyDownHandlr;
 }kbctx_t;
 extern kbctx_t* kbctx;
 

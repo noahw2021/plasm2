@@ -39,7 +39,7 @@ commands:
 void fdisk_sendcommand(u64 Device, u64 Command) {
 	switch (Command) {
 	case 0x00:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	case 0x01:
@@ -65,7 +65,7 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiskctx->OutgoingData = fdiski_driveread(fdiskctx->CurrentDrive);
 		break;
 	case 0x07:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	case 0x08:
@@ -73,7 +73,7 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiskctx->OutgoingData = fdiski_drivegetserial(fdiskctx->CurrentDrive);
 		break;
 	case 0x09:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	case 0x0A:
@@ -85,7 +85,7 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiskctx->OutgoingData = fdiski_drivegetvendorid(fdiskctx->CurrentDrive);
 		break;
 	case 0x0C:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	case 0x0D:
@@ -98,7 +98,7 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiski_fpincon(fdiskctx->CurrentCommand);
 		break;
 	case 0x10:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	case 0x11:
@@ -106,7 +106,7 @@ void fdisk_sendcommand(u64 Device, u64 Command) {
 		fdiskctx->OutgoingData = fdiski_drivereadstack(fdiskctx->CurrentCommand);
 		break;
 	case 0x12:
-		fdiskctx->CurrentCommand = Command;
+		fdiskctx->CurrentCommand = (byte)Command;
 		fdiskctx->ExpectingData = 1;
 		break;
 	default:
