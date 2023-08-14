@@ -81,3 +81,46 @@ void NOT(void) {
 	Inputs.Input = mmu_read1(i->ip++);
 	i->rs_gprs[Inputs.Destination] ^= 0xFFFFFFFFFFFFFFFF;
 }
+
+void ANI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] &= Immediate;
+	return;
+}
+
+void XOI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] ^= Immediate;
+	return;
+}
+
+void ORI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] |= Immediate;
+	return;
+}
+
+void BLI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	byte Immediate = mmu_read1(i->ip++);
+
+	i->rs_gprs[Input] <<= Immediate;
+	return;
+}
+
+void BRI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	byte Immediate = mmu_read1(i->ip++) & 0x40;
+
+	i->rs_gprs[Input] >>= Immediate;
+	return;
+}

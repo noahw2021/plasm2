@@ -20,6 +20,10 @@ void psin2_load(void) {
 	psin2_parse("__IMR = 0x0A, // IMR 0A (I:16,16 _VALUE)                  24 : Immediate Return");
 	psin2_parse("__SHF = 0x0B, // SHF 0B                                   08 : Set Halt Flags");
 	psin2_parse("__CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare");
+	psin2_parse("__CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare");
+	psin2_parse("__JMI = 0x0D, // JMI 0D (I:64,64 __ADDR)                  72 : Jump Immediate");
+	psin2_parse("__CLI = 0x0E, // CLI 0E (I:64,64 __ADDR)                  72 : Call Immediate");
+	psin2_parse("__CMI = 0x0F, // CMI 0F (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate");
 
 	psin2_parse("// Arithmetic Instructions");
 	psin2_parse("__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add");
@@ -29,6 +33,11 @@ void psin2_load(void) {
 	psin2_parse("__MOD = 0x24, // MOD 24 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Modulo");
 	psin2_parse("__INC = 0x25, // INC 25 (R:04,08 __DEST)                  16 : Increment Register");
 	psin2_parse("__DEC = 0x26, // DEC 26 (R:04,08 __DEST)                  16 : Decrement Register");
+	psin2_parse("__ADI = 0x27, // ADI 27 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Add Immediate");
+	psin2_parse("__SBI = 0x28, // SBI 28 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Subtract Immediate");
+	psin2_parse("__MLI = 0x29, // MLI 29 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Multiply Immediate");
+	psin2_parse("__DVI = 0x2A, // DVI 2A (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Divide Immediate");
+	psin2_parse("__MDI = 0x2B, // MDI 2B (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Modulo Immediate");
 
 	psin2_parse("// Bitwise Instruction");
 	psin2_parse("__AND = 0x40, // AND 40 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise AND");
@@ -37,6 +46,11 @@ void psin2_load(void) {
 	psin2_parse("__BSL = 0x43, // BSL 43 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Left");
 	psin2_parse("__BSR = 0x44, // BSL 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right");
 	psin2_parse("__NOT = 0x45, // NOT 45 (R:04,08 __DEST)                  16 : Bitwise NOT");
+	psin2_parse("__ANI = 0x46, // ANI 46 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise AND w/ Immediate");
+	psin2_parse("__ORI = 0x47, // ORI 47 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise OR w/ Immediate");
+	psin2_parse("__XOI = 0x48, // XOI 48 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise XOR w/ Immediate");
+	psin2_parse("__BLI = 0x49, // BLI 49 (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Left w/ Immediate");
+	psin2_parse("__BRI = 0x4A, // BRI 4A (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Right w/ Immediate");
 
 	psin2_parse("// Memory Instructions");
 	psin2_parse("__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory");

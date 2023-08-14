@@ -63,6 +63,19 @@ DeclInstruction(DEC);
 DeclInstruction(BSL);
 DeclInstruction(BSR);
 DeclInstruction(NOT);
+DeclInstruction(JMI);
+DeclInstruction(CLI);
+DeclInstruction(CMI);
+DeclInstruction(ANI);
+DeclInstruction(XOI);
+DeclInstruction(ORI);
+DeclInstruction(ADI);
+DeclInstruction(SBI);
+DeclInstruction(MLI);
+DeclInstruction(DVI);
+DeclInstruction(MDI);
+DeclInstruction(BLI);
+DeclInstruction(BRI);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -122,4 +135,17 @@ void(*Instructions[256])(void) = {
 	ListInstruction(INC),
 	ListInstruction(DEC),
 	ListInstruction(NOT),
+	ListInstruction(JMI),
+	ListInstruction(CLI),
+	ListInstruction(CMI),
+	ListInstruction(ANI),
+	ListInstruction(XOI),
+	ListInstruction(ORI),
+	ListInstruction(ADI),
+	ListInstruction(SBI),
+	ListInstruction(MLI),
+	ListInstruction(DVI),
+	ListInstruction(MDI),
+	ListInstruction(BLI),
+	ListInstruction(BRI),
 };

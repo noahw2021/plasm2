@@ -67,7 +67,11 @@ void CLL(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;
 	u64 Address = i->rs_gprs[Register];
 	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ);
-	cpui_inst_cll(PhysicalAddress);
+	if (PhysicalAddress)
+		cpui_inst_cll(PhysicalAddress);
+	else
+		i->flags_s.XF = 1;
+	return;
 }
 
 void RET(void) {
@@ -102,5 +106,40 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
 		i->flags_s.EF = 1;
 	
+	return;
+}
+
+void JMI(void) {
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC);
+	if (Translated)
+		cpui_inst_jmp(Translated);
+	else
+		i->flags_s.XF = 1;
+	return;
+}
+
+void CLI(void) {
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC);
+	if (Translated)
+		cpui_inst_cll(Translated);
+	else
+		i->flags_s.XF = 1;
+	return;
+}
+
+void CMI(void) {
+	byte Register = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	if (i->rs_gprs[Register] > Immediate)
+		i->flags_s.GF = 1;
+	if (i->rs_gprs[Register] == Immediate)
+		i->flags_s.EF = 1;
+
 	return;
 }

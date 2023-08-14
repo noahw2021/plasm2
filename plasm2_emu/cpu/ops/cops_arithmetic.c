@@ -97,3 +97,48 @@ void DEC(void) {
 	i->rs_gprs[Inputs.Destination]--;
 	return;
 }
+
+void ADI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] += Immediate;
+	return;
+}
+
+void SBI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] -= Immediate;
+	return;
+}
+
+void MLI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] *= Immediate;
+	return;
+}
+
+void DVI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] /= Immediate;
+	return;
+}
+
+void MDI(void) {
+	byte Input = mmu_read1(i->ip++) & 0xF;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	i->rs_gprs[Input] %= Immediate;
+	return;
+}
