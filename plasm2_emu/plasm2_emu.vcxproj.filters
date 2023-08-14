@@ -200,6 +200,9 @@
     <ClCompile Include="devices\sdbg\sdbg_natives.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="tools\tools_fontgen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -13,17 +13,21 @@ plasm2_emu
 void tools_main(void) {
 	printf("PLASM2EMU Tools: \n\n");
 	printf("1) HDD Generator\n");
-	printf("2) Quit\n");
+	printf("2) Font Generator\n");
+	printf("3) Quit\n");
 
-	char Inputs[2];
-	fgets(Inputs, 2, stdin);
-	Inputs[0] -= '0';
+	char Inputs[3];
+	fgets(Inputs, 3, stdin);
+	int Input = atoi(Inputs);
 	
-	switch (Inputs[0]) {
+	switch (Input) {
 	case 1:
 		toolsi_hddgen();
 		break;
 	case 2:
+		toolsi_fontgen();
+		break;
+	case 3:
 		break;
 	default:
 		break;

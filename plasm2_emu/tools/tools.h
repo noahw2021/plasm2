@@ -17,3 +17,4 @@ now this will reside in the emulator.
 void tools_main(void);
 
 void toolsi_hddgen(void);
+void toolsi_fontgen(void);
