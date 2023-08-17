@@ -187,3 +187,24 @@ void VES(void) {
 	mmu_setptend(i->rs_gprs[Register]);
 	return;
 }
+
+void LWS(void) {
+	byte Register = mmu_read1(i->ip++) & 0x0F;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	u64 Virtual = mmu_translate(Immediate, REASON_READ);
+	i->rs_gprs[Register] = mmu_read8(Virtual);
+	return;
+}
+
+void SWS(void) {
+	byte Register = mmu_read1(i->ip++) & 0x0F;
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+
+	u64 Virtual = mmu_translate(Immediate, REASON_READ);
+	mmu_put8(Virtual, i->rs_gprs[Register]);
+
+	return;
+}

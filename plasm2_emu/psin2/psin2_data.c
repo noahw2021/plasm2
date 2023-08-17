@@ -71,6 +71,10 @@ void psin2_load(void) {
 	psin2_parse("__SPG = 0x6F, // SPG 6F (R:04,08 __DEST)                  16 : Stack Pointer Get");
 	psin2_parse("__VSS = 0x70, // VSS 70 (R:04,08 __LOCR)                  16 : Virtual Pagetable Start Set");
 	psin2_parse("__VES = 0x71, // VES 71 (R:04,08 __ENPR)                  16 : Virtual Pagetable End Set");
+	psin2_parse("__LWS = 0x72, // LWS 72 (R:04,08 __DEST) (I:64,64 __ADDR) 80 : Load Word Immediate (2nd Value Imm)");
+	psin2_parse("__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)");
+	psin2_parse("__LWF = 0x74, // LWF 74 (I:64,64 __ADDR) (R:04,08 ___SRC) 80 : Load Word Immediate (1st Value Imm)");
+	psin2_parse("__SWF = 0x75, // SWF 75 (I:64,64 __ADDR) (R:04,08 ___SRC) 80 : Store Word Immediate (1st Value Imm)");
 
 	psin2_parse("// Device Instructions");
 	psin2_parse("__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query");

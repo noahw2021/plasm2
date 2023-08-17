@@ -76,6 +76,8 @@ DeclInstruction(DVI);
 DeclInstruction(MDI);
 DeclInstruction(BLI);
 DeclInstruction(BRI);
+DeclInstruction(LWS);
+DeclInstruction(SWS);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -148,4 +150,6 @@ void(*Instructions[256])(void) = {
 	ListInstruction(MDI),
 	ListInstruction(BLI),
 	ListInstruction(BRI),
+	ListInstruction(LWS),
+	ListInstruction(SWS),
 };
