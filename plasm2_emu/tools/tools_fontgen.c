@@ -179,6 +179,7 @@ void toolsi_fontgen(void) {
 		}
 
 		SDL_RenderPresent(Renderer);
+		SDL_Delay(10);
 	}
 
 	for (int i = 0; i < 256; i++) {
