@@ -18,3 +18,4 @@ void tools_main(void);
 
 void toolsi_hddgen(void);
 void toolsi_fontgen(void);
+void toolsi_fontview(void);

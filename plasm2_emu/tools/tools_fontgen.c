@@ -15,8 +15,6 @@ SDL_Renderer* Renderer;
 
 #pragma warning(disable: 6011)
 
-
-
 #define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit)) >> Bit
 #define SINGLE_SET(Single, Bit) (Single |= (1LLU << Bit))
 #define SINGLE_CLR(Single, Bit) (Single &= (~(1LLU << Bit)))
