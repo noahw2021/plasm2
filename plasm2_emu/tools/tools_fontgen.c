@@ -15,11 +15,14 @@ SDL_Renderer* Renderer;
 
 #pragma warning(disable: 6011)
 
-#define SINGLE_READ(Single, Bit) (Single & (1 << Bit)) >> Bit
-#define SINGLE_WRTE(Single, Bit, State) (Single &= ~(1 << Bit)); (Single |= (State << Bit));
 
-#define BIT_READ(Pair, Bit)  SINGLE_READ(Pair[Bit / 64], Bit % 64)
-#define BIT_WRTE(Pair, Bit, State) SINGLE_WRTE(Pair[Bit / 64], Bit % 64, State & 1)
+
+#define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit))
+#define SINGLE_SET(Single, Bit) (Single |= (1LLU << Bit))
+#define SINGLE_CLR(Single, Bit) (Single &= (~(1LLU << Bit)))
+
+#define BIT_READ(Pair, Bit)  SINGLE_GET(Pair[Bit / 64], Bit % 64)
+#define BIT_WRTE(Pair, Bit, State) SINGLE_CLR(Pair[Bit / 64], Bit % 64); SINGLE_SET(Pair[Bit / 64], Bit % 64)
 
 int toolsi_renderthread(void* __a0) {
 	return 0;
@@ -40,7 +43,7 @@ void toolsi_fontgen(void) {
 	int MousePos[2] = { 0, 0 };
 	byte IsMouseDown[2] = { 0,0 };
 	byte** Bitmap = malloc(sizeof(byte*) * 256);
-	for (int i = 0; i < 128; i++) {
+	for (int i = 0; i < 256; i++) {
 		Bitmap[i] = malloc(sizeof(byte) * 128);
 		memset(Bitmap[i], 0, 128);
 	}
@@ -64,7 +67,7 @@ void toolsi_fontgen(void) {
 
 		for (int i = 0; i < 256; i++) {
 			fread(InPair, sizeof(u64) * 2, 1, InFile);
-			for (int b = 0; b < 128; b++)
+			for (u64 b = 0; b < 128; b++)
 				Bitmap[i][b] = BIT_READ(InPair, b);
 		}
 		fclose(InFile);
