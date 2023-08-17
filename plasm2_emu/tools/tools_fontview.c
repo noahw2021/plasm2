@@ -32,6 +32,7 @@ void toolsi_fontview(void) {
 	if (FileSize != (sizeof(u64) * 2 * 256)) {
 		fclose(InFile);
 		printf("Malformed font file.\n");
+		return;
 	}
 	
 	byte** Bitmap = malloc(sizeof(byte*) * 256);
@@ -44,6 +45,7 @@ void toolsi_fontview(void) {
 		for (int b = 0; b < 128; b++)
 			Bitmap[i][b] = BIT_READ(InMaps, b);
 	}
+	fclose(InFile);
 
 	SDL_Window* Window = SDL_CreateWindow("PLASM2 Font Viewer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 690, 0);
 	SDL_Renderer* Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
@@ -86,8 +88,8 @@ void toolsi_fontview(void) {
 				if (Bitmap[CurrentChar][(y * 8) + x]) {
 					SDL_SetRenderDrawColor(Renderer, 220, 220, 220, 255);
 					SDL_RenderFillRect(Renderer, &Rectangle);
-					SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
 				}
+				SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
 				SDL_RenderDrawRect(Renderer, &Rectangle);
 			}
 		}
@@ -146,5 +148,12 @@ void toolsi_fontview(void) {
 		}
 
 		SDL_RenderPresent(Renderer);
+		SDL_Delay(10);
 	}
+
+	for (int i = 0; i < 256; i++)
+		free(Bitmap[i]);
+	free(Bitmap);
+
+	return;
 }
