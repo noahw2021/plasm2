@@ -17,7 +17,7 @@ SDL_Renderer* Renderer;
 
 
 
-#define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit))
+#define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit)) >> Bit
 #define SINGLE_SET(Single, Bit) (Single |= (1LLU << Bit))
 #define SINGLE_CLR(Single, Bit) (Single &= (~(1LLU << Bit)))
 
@@ -184,16 +184,14 @@ void toolsi_fontgen(void) {
 	}
 
 	for (int i = 0; i < 256; i++) {
-		u64 OutPairs[2];
+		u64 OutPairs[2] = { 0, 0 };
 		for (int c = 0; c < 128; c++) {
 			if (Bitmap[i][c]) {
 				BIT_WRTE(OutPairs, c, 1);
-			} else {
-				BIT_WRTE(OutPairs, c, 0);
 			}
 		}
 		fwrite(OutPairs, sizeof(u64), 2, InFile);
-	}
+	}	
 
 	return;
 }
