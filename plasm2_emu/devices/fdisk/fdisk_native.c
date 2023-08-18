@@ -176,8 +176,8 @@ void fdiski_drivegetvendorsz(int DriveId, u64 Pointer) {
 	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	u64 RPointer = mmu_translate(Pointer, REASON_WRTE);
-	char* TPointer = ((byte*)cpuctx->PhysicalMemory + RPointer); // PM usage good (reason: virtual memory)
+	u64 RPointer = mmu_translate(Pointer, REASON_WRTE, 16);
+	char* TPointer = ((byte*)cpuctx->PhysicalMemory + RPointer);
 	memcpy(TPointer, fdiskctx->Drives[DriveId].DeviceVendor, 16);
 
 	return;

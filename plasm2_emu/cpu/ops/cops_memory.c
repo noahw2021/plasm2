@@ -16,7 +16,7 @@ void LDW(void) {
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 8);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -34,7 +34,7 @@ void LDB(void) {
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 1);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -52,7 +52,7 @@ void STW(void) {
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -70,7 +70,7 @@ void STB(void) {
 		};
 	}Inputs; 
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 1);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -193,7 +193,7 @@ void LWS(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
-	u64 Virtual = mmu_translate(Immediate, REASON_READ);
+	u64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
 	i->rs_gprs[Register] = mmu_read8(Virtual);
 	return;
 }
@@ -203,7 +203,7 @@ void SWS(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
-	u64 Virtual = mmu_translate(Immediate, REASON_READ);
+	u64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
 	mmu_put8(Virtual, i->rs_gprs[Register]);
 
 	return;

@@ -23,7 +23,7 @@ void HND(void) {
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);
 	byte SecurityLevel = (byte)mmu_pop();
-	if (!i->flags_s.IT) {
+	if (!i->flags_s.TF) {
 		i->flags_s.XF = 1;
 		return;
 	}

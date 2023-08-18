@@ -25,8 +25,14 @@ void cpu_clock(void) {
 		return;
 	}
 
-	byte ThisInstruction = mmu_read1(i->ip++);
+	if (i->flags_s.VF &&
+		i->flags_s.MF &&
+		i->ip >= i->pti.pml
+		) {
+		cpui_csm_msg(CSM_XPAGETOOSMALL, i->ip);
+	}
 
+	byte ThisInstruction = mmu_read1(i->ip++);
 	if (emuctx->DebuggerEnabled)
 		decoder_go(ThisInstruction);
 

@@ -30,7 +30,7 @@ void LDI(void) {
 
 void JMP(void) {
 	byte Address = mmu_read1(i->ip++) & 0xF;
-	u64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC);
+	u64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		cpui_inst_jmp(PhysicalAddress);
 	else
@@ -66,7 +66,7 @@ void NXL(void) {
 void CLL(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;
 	u64 Address = i->rs_gprs[Register];
-	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ);
+	u64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		cpui_inst_cll(PhysicalAddress);
 	else
@@ -112,7 +112,7 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 void JMI(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
-	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC);
+	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		cpui_inst_jmp(Translated);
 	else
@@ -123,7 +123,7 @@ void JMI(void) {
 void CLI(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
-	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC);
+	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		cpui_inst_cll(Translated);
 	else

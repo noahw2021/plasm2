@@ -16,6 +16,7 @@ plasm2_emu
 #define CSM_IMPROPERSTACK 0x01 // Improper stack pointer with extra security (AH flag set)
 #define CSM_PTFAILNOTSIZE 0x02 // Page table fail not big enough
 #define CSM_PAGETOOSMALL  0x03 // Trying to read too much from a page
+#define CSM_XPAGETOOSMALL 0x04 // Trying to execute too much from a page
 
 // System Rings (i->security_s.SecurityLevel), 0-31
 /*
@@ -167,7 +168,8 @@ struct {
 					byte SF : 1; // StackSkip flag
 					byte CF : 1; // Call flag
 					byte AF : 1; // Extra security flag
-					byte IT : 1; // Interrupt table set
+					byte TF : 1; // Interrupt table set
+					byte MF : 1; // Memory Guard Flag
 				}flags_s;
 			};
 			union {
@@ -187,7 +189,8 @@ struct {
 				u64 dvptr; // device map pointer
 				u64 spb; // stack pointer upper bound
 				u64 slb; // stack lower bound
-				u64 reserved[3];
+				u64 pml; // page max location
+				u64 reserved[2];
 			}pti;
 		};
 	};

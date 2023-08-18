@@ -21,7 +21,7 @@ void kbi_setkeyupint(u64 Interrupt) {
 }
 
 u64  kbi_getkeymapptr(void) {
-	return mmu_translate(0x23F0, REASON_READ);
+	return mmu_translate(0x23F0, REASON_READ, 256);
 }
 
 void kbii_markkey(byte Keycode, byte Status) {

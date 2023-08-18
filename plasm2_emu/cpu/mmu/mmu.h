@@ -11,6 +11,8 @@ plasm2_emu
 #define REASON_WRTE 0x02
 #define REASON_READ 0x04
 
+#define SIZE_WATCHDOG 0xAFFFFFFFFFFFFFFF
+
 // init
 void mmu_init(void);
 void mmu_shutdown(void);
@@ -23,7 +25,7 @@ void mmu_put8(u64 Address, u64 Value);
 void mmu_put1(u64 Address, byte Value);
 
 // virtual
-u64 mmu_translate(u64 VirtualAddress, byte Reason);
+u64 mmu_translate(u64 VirtualAddress, byte Reason, u64 MaxSize);
 u64 mmu_maxaddr(u64 VirtualAddress, byte Reason);
 u64 mmu_createpage(u64 PhysicalAddress, u64 Size, byte Permissions);
 void mmu_deletepage(u64 VirtualAddress);
