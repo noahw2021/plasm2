@@ -22,6 +22,7 @@ byte mmu_read1(u64 Address);
 u64  mmu_read8(u64 Address);
 u64  mmu_readx(u64 Address, byte BytesToRead);
 void mmu_put8(u64 Address, u64 Value);
+void mmu_put4(u64 Address, u32 Value);
 void mmu_put1(u64 Address, byte Value);
 
 // virtual

@@ -40,8 +40,18 @@ void mmu_put8(u64 Address, u64 Value) {
 	PhysicalWords[0] = Value;
 	return;
 }
+
 void mmu_put1(u64 Address, byte Value) {
 	byte* PhysicalBytes = (byte*)((byte*)cpuctx->PhysicalMemory + Address); // PM usage good (reason: comes from trust)
+	if (Address > PHYS_MEMSZ)
+		i->flags_s.XF = 1;
+	else
+		PhysicalBytes[0] = Value;
+	return;
+}
+
+void mmu_put4(u64 Address, u32 Value) {
+	u32* PhysicalBytes = (byte*)((byte*)cpuctx->PhysicalMemory + Address); // PM usage good (reason: comes from trust)
 	if (Address > PHYS_MEMSZ)
 		i->flags_s.XF = 1;
 	else

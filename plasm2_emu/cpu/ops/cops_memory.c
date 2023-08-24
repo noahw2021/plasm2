@@ -208,3 +208,39 @@ void SWS(void) {
 
 	return;
 }
+
+void LDH(void) {
+	union {
+		byte Input;
+		struct {
+			byte Address : 4;
+			byte Destination : 4;
+		};
+	}Inputs;
+	Inputs.Input = mmu_read1(i->ip++);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 4);
+	if (!VirtualAddress) {
+		i->flags_s.XF = 1;
+		return;
+	}
+	i->rs_gprs[Inputs.Destination] = mmu_readx(VirtualAddress, 4);
+	return;
+}
+
+void STH(void) {
+	union {
+		byte Input;
+		struct {
+			byte Register : 4;
+			byte Address : 4;
+		};
+	}Inputs;
+	Inputs.Input = mmu_read1(i->ip++);
+	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
+	if (!VirtualAddress) {
+		i->flags_s.XF = 1;
+		return;
+	}
+	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
+	return;
+}
