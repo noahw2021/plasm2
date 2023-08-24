@@ -165,7 +165,7 @@ void cg_parse(const char* Line) {
 						}
 						else {
 							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
-							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition + 1;
 							linkctx->Symbols[i].LocationCount++;
 							strcpy(OperandA, "0");
 						}
@@ -173,7 +173,7 @@ void cg_parse(const char* Line) {
 				}
 				if (!Found) {
 					char* ToString = malloc(64);
-					sprintf(ToString, "%llu", link_getsymbol(OperandA)); // base doens't matter, will always be 0
+					sprintf(ToString, "%llu", link_getsymbol(OperandA, 1)); // base doens't matter, will always be 0
 					strcpy(OperandA, ToString);
 					free(ToString);
 				}
@@ -192,8 +192,8 @@ void cg_parse(const char* Line) {
 		Temporary[t] = 0x00;
 		strcpy(OperandB, Temporary);
 
-		if (!InRange(OperandA[0], '0', '9')) {
-			if (OperandA[0] != 'r') {
+		if (!InRange(OperandB[0], '0', '9')) {
+			if (OperandB[0] != 'r') {
 				byte Found = 0;
 				for (int i = 0; i < linkctx->SymbolCount; i++) {
 					if (!strcmp(OperandB, linkctx->Symbols[i].SymbolName)) {
@@ -209,7 +209,7 @@ void cg_parse(const char* Line) {
 						}
 						else {
 							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
-							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition + (psin2i_getphyssize(Psin, 0) / 8) + 1;
 							linkctx->Symbols[i].LocationCount++;
 							strcpy(OperandB, "0");
 						}
@@ -217,7 +217,7 @@ void cg_parse(const char* Line) {
 				}
 				if (!Found) {
 					char* ToString = malloc(64);
-					sprintf(ToString, "%llu", link_getsymbol(OperandB)); // base doens't matter, will always be 0
+					sprintf(ToString, "%llu", link_getsymbol(OperandB, (psin2i_getphyssize(Psin, 0) / 8) + 1)); // base doens't matter, will always be 0
 					strcpy(OperandB, ToString);
 					free(ToString);
 				}
@@ -271,7 +271,7 @@ void cg_parse(const char* Line) {
 		}
 	}
 
-	cgp_put1(psin2i_getopcode(Psin));
+ 	cgp_put1(psin2i_getopcode(Psin));
 	if (OperandSingleByte && OperandPtrSizes[0] == 4) {
 		cgp_put1(OperandSingleByte);
 	} else {

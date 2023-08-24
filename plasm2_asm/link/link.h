@@ -10,7 +10,7 @@ plasm2_asm
 void link_init(void);
 void link_shutdown(void);
 
-u64  link_getsymbol(const char* Name);
+u64  link_getsymbol(const char* Name, u32 Offset);
 void link_resolve(const char* Name, u64 Pointer);
 void link_go(void);
 

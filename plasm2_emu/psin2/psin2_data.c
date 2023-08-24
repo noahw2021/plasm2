@@ -14,17 +14,16 @@ void psin2_load(void) {
 	psin2_parse("__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear");
 	psin2_parse("__NXE = 0x04, // NXE 04                                   08 : Next Execute If Equal");
 	psin2_parse("__NXZ = 0x05, // NXZ 05                                   08 : Next Execute If Zero");
-	psin2_parse("__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater");
+	psin2_parse("__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater"); 
 	psin2_parse("__NXL = 0x07, // NXL 07                                   08 : Next Execute If Less");
 	psin2_parse("__CLL = 0x08, // CLL 08 (R:04,08 ___ADR)                  16 : Call");
 	psin2_parse("__RET = 0x09, // RET 09                                   08 : Return");
-	psin2_parse("__IMR = 0x0A, // IMR 0A (I:16,16 _VALUE)                  24 : Immediate Return");
-	psin2_parse("__SHF = 0x0B, // SHF 0B                                   08 : Set Halt Flags");
-	psin2_parse("__CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare");
-	psin2_parse("__CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare");
-	psin2_parse("__JMI = 0x0D, // JMI 0D (I:64,64 __ADDR)                  72 : Jump Immediate");
-	psin2_parse("__CLI = 0x0E, // CLI 0E (I:64,64 __ADDR)                  72 : Call Immediate");
-	psin2_parse("__CMI = 0x0F, // CMI 0F (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate");
+	psin2_parse("__IMR = 0x0B, // IMR 0B (I:16,16 _VALUE)                  24 : Immediate Return");
+	psin2_parse("__SHF = 0x0C, // SHF 0C                                   08 : Set Halt Flags");
+	psin2_parse("__CMP = 0x0E, // CMP 0E (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare");
+	psin2_parse("__JMI = 0x0F, // JMI 0F (I:64,64 __ADDR)                  72 : Jump Immediate");
+	psin2_parse("__CLI = 0x10, // CLI 10 (I:64,64 __ADDR)                  72 : Call Immediate");
+	psin2_parse("__CMI = 0x11, // CMI 11 (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate");
 
 	psin2_parse("// Arithmetic Instructions");
 	psin2_parse("__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add");

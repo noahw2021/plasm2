@@ -15,7 +15,7 @@ extern FILE* PrimaryOutput;
 
 void cgp_put1(byte Data) {
 	fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
-	fputc(Data, PrimaryOutput);
+	fwrite(&Data, 1, 1, PrimaryOutput);
 	cgctx->DataPosition++;
 	if (cgctx->DataPosition > cgctx->HighestPosition)
 		cgctx->HighestPosition = cgctx->DataPosition;

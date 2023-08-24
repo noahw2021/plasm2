@@ -65,7 +65,7 @@ int main(int argc, char** argv) {
 				printf("[ERR]: Missing file path.\n");
 				return -1;
 			}
-			PrimaryOutput = fopen(OutFilePtr + 3, "w");
+			PrimaryOutput = fopen(OutFilePtr + 3, "wb");
 			if (!PrimaryOutput) {
 				printf("[ERR]: Failed top open file %s for write.\n", OutFilePtr + 3);
 				if (PrimaryInput != stdin && PrimaryInput)

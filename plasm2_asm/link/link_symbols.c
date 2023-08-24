@@ -12,11 +12,11 @@ plasm2_asm
 
 #pragma warning(disable: 6308 26451)
 
-u64 link_getsymbol(const char* Name) {
+u64 link_getsymbol(const char* Name, u32 Offset) {
 	for (int i = 0; i < linkctx->SymbolCount; i++) {
 		if (!strcmp(linkctx->Symbols[i].SymbolName, Name)) {
 			linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, sizeof(*linkctx->Symbols[i].Locations) * (linkctx->Symbols[i].LocationCount + 1));
-			linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+			linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition + Offset;
 			linkctx->Symbols[i].LocationCount++;
 			return linkctx->Symbols[i].Resolution;
 		}
@@ -29,7 +29,7 @@ u64 link_getsymbol(const char* Name) {
 
 	linkctx->Symbols[linkctx->SymbolCount].LocationCount = 1;
 	linkctx->Symbols[linkctx->SymbolCount].Locations = malloc(sizeof(*linkctx->Symbols[0].Locations));
-	linkctx->Symbols[linkctx->SymbolCount].Locations[0].Location = cgctx->DataPosition;
+	linkctx->Symbols[linkctx->SymbolCount].Locations[0].Location = cgctx->DataPosition + Offset;
 	linkctx->Symbols[linkctx->SymbolCount].Resolution = 0;
 	linkctx->Symbols[linkctx->SymbolCount].Resolved = 0;
 	linkctx->Symbols[linkctx->SymbolCount].SymbolName = malloc(strlen(Name) + 1);
