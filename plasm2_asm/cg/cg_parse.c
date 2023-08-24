@@ -149,7 +149,10 @@ void cg_parse(const char* Line) {
 		strcpy(OperandA, Temporary);
 
 		if (!InRange(OperandA[0], '0', '9')) {
-			if (OperandA[0] != 'r') {
+			char* EndPtr;
+			if (OperandA[0] != 'r' && strtoull(OperandA, &EndPtr, cgctx->CurrentRadix)) {
+				if (EndPtr != OperandA)
+					goto OutA;
 				byte Found = 0;
 				for (int i = 0; i < linkctx->SymbolCount; i++) {
 					if (!strcmp(OperandA, linkctx->Symbols[i].SymbolName)) {
@@ -180,6 +183,7 @@ void cg_parse(const char* Line) {
 			}
 		}
 	}
+OutA:
 
 	// Grab operand two
 	t = 0;
@@ -192,7 +196,10 @@ void cg_parse(const char* Line) {
 		Temporary[t] = 0x00;
 		strcpy(OperandB, Temporary);
 
-		if (!InRange(OperandB[0], '0', '9')) {
+		char* EndPtr;
+		if (!InRange(OperandB[0], '0', '9') && strtoull(OperandB, &EndPtr, cgctx->CurrentRadix)) {
+			if (EndPtr != OperandB)
+				goto OutB;
 			if (OperandB[0] != 'r') {
 				byte Found = 0;
 				for (int i = 0; i < linkctx->SymbolCount; i++) {
@@ -224,6 +231,7 @@ void cg_parse(const char* Line) {
 			}
 		}
 	}
+OutB:
 
 	for (int o = 0; o < psin2i_getoperandcnt(Psin); o++) {
 		if (!OperandPtrs[o]) {

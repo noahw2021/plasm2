@@ -42,7 +42,7 @@ u64 link_getsymbol(const char* Name, u32 Offset) {
 void link_resolve(const char* Name, u64 Pointer) {
 	for (int i = 0; i < linkctx->SymbolCount; i++) {
 		if (!strcmp(linkctx->Symbols[i].SymbolName, Name)) {
-			linkctx->Symbols[i].Resolution = Pointer;
+			linkctx->Symbols[i].Resolution = Pointer + cgctx->ReferencePtr;
 			linkctx->Symbols[i].Resolved = 1;
 			return;
 		}
