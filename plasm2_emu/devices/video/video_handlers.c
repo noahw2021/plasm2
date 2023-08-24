@@ -37,6 +37,7 @@ u64 video_sendcommand(u32 Device, u64 Command) {
 	case 0x04:
 	case 0x05:
 	case 0x07:
+		videoctx->DestinationCommand = Command;
 		videoctx->AwaitingData = 1;
 		videoctx->PendingDataSend = 0;
 		break;
@@ -54,6 +55,7 @@ u64 video_senddata(u32 Device, u64 Data) {
 	if (!videoctx->AwaitingData)
 		return 0;
 	u32 Color;
+	u64 Ptr;
 	switch (videoctx->DestinationCommand) {
 	case 0x01:
 		videoi_settextbuffer(Data);
@@ -71,14 +73,10 @@ u64 video_senddata(u32 Device, u64 Data) {
 		videoi_drawfill((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
 		break;
 	case 0x05:
-		Color = (u32)mmu_pop();
-		videoi_drawrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
+		Ptr = mmu_pop(); // aka pointer here
+		videoi_copyrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Ptr);
 		break;
-	case 0x06:
-		Color = (u32)mmu_pop(); // aka pointer here
-		videoi_copyrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
-		break;
-	case 0x07:
+	case 0x06: // wip
 		break;
 	}
 	return 0;

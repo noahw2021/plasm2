@@ -75,8 +75,7 @@ INC r3
 JMI BiosMainLoop0ExecLoop0Check
 
 BiosMainLoop0ExecLoop0After:
-INC r0
-JMI BiosMainLoop0Check
+JMI BiosMainLoop0ExecLoop1Check
 
 BiosMainLoop0ExecLoop1Check:
 CMI r4, 128
@@ -120,16 +119,35 @@ INC r4
 JMI BiosMainLoop0ExecLoop1Check
 
 BiosMainLoop0ExecLoop1ExecSub3: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0xFFFFFFFF;
-
+LDI r5, 4000
+MOV r6, r0
+MLI r6, 512 ; (5 * 16 * 4)
+ADD r5, r6
+MOV r6, r4
+MLI r6, 4
+ADD r5, r6
+LDI r6, FFFFFFFF
+STH r5, r6
 JMI BiosMainLoop0ExecLoop1ExecSub2
 
 BiosMainLoop0ExecLoop1ExecSub4: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0x00000000;
+LDI r5, 4000
+MOV r6, r0
+MLI r6, 512 ; (5 * 16 * 4)
+ADD r5, r6
+MOV r6, r4
+MLI r6, 4
+ADD r5, r6
+LDI r6, 00000000
+STH r5, r6
 JMI BiosMainLoop0ExecLoop1ExecSub2
 
 BiosMainLoop0ExecLoop1After:
-
+INC r0
+JMI BiosMainLoop0Check
 
 BiosMainLoop0After:
+; Video
 
 
 -a 3000
