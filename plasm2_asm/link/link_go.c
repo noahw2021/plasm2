@@ -24,7 +24,7 @@ void link_go(void) {
 
 		for (int l = 0; l < linkctx->Symbols[s].LocationCount; l++) {
 			fseek(PrimaryOutput, (u32)linkctx->Symbols[s].Locations[l].Location, SEEK_SET);
-			cgp_put8(linkctx->Symbols[s].Resolution);
+			fwrite(&linkctx->Symbols[s].Resolution, 8, 1, PrimaryOutput);
 		}
 
 		if (linkctx->Symbols[s].Locations)

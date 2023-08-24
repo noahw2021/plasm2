@@ -36,7 +36,7 @@ void vfg_write(const char* Filename, u64 Dp) {
 	}
 
 	fclose(InFile);
-	cgctx->DataPosition = OldDp;
+	cgctx->DataPosition = OldDp + FileSize;
 
 	return;
 }
