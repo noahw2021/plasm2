@@ -30,7 +30,7 @@ void vfg_write(const char* Filename, u64 Dp) {
 
 	for (int i = 0; i < (FileSize % 8); i++) {
 		byte Temp;
-		fseek(InFile, (FileSize - (FileSize % 8) + i), SEEK_SET);
+		fseek(InFile, (u32)(FileSize - (FileSize % 8) + i), SEEK_SET);
 		fread(&Temp, 1, 1, InFile);
 		cgp_put1(Temp);
 	}

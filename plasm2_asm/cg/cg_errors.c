@@ -26,7 +26,7 @@ void cge_error(int Line, const char* Reason, ...) {
 	va_list VaList;
 	va_start(VaList, Reason);
 	char* ReasonBuffer = malloc(768);
-	vprintf(ReasonBuffer, Reason, VaList);
+	vsprintf(ReasonBuffer, Reason, VaList);
 	va_end(VaList);
 
 	cgctx->Errors[cgctx->ErrorCount - 1].Line = Line;

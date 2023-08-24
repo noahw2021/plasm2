@@ -11,6 +11,7 @@ plasm2_asm
 */
 
 extern FILE* PrimaryOutput;
+#pragma warning(disable: 6001 6386 6387)
 
 void link_go(void) {
 	for (int s = 0; s < linkctx->SymbolCount; s++) {
@@ -22,11 +23,12 @@ void link_go(void) {
 		}
 
 		for (int l = 0; l < linkctx->Symbols[s].LocationCount; l++) {
-			fseek(PrimaryOutput, linkctx->Symbols[s].Locations[l].Location, SEEK_SET);
+			fseek(PrimaryOutput, (u32)linkctx->Symbols[s].Locations[l].Location, SEEK_SET);
 			cgp_put8(linkctx->Symbols[s].Resolution);
 		}
 
-		free(linkctx->Symbols[s].Locations);
+		if (linkctx->Symbols[s].Locations)
+			free(linkctx->Symbols[s].Locations);
 		linkctx->Symbols[s].LocationCount = 0;
 	}
 

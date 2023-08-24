@@ -61,4 +61,5 @@ int   psin2i_getinstructionbycd(byte Opcode) {
 		if (psin2ctx->Instructions[i].Opcode == Opcode)
 			return i;
 	}
+	return 0;
 }

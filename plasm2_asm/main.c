@@ -92,12 +92,13 @@ int main(int argc, char** argv) {
 
 	char* Line = malloc(2048);
 	while (cgctx) {
-		printf("[%04hX]: ", cgctx->DataPosition);
+		printf("[%06lX]: ", (u32)cgctx->DataPosition);
 		strcpy(Line, vf_get());
 		if (vf_ci() != stdin)
 			printf("%s", Line);
 		cg_parse(Line);
 	}
+	free(Line);
 
 	return 0;
 }

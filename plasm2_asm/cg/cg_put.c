@@ -14,7 +14,7 @@ plasm2_asm
 extern FILE* PrimaryOutput;
 
 void cgp_put1(byte Data) {
-	fseek(PrimaryOutput, cgctx->DataPosition, SEEK_SET);
+	fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
 	fputc(Data, PrimaryOutput);
 	cgctx->DataPosition++;
 	if (cgctx->DataPosition > cgctx->HighestPosition)

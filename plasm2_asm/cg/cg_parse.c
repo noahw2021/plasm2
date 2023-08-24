@@ -12,7 +12,7 @@ plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-#pragma warning(disable: 6011 6387)
+#pragma warning(disable: 6011 6308 6387 28182)
 
 extern FILE* PrimaryOutput;
 
@@ -66,13 +66,13 @@ void cg_parse(const char* Line) {
 	Temporary[c] = 0x00;
 
 	int Usage = 0;
-	char* FollowString = Line + 3;
+	char* FollowString = (char*)Line + 3;
 
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
 			cgctx->DataPosition = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
-			fseek(PrimaryOutput, cgctx->DataPosition, SEEK_SET);
+			fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
 			cgctx->CurrentRadix = atoi(Line  + 3);
@@ -88,7 +88,7 @@ void cg_parse(const char* Line) {
 			vf_register(FollowString);
 			break;
 		case 'p': // pad with zero until x size
-			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			Usage = (int)strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			cgctx->DataPosition = cgctx->HighestPosition;
 			while (cgctx->DataPosition < Usage)
 				cgp_put1('\0');
@@ -103,7 +103,7 @@ void cg_parse(const char* Line) {
 			cgp_put1('\0');
 			break;
 		case 'z': // fill with zero
-			Usage = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			Usage = (int)strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			for (int i = 0; i < Usage; i++)
 				cgp_put1('\0');
 			break;
@@ -201,8 +201,8 @@ void cg_parse(const char* Line) {
 			};
 		}SingleDual;
 
-		SingleDual.DualA = *OperandPhysPtrs[0];
-		SingleDual.DualB = *OperandPhysPtrs[1];
+		SingleDual.DualA = (byte)*OperandPhysPtrs[0];
+		SingleDual.DualB = (byte)*OperandPhysPtrs[1];
 
 		DualOutput = SingleDual.Single;	
 	} else {
