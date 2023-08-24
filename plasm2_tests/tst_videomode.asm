@@ -1,28 +1,33 @@
 ; tst_videomode.asm
+; (c) Noah Wooten 2023, All Rights Reserved
 
-;-b 16
-;-a 3A0
-;-b 10
+-b 16
 
-LDI r0, 1 ; device id
-LDI r1, 2 ; draw line
-LDI r2, 9007336694743056 ; line args (10,10), (20, 20)
-LDI r3, 4294967295 ; black
+-a 3000
+BiosFontRenderTarget:
 
-PSH r3 ; push color to stack
+-a 3A0
+BiosMain:
+; Font Pre-render
+; r0 = Char count
+; r1 = Char[x] #0
+; r2 = Char[x] #1
+; r3 = memory
+LDI r0, 0
+LDI r3, BiosFontRenderTarget
+JMI BiosMainLoop0Check
 
-; draw line
-DSC r0, r1
-DSD r0, r2
+BiosMainLoop0Check:
+CMI r0, 127
+NXL
+JMI BiosMainLoop0Exec
+JMI BiosMainSub1
 
-; infinite loop
+BiosMainLoop0Exec:
 
-LDI r5, 928
 
-Eh2:
-LDI r4, Eh2
-ADD r4, r5
-JMP r4
+BiosMainSub1:
 
--p 4096
--c
+
+BiosFont:
+-f bios7.fon
