@@ -8,6 +8,7 @@ plasm2_asm
 */
 
 void psin2_load(void) {
+	psin2_parse("__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers");
 	psin2_parse("__LDI = 0x01, // LDI 01 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Load Immediate");
 	psin2_parse("__JMP = 0x02, // JMP 02 (R:04,08 ___ADR)                  16 : Jump");
 	psin2_parse("__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear");
@@ -44,7 +45,7 @@ void psin2_load(void) {
 	psin2_parse("__BOR = 0x41, // BOR 41 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise OR");
 	psin2_parse("__XOR = 0x42, // XOR 42 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise XOR");
 	psin2_parse("__BSL = 0x43, // BSL 43 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Left");
-	psin2_parse("__BSR = 0x44, // BSL 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right");
+	psin2_parse("__BSR = 0x44, // BSR 44 (R:04,04 __DEST) (R:04,04 SFTCNT) 16 : Bitshift Right");
 	psin2_parse("__NOT = 0x45, // NOT 45 (R:04,08 __DEST)                  16 : Bitwise NOT");
 	psin2_parse("__ANI = 0x46, // ANI 46 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise AND w/ Immediate");
 	psin2_parse("__ORI = 0x47, // ORI 47 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise OR w/ Immediate");

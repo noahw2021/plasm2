@@ -112,13 +112,26 @@ void cg_parse(const char* Line) {
 	}
 
 	char* _Line = (char*)Line;
-	if (_Line[strlen(Line) - 1] == ':') { // symbol resolve
-		_Line[strlen(Line) - 1] = 0x00;
+	int __x = strlen(Line);
+	int Count = 0;
+	while (_Line[__x - Count] != ':') {
+		Count++;
+		if (Count == __x)
+			break;
+	}
+	if (Count != __x) {
+		if (strstr(_Line, ":"))
+			*(char*)strstr(_Line, ":") = 0x00;
 		link_resolve(Line, cgctx->DataPosition);
 		goto ExitThis;
 	}
 
 	int Psin = psin2i_getinstructionname(Temporary);
+
+	if (Psin == -1) {
+		cge_error(cgctx->CurrentLine, "[E1002]: Invalid operand");
+		goto ExitThis;
+	}
 
 	// Grab operand one
 	t = 0;
@@ -134,6 +147,38 @@ void cg_parse(const char* Line) {
 		}
 		Temporary[t] = 0x00;
 		strcpy(OperandA, Temporary);
+
+		if (!InRange(OperandA[0], '0', '9')) {
+			if (OperandA[0] != 'r') {
+				byte Found = 0;
+				for (int i = 0; i < linkctx->SymbolCount; i++) {
+					if (!strcmp(OperandA, linkctx->Symbols[i].SymbolName)) {
+						Found = 1;
+						if (linkctx->Symbols[i].Resolved) {
+							char* ToString = malloc(64);
+							if (cgctx->CurrentRadix == 16)
+								sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
+							else
+								sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
+							strcpy(OperandA, ToString);
+							free(ToString);
+						}
+						else {
+							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
+							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+							linkctx->Symbols[i].LocationCount++;
+							strcpy(OperandA, "0");
+						}
+					}
+				}
+				if (!Found) {
+					char* ToString = malloc(64);
+					sprintf(ToString, "%llu", link_getsymbol(OperandA)); // base doens't matter, will always be 0
+					strcpy(OperandA, ToString);
+					free(ToString);
+				}
+			}
+		}
 	}
 
 	// Grab operand two
@@ -141,25 +186,40 @@ void cg_parse(const char* Line) {
 	while (Line[c] && Line[c] != ',') {
 		Temporary[t++] = Line[c++];
 		OperandBPresent = 1;
+
 	}
 	if (OperandBPresent) {
 		Temporary[t] = 0x00;
 		strcpy(OperandB, Temporary);
 
-		for (int i = 0; i < linkctx->SymbolCount; i++) {
-			if (!strcmp(OperandB, linkctx->Symbols[i].SymbolName)) {
-				if (linkctx->Symbols[i].Resolved) {
+		if (!InRange(OperandA[0], '0', '9')) {
+			if (OperandA[0] != 'r') {
+				byte Found = 0;
+				for (int i = 0; i < linkctx->SymbolCount; i++) {
+					if (!strcmp(OperandB, linkctx->Symbols[i].SymbolName)) {
+						Found = 1;
+						if (linkctx->Symbols[i].Resolved) {
+							char* ToString = malloc(64);
+							if (cgctx->CurrentRadix == 16)
+								sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
+							else
+								sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
+							strcpy(OperandB, ToString);
+							free(ToString);
+						}
+						else {
+							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
+							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
+							linkctx->Symbols[i].LocationCount++;
+							strcpy(OperandB, "0");
+						}
+					}
+				}
+				if (!Found) {
 					char* ToString = malloc(64);
-					if (cgctx->CurrentRadix == 16)
-						sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
-					else
-						sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
+					sprintf(ToString, "%llu", link_getsymbol(OperandB)); // base doens't matter, will always be 0
 					strcpy(OperandB, ToString);
-				} else {
-					linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
-					linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition;
-					linkctx->Symbols[i].LocationCount++;
-					strcpy(OperandB, "0");
+					free(ToString);
 				}
 			}
 		}
@@ -176,7 +236,7 @@ void cg_parse(const char* Line) {
 				cge_error(cgctx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
 				goto ExitThis;
 			}
-			*(char*)OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
+			OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
 			if (psin2i_getphyssize(Psin, o) == 4) {
 				OperandSingleByte |= *OperandPhysPtrs[o] << (4 * (1 - o));
 				OperandPtrSizes[o] = 4;
@@ -186,7 +246,6 @@ void cg_parse(const char* Line) {
 		} else {
 			OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
 			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
-			*OperandNamePtrs[0] += cgctx->ReferencePtr;
 		}
 	}
 

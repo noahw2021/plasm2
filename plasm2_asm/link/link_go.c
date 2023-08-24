@@ -28,7 +28,7 @@ void link_go(void) {
 		}
 
 		if (linkctx->Symbols[s].Locations)
-			free(linkctx->Symbols[s].Locations);
+			//free(linkctx->Symbols[s].Locations);
 		linkctx->Symbols[s].LocationCount = 0;
 	}
 
