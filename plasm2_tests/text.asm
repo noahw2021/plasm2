@@ -5,7 +5,8 @@
 ; Test video-mode text renderer
 
 -b 16
--a 3A0
+-a 00
+-r 3A0
 
 ;for (int i = 0; i < 128; i++) {
 ;		u64 Segs[2];
@@ -55,7 +56,7 @@ JMI BiosMainLoop0ExecLoop0ExecSub0
 JMI BiosMainLoop0ExecLoop0ExecSub1
 
 BiosMainLoop0ExecLoop0ExecSub0:
-LDI r5, 3000
+LDI r5, FontFile
 MOV r6, r5
 MLI r6, 8
 ADD r5, r6
@@ -63,7 +64,7 @@ LDW r1, r5
 JMI BiosMainLoop0ExecLoop0ExecSub2
 
 BiosMainLoop0ExecLoop0ExecSub1:
-LDI r5, 3000
+LDI r5, FontFile
 MOV r6, r5
 MLI r6, 8
 ADD r5, r6
@@ -158,9 +159,8 @@ ADD r3, r4
 DSC r0, r1
 DSD r0, r3
 
--a 3000
-FontFile:
--f font.bin
+-a 800
+-f bios7.fon
 
--a 4000
-TextRender:
+-a 1000
+
