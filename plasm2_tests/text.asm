@@ -31,7 +31,7 @@ XOR r0, r0
 JMI BiosMainLoop0Check
 
 BiosMainLoop0Check:
-CMI r0, 128
+CMI r0, 80
 NXL
 JMI BiosMainLoop0Exec
 JMI BiosMainLoop0After
@@ -78,14 +78,14 @@ BiosMainLoop0ExecLoop0After:
 JMI BiosMainLoop0ExecLoop1Check
 
 BiosMainLoop0ExecLoop1Check:
-CMI r4, 128
+CMI r4, 80
 NXL
 JMI BiosMainLoop0ExecLoop1Exec
 JMI BiosMainLoop0ExecLoop1After
 
 BiosMainLoop0ExecLoop1Exec:
 XOR r6, r6
-CMI r4, 64
+CMI r4, 40
 NXL
 JMI BiosMainLoop0ExecLoop1ExecSub0
 JMI BiosMainLoop0ExecLoop1ExecSub1
@@ -121,7 +121,7 @@ JMI BiosMainLoop0ExecLoop1Check
 BiosMainLoop0ExecLoop1ExecSub3: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0xFFFFFFFF;
 LDI r5, 4000
 MOV r6, r0
-MLI r6, 512 ; (5 * 16 * 4)
+MLI r6, 200 ; (5 * 16 * 4)
 ADD r5, r6
 MOV r6, r4
 MLI r6, 4
@@ -133,7 +133,7 @@ JMI BiosMainLoop0ExecLoop1ExecSub2
 BiosMainLoop0ExecLoop1ExecSub4: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0x00000000;
 LDI r5, 4000
 MOV r6, r0
-MLI r6, 512 ; (5 * 16 * 4)
+MLI r6, 200 ; (5 * 16 * 4)
 ADD r5, r6
 MOV r6, r4
 MLI r6, 4
@@ -148,7 +148,15 @@ JMI BiosMainLoop0Check
 
 BiosMainLoop0After:
 ; Video
-
+LDI r0, 0 ; video = devid 0 
+LDI r1, 05 ; CopyRect
+LDI r2, 0800100008001000 ; glyph pos and size
+LDI r3, TextRender
+LDI r4, 65 ; 'A'
+MLI r4, 200 ; * 'A' * 512 (512 bytes = 1 glyph size)
+ADD r3, r4
+DSC r0, r1
+DSD r0, r3
 
 -a 3000
 FontFile:
