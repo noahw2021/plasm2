@@ -22,9 +22,7 @@ typedef struct _linkctx {
 		byte Resolved;
 
 		u64 LocationCount;
-		struct {
-			u64 Location;
-		}*Locations;
+		u64* Locations;
 	}*Symbols;
 }linkctx_t;
 extern linkctx_t* linkctx;

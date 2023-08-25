@@ -148,38 +148,16 @@ void cg_parse(const char* Line) {
 		Temporary[t] = 0x00;
 		strcpy(OperandA, Temporary);
 
-		if (!InRange(OperandA[0], '0', '9')) {
-			char* EndPtr;
-			if (OperandA[0] != 'r' && strtoull(OperandA, &EndPtr, cgctx->CurrentRadix)) {
-				if (EndPtr != OperandA)
-					goto OutA;
-				byte Found = 0;
-				for (int i = 0; i < linkctx->SymbolCount; i++) {
-					if (!strcmp(OperandA, linkctx->Symbols[i].SymbolName)) {
-						Found = 1;
-						if (linkctx->Symbols[i].Resolved) {
-							char* ToString = malloc(64);
-							if (cgctx->CurrentRadix == 16)
-								sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
-							else
-								sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
-							strcpy(OperandA, ToString);
-							free(ToString);
-						}
-						else {
-							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
-							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition + 1;
-							linkctx->Symbols[i].LocationCount++;
-							strcpy(OperandA, "0");
-						}
-					}
-				}
-				if (!Found) {
-					char* ToString = malloc(64);
-					sprintf(ToString, "%llu", link_getsymbol(OperandA, 1)); // base doens't matter, will always be 0
-					strcpy(OperandA, ToString);
-					free(ToString);
-				}
+		if (OperandA[0] != 'r') {
+			if (!(InRange(OperandA[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandA[0], 'A', 'F')))) {
+				u64 Resolved = link_getsymbol(OperandA, 1);
+				char* ToString = malloc(64);
+				if (cgctx->CurrentRadix == 16)
+					sprintf(ToString, "%llX", Resolved);
+				else
+					sprintf(ToString, "%llu", Resolved);
+				strcpy(OperandA, ToString);
+				free(ToString);
 			}
 		}
 	}
@@ -196,38 +174,16 @@ OutA:
 		Temporary[t] = 0x00;
 		strcpy(OperandB, Temporary);
 
-		char* EndPtr;
-		if (!InRange(OperandB[0], '0', '9') && strtoull(OperandB, &EndPtr, cgctx->CurrentRadix)) {
-			if (EndPtr != OperandB)
-				goto OutB;
-			if (OperandB[0] != 'r') {
-				byte Found = 0;
-				for (int i = 0; i < linkctx->SymbolCount; i++) {
-					if (!strcmp(OperandB, linkctx->Symbols[i].SymbolName)) {
-						Found = 1;
-						if (linkctx->Symbols[i].Resolved) {
-							char* ToString = malloc(64);
-							if (cgctx->CurrentRadix == 16)
-								sprintf(ToString, "%llX", linkctx->Symbols[i].Resolution);
-							else
-								sprintf(ToString, "%llu", linkctx->Symbols[i].Resolution);
-							strcpy(OperandB, ToString);
-							free(ToString);
-						}
-						else {
-							linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(linkctx->Symbols[i].Locations[0]) * (linkctx->Symbols[i].LocationCount)));
-							linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount].Location = cgctx->DataPosition + (psin2i_getphyssize(Psin, 0) / 8) + 1;
-							linkctx->Symbols[i].LocationCount++;
-							strcpy(OperandB, "0");
-						}
-					}
-				}
-				if (!Found) {
-					char* ToString = malloc(64);
-					sprintf(ToString, "%llu", link_getsymbol(OperandB, (psin2i_getphyssize(Psin, 0) / 8) + 1)); // base doens't matter, will always be 0
-					strcpy(OperandB, ToString);
-					free(ToString);
-				}
+		if (OperandB[0] != 'r') {
+			if (!(InRange(OperandB[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
+				u64 Resolved = link_getsymbol(OperandB, 1);
+				char* ToString = malloc(64);
+				if (cgctx->CurrentRadix == 16)
+					sprintf(ToString, "%llX", Resolved);
+				else
+					sprintf(ToString, "%llu", Resolved);
+				strcpy(OperandB, ToString);
+				free(ToString);
 			}
 		}
 	}
