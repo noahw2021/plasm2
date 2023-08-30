@@ -49,8 +49,8 @@ void psin2_load(void) {
 	psin2_parse("__ANI = 0x46, // ANI 46 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise AND w/ Immediate");
 	psin2_parse("__ORI = 0x47, // ORI 47 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise OR w/ Immediate");
 	psin2_parse("__XOI = 0x48, // XOI 48 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise XOR w/ Immediate");
-	psin2_parse("__BLI = 0x49, // BLI 49 (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Left w/ Immediate");
-	psin2_parse("__BRI = 0x4A, // BRI 4A (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Right w/ Immediate");
+	psin2_parse("__BLI = 0x49, // BLI 49 (R:04,08 __DEST) (I:08,08 ___SRC) 24 : Bitshift Left w/ Immediate");
+	psin2_parse("__BRI = 0x4A, // BRI 4A (R:04,08 __DEST) (I:08,08 ___SRC) 24 : Bitshift Right w/ Immediate");
 
 	psin2_parse("// Memory Instructions");
 	psin2_parse("__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory");

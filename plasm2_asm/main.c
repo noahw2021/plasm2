@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
 
 	char* Line = malloc(2048);
 	while (cgctx) {
-		printf("[%06lX]: ", (u32)cgctx->DataPosition);
+		printf("[%06lX]: ", (u32)cgctx->DataPosition + (cgctx->ReferencePtr * cgctx->InSub));
 		strcpy(Line, vf_get());
 		if (vf_ci() != stdin)
 			printf("%s", Line);

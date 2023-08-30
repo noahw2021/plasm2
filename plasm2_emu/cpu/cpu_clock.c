@@ -24,8 +24,8 @@ void cpu_clock(void) {
 	} else {
 		if (i->flags_s.NF) {
 			i->flags_s.NF = 0;
-			int Psin2Id = psin2i_getinstructionbycd(mmu_read1(i->ip++));
-			byte TotalRead = (psin2i_totalsize(Psin2Id) / 8) - 1;
+			int Psin2Id = psin2i_getinstructionbycd(mmu_read1(i->ip));
+			byte TotalRead = (psin2i_totalsize(Psin2Id) / 8);
 			i->ip += TotalRead;
 		}
 		return;

@@ -71,6 +71,7 @@ void cg_parse(const char* Line) {
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
+			cgctx->InSub = 0;
 			cgctx->DataPosition = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
 			fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
 			break;
@@ -123,10 +124,13 @@ void cg_parse(const char* Line) {
 		if (strstr(_Line, ":"))
 			*(char*)strstr(_Line, ":") = 0x00;
 		link_resolve(Line, cgctx->DataPosition);
+		cgctx->InSub = 1;
 		goto ExitThis;
 	}
 
 	int Psin = psin2i_getinstructionname(Temporary);
+	if (Psin == psin2i_getinstructionname("BRI"))
+		__debugbreak();
 
 	if (Psin == -1) {
 		cge_error(cgctx->CurrentLine, "[E1002]: Invalid operand");
