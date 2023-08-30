@@ -129,8 +129,6 @@ void cg_parse(const char* Line) {
 	}
 
 	int Psin = psin2i_getinstructionname(Temporary);
-	if (Psin == psin2i_getinstructionname("BRI"))
-		__debugbreak();
 
 	if (Psin == -1) {
 		cge_error(cgctx->CurrentLine, "[E1002]: Invalid operand");
