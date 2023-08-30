@@ -81,7 +81,7 @@ void INC(void) {
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	i->rs_gprs[Inputs.Destination]++;
+	i->rs_gprs[Inputs.Source]++;
 	return;
 }
 
@@ -94,7 +94,7 @@ void DEC(void) {
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	i->rs_gprs[Inputs.Destination]--;
+	i->rs_gprs[Inputs.Source]--;
 	return;
 }
 

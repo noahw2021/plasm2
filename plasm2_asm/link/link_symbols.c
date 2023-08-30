@@ -15,20 +15,21 @@ plasm2_asm
 u64 link_getsymbol(const char* Name, u32 Offset) {
 	for (int i = 0; i < linkctx->SymbolCount; i++) {
 		if (!strcmp(linkctx->Symbols[i].SymbolName, Name)) {
+			if (linkctx->Symbols[i].Resolved)
+				return linkctx->Symbols[i].Resolution;
 			if (!linkctx->Symbols[i].Locations) {
 				linkctx->Symbols[i].Locations = malloc(sizeof(linkctx->Symbols[i].Locations[0]));
 			} else {
-				void* QuestionMarkRealloc = malloc(8 * (linkctx->Symbols[i].LocationCount + 1));
-				memcpy(QuestionMarkRealloc, linkctx->Symbols[i].Locations, (8 * linkctx->Symbols[i].LocationCount));
-				free(linkctx->Symbols[i].Locations);
-				linkctx->Symbols[i].Locations = QuestionMarkRealloc;
+				linkctx->Symbols[i].Locations = realloc(linkctx->Symbols[i].Locations, (sizeof(u64) * (linkctx->Symbols[i].LocationCount + 1)));
 			}
-			linkctx->Symbols[i].Locations[linkctx->Symbols[i].LocationCount] = cgctx->DataPosition + Offset;
+
+			u64 CodePos = cgctx->DataPosition + Offset;
+			int Loc = linkctx->Symbols[i].LocationCount;
+			linkctx->Symbols[i].Locations[Loc] = CodePos;
 			linkctx->Symbols[i].LocationCount++;
 			return linkctx->Symbols[i].Resolution;
 		}
 	}
-
 
 	if (linkctx->Symbols)
 		linkctx->Symbols = realloc(linkctx->Symbols, sizeof(*linkctx->Symbols) * (linkctx->SymbolCount + 1));
@@ -36,7 +37,7 @@ u64 link_getsymbol(const char* Name, u32 Offset) {
 		linkctx->Symbols = malloc(sizeof(*linkctx->Symbols));
 
 	linkctx->Symbols[linkctx->SymbolCount].LocationCount = 1;
-	linkctx->Symbols[linkctx->SymbolCount].Locations = malloc(sizeof(*linkctx->Symbols[0].Locations));
+	linkctx->Symbols[linkctx->SymbolCount].Locations = malloc(sizeof(u64));
 	linkctx->Symbols[linkctx->SymbolCount].Locations[0] = cgctx->DataPosition + Offset;
 	linkctx->Symbols[linkctx->SymbolCount].Resolution = 0;
 	linkctx->Symbols[linkctx->SymbolCount].Resolved = 0;

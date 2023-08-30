@@ -1,6 +1,7 @@
 #include "cpu.h"
 #include "mmu/mmu.h"
 #include "../decoder/decoder.h"
+#include "../psin2/psin2.h"
 #include "../emu.h"
 #include <stdlib.h>
 #include <string.h>
@@ -21,7 +22,12 @@ void cpu_clock(void) {
 		) { // 1000 is the clock resolution :)
 		cpuctx->LastClockTime = CurrentTime;
 	} else {
-		i->flags_s.NF = 0;
+		if (i->flags_s.NF) {
+			i->flags_s.NF = 0;
+			int Psin2Id = psin2i_getinstructionbycd(mmu_read1(i->ip++));
+			byte TotalRead = (psin2i_totalsize(Psin2Id) / 8) - 1;
+			i->ip += TotalRead;
+		}
 		return;
 	}
 

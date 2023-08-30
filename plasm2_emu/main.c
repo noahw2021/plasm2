@@ -131,6 +131,11 @@ int main(int argc, char** argv) {
 	if (emuctx->DebuggerEnabled)
 		decoder_shutdown();
 
+	video_clock();
+	printf("Debug Shutdown Interrupt.\n");
+
+	fgetc(stdin);
+
 	devices_shutdown();
 	cpu_shutdown();
 	emu_shutdown();
