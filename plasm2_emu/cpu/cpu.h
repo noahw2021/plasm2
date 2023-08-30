@@ -172,6 +172,7 @@ struct {
 					byte AF : 1; // Extra security flag
 					byte TF : 1; // Interrupt table set
 					byte MF : 1; // Memory Guard Flag
+					byte LF : 1; // Less than flag
 				}flags_s;
 			};
 			union {

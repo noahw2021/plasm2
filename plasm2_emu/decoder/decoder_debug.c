@@ -113,8 +113,6 @@ void decoder_go(byte Instruction) {
 	int Written = 0;
 	for (int c = 0; c < 2; c++) {
 		if (IsOperandRegister[c]) {
-			if (!strcmp(psin2i_getoperandname(Psin2Id, c), "DEST"))
-				continue;
 
 			CPart[0] = '\0';
 			if (Written)

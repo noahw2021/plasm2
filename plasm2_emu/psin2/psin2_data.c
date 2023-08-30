@@ -73,8 +73,6 @@ void psin2_load(void) {
 	psin2_parse("__VES = 0x71, // VES 71 (R:04,08 __ENPR)                  16 : Virtual Pagetable End Set");
 	psin2_parse("__LWS = 0x72, // LWS 72 (R:04,08 __DEST) (I:64,64 __ADDR) 80 : Load Word Immediate (2nd Value Imm)");
 	psin2_parse("__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)");
-	psin2_parse("__LWF = 0x74, // LWF 74 (I:64,64 __ADDR) (R:04,08 ___SRC) 80 : Load Word Immediate (1st Value Imm)");
-	psin2_parse("__SWF = 0x75, // SWF 75 (I:64,64 __ADDR) (R:04,08 ___SRC) 80 : Store Word Immediate (1st Value Imm)");
 	psin2_parse("__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory");
 	psin2_parse("__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory");
 

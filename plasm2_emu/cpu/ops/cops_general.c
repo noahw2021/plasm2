@@ -59,7 +59,7 @@ void NXG(void) {
 }
 
 void NXL(void) {
-	i->flags_s.NF = i->flags_s.GF;
+	i->flags_s.NF = !i->flags_s.LF;
 	return;
 }
 
@@ -92,6 +92,10 @@ void SHF(void) {
 }
 
 void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare
+	i->flags_s.EF = 0;
+	i->flags_s.GF = 0;
+	i->flags_s.LF = 0;
+
 	union {
 		byte Byte;
 		struct {
@@ -105,6 +109,8 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 		i->flags_s.GF = 1;
 	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
 		i->flags_s.EF = 1;
+	if (i->rs_gprs[Input.r2] < i->rs_gprs[Input.r2])
+		i->flags_s.LF = 1;
 	
 	return;
 }
@@ -132,12 +138,18 @@ void CLI(void) {
 }
 
 void CMI(void) {
+	i->flags_s.EF = 0;
+	i->flags_s.GF = 0;
+	i->flags_s.LF = 0;
+
 	byte Register = mmu_read1(i->ip++) & 0xF;
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	if (i->rs_gprs[Register] > Immediate)
 		i->flags_s.GF = 1;
+	if (i->rs_gprs[Register] < Immediate)
+		i->flags_s.LF = 1;
 	if (i->rs_gprs[Register] == Immediate)
 		i->flags_s.EF = 1;
 
