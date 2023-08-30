@@ -241,6 +241,9 @@ void STH(void) {
 		i->flags_s.XF = 1;
 		return;
 	}
+	if (i->rs_gprs[Inputs.Register] != 0)
+		__debugbreak();
+
 	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
 	return;
 }

@@ -119,7 +119,10 @@ void BLI(void) {
 
 void BRI(void) {
 	byte Input = mmu_read1(i->ip++) & 0xF;
-	byte Immediate = mmu_read1(i->ip++) & 0x40;
+	byte Immediate = mmu_read1(i->ip++);
+
+	if (i->rs_gprs[Input] != 0)
+		__debugbreak();
 
 	i->rs_gprs[Input] >>= Immediate;
 	return;
