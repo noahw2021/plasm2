@@ -134,6 +134,12 @@ int main(int argc, char** argv) {
 	video_clock();
 	printf("Debug Shutdown Interrupt.\n");
 
+	FILE* MemOut = fopen("memout.bin", "wb");
+	if (MemOut) {
+		fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize, 1, MemOut);
+		fclose(MemOut);
+	}
+
 	fgetc(stdin);
 
 	devices_shutdown();
