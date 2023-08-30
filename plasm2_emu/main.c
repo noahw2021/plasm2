@@ -158,7 +158,7 @@ int main(int argc, char** argv) {
 	printf("Total Clocks: %llu\n", ClockCnt);
 	time_t Diff = (Startdown - Startup) + 1;
 	printf("Total Time: %llum %llus\n", Diff / 60, Diff % 60);
-	printf("Clocks Per Sec: %llu\n", (ClockCnt * 1000) / (Diff));
+	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
 	return 0;
 }
