@@ -114,6 +114,10 @@ int main(int argc, char** argv) {
 
 	char TheHaltReason[256];
 
+	time_t Startup, Startdown;
+	Startup = time(NULL);
+	u64 ClockCnt = 0;
+
 	while (1) {
 		if (emu_aufhoren(TheHaltReason)) {
 			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
@@ -123,11 +127,14 @@ int main(int argc, char** argv) {
 		kb_clock();
 		video_clock();
 		cpu_clock();
+		ClockCnt++;
 
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}
-	
+
+	time(&Startdown);
+
 	if (emuctx->DebuggerEnabled)
 		decoder_shutdown();
 
@@ -147,6 +154,11 @@ int main(int argc, char** argv) {
 	emu_shutdown();
 
 	printf("CPU Halted.\n");
+
+	printf("Total Clocks: %llu\n", ClockCnt);
+	time_t Diff = (Startdown - Startup) + 1;
+	printf("Total Time: %llum %llus\n", Diff / 60, Diff % 60);
+	printf("Clocks Per Sec: %llu\n", (ClockCnt * 1000) / (Diff));
 
 	return 0;
 }

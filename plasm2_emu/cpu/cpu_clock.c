@@ -14,13 +14,12 @@ plasm2_emu
 */
 
 void cpu_clock(void) {
-	time_t CurrentTime = time(NULL);
-	if (
-		 // Avoid Jumping time
+
+	if ( 
 		 !i->flags_s.HF // Do not clock if we are halted
 		&& !i->flags_s.NF // Skip this cycle, due to no-execute
-		) { // 1000 is the clock resolution :)
-		cpuctx->LastClockTime = CurrentTime;
+		) {
+		time(&cpuctx->SystemSeconds);
 	} else {
 		if (i->flags_s.NF) {
 			i->flags_s.NF = 0;

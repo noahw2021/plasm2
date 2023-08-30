@@ -26,6 +26,7 @@ void cpu_init(void) {
 	memset(cpuctx, 0, sizeof(cpuctx_t));
 
 	time(&cpuctx->SystemBoot);
+	cpuctx->SystemSeconds = cpuctx->SystemBoot;
 	cpuctx->ClocksPerSecond = BASE_CLOCK;
 
 	for (int i = 0; i < 256; i++) {

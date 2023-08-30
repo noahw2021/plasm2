@@ -125,7 +125,8 @@ void cpu_clock(void);
 
 typedef struct _cpuctx {
 	u64 ClocksPerSecond;
-	u64 LastClockTime;
+	u64 SystemSeconds;
+	u64 SystemNanoSeconds;
 	time_t SystemBoot; // silly and quick 'timer'
 
 	byte* PhysicalMemory; // PM usage good
