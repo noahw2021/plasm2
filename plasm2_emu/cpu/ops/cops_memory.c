@@ -245,3 +245,8 @@ void STH(void) {
 	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
 	return;
 }
+
+void PPW(void) {
+	mmu_pop();
+	return;
+}
