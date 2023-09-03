@@ -70,12 +70,11 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	PauseDrawing = 1;
-	SDL_Surface* Surface = SDL_CreateRGBSurface(0, w, h, 8, 0, 0, 0, 0);
 	u64 VAdr = mmu_translate(ptr, REASON_READ, w * h * 4);
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
-	memcpy(Surface->pixels, cpuctx->PhysicalMemory + VAdr, w * h * 4); // pm usage good (reason: sanity check)
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(cpuctx->PhysicalMemory + VAdr, w, h, 32, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
 	SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_FreeSurface(Surface);
 	SDL_Rect DestRect = { x, y, w, h };
