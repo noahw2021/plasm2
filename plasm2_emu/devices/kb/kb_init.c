@@ -31,24 +31,6 @@ void kb_clock(void) {
 void kb_init(void) {
 	kbctx = malloc(sizeof(kbctx_t));
 	memset(kbctx, 0, sizeof(kbctx_t));
-
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "Keyboard");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "plasm2 Vendor");
-	
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 0x1000200030004000;
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_KB;
-	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 0x0010020030040567;
-	
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = kb_statusquery;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = kb_sendcommand;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = kb_senddata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = kb_getdata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = kb_reset;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = kb_off;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = kb_on;
-
-	devicesctx->DeviceCount++;
-
 	return;
 }
 
