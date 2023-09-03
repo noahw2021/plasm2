@@ -35,21 +35,21 @@ void cpui_inst_cll(u64 Address) {
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
 	i->flags_s.SF = 1;
-	i->ip = Address;
 	i->flags_s.CF = 1;
+	//i->ip = Address;
+	u64 PhysAdr = mmu_translate(Address, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	if (!PhysAdr) {
+		i->flags_s.XF = 1;
+		i->flags_s.CF = 0;
+		return;
+	}
+	i->pti.nca = PhysAdr;
 	return;
 }
 void cpui_inst_ret(void) {
 	if (!i->flags_s.CF)
 		return;
-	if (i->sp != i->pti.ral) {
-		i->flags_s.XF = 1;
-		if (i->flags_s.AF) {
-			cpui_csm_msg(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
-			return;
-		}
-	}
-	i->sp = i->pti.ral;
+	i->sp = i->pti.ral + 8;
 	union {
 		u64 Raw;
 		struct {
@@ -96,4 +96,9 @@ void cpui_inst_int(byte Interrupt) {
 	i->flags_s.SF = 1;
 	i->ip = PhysicalAddress;
 	return;
+}
+
+void cpui_inst_clr(void) {
+	if (i->flags_s.CF)
+		i->ip = i->pti.nca;
 }

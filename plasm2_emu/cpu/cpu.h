@@ -46,6 +46,7 @@ enum {
 	__JMI = 0x0F, // JMI 0F (I:64,64 __ADDR)                  72 : Jump Immediate
 	__CLI = 0x10, // CLI 10 (I:64,64 __ADDR)                  72 : Call Immediate
 	__CMI = 0x11, // CMI 11 (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate
+	__CLR = 0x12, // CLR 12                                   08 : Call Ready (Go)
 
 	// Arithmetic Instructions
 	__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add
@@ -195,7 +196,8 @@ struct {
 				u64 spb; // stack pointer upper bound
 				u64 slb; // stack lower bound
 				u64 pml; // page max location
-				u64 reserved[2];
+				u64 nca; // next call address
+				u64 reserved[1];
 			}pti;
 		};
 	};
@@ -209,6 +211,7 @@ void cpui_inst_jmp(u64 Address);
 void cpui_inst_cll(u64 Address);
 void cpui_inst_ret(void);
 void cpui_inst_int(byte Interrupt);
+void cpui_inst_clr(void);
 
 // cpu advanced functions
 

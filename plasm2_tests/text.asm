@@ -8,159 +8,121 @@
 -a 00
 -r 3A0
 
-;for (int i = 0; i < 128; i++) {
-;		u64 Segs[2];
-;		for (int s = 0; s < 2; s++)
-;			Segs[s] = *(byte*)(0x3000 + (s * 8));
-;		for (int b = 0; b < 128; b++) {
-;			if (Segs[b / 64] & (1 << b) >> b)
-;				*(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0xFFFFFFFF;
-;		}	
-;	}
-;}
+; 
+;
+;
+;
+;
+;
+;
 
-BiosMain:
-; r0 = i
-; r1 = seg0
-; r2 = seg1
-; r3 = s
-; r4 = b
-; r5 = manip addr
-; r6 = temp
-; r7 = temp 2
+-b 10
+
+_BiosMain:
+; r0 = i : 0
+; r1 = baseadr : 2048
+; r2 = 8 : 8
 XOR r0, r0
-JMI BiosMainLoop0Check
+LDI r1, 2976 ; 0xBA0
+LDI r5, 16384 ; 0x4000
+LDI r6, 4294967295 ; 0xFFFFFFFF
+LDI r7, 0 ; 0x00000000
 
-BiosMainLoop0Check:
-CMI r0, 80
+_BiosLoop0Check:
+CMI r0, 256
 NXL
-JMI BiosMainLoop0Exec
-JMI BiosMainLoop0After
+JMI _BiosLoop0Exec
+JMI _BiosLoop0After
 
-BiosMainLoop0Exec:
+_BiosLoop0Exec:
 XOR r3, r3
-JMI BiosMainLoop0ExecLoop0Check
-XOR r4, r4
+LDW r2, r1
 
-
-BiosMainLoop0ExecLoop0Check:
-CMI r3, 2
+_BiosLoop1Check:
+CMI r3, 64
 NXL
-JMI BiosMainLoop0ExecLoop0Exec
-JMI BiosMainLoop0ExecLoop0After
+JMI _BiosLoop1Exec
+JMI _BiosLoop1After
 
-BiosMainLoop0ExecLoop0Exec:
-CMI r3, 0
+_BiosLoop1Exec:
+MOV r4, r2
+ANI r4, 1
+CMI r4, 1
 NXE
-JMI BiosMainLoop0ExecLoop0ExecSub0
-JMI BiosMainLoop0ExecLoop0ExecSub1
+JMI _BiosLoop1Sub1
+JMI _BiosLoop1Sub2
 
-BiosMainLoop0ExecLoop0ExecSub0:
-LDI r5, FontFile
-MOV r6, r5
-MLI r6, 8
-ADD r5, r6
-LDW r1, r5
-JMI BiosMainLoop0ExecLoop0ExecSub2
-
-BiosMainLoop0ExecLoop0ExecSub1:
-LDI r5, FontFile
-MOV r6, r5
-MLI r6, 8
-ADD r5, r6
-LDW r2, r5
-JMI BiosMainLoop0ExecLoop0ExecSub2
-
-BiosMainLoop0ExecLoop0ExecSub2:
+_BiosLoop1Sub0:
+BRI r2, 1
 INC r3
-JMI BiosMainLoop0ExecLoop0Check
+JMI _BiosLoop1Check
 
-BiosMainLoop0ExecLoop0After:
-JMI BiosMainLoop0ExecLoop1Check
-
-BiosMainLoop0ExecLoop1Check:
-CMI r4, 80
-NXL
-JMI BiosMainLoop0ExecLoop1Exec
-JMI BiosMainLoop0ExecLoop1After
-
-BiosMainLoop0ExecLoop1Exec:
-XOR r6, r6
-CMI r4, 40
-NXL
-JMI BiosMainLoop0ExecLoop1ExecSub0
-JMI BiosMainLoop0ExecLoop1ExecSub1
-
-BiosMainLoop0ExecLoop1ExecSub0:
-XOR r7, r7
-INC r7
-BSL r7, r4
-MOV r8, r1
-AND r8, r7
-BSR r8, r4
-CMI r8, 0
-NXZ
-JMI BiosMainLoop0ExecLoop1ExecSub3
-JMI BiosMainLoop0ExecLoop1ExecSub4
-
-BiosMainLoop0ExecLoop1ExecSub1:
-XOR r7, r7
-INC r7
-BSL r7, r4
-MOV r8, r2
-AND r8, r7
-BSR r8, r4
-CMI r8, 0
-NXZ
-JMI BiosMainLoop0ExecLoop1ExecSub3
-JMI BiosMainLoop0ExecLoop1ExecSub4
-
-BiosMainLoop0ExecLoop1ExecSub2:
-INC r4
-JMI BiosMainLoop0ExecLoop1Check
-
-BiosMainLoop0ExecLoop1ExecSub3: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0xFFFFFFFF;
-LDI r5, 4000
-MOV r6, r0
-MLI r6, 200 ; (5 * 16 * 4)
-ADD r5, r6
-MOV r6, r4
-MLI r6, 4
-ADD r5, r6
-LDI r6, FFFFFFFF
-STH r5, r6
-JMI BiosMainLoop0ExecLoop1ExecSub2
-
-BiosMainLoop0ExecLoop1ExecSub4: ; *(u32*)(0x4000 + (i * 8 * 16 * 4) + (b * 4)) = 0x00000000;
-LDI r5, 4000
-MOV r6, r0
-MLI r6, 200 ; (5 * 16 * 4)
-ADD r5, r6
-MOV r6, r4
-MLI r6, 4
-ADD r5, r6
-LDI r6, 00000000
-STH r5, r6
-JMI BiosMainLoop0ExecLoop1ExecSub2
-
-BiosMainLoop0ExecLoop1After:
+_BiosLoop1After:
+ADI r1, 8
 INC r0
-JMI BiosMainLoop0Check
+JMI _BiosLoop0Check
 
-BiosMainLoop0After:
-; Video
-LDI r0, 0 ; video = devid 0 
-LDI r1, 05 ; CopyRect
-LDI r2, 0800100008001000 ; glyph pos and size
-LDI r3, TextRender
-LDI r4, 65 ; 'A'
-MLI r4, 200 ; * 'A' * 512 (512 bytes = 1 glyph size)
-ADD r3, r4
+_BiosLoop1Sub1:
+STH r5, r6
+ADI r5, 4
+JMI _BiosLoop1Sub0
+
+_BiosLoop1Sub2:
+STH r5, r7
+ADI r5, 4
+JMI _BiosLoop1Sub0
+
+_BiosLoop0After:
+LDI r0, 65 ; 'A'
+CLI _BiosRenderChar
+PSH r0
+CLR
+
+DSI
+SHF
+
+_BiosTextPosX:
+-z 4
+_BiosTextPosY:
+-z 4
+
+; Expects an immediate char pushed to stack
+_BiosRenderChar:
+POP r1
+LDI r2, 16384
+MLI r1, 512
+ADD r2, r1
+LDI r3, _BiosTextPosX
+LDW r4, r3
+MOV r6, r4
+LDI r3, _BiosTextPosY
+LDW r5, r3
+MOV r7, r5
+BLI r4, 48
+BLI r5, 32
+BOR r4, r5
+LDI r3, 1048584
+BOR r4, r3
+LDI r0, 0
+LDI r1, 5
+PSH r2
 DSC r0, r1
-DSD r0, r3
+DSD r0, r4
+ADI r6, 8
+ADI r7, 16
+LDI r3, _BiosTextPosX
+STW r3, r6
+LDI r3, _BiosTextPosY
+STW r3, r7
+RET
 
+_BiosRenderStr:
+
+
+-b 16
 -a 800
--f bios7.fon
-
+_BiosFon:
+-f biosd7.fon
 -a 1000
 
+-c

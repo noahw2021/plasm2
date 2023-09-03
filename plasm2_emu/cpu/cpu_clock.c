@@ -39,9 +39,10 @@ void cpu_clock(void) {
 
 	byte ThisInstruction = mmu_read1(i->ip++);
 	if (emuctx->DebuggerEnabled)
-		decoder_go(ThisInstruction);
+ 		decoder_go(ThisInstruction);
 
 	Instructions[ThisInstruction]();
 
 	return;
+
 }

@@ -109,8 +109,7 @@ int main(int argc, char** argv) {
 	if (FixedDisks)
 		free(FixedDisks);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_init();
+	decoder_init();
 
 	char TheHaltReason[256];
 
@@ -135,8 +134,7 @@ int main(int argc, char** argv) {
 
 	time(&Startdown);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_shutdown();
+	decoder_shutdown();
 
 	video_clock();
 	printf("Debug Shutdown Interrupt.\n");

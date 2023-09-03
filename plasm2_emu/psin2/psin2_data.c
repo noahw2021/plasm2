@@ -24,6 +24,7 @@ void psin2_load(void) {
 	psin2_parse("__JMI = 0x0F, // JMI 0F (I:64,64 __ADDR)                  72 : Jump Immediate");
 	psin2_parse("__CLI = 0x10, // CLI 10 (I:64,64 __ADDR)                  72 : Call Immediate");
 	psin2_parse("__CMI = 0x11, // CMI 11 (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate");
+	psin2_parse("__CLR = 0x12, // CLR 12                                   08 : Call Ready (Go)");
 
 	psin2_parse("// Arithmetic Instructions");
 	psin2_parse("__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add");

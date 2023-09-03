@@ -74,10 +74,13 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
-	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(cpuctx->PhysicalMemory + VAdr, w, h, 32, 32, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(((byte*)cpuctx->PhysicalMemory + VAdr), w, h, 32, 32 * w, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	if (!Surface) {
+		printf("%s", SDL_GetError());
+	}
 	SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_FreeSurface(Surface);
-	SDL_Rect DestRect = { x, y, w, h };
+	SDL_Rect DestRect = { x + 1, y + 1, w, h };
 	SDL_RenderCopy(Renderer, TargetTexture, NULL, &DestRect);
 	SDL_DestroyTexture(TargetTexture);
 	PauseDrawing = 0;

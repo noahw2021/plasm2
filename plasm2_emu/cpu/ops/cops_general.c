@@ -129,7 +129,7 @@ void JMI(void) {
 void CLI(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
-	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	u64 Translated = Immediate;
 	if (Translated)
 		cpui_inst_cll(Translated);
 	else
@@ -154,4 +154,8 @@ void CMI(void) {
 		i->flags_s.EF = 1;
 
 	return;
+}
+
+void CLR(void) {
+	cpui_inst_clr();
 }
