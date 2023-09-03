@@ -178,7 +178,7 @@ OutA:
 
 		if (OperandB[0] != 'r') {
 			if (!(InRange(OperandB[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
-				u64 Resolved = link_getsymbol(OperandB, 1);
+				u64 Resolved = link_getsymbol(OperandB, 1 + (psin2i_getphyssize(Psin, 1) / 8));
 				char* ToString = malloc(64);
 				if (cgctx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);

@@ -99,6 +99,12 @@ void cpui_inst_int(byte Interrupt) {
 }
 
 void cpui_inst_clr(void) {
+	u64 SecP = mmu_pop();
+	u64 RetPtr = mmu_pop();
+	RetPtr = i->ip;
+	mmu_push(RetPtr);
+	mmu_push(SecP);
+
 	if (i->flags_s.CF)
 		i->ip = i->pti.nca;
 }
