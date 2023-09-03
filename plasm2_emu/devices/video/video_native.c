@@ -68,13 +68,18 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 	return;
 }
 
+#define RMASK 0xff000000
+#define GMASK 0x00ff0000
+#define BMASK 0x0000ff00
+#define AMASK 0x000000ff
+
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	PauseDrawing = 1;
 	u64 VAdr = mmu_translate(ptr, REASON_READ, w * h * 4);
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
-	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(((byte*)cpuctx->PhysicalMemory + VAdr), w, h, 32, 32 * w, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF);
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK); SDL_SaveBMP(Surface, "test.bmp");
 	if (!Surface) {
 		printf("%s", SDL_GetError());
 	}
