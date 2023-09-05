@@ -108,3 +108,7 @@ void cpui_inst_clr(void) {
 	if (i->flags_s.CF)
 		i->ip = i->pti.nca;
 }
+
+void cpui_inst_break(void) {
+	return;
+}

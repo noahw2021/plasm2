@@ -1,5 +1,6 @@
 #include "../cpu.h"
 #include "../mmu/mmu.h"
+#include "../emu.h"
 /*
 cops_general.c
 plasm2
@@ -160,4 +161,16 @@ void CMI(void) {
 
 void CLR(void) {
 	cpui_inst_clr();
+}
+
+void DBN(void) {
+	emuctx->DebuggerEnabled = 1;
+}
+
+void DBF(void) {
+	emuctx->DebuggerEnabled = 0;
+}
+
+void DBB(void) {
+	cpui_inst_break();
 }
