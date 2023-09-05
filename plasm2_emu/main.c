@@ -128,6 +128,38 @@ int main(int argc, char** argv) {
 		cpu_clock();
 		ClockCnt++;
 
+		if (emuctx->BreakActive && emuctx->Step != 2) {
+			printf("--- DEBUGGER  BREAK ---\n");
+			printf("[DBGI]: The application has requested a break.\n");
+HereWeGo:
+			printf("[DBGI]: What would you like to do? [c,d,s,i]\n");
+			printf("[DBGI]: Continue, Debugger, Step, Info: \n");
+			
+			char InputChar = fgetc(stdin);
+			switch (InputChar) {
+			case 'c':
+				emuctx->BreakActive = 0;
+				break;
+			case 'd':
+				emuctx->DebuggerEnabled = 1;
+				break;
+			case 's':
+				emuctx->DebuggerEnabled = 1;
+				emuctx->Step = 2;
+				break;
+			case 'i':
+				for (int r = 0; r < 16; r++)
+					printf("[DBGI]: r%2i= %llX\n", r, i->rs_gprs[r]);
+				printf("[DBGI]: ip=    %llX\n", i->ip);
+				printf("[DBGI]: sp=    %llX\n", i->sp);
+				printf("[DBGI]: flags= %llX\n", i->flags);
+				goto HereWeGo;
+				break;
+			}
+
+			printf("--- END DEBUG BREAK ---\n");
+		}
+
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
 	}

@@ -88,6 +88,14 @@ void PSH(void) {
 void POP(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;
 	i->rs_gprs[Register] = mmu_pop();
+
+	printf("--- STACK DEBUG ---\n");
+	u64* Stack = (byte*)cpuctx->PhysicalMemory + (i->sp - 16);
+	for (int c = 0; c < 5; c++) {
+		printf("[%c] [%i : 0x%04hX]: %llX\n", (c == 2 ? 'x' : ' '), c, (i->sp + (c * 8)), Stack[c]);
+	}
+	printf("--- END STACK DEBUG ---\n");
+
 	return;
 }
 

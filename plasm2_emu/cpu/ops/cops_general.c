@@ -48,21 +48,25 @@ void NXC(void) {
 
 void NXE(void) {
 	i->flags_s.NF = !i->flags_s.EF;
+	i->flags_s.EF = 0;
 	return;
 }
 
 void NXZ(void) {
 	i->flags_s.NF = !i->flags_s.ZF;
+	i->flags_s.ZF = 0;
 	return;
 }
 
 void NXG(void) {
 	i->flags_s.NF = !i->flags_s.GF;
+	i->flags_s.GF = 0;
 	return;
 }
 
 void NXL(void) {
 	i->flags_s.NF = !i->flags_s.LF;
+	i->flags_s.LF = 0;
 	return;
 }
 

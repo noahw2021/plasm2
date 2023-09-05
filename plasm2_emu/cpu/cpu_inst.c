@@ -19,7 +19,7 @@ void cpui_inst_cll(u64 Address) {
 		return;
 	}
 
-	i->pti.ral = i->sp;
+	i->pti.ral = i->sp + 16;
 	mmu_push(i->ip);
 	union {
 		u64 Raw;
@@ -49,7 +49,7 @@ void cpui_inst_cll(u64 Address) {
 void cpui_inst_ret(void) {
 	if (!i->flags_s.CF)
 		return;
-	i->sp = i->pti.ral + 8;
+	i->sp = i->pti.ral;
 	union {
 		u64 Raw;
 		struct {
@@ -60,10 +60,10 @@ void cpui_inst_ret(void) {
 		};
 	}SecurityPacket = { 0 };
 	SecurityPacket.Raw = mmu_pop();
+	i->ip = mmu_pop();
 	i->flags = SecurityPacket.Flags;
 	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
 	i->flags_s.CF = SecurityPacket.CallFlag;
-	i->ip = mmu_pop();
 	return;
 }
 
@@ -99,16 +99,23 @@ void cpui_inst_int(byte Interrupt) {
 }
 
 void cpui_inst_clr(void) {
+	u64 spb = i->sp;
+	i->sp = i->pti.ral;
 	u64 SecP = mmu_pop();
 	u64 RetPtr = mmu_pop();
 	RetPtr = i->ip;
 	mmu_push(RetPtr);
 	mmu_push(SecP);
-
+	i->sp = spb;
+		
 	if (i->flags_s.CF)
 		i->ip = i->pti.nca;
+	return;
 }
 
+#include "../emu.h"
+
 void cpui_inst_break(void) {
+	emuctx->BreakActive = 1;
 	return;
 }

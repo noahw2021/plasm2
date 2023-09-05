@@ -5,6 +5,7 @@
 #include "../emu.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #include <time.h>
 /*
 cpu_clock.c
@@ -42,6 +43,29 @@ void cpu_clock(void) {
 	if (emuctx->DebuggerEnabled)
  		decoder_go(ThisInstruction);
 
+	if (emuctx->Step == 2) {
+		if (emuctx->Step < 2) {
+			printf("--- BEGIN DEBUG INFO ---\n");
+			printf("What would you like to do? [c,s]\n");
+			printf("Continue, Step: ");
+		}
+		char Input = fgetc(stdin);
+		switch (Input) {
+		case 'c':
+			emuctx->DebuggerEnabled = 0;
+			emuctx->Step = 0;
+			emuctx->BreakActive = 0;
+			break;
+		default:
+		case 's':
+			if (emuctx->Stepper < 2)
+				emuctx->Stepper++;
+			break;
+		}
+
+		if (emuctx->Step < 2)
+			printf("--- END  DEBUG  INFO --- \n");
+	}
 	Instructions[ThisInstruction]();
 
 	return;

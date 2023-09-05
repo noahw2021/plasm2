@@ -27,5 +27,8 @@ typedef struct _emuctx {
 	char LastReason[256];
 
 	_bool DebuggerEnabled;
+	_bool BreakActive;
+	_bool Step; // 0 = Continue, 1 = Enable Debug and Continue, 2 = Enable Debug and Step
+	_bool Stepper;
 }emuctx_t;
 extern emuctx_t* emuctx;
