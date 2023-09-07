@@ -10,7 +10,7 @@ plasm2_asm
 void vfg_write(const char* Filename, u64 Dp) {
 	FILE* InFile = fopen(Filename, "rb");
 	if (!InFile) {
-		cge_error(cgctx->CurrentLine, "[E1002]: Invalid file");
+		cge_error(cgctx->CurrentLine, "[E1002]: Invalid file", vf_cur());
 		return;
 	}
 

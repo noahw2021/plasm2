@@ -93,8 +93,16 @@ int main(int argc, char** argv) {
 	char* Line = malloc(2048);
 	while (cgctx) {
 		printf("[%06lX]: ", (u32)cgctx->DataPosition + (cgctx->ReferencePtr * cgctx->InSub));
-		strcpy(Line, vf_get());
-		if (vf_ci() != stdin)
+		char* Line2 = vf_get();
+		if (!Line2) {
+			free(Line2);
+			cg_compile();
+			break;
+		}
+		strcpy(Line, Line2);
+		free(Line2);
+		void* eh = vf_ci();
+		if (eh != stdin)
 			printf("%s", Line);
 		cg_parse(Line);
 	}

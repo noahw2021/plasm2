@@ -23,10 +23,14 @@ void vf_init(FILE* BaseFile) {
 		vfctx->VirtualFile[0].SortOrder = 0;
 	} else {
 		vfctx->VirtualFile[0].SortOrder = 1;
+		vfctx->VirtualFile[0].IsLiveInput = 0;
 	}
 	vfctx->VirtualFile[0].PhysicalFile = BaseFile;
+	vfctx->VirtualFile[0].Done = 0;
 	vfctx->VirtualFileCount++;
 	vfctx->Started = 1;
+	vfctx->LastSortOrder = 1;
+
 
 	return;
 }

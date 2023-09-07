@@ -13,11 +13,13 @@ typedef struct _vfctx {
 	FILE* FileBase;
 
 	int VirtualFileCount;
+	int LastFile;
 	struct {
 		FILE* PhysicalFile;
 		int SortOrder;
 
 		byte IsLiveInput;
+		byte Done;
 	}*VirtualFile;
 	int LastSortOrder;
 }vfctx_t;
@@ -28,8 +30,10 @@ void vf_shutdown(void);
 
 void vf_register(const char* Filename);
 
+char* vf_cur(void);
 char* vf_get(void);
 FILE* vf_ci(void);
+void vf_eof(void);
 
 void vfi_sort(void);
 

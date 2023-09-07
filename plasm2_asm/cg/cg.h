@@ -35,6 +35,7 @@ typedef struct _cgctx {
 	struct {
 		int Line;
 		char* Reason;
+		char File[32];
 	}*Errors;
 
 	byte Shutdown;

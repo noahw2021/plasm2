@@ -30,29 +30,35 @@ void vf_register(const char* Filename) {
 }	
 
 char* vf_get(void) {
-	static char Return[512];
+	static int Recursion = 0;
+	char* Return = malloc(512);
 	for (int i = 0; i < vfctx->VirtualFileCount; i++) {
+		if (vfctx->VirtualFile[i].Done)
+			continue;
 		if (!vfctx->VirtualFile[i].IsLiveInput) {
-			if (!feof(vfctx->VirtualFile[i].PhysicalFile)) {
-				fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
-				if (!strcmp(Return, "-c"))
-					return "; -c\n";
-				return Return;
-			}
+			vfctx->LastFile = i;
+			fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
+			if (!strcmp(Return, "-c"))
+				return "; -c\n";
+			return Return;
 		} else {
+			vfctx->LastFile = i;
 			fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
 			return Return;
 		}
 	}
+	free(Return);
 	return NULL;
 }
 
 FILE* vf_ci(void) {
+	if (vfctx->VirtualFile[0].PhysicalFile == NULL)
+		vfi_sort();
 	return vfctx->VirtualFile[0].PhysicalFile;
 }
 
 void vfi_sort(void) {
-	void* TempBuffer = malloc(VF_SIZE(1));
+	byte TempBuffer[VF_SIZE(1)];
 
 	for (int i = 0; i < vfctx->VirtualFileCount - 1; i++) {
 		int Mindex = i;
@@ -68,6 +74,13 @@ void vfi_sort(void) {
 		}
 	}
 	
-	free(TempBuffer);
 	return;
+}
+
+char* vf_cur(void) {
+	return NULL;
+}
+
+void vf_eof(void) {
+	vfctx->VirtualFile[vfctx->LastFile].Done = 1;
 }

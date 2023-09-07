@@ -30,7 +30,7 @@ void cg_parse(const char* Line) {
 	// MOV r0, r1
 	int c = 0, t = 0;
 	byte OperandAPresent = 0, OperandBPresent = 0;
-	byte** OperandPtrs = malloc(sizeof(byte*) * 2);
+	byte* OperandPtrs[2];
 	OperandPtrs[0] = &OperandAPresent;
 	OperandPtrs[1] = &OperandBPresent;
 
@@ -40,8 +40,7 @@ void cg_parse(const char* Line) {
 	OperandA = malloc(64);
 	OperandB = malloc(64);
 	u64 OperandAPhys = 0, OperandBPhys = 0;
-	u64** OperandPhysPtrs;
-	OperandPhysPtrs = malloc(sizeof(u64*) * 2);
+	u64* OperandPhysPtrs[2];
 	OperandPhysPtrs[0] = &OperandAPhys;
 	OperandPhysPtrs[1] = &OperandBPhys;
 	char** OperandNamePtrs[2];
@@ -81,6 +80,9 @@ void cg_parse(const char* Line) {
 		case 'c': // compile
 			cgctx->DataPosition = cgctx->HighestPosition;
 			cg_compile();
+			break;
+		case 'e':
+			vf_eof();
 			break;
 		case 'f': // fill
 			vfg_write(Line + 3, cgctx->DataPosition);
@@ -256,7 +258,5 @@ ExitThis:
 	free(Temporary);
 	free(OperandA);
 	free(OperandB);
-	free(OperandPhysPtrs);
-	free(OperandPtrs);
 	return;
 }
