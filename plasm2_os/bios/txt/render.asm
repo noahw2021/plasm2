@@ -2,12 +2,14 @@
 ; (c) Noah Wooten 2023, All Rights Reserved
 ; render.asm
 
+-b 10
+
 _BiosRenderMain:
 ; r0 = i : 0
 ; r1 = baseadr : 2048
 ; r2 = 8 : 8
 XOR r0, r0
-LDI r1, 2560 ; 0xA00
+LDI r1, 2976 ; 0xA00
 LDI r5, 16384 ; 0x4000
 LDI r6, 4294967295 ; 0xFFFFFFFF
 LDI r7, 0 ; 0x00000000
@@ -60,7 +62,7 @@ _BiosLoop0After:
 RET
 
 -b 16
--a 660
--f biosd7.fon
+-a 800
+-f txt/bios.fon
 
 -e

@@ -258,3 +258,10 @@ void PPW(void) {
 	mmu_pop();
 	return;
 }
+
+void PSI(void) {
+	u64 Immediate = mmu_read8(i->ip);
+	i->ip += 8;
+	mmu_push(Immediate);
+	return;
+}

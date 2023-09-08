@@ -85,6 +85,7 @@ DeclInstruction(CLR);
 DeclInstruction(DBN);
 DeclInstruction(DBF);
 DeclInstruction(DBB);
+DeclInstruction(PSI);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -166,4 +167,5 @@ void(*Instructions[256])(void) = {
 	ListInstruction(DBN),
 	ListInstruction(DBF),
 	ListInstruction(DBB),
+	ListInstruction(PSI),
 };

@@ -2,6 +2,7 @@
 ; (c) Noah Wooten 2023, All Rights Reserved
 ; draw.asm
 
+-b 10
 
 _BiosTextPosX:
 -z 4
@@ -11,6 +12,7 @@ _BiosTextPosY:
 ; Expects an immediate char pushed to stack
 _BiosRenderChar:
 POP r1
+DEC r1
 LDI r2, 16384
 MLI r1, 512
 ADD r2, r1
@@ -57,6 +59,7 @@ RET
 ; Expects a pointer string pushed to stack
 _BiosRenderStr:
 POP r0
+JMI _BiosRenderStrLoop0Check
 
 _BiosRenderStrLoop0Check:
 LDB r1, r0

@@ -34,6 +34,8 @@ char* vf_get(void) {
 		if (vfctx->VirtualFile[i].Done)
 			continue;
 		fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
+		if (feof(vfctx->VirtualFile[i].PhysicalFile))
+			vfctx->VirtualFile[i].Done = 1;
 		return Return;
 	}
 	return NULL;

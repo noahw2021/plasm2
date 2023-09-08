@@ -102,6 +102,7 @@ enum {
 	__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory
 	__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory
 	__PPW = 0x76, // PPW 76                                   08 : Stack Pop and Waste (does not store value)
+	__PSI = 0x77, // PSI 77 (I:64,64 __DATA)                  72 : Push Immediate
 
 	// Device Instructions
 	__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query

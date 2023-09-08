@@ -49,7 +49,7 @@ void cpui_inst_cll(u64 Address) {
 void cpui_inst_ret(void) {
 	if (!i->flags_s.CF)
 		return;
-	i->sp = i->pti.ral;
+	//i->sp = i->pti.ral;
 	union {
 		u64 Raw;
 		struct {
