@@ -37,7 +37,7 @@ DSD r3, r1 ; ptr
 LDI r4, 6; DriveRead
 
 _BiosHddReadLoop0Check:
-CMI r6, r5
+CMP r6, r5
 NXL 
 JMI _BiosHddReadLoop0Exec
 JMI _BiosHddReadLoop0After

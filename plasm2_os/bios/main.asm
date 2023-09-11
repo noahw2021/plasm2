@@ -67,9 +67,10 @@ CLR
 
 DBN
 
+-b 10
 CLI _BiosHddRead
 PSI 0
-PSI 0
+PSI 1
 PSI 64
 -b 16
 PSI 2000

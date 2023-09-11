@@ -95,11 +95,15 @@ u64  fdiski_driveread(int DriveId) {
 	// hdd cache miss eh
 	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
 	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	u64 fpb = fdiskctx->Drives[DriveId].CurrentFilePointer;
+	if (fdiskctx->Drives[DriveId].CurrentFilePointer <= (FDISK_CACHE_CHUNK / 2))
+		fdiskctx->Drives[DriveId].CurrentFilePointer = (FDISK_CACHE_CHUNK / 2);
 	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2 );
+	fdiskctx->Drives[DriveId].CurrentFilePointer = fpb;
 	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
 	fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(fdiskctx->Drives[DriveId].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	pfseek(fdiskctx->Drives[DriveId].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] + sizeof(fdiskhdr_t), SEEK_SET);
 	fread(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, fdiskctx->Drives[DriveId].DrivePhysicalPointer);
 	fdiskctx->Drives[DriveId].NextChunkScan = 0; // force a chunk scan
 
@@ -139,6 +143,8 @@ void fdiski_drivewrite(int DriveId, u64 Data) {
 
 	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
 	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	if (fdiskctx->Drives[DriveId].CurrentFilePointer <= (FDISK_CACHE_CHUNK / 2))
+		fdiskctx->Drives[DriveId].CurrentFilePointer = (FDISK_CACHE_CHUNK / 2);
 	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2);
 	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
@@ -211,6 +217,8 @@ void fdiski_farseek(int DriveId, u64 SpecPos) {
 	fdiskctx->Drives[DriveId].SpeculativeSeek = SpecPos;
 	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
 	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	if (fdiskctx->Drives[DriveId].SpeculativeSeek <= (FDISK_CACHE_CHUNK / 2))
+		fdiskctx->Drives[DriveId].SpeculativeSeek = (FDISK_CACHE_CHUNK / 2);
 	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].SpeculativeSeek - (FDISK_CACHE_CHUNK / 2);
 	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
