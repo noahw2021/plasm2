@@ -15,7 +15,8 @@ void tools_main(void) {
 	printf("1) HDD Generator\n");
 	printf("2) Font Generator\n");
 	printf("3) Font Viewr\n");
-	printf("4) Quit\n");
+	printf("4) Boot Image Generator\n");
+	printf("5) Exit\n");
 
 	char Inputs[3];
 	fgets(Inputs, 3, stdin);
@@ -32,6 +33,7 @@ void tools_main(void) {
 		toolsi_fontview();
 		break;
 	case 4:
+		toolsi_bootloader();
 		break;
 	default:
 		break;
