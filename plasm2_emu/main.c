@@ -35,7 +35,8 @@ Starting physical memory map:
 */
 
 int main(int argc, char** argv) {
-	//fgetc(stdin);
+	//FILE* out = freopen("eh.bin", "w", stdout);
+	fgetc(stdin);
 	emu_init();
 	psin2_init();
 	
@@ -190,5 +191,6 @@ HereWeGo:
 	printf("Total Time: %llum %llus\n", Diff / 60, Diff % 60);
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
+	//fclose(out);
 	return 0;
 }
