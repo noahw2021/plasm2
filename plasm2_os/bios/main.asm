@@ -64,6 +64,22 @@ _BiosMainOSLoader:
 CLI _BiosRenderStr
 PSI _BiosDrivesFoundStr
 CLR
+
+DBN
+
+CLI _BiosHddRead
+PSI 0
+PSI 0
+PSI 64
+-b 16
+PSI 2000
+CLR
+
+CLI _BiosRenderStr
+PSI 2000
+CLR
+-b 10
+
 DSI
 SHF
 

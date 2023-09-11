@@ -33,7 +33,7 @@ void fdisk_shutdown(void) {
 }
 
 _bool fdisk_register(const char* DiskFile) {
-	FILE* Tfp = fopen(DiskFile, "wb+");
+	FILE* Tfp = fopen(DiskFile, "rb");
 	if (!Tfp)
 		return 0;
 
@@ -53,21 +53,11 @@ _bool fdisk_register(const char* DiskFile) {
 	RunningTotal += PotHeader->DeviceSerial;
 	RunningTotal += PotHeader->DeviceModelNum;
 
-	if (RunningTotal != PotHeader->PartsSum) {
-		free(PotHeader);
-		fclose(Tfp);
-		return 0;
-	}
+
 
 	fseek(Tfp, 0, SEEK_END);
 	u64 FileSize = pftell(Tfp);
-	FileSize -= sizeof(fdiskhdr_t);
 
-	if (FileSize != PotHeader->ExpectedPhysicalSize) {
-		free(PotHeader);
-		fclose(Tfp);
-		return 0;
-	}
 
 	if (!fdiskctx->Drives)
 		fdiskctx->Drives = malloc(sizeof(*fdiskctx->Drives));
@@ -86,7 +76,7 @@ _bool fdisk_register(const char* DiskFile) {
 
 	fdiskctx->DriveCount++;
 
-	return 0;
+	return 1;
 }
 
 void fdisk_clock(void) {

@@ -41,6 +41,8 @@ void toolsi_hddgen(void) {
 	if ((YNInput & ~(0x20)) == 'Y') {
 		printf("  Please enter the path: ");
 		fgets(InputFileName, 239, stdin);
+		if (strstr(InputFileName, "\n"))
+			strstr(InputFileName, "\n")[0] = 0x00;
 
 		FILE* AttemptedMount = fopen(InputFileName, "rb");
 		if (!AttemptedMount) {
@@ -133,6 +135,7 @@ SizeTryAgain:
 	else
 		FdHdr->ExpectedPhysicalSize = sizeof(fdiskhdr_t);
 
+	fseek(AttemptedFile, 0, SEEK_SET);
 	fwrite(FdHdr, sizeof(fdiskhdr_t), 1, AttemptedFile);
 	fclose(AttemptedFile);
 	free(FdHdr);
