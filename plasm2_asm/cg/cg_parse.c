@@ -64,6 +64,7 @@ void cg_parse(const char* Line) {
 	c++;
 	Temporary[c] = 0x00;
 
+	byte InEscape = 0;
 	int Usage = 0;
 	char* FollowString = (char*)Line + 3;
 
@@ -75,7 +76,7 @@ void cg_parse(const char* Line) {
 			fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
-			cgctx->CurrentRadix = atoi(Line  + 3);
+			cgctx->CurrentRadix = atoi(Line + 3);
 			break;
 		case 'c': // compile
 			cgctx->DataPosition = cgctx->HighestPosition;
@@ -101,8 +102,29 @@ void cg_parse(const char* Line) {
 			break;
 		case 's': // string
 			Usage = 1;
-			while (FollowString[Usage] != '"')
-				cgp_put1(FollowString[Usage++]);
+			while (FollowString[Usage] != '"') {
+				if (InEscape) {
+					InEscape = 0;
+					switch (FollowString[Usage++]) {
+					case 'n':
+						cgp_put1('\n');
+						break;
+					case '0':
+						cgp_put1('\0');
+						break;
+					case '\\':
+					default:
+						cgp_put1('\\');
+						break;
+					}
+				}
+				else if (FollowString[Usage] == '\\') {
+					Usage++;
+					InEscape = 1;
+				} else {
+					cgp_put1(FollowString[Usage++]);
+				}
+			}
 			cgp_put1('\0');
 			break;
 		case 'z': // fill with zero

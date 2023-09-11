@@ -17,8 +17,6 @@ void MOV(void) {
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);
-	if (!Input.Byte)
-		__debugbreak();
 	i->rs_gprs[Input.Dest] = i->rs_gprs[Input.Source];
 	return;
 }

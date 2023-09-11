@@ -18,13 +18,13 @@ CLR
 JMI _BiosMainDraw
 
 _BiosStr:
--s "PLASM2 BIOS: gfy and play csgo dumbass "
+-s "PLASM2 BIOS: Loading\n"
 -z 1 ; null term
 _BiosNoDrivesStr:
--s "PLASM2 BIOS: also tell alan hes an idiot"
+-s "PLASM2 BIOS: No drives found!\n"
 -z 1
 _BiosDrivesFoundStr:
--s "PLASM2 BIOS: Drives found, but the moth don't care"
+-s "PLASM2 BIOS: Drives found, but the moth don't care\n"
 
 -b 16
 _BiosMainDraw:

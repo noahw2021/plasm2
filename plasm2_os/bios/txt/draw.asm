@@ -13,6 +13,9 @@ _BiosTextPosY:
 _BiosRenderChar:
 POP r1
 DEC r1
+CMI r1, 9
+NXE
+JMI _BiosRenderCharSub0
 LDI r2, 16384
 MLI r1, 512
 ADD r2, r1
