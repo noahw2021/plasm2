@@ -137,7 +137,7 @@ void decoder_go(byte Instruction) {
 	if (Written)
 		strcat(Ctx, ", ");
 
-	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip, i->sp);
+	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip - 1, i->sp);
 	strcat(Ctx, CPart);
 
 	decoder_print(Ctx);

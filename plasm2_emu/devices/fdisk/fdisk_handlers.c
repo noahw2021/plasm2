@@ -132,10 +132,10 @@ u64 fdisk_senddata(u32 Device, u64 Data) {
 			fdiski_farseek(fdiskctx->CurrentDrive, Data);
 			break;
 		case 0x10:
-			fdiski_driveseek(fdiskctx->CurrentCommand, Data);
+			fdiski_driveseek(fdiskctx->CurrentDrive, Data);
 			break;
 		case 0x12:
-			fdiski_drivewritestack(fdiskctx->CurrentCommand, Data);
+			fdiski_drivewritestack(fdiskctx->CurrentDrive, Data);
 			break;
 		}
 		fdiskctx->ExpectingData = 0;

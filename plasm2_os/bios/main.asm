@@ -7,6 +7,7 @@
 -b 10
 
 -i hdd/hdd.asm
+-i hdd/osl.asm
 -i txt/draw.asm
 -i txt/render.asm
 
@@ -23,9 +24,6 @@ _BiosStr:
 _BiosNoDrivesStr:
 -s "PLASM2 BIOS: No drives found!\n"
 -z 1
-_BiosDrivesFoundStr:
--s "PLASM2 BIOS: Drives found, but the moth don't care\n"
-
 -b 16
 _BiosMainDraw:
 CLI _BiosRenderStr
@@ -44,43 +42,11 @@ CLI _BiosRenderStr
 PSI _BiosNoDrivesStr
 CLR
 XOR r0, r0
-JMI _BiosClockTest0Check
-
-_BiosClockTest0Check:
-CMI r0, 10000000
-NXL
-JMI _BiosClockTest0Exec
-JMI _BiosClockTest0After
-
-_BiosClockTest0Exec:
-INC r0
-JMI _BiosClockTest0Check
-
-_BiosClockTest0After:
 DSI
 SHF
 
 _BiosMainOSLoader:
-CLI _BiosRenderStr
-PSI _BiosDrivesFoundStr
-CLR
-
-DBN
-
--b 10
-CLI _BiosHddRead
-PSI 0
-PSI 1
-PSI 64
--b 16
-PSI 2000
-CLR
-
-CLI _BiosRenderStr
-PSI 2000
-CLR
--b 10
-
+CLI _BiosOSLoader
 DSI
 SHF
 
