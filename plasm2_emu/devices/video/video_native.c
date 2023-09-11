@@ -79,7 +79,7 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
-	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK); SDL_SaveBMP(Surface, "test.bmp");
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK);
 	if (!Surface) {
 		printf("%s", SDL_GetError());
 	}
