@@ -85,11 +85,13 @@ int main(int argc, char** argv) {
 			__t_argc = argc;
 			__t_argv = argv;
 			toolsi_hddgen();
+			return 0;
 		}
 		if (strstr(argv[i], "--tools-bootldr")) {
 			__t_argc = argc;
 			__t_argv = argv;
 			toolsi_bootloader();
+			return 0;
 		}
 	}
 	

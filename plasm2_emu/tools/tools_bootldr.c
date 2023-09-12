@@ -43,7 +43,7 @@ void toolsi_bootloader(void) {
 	} else {
 		for (int i = 0; i < __t_argc; i++) {
 			if (strstr(__t_argv[i], "--data="))
-				strcpy(Strbuf, strstr(__t_argv[i], "--data==") + 8);
+				strcpy(Strbuf, strstr(__t_argv[i], "--data=") + 7);
 		}
 		if (!Strbuf[0]) {
 			printf("[E]: Input file name required.\n");

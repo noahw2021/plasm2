@@ -27,3 +27,8 @@ SHF
 
 _OslHelloStr:
 -s "OSL: Hello!\n\0"
+
+-b 16
+-p 4000
+-c
+-e
