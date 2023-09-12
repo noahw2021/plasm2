@@ -58,6 +58,7 @@ int main(int argc, char** argv) {
 			printf("Alt Function Switches: \n\n");
 			printf("%s -t | --tools : Loads PLASM2Emu toolkit.\n", argv[0]);
 			printf("%s --tools-hddgen [--out=OUTPUT --size=BYTES] (--mountbin --mountpath=file --mountpoint=0xLOC): Generates an HDD image silently.\n", argv[0]);
+			printf("%s --tools-bootldr [--out=OUTPUT --data=FILE] (--savehdr --loadhdr)", argv[0]);
 
 			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
@@ -81,14 +82,14 @@ int main(int argc, char** argv) {
 			return 0;
 		}
 		if (strstr(argv[i], "--tools-hddgen")) {
+			__t_argc = argc;
+			__t_argv = argv;
 			toolsi_hddgen();
-			__t_argc = argc;
-			__t_argv = argv;
 		}
-		if (strstr(argv[i], "--tools-bootgen")) {
-			toolsi_bootloader();
+		if (strstr(argv[i], "--tools-bootldr")) {
 			__t_argc = argc;
 			__t_argv = argv;
+			toolsi_bootloader();
 		}
 	}
 	
