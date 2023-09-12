@@ -32,6 +32,7 @@ CLR
 
 CLI _BiosGetHddCnt
 CLR ; returns to r0
+DBN
 CMI r0, 0
 NXE
 JMI _BiosMainNoDrives
@@ -47,7 +48,10 @@ SHF
 
 _BiosMainOSLoader:
 CLI _BiosOSLoader
+CLR
+
 DSI
 SHF
 
 -i exit.asm
+-e

@@ -21,9 +21,12 @@ void cg_parse(const char* Line) {
 
 	char* CommentCorrect = (char*)Line;
 	// incredibly basic and temporary comment system
-	if (strstr(CommentCorrect, ";"))
-		*(char*)strstr(CommentCorrect, ";") = 0x00;
-
+	if (strstr(CommentCorrect, ";")) {
+		char* _a0 = strstr(CommentCorrect, ";");
+		_a0[0] = 0x00;
+		_a0[1] = 0x00;
+		_a0[2] = 0x00;
+	}
 	if (CommentCorrect[0] == 0x00 || CommentCorrect[0] == '\n')
 		return;
 

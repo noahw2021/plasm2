@@ -63,6 +63,7 @@ RET
 
 -b 16
 -a 800
+_BiosFont:
 -f txt/bios.fon
 
 -e

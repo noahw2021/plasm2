@@ -10,7 +10,10 @@ plasm2_emu
 
 #pragma warning(disable: 6031)
 
-void tools_main(void) {
+char** __t_argv;
+int __t_argc;
+
+void tools_main(int a, char** b) {
 	printf("PLASM2EMU Tools: \n\n");
 	printf("1) HDD Generator\n");
 	printf("2) Font Generator\n");

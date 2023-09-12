@@ -42,6 +42,8 @@ int main(int argc, char** argv) {
 	
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
+	__t_argc = 0;
+	__t_argv = NULL;
 
 	for (int i = 0; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
@@ -55,6 +57,7 @@ int main(int argc, char** argv) {
 			
 			printf("Alt Function Switches: \n\n");
 			printf("%s -t | --tools : Loads PLASM2Emu toolkit.\n", argv[0]);
+			printf("%s --tools-hddgen [--out=OUTPUT --size=BYTES] (--mountbin --mountpath=file --mountpoint=0xLOC): Generates an HDD image silently.\n", argv[0]);
 
 			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
@@ -73,9 +76,19 @@ int main(int argc, char** argv) {
 			strcpy(FixedDisks[FixedDiskCount], argv[i] + 3);
 			FixedDiskCount++;
 		}
-		if (strstr(argv[i], "-t") || strstr(argv[i], "--tools")) {
+		if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--tools")) {
 			tools_main();
 			return 0;
+		}
+		if (strstr(argv[i], "--tools-hddgen")) {
+			toolsi_hddgen();
+			__t_argc = argc;
+			__t_argv = argv;
+		}
+		if (strstr(argv[i], "--tools-bootgen")) {
+			toolsi_bootloader();
+			__t_argc = argc;
+			__t_argv = argv;
 		}
 	}
 	
