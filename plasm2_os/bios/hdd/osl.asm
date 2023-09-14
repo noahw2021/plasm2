@@ -54,7 +54,9 @@ LDW r1, r0
 PSI r0 ; RawDiskSize
 
 POP r0 ; raw disk size
+
 POP r1 ; raw disk ptr
+ADI r1, 80 ; account for boot loader header
 
 CLI _BiosHddRead
 PSI 0

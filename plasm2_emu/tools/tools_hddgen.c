@@ -96,7 +96,7 @@ void toolsi_hddgen(void) {
 		else {
 			for (int i = 0; i < __t_argc; i++) {
 				if (strstr(__t_argv[i], "--mountpoint="))
-					sscanf(strstr(__t_argv[i], "--mountpoint=5") + 15, "%llX", &WhereToMount);
+					sscanf(strstr(__t_argv[i], "--mountpoint=") + 13, "%llX", &WhereToMount);
 			}
 			if (WhereToMount == 0xFFFFFFFF) {
 				printf("[E]: Mounting point required.\n");

@@ -30,6 +30,7 @@ typedef struct _cgctx {
 	u64 HighestPosition;
 	u64 ReferencePtr;
 	byte InSub;
+	byte Quiet;
 
 	int ErrorCount;
 	struct {

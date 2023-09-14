@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
 			printf("%s -f=input: Assembles an input file.\n", argv[0]);
 			printf("%s -f=input -o=output: Inputs and outputs.\n", argv[0]);
 			printf("%s -o=output: Output to file in interactive mode.\n", argv[0]);
+			printf("%s -q: Runs assembler in quiet mode.\n", argv[0]);
 			return 0;
 		}
 		if (!strcmp(argv[i], "-v")) {
@@ -73,6 +74,10 @@ int main(int argc, char** argv) {
 				return -1;
 			}
 		}
+
+		if (strstr(argv[i], "-q")) {
+			cgctx->Quiet = 1;
+		}
 	}
 
 	if (!PrimaryOutput) {
@@ -92,7 +97,8 @@ int main(int argc, char** argv) {
 
 	char* Line = malloc(2048);
 	while (cgctx) {
-		printf("[%06lX]: ", (u32)cgctx->DataPosition + (cgctx->ReferencePtr * cgctx->InSub));
+		if (!cgctx->Quiet)
+			printf("[%06lX]: ", (u32)cgctx->DataPosition + (cgctx->ReferencePtr * cgctx->InSub));
 		char* Line2 = vf_get();
 		if (!Line2) {
 			free(Line2);
@@ -102,7 +108,7 @@ int main(int argc, char** argv) {
 		strcpy(Line, Line2);
 		free(Line2);
 		void* eh = vf_ci();
-		if (eh != stdin)
+		if (eh != stdin && !cgctx->Quiet)
 			printf("%s", Line);
 		cg_parse(Line);
 	}

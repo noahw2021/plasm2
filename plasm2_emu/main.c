@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
 			emuctx->DebuggerEnabled = 1;
 		}
-		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
+		if (!strcmp(argv[i], "-h") || strstr(argv[i], "--help")) {
 			printf("PLASM2Emu: Help & Usage\n\n");
 			
 			printf("General Switches: \n\n");
@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
 			printf("%s --tools-hddgen [--out=OUTPUT --size=BYTES] (--mountbin --mountpath=file --mountpoint=0xLOC): Generates an HDD image silently.\n", argv[0]);
 			printf("%s --tools-bootldr [--out=OUTPUT --data=FILE] (--savehdr --loadhdr)", argv[0]);
 
-			printf("Misc Switches: (General Function Only)\n\n");
+			printf("Misc Switches: (General Function Only)\n\n"); 
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
 			
@@ -78,8 +78,10 @@ int main(int argc, char** argv) {
 			FixedDiskCount++;
 		}
 		if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--tools")) {
-			tools_main();
-			return 0;
+			if (!strstr(argv[i], "--tools-")) {
+				tools_main();
+				return 0;
+			}
 		}
 		if (strstr(argv[i], "--tools-hddgen")) {
 			__t_argc = argc;

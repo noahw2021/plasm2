@@ -3,21 +3,21 @@
 ; main.asm
 
 -b 16
--r 0
 
--a 15000
-gRenderStr:
--a 15008
-gRenderChar:
--a 15010
-gFont:
--a 15018
-gXYConsolePos:
+-r 15000
 
--r 16000
+gRenderStr: ; 0x00
+-z 8
+gRenderChar: ;0x08
+-z 8
+gFont: ; 0x10
+-z 8
+gXYConsolePos: ;0x18
+-z 8
 
-OslMain:
-LDW r0, gRenderStr
+OslMain: ; 0x20
+LDI r1, gRenderStr
+LDW r0, r1
 CLL r0
 PSI _OslHelloStr
 CLR
