@@ -25,7 +25,7 @@ _BiosNoDrivesStr:
 -s "PLASM2 BIOS: No drives found!\n"
 -z 1
 _BiosVersionString:
--s "PLASM2 BIOS v1.00, Build 46, 25 Sept 2023 0959 EST"
+-s "PLASM2 BIOS v1.00, Build 51, 25 Sept 2023 1020 EST"
 -z 1
 
 -b 16
@@ -34,9 +34,10 @@ CLI _BiosRenderStr
 PSI _BiosVersionString
 CLR
 
-LDI r1, _BiosTextColor
-LDI r0, 808000FF
-STW r1, r0
+PSI _BiosTextColor
+POP r0
+LDI r1, 808000FF
+STH r0, r1
 
 CLI _BiosRenderStr
 PSI _BiosStr

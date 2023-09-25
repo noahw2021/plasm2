@@ -37,6 +37,7 @@ u64 video_sendcommand(u32 Device, u64 Command) {
 	case 0x04:
 	case 0x05:
 	case 0x07:
+	case 0x08: // set video mask
 		videoctx->DestinationCommand = Command;
 		videoctx->AwaitingData = 1;
 		videoctx->PendingDataSend = 0;
@@ -77,6 +78,9 @@ u64 video_senddata(u32 Device, u64 Data) {
 		videoi_copyrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Ptr);
 		break;
 	case 0x06: // wip
+		break;
+	case 0x08: // set color mask
+		videoi_setcolormask(Data);
 		break;
 	}
 	return 0;

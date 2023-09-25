@@ -35,6 +35,13 @@ LDI r3, 524304
 BOR r4, r3
 LDI r0, 0
 LDI r1, 5
+
+LDI r8, _BiosTextColor
+LDH r9, r8
+LDI r8, 8
+DSC r0, r8
+DSD r0, r9 
+
 PSH r2
 DSC r0, r1
 DSD r0, r4
@@ -63,6 +70,7 @@ _BiosRenderCharSub1:
 RET
 
 ; Expects a pointer string pushed to stack
+
 _BiosRenderStr:
 POP r0
 JMI _BiosRenderStrLoop0Check

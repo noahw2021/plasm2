@@ -8,6 +8,12 @@ _BiosRenderMain:
 ; r0 = i : 0
 ; r1 = baseadr : 2048
 ; r2 = 8 : 8
+PSI _BiosTextColor
+POP r0
+-b 16
+LDI r1, FFFFFFFF
+-b 10
+STH r0, r1
 XOR r0, r0
 LDI r1, 2976 ; 0xA00
 LDI r5, 16384 ; 0x4000
