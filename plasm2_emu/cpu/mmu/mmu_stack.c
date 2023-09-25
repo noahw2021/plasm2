@@ -1,4 +1,5 @@
 #include "../cpu.h"
+#include "../../emu.h"
 #include "mmu.h"
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +14,8 @@ plasm2_emu
 void mmu_push(u64 Value) {
 	u64* Stack = (u64*)((byte*)cpuctx->PhysicalMemory + mmu_translate(i->sp, REASON_WRTE, 8)); // PM usage good: (reason: virtual memory)
 	Stack[1] = Value;
-	printf("[0x%04lX]= %llX\n", i->sp + 8, Value);
+	if (emuctx->DebuggerEnabled && !emuctx->DeBuggerOff)
+		printf("[0x%04lX]= %llX\n", i->sp + 8, Value);
 	if ((i->sp + 8) <= i->pti.spb)
 		i->sp += 8;
 	return;
@@ -21,7 +23,8 @@ void mmu_push(u64 Value) {
 u64 mmu_pop(void) {
 	u64* Stack = (u64*)((byte*)cpuctx->PhysicalMemory + mmu_translate(i->sp, REASON_READ, 8)); // PM usage good: (reason: virtual memory)
 	u64 Return = Stack[0];
-	printf("[0x%04lX]: %llX\n", i->sp, Return);
+	if (emuctx->DebuggerEnabled && !emuctx->DeBuggerOff)
+		printf("[0x%04lX]: %llX\n", i->sp, Return);
 	if ((i->sp - 8) >= i->pti.slb)
 		i->sp -= 8;
 	return Return;

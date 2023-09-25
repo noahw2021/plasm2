@@ -58,6 +58,9 @@ POP r1 ; raw disk ptr
 ADI r1, 80 ; account for boot loader header
 
 CLI _BiosHddRead
+POP r0
+LDI r1, 1080FFFF
+STH r0, r1
 PSI 0
 PSH r1 ; disk ptr
 PSH r0 ; disk size
@@ -92,7 +95,12 @@ JMP r0
 _BiosOsLoaderBadBootImageStr:
 -s "$PLASM2 BIOS: Invalid Boot Image\n\0"
 
+
 _BiosOsLoaderFail:
+PSI _BiosTextColor
+POP r0
+LDI r1, 1080FFFF
+STH r0, r1
 LDI r0, _BiosOsLoaderBadBootImageStr
 INC r0
 CLI _BiosRenderStr
