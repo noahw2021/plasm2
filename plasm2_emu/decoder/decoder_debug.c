@@ -2,6 +2,7 @@
 #include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
 #include "../psin2/psin2.h"
+#include "../emu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,6 +29,9 @@ u64  decoderi_gx(byte HowMuch) {
 }
 
 void decoder_go(byte Instruction) {
+	if (emuctx->DeBuggerOff)
+		return;
+
 	int Psin2Id = psin2i_getinstructionbycd(Instruction);	
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)

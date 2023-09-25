@@ -39,6 +39,7 @@ DrawFill      04 : Draws a filled rect ^
 CopyRect      05 : Copies a rectangular bitmap (32bit color), ptr on stack
 GetWh         06 : Get width (hi) and height (lo)
 SuggestWh     07 : Suggest a width (hi32) and height (lo32)
+SetColorMask  08 : Set color mask
 */
 
 u64 videoi_gettextbuffer(void); // deprecated
@@ -49,6 +50,7 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
 void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from stack. size = (w * h * 4)
 u64  videoi_getwh(void);
 void videoi_suggestwh(u16 w, u16 h);
+void videoi_setcolormask(u32 Mask);
 
 typedef struct _videoctx {
 	byte SizeLocked;
@@ -59,5 +61,6 @@ typedef struct _videoctx {
 	u64 Outgoing;
 	int w;
 	int h;
+	u32 ColorMask;
 }videoctx_t;
 extern videoctx_t* videoctx;

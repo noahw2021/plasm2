@@ -61,6 +61,7 @@ int main(int argc, char** argv) {
 			printf("%s --tools-bootldr [--out=OUTPUT --data=FILE] (--savehdr --loadhdr)", argv[0]);
 
 			printf("Misc Switches: (General Function Only)\n\n"); 
+			printf("%s --nodebug : Disables debugger including in applications.\n", argv[0]);
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
 			
@@ -94,6 +95,10 @@ int main(int argc, char** argv) {
 			__t_argv = argv;
 			toolsi_bootloader();
 			return 0;
+		}
+
+		if (!strcmp(argv[i], "--nodebug")) {
+			emuctx->DeBuggerOff = 1;
 		}
 	}
 	
@@ -145,6 +150,7 @@ int main(int argc, char** argv) {
 		kb_clock();
 		video_clock();
 		cpu_clock();
+		fdisk_clock();
 		ClockCnt++;
 
 		if (emuctx->BreakActive && emuctx->Step != 2) {

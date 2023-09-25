@@ -110,7 +110,6 @@ u64 fdisk_sendcommand(u32 Device, u64 Command) {
 		fdiskctx->ExpectingData = 1;
 		break;
 	default:
-		fdiskctx->CurrentStatus |= DEVSTATUS_RSN_INVCMD;
 		break;
 	}
 	return 0;

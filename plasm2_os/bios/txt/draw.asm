@@ -8,9 +8,12 @@ _BiosTextPosX:
 -z 4
 _BiosTextPosY:
 -z 4
+_BiosTextColor:
+-z 4
 
 ; Expects an immediate char pushed to stack
 _BiosRenderChar:
+DBN
 POP r1
 DEC r1
 CMI r1, 9

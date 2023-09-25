@@ -79,7 +79,7 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
-	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK);
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, videoctx->ColorMask & 0xFF000000, videoctx->ColorMask & 0x00FF0000, videoctx->ColorMask & 0x0000FF00, videoctx->ColorMask & 0x000000FF);
 	if (!Surface) {
 		printf("%s", SDL_GetError());
 	}
@@ -104,5 +104,10 @@ void videoi_suggestwh(u16 w, u16 h) {
 		SDL_SetWindowSize(Window, w, h);
 	}
 
+	return;
+}
+
+void videoi_setcolormask(u32 Mask) {
+	videoctx->ColorMask = Mask;
 	return;
 }
