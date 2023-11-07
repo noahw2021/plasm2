@@ -46,10 +46,6 @@ enum {
 	__JMI = 0x0F, // JMI 0F (I:64,64 __ADDR)                  72 : Jump Immediate
 	__CLI = 0x10, // CLI 10 (I:64,64 __ADDR)                  72 : Call Immediate
 	__CMI = 0x11, // CMI 11 (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate
-	__CLR = 0x12, // CLR 12                                   08 : Call Ready (Go)
-	__DBN = 0x13, // DBN 13                                   08 : Debugger Mode On
-	__DBF = 0x14, // DBF 14                                   08 : Debugger Mode Off
-	__DBB = 0x15, // DBB 15                                   08 : Debugger Breakpoint
 
 	// Arithmetic Instructions
 	__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add
@@ -101,8 +97,6 @@ enum {
 	__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)
 	__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory
 	__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory
-	__PPW = 0x76, // PPW 76                                   08 : Stack Pop and Waste (does not store value)
-	__PSI = 0x77, // PSI 77 (I:64,64 __DATA)                  72 : Push Immediate
 
 	// Device Instructions
 	__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query
@@ -200,8 +194,7 @@ struct {
 				u64 spb; // stack pointer upper bound
 				u64 slb; // stack lower bound
 				u64 pml; // page max location
-				u64 nca; // next call address
-				u64 reserved[1];
+				u64 reserved[2];
 			}pti;
 		};
 	};
@@ -215,8 +208,6 @@ void cpui_inst_jmp(u64 Address);
 void cpui_inst_cll(u64 Address);
 void cpui_inst_ret(void);
 void cpui_inst_int(byte Interrupt);
-void cpui_inst_clr(void);
-void cpui_inst_break(void);
 
 // cpu advanced functions
 

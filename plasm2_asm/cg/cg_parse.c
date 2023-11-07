@@ -21,19 +21,16 @@ void cg_parse(const char* Line) {
 
 	char* CommentCorrect = (char*)Line;
 	// incredibly basic and temporary comment system
-	if (strstr(CommentCorrect, ";")) {
-		char* _a0 = strstr(CommentCorrect, ";");
-		_a0[0] = 0x00;
-		_a0[1] = 0x00;
-		_a0[2] = 0x00;
-	}
+	if (strstr(CommentCorrect, ";"))
+		*(char*)strstr(CommentCorrect, ";") = 0x00;
+
 	if (CommentCorrect[0] == 0x00 || CommentCorrect[0] == '\n')
 		return;
 
 	// MOV r0, r1
 	int c = 0, t = 0;
 	byte OperandAPresent = 0, OperandBPresent = 0;
-	byte* OperandPtrs[2];
+	byte** OperandPtrs = malloc(sizeof(byte*) * 2);
 	OperandPtrs[0] = &OperandAPresent;
 	OperandPtrs[1] = &OperandBPresent;
 
@@ -43,7 +40,8 @@ void cg_parse(const char* Line) {
 	OperandA = malloc(64);
 	OperandB = malloc(64);
 	u64 OperandAPhys = 0, OperandBPhys = 0;
-	u64* OperandPhysPtrs[2];
+	u64** OperandPhysPtrs;
+	OperandPhysPtrs = malloc(sizeof(u64*) * 2);
 	OperandPhysPtrs[0] = &OperandAPhys;
 	OperandPhysPtrs[1] = &OperandBPhys;
 	char** OperandNamePtrs[2];
@@ -67,7 +65,6 @@ void cg_parse(const char* Line) {
 	c++;
 	Temporary[c] = 0x00;
 
-	byte InEscape = 0;
 	int Usage = 0;
 	char* FollowString = (char*)Line + 3;
 
@@ -79,14 +76,11 @@ void cg_parse(const char* Line) {
 			fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
-			cgctx->CurrentRadix = atoi(Line + 3);
+			cgctx->CurrentRadix = atoi(Line  + 3);
 			break;
 		case 'c': // compile
 			cgctx->DataPosition = cgctx->HighestPosition;
 			cg_compile();
-			break;
-		case 'e':
-			vf_eof();
 			break;
 		case 'f': // fill
 			vfg_write(Line + 3, cgctx->DataPosition);
@@ -105,29 +99,8 @@ void cg_parse(const char* Line) {
 			break;
 		case 's': // string
 			Usage = 1;
-			while (FollowString[Usage] != '"') {
-				if (InEscape) {
-					InEscape = 0;
-					switch (FollowString[Usage++]) {
-					case 'n':
-						cgp_put1('\n');
-						break;
-					case '0':
-						cgp_put1('\0');
-						break;
-					case '\\':
-					default:
-						cgp_put1('\\');
-						break;
-					}
-				}
-				else if (FollowString[Usage] == '\\') {
-					Usage++;
-					InEscape = 1;
-				} else {
-					cgp_put1(FollowString[Usage++]);
-				}
-			}
+			while (FollowString[Usage] != '"')
+				cgp_put1(FollowString[Usage++]);
 			cgp_put1('\0');
 			break;
 		case 'z': // fill with zero
@@ -205,7 +178,7 @@ OutA:
 
 		if (OperandB[0] != 'r') {
 			if (!(InRange(OperandB[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
-				u64 Resolved = link_getsymbol(OperandB, 1 + (psin2i_getphyssize(Psin, 1) / 8));
+				u64 Resolved = link_getsymbol(OperandB, 1);
 				char* ToString = malloc(64);
 				if (cgctx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
@@ -283,5 +256,7 @@ ExitThis:
 	free(Temporary);
 	free(OperandA);
 	free(OperandB);
+	free(OperandPhysPtrs);
+	free(OperandPtrs);
 	return;
 }

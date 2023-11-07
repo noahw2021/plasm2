@@ -1,6 +1,5 @@
 #include "../cpu.h"
 #include "../mmu/mmu.h"
-#include "../emu.h"
 /*
 cops_general.c
 plasm2
@@ -46,25 +45,21 @@ void NXC(void) {
 
 void NXE(void) {
 	i->flags_s.NF = !i->flags_s.EF;
-	i->flags_s.EF = 0;
 	return;
 }
 
 void NXZ(void) {
 	i->flags_s.NF = !i->flags_s.ZF;
-	i->flags_s.ZF = 0;
 	return;
 }
 
 void NXG(void) {
 	i->flags_s.NF = !i->flags_s.GF;
-	i->flags_s.GF = 0;
 	return;
 }
 
 void NXL(void) {
 	i->flags_s.NF = !i->flags_s.LF;
-	i->flags_s.LF = 0;
 	return;
 }
 
@@ -114,7 +109,7 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 		i->flags_s.GF = 1;
 	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
 		i->flags_s.EF = 1;
-	if (i->rs_gprs[Input.r1] < i->rs_gprs[Input.r2])
+	if (i->rs_gprs[Input.r2] < i->rs_gprs[Input.r2])
 		i->flags_s.LF = 1;
 	
 	return;
@@ -134,7 +129,7 @@ void JMI(void) {
 void CLI(void) {
 	u64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
-	u64 Translated = Immediate;
+	u64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		cpui_inst_cll(Translated);
 	else
@@ -159,20 +154,4 @@ void CMI(void) {
 		i->flags_s.EF = 1;
 
 	return;
-}
-
-void CLR(void) {
-	cpui_inst_clr();
-}
-
-void DBN(void) {
-	emuctx->DebuggerEnabled = 1;
-}
-
-void DBF(void) {
-	emuctx->DebuggerEnabled = 0;
-}
-
-void DBB(void) {
-	cpui_inst_break();
 }

@@ -16,66 +16,32 @@ plasm2_emu
 
 void toolsi_hddgen(void) {
 	printf("HDD File Generator: \n");
-
+	printf(" Output file name: ");
+	
+	fgetc(stdin);
 	char* InputFileName = malloc(240);
-	if (!__t_argv) {
-		printf(" Output file name: ");
+	fgets(InputFileName, 240, stdin);
+	if (strstr(InputFileName, "\n"))
+		strstr(InputFileName, "\n")[0] = 0x00;
 
-		fgetc(stdin);
-		fgets(InputFileName, 240, stdin);
-		if (strstr(InputFileName, "\n"))
-			strstr(InputFileName, "\n")[0] = 0x00;
-	} else {
-		for (int i = 0; i < __t_argc; i++) {
-			if (strstr(__t_argv[i], "--out="))
-				strcpy(InputFileName, strstr(__t_argv[i], "--out=") + 6);
-		}
-		if (!InputFileName[0]) {
-			printf("[E]: Missing argument 'output file name'.\n");
-			free(InputFileName);
-			return;
-		}
-	}
 	FILE* AttemptedFile = fopen(InputFileName, "wb");
 	if (!AttemptedFile) {
-		printf("[E]: Failed to open file.\n");
+		printf("Failed to open file.\n");
 		free(InputFileName);
 		return;
 	}
 
-	char YNInput = 'N';
-	if (!__t_argv) {
-		printf(" Would you like to mount a binary file in the disk? [Y/N]: ");
-		YNInput = fgetc(stdin);
-		fgetc(stdin); // absorb said newline
-	} else {
-		for (int i = 0; i < __t_argc; i++) {
-			if (!strcmp(__t_argv[i], "--mountbin")) {
-				YNInput = 'Y';
-			}
-		}
-	}
+	printf(" Would you like to mount a binary file in the disk? [Y/N]: ");
+	char YNInput = fgetc(stdin);
+	fgetc(stdin); // absorb said newline
+	
 
 	u64 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
 	void* AttemptedBuffer = NULL;
 	if ((YNInput & ~(0x20)) == 'Y') {
-		if (!__t_argv) {
-			printf("  Please enter the path: ");
-			fgets(InputFileName, 239, stdin);
-			if (strstr(InputFileName, "\n"))
-				strstr(InputFileName, "\n")[0] = 0x00;
-		} else {
-			for (int i = 0; i < __t_argc; i++) {
-				if (strstr(__t_argv[i], "--mountpath="))
-					strcpy(InputFileName, strstr(__t_argv[i], "--mountpath=") + 12);
-			}
-			if (!InputFileName[0]) {
-				printf("[E]: Mount file path required.\n");
-				free(InputFileName);
-				fclose(AttemptedFile);
-				return;
-			}
-		}
+		printf("  Please enter the path: ");
+		fgets(InputFileName, 239, stdin);
+
 		FILE* AttemptedMount = fopen(InputFileName, "rb");
 		if (!AttemptedMount) {
 			printf("  Failed to open the file.\n");
@@ -85,25 +51,11 @@ void toolsi_hddgen(void) {
 		}
 
 	GoBackHere:
-		if (!__t_argv) {
-			printf("  Where would you like to mount this file?: 0x");
-			scanf("%llX ", &WhereToMount);
-			if (WhereToMount == 0xFFFFFFFF) {
-				printf("  Please choose a different mounting point.\n"); // this is dumb but whatever
-				goto GoBackHere;
-			}
-		}
-		else {
-			for (int i = 0; i < __t_argc; i++) {
-				if (strstr(__t_argv[i], "--mountpoint="))
-					sscanf(strstr(__t_argv[i], "--mountpoint=") + 13, "%llX", &WhereToMount);
-			}
-			if (WhereToMount == 0xFFFFFFFF) {
-				printf("[E]: Mounting point required.\n");
-				free(InputFileName);
-				fclose(AttemptedFile);
-				return;
-			}
+		printf("  Where would you like to mount this file?: 0x");
+		scanf("%llX ", &WhereToMount);
+		if (WhereToMount == 0xFFFFFFFF) {
+			printf("  Please choose a different mounting point.\n"); // this is dumb but whatever
+			goto GoBackHere;
 		}
 
 		fseek(AttemptedMount, 0, SEEK_END);
@@ -116,27 +68,16 @@ void toolsi_hddgen(void) {
 		fclose(AttemptedMount);
 	}
 
-	u64 WantedSize = 0x00000000;
+	u64 WantedSize;
 	char* TempBfr = malloc(32);
 SizeTryAgain:
-	if (!__t_argv) {
-		printf(" How large would you like the drive in bytes?: ");
-		fgets(TempBfr, 31, stdin);
-		WantedSize = strtoull(TempBfr, NULL, 10);
-		if (WhereToMount != 0xFFFFFFFF) {
-			if (WantedSize < (WhereToMount + DestinedSize)) {
-				printf(" Invalid drive size. Drive must be able to at least the given map.\n");
-				goto SizeTryAgain;
-			}
-		}
-	} else {
-		for (int i = 0; i < __t_argc; i++) {
-			if (strstr(__t_argv[i], "--size="))
-				sscanf(strstr(__t_argv[i], "--size=") + 7, "%llu", &WantedSize);
-		}
-		if (!WantedSize) {
-			printf("[E]: Drive size required.\n");
-			return;
+	printf(" How large would you like the drive in bytes?: ");
+	fgets(TempBfr, 31, stdin);
+	WantedSize = strtoull(TempBfr, NULL, 10);
+	if (WhereToMount != 0xFFFFFFFF) {
+		if (WantedSize < (WhereToMount + DestinedSize)) {
+			printf(" Invalid drive size. Drive must be able to at least the given map.\n");
+			goto SizeTryAgain;
 		}
 	}
 	free(TempBfr);
@@ -192,7 +133,6 @@ SizeTryAgain:
 	else
 		FdHdr->ExpectedPhysicalSize = sizeof(fdiskhdr_t);
 
-	fseek(AttemptedFile, 0, SEEK_SET);
 	fwrite(FdHdr, sizeof(fdiskhdr_t), 1, AttemptedFile);
 	fclose(AttemptedFile);
 	free(FdHdr);

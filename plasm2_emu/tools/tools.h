@@ -19,7 +19,3 @@ void tools_main(void);
 void toolsi_hddgen(void);
 void toolsi_fontgen(void);
 void toolsi_fontview(void);
-void toolsi_bootloader(void);
-
-extern char** __t_argv;
-extern int __t_argc;

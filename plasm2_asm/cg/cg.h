@@ -30,13 +30,11 @@ typedef struct _cgctx {
 	u64 HighestPosition;
 	u64 ReferencePtr;
 	byte InSub;
-	byte Quiet;
 
 	int ErrorCount;
 	struct {
 		int Line;
 		char* Reason;
-		char File[32];
 	}*Errors;
 
 	byte Shutdown;

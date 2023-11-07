@@ -2,7 +2,6 @@
 #include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
 #include "../psin2/psin2.h"
-#include "../emu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -29,9 +28,6 @@ u64  decoderi_gx(byte HowMuch) {
 }
 
 void decoder_go(byte Instruction) {
-	if (emuctx->DeBuggerOff)
-		return;
-
 	int Psin2Id = psin2i_getinstructionbycd(Instruction);	
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
@@ -57,7 +53,7 @@ void decoder_go(byte Instruction) {
 		if (psin2i_getphyssize(Psin2Id, i) != 4)
 			TwoArgsOneByte = FALSE;
 	}
-	if (psin2i_getoperandcnt(Psin2Id) != 2)
+	if (psin2i_getoperandcnt(Psin2Id) == 1)
 		TwoArgsOneByte = FALSE;
 
 	if (TwoArgsOneByte) {
@@ -90,10 +86,6 @@ void decoder_go(byte Instruction) {
 		}
 	}
 
-	if (Instruction == __CMI || Instruction == __CMP) {
-		OperandCnt = 3;
-	}
-
 	char* DebugStr = malloc(256);
 
 	switch (OperandCnt) {
@@ -101,19 +93,13 @@ void decoder_go(byte Instruction) {
 		sprintf(DebugStr, "%s", psin2i_getname(Psin2Id));
 		break;
 	case 1: // OPC ARG
-		sprintf(DebugStr, "%s %s=%c%llX", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
+		sprintf(DebugStr, "%s %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
 			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0]);
 		break;
 	case 2: // OPC ARG, RG2
-		sprintf(DebugStr, "%s %s=%c%llX, %s=%c%llX", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
+		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
 			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), 
 			(IsOperandRegister[1] == 1 ? 'r' : 0xEE), OperandValues[1]);
-		break;
-	case 3: // CMI | CMP
-		sprintf(DebugStr, "%s %s=%c%llX, %s=%c%llX, L=%c, G=%c, E=%c", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0),
-			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], psin2i_getoperandname(Psin2Id, 1),
-			(IsOperandRegister[1] == 1 ? 'r' : 0xEE), OperandValues[1], i->flags_s.LF ? '1' : '0',
-			i->flags_s.GF ? '1' : '0', i->flags_s.EF ? '1' : '0');
 		break;
 	}
 
@@ -141,7 +127,7 @@ void decoder_go(byte Instruction) {
 	if (Written)
 		strcat(Ctx, ", ");
 
-	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip - 1, i->sp);
+	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip, i->sp);
 	strcat(Ctx, CPart);
 
 	decoder_print(Ctx);

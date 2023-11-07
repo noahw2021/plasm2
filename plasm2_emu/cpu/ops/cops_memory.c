@@ -1,5 +1,4 @@
 #include "../cpu.h"
-#include "../../emu.h"
 #include "../mmu/mmu.h"
 /*
 cops_memory.c
@@ -89,15 +88,6 @@ void PSH(void) {
 void POP(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;
 	i->rs_gprs[Register] = mmu_pop();
-
-	if (emuctx->DebuggerEnabled && !emuctx->DeBuggerOff) {
-		printf("--- STACK DEBUG ---\n");
-		u64* Stack = (byte*)cpuctx->PhysicalMemory + (i->sp - 16);
-		for (int c = 0; c < 5; c++) {
-			printf("[%c] [%i : 0x%04hX]: %llX\n", (c == 2 ? 'x' : ' '), c, (i->sp + (c * 8)), Stack[c]);
-		}
-		printf("--- END STACK DEBUG ---\n");
-	}
 	return;
 }
 
@@ -253,17 +243,5 @@ void STH(void) {
 	}
 
 	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
-	return;
-}
-
-void PPW(void) {
-	mmu_pop();
-	return;
-}
-
-void PSI(void) {
-	u64 Immediate = mmu_read8(i->ip);
-	i->ip += 8;
-	mmu_push(Immediate);
 	return;
 }

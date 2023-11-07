@@ -121,6 +121,7 @@ void BRI(void) {
 	byte Input = mmu_read1(i->ip++) & 0xF;
 	byte Immediate = mmu_read1(i->ip++);
 
+
 	i->rs_gprs[Input] >>= Immediate;
 	return;
 }

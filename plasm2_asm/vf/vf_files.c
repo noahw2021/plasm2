@@ -9,7 +9,7 @@ plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-#pragma warning(disable: 6308 6385 6387 28182 26451)
+#pragma warning(disable: 6385 6387)
 #define VF_SIZE(x) (sizeof(*vfctx->VirtualFile) * x)
 
 void vf_register(const char* Filename) {
@@ -19,48 +19,55 @@ void vf_register(const char* Filename) {
 		return;
 	}
 
-	vfctx->VirtualFile = realloc(vfctx->VirtualFile, (sizeof(vfctx->VirtualFile[0]) * (vfctx->VirtualFileCount + 1)));
-	memset(&vfctx->VirtualFile[vfctx->VirtualFileCount], 0, sizeof(vfctx->VirtualFile[0]));
-
+	vfctx->VirtualFile = realloc(vfctx->VirtualFile, VF_SIZE(vfctx->VirtualFileCount + 1));
 	vfctx->VirtualFile[vfctx->VirtualFileCount].PhysicalFile = RealFile;
+	vfctx->VirtualFile[vfctx->VirtualFileCount].IsLiveInput = 0;
+	vfctx->VirtualFile[vfctx->VirtualFileCount].SortOrder = ++vfctx->LastSortOrder;
 	vfctx->VirtualFileCount++;
 
+	vfi_sort();
 	return;
 }	
 
 char* vf_get(void) {
-	char* Return = malloc(512);
+	static char Return[512];
 	for (int i = 0; i < vfctx->VirtualFileCount; i++) {
-		if (vfctx->VirtualFile[i].Done)
-			continue;
-		fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
-		if (feof(vfctx->VirtualFile[i].PhysicalFile))
-			vfctx->VirtualFile[i].Done = 1;
-		return Return;
+		if (!vfctx->VirtualFile[i].IsLiveInput) {
+			if (!feof(vfctx->VirtualFile[i].PhysicalFile)) {
+				fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
+				if (!strcmp(Return, "-c"))
+					return "; -c\n";
+				return Return;
+			}
+		} else {
+			fgets(Return, 512, vfctx->VirtualFile[i].PhysicalFile);
+			return Return;
+		}
 	}
 	return NULL;
 }
 
 FILE* vf_ci(void) {
-	for (int i = 0; i < vfctx->VirtualFileCount; i++) {
-		if (!vfctx->VirtualFile[i].Done)
-			return vfctx->VirtualFile[i].PhysicalFile;
-	}
+	return vfctx->VirtualFile[0].PhysicalFile;
 }
 
 void vfi_sort(void) {
-	return;
-}
+	void* TempBuffer = malloc(VF_SIZE(1));
 
-char* vf_cur(void) {
-	return NULL;
-}
+	for (int i = 0; i < vfctx->VirtualFileCount - 1; i++) {
+		int Mindex = i;
+		for (int c = i + 1; c < vfctx->VirtualFileCount; c++) {
+			if (vfctx->VirtualFile[c].SortOrder > vfctx->VirtualFile[Mindex].SortOrder)
+				Mindex = c;
 
-void vf_eof(void) {
-	for (int i = 0; i < vfctx->VirtualFileCount; i++) {
-		if (vfctx->VirtualFile[i].Done)
-			continue;
-		vfctx->VirtualFile[i].Done = 1;
-		return;
+			if (Mindex != i) {
+				memcpy(TempBuffer, &vfctx->VirtualFile[Mindex], VF_SIZE(1));
+				memcpy(&vfctx->VirtualFile[Mindex], &vfctx->VirtualFile[i], VF_SIZE(1));
+				memcpy(&vfctx->VirtualFile[i], TempBuffer, VF_SIZE(1));
+			}
+		}
 	}
+	
+	free(TempBuffer);
+	return;
 }

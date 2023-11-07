@@ -35,21 +35,20 @@ Starting physical memory map:
 */
 
 int main(int argc, char** argv) {
-	//FILE* out = freopen("eh.bin", "w", stdout);
-	fgetc(stdin);
+	//fgetc(stdin);
+	FILE* a = freopen("rstd", "w", stdout);
+
 	emu_init();
 	psin2_init();
 	
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
-	__t_argc = 0;
-	__t_argv = NULL;
 
 	for (int i = 0; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
 			emuctx->DebuggerEnabled = 1;
 		}
-		if (!strcmp(argv[i], "-h") || strstr(argv[i], "--help")) {
+		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
 			printf("PLASM2Emu: Help & Usage\n\n");
 			
 			printf("General Switches: \n\n");
@@ -57,11 +56,8 @@ int main(int argc, char** argv) {
 			
 			printf("Alt Function Switches: \n\n");
 			printf("%s -t | --tools : Loads PLASM2Emu toolkit.\n", argv[0]);
-			printf("%s --tools-hddgen [--out=OUTPUT --size=BYTES] (--mountbin --mountpath=file --mountpoint=0xLOC): Generates an HDD image silently.\n", argv[0]);
-			printf("%s --tools-bootldr [--out=OUTPUT --data=FILE] (--savehdr --loadhdr)", argv[0]);
 
-			printf("Misc Switches: (General Function Only)\n\n"); 
-			printf("%s --nodebug : Disables debugger including in applications.\n", argv[0]);
+			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
 			
@@ -78,27 +74,9 @@ int main(int argc, char** argv) {
 			strcpy(FixedDisks[FixedDiskCount], argv[i] + 3);
 			FixedDiskCount++;
 		}
-		if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--tools")) {
-			if (!strstr(argv[i], "--tools-")) {
-				tools_main();
-				return 0;
-			}
-		}
-		if (strstr(argv[i], "--tools-hddgen")) {
-			__t_argc = argc;
-			__t_argv = argv;
-			toolsi_hddgen();
+		if (strstr(argv[i], "-t") || strstr(argv[i], "--tools")) {
+			tools_main();
 			return 0;
-		}
-		if (strstr(argv[i], "--tools-bootldr")) {
-			__t_argc = argc;
-			__t_argv = argv;
-			toolsi_bootloader();
-			return 0;
-		}
-
-		if (!strcmp(argv[i], "--nodebug")) {
-			emuctx->DeBuggerOff = 1;
 		}
 	}
 	
@@ -133,7 +111,8 @@ int main(int argc, char** argv) {
 	if (FixedDisks)
 		free(FixedDisks);
 
-	decoder_init();
+	if (emuctx->DebuggerEnabled)
+		decoder_init();
 
 	char TheHaltReason[256];
 
@@ -150,40 +129,7 @@ int main(int argc, char** argv) {
 		kb_clock();
 		video_clock();
 		cpu_clock();
-		fdisk_clock();
 		ClockCnt++;
-
-		if (emuctx->BreakActive && emuctx->Step != 2) {
-			printf("--- DEBUGGER  BREAK ---\n");
-			printf("[DBGI]: The application has requested a break.\n");
-HereWeGo:
-			printf("[DBGI]: What would you like to do? [c,d,s,i]\n");
-			printf("[DBGI]: Continue, Debugger, Step, Info: \n");
-			
-			char InputChar = fgetc(stdin);
-			switch (InputChar) {
-			case 'c':
-				emuctx->BreakActive = 0;
-				break;
-			case 'd':
-				emuctx->DebuggerEnabled = 1;
-				break;
-			case 's':
-				emuctx->DebuggerEnabled = 1;
-				emuctx->Step = 2;
-				break;
-			case 'i':
-				for (int r = 0; r < 16; r++)
-					printf("[DBGI]: r%2i= %llX\n", r, i->rs_gprs[r]);
-				printf("[DBGI]: ip=    %llX\n", i->ip);
-				printf("[DBGI]: sp=    %llX\n", i->sp);
-				printf("[DBGI]: flags= %llX\n", i->flags);
-				goto HereWeGo;
-				break;
-			}
-
-			printf("--- END DEBUG BREAK ---\n");
-		}
 
 		if (i->flags_s.HF && !i->flags_s.IF)
 			break;
@@ -191,7 +137,8 @@ HereWeGo:
 
 	time(&Startdown);
 
-	decoder_shutdown();
+	if (emuctx->DebuggerEnabled)
+		decoder_shutdown();
 
 	video_clock();
 	printf("Debug Shutdown Interrupt.\n");
@@ -215,6 +162,7 @@ HereWeGo:
 	printf("Total Time: %llum %llus\n", Diff / 60, Diff % 60);
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
-	//fclose(out);
+	fclose(a);
+
 	return 0;
 }

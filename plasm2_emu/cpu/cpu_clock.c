@@ -5,7 +5,6 @@
 #include "../emu.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include <time.h>
 /*
 cpu_clock.c
@@ -25,7 +24,6 @@ void cpu_clock(void) {
 		if (i->flags_s.NF) {
 			i->flags_s.NF = 0;
 			int Psin2Id = psin2i_getinstructionbycd(mmu_read1(i->ip));
-			byte opc = mmu_read1(i->ip);
 			byte TotalRead = (psin2i_totalsize(Psin2Id) / 8);
 			i->ip += TotalRead;
 		}
@@ -41,34 +39,9 @@ void cpu_clock(void) {
 
 	byte ThisInstruction = mmu_read1(i->ip++);
 	if (emuctx->DebuggerEnabled)
- 		decoder_go(ThisInstruction);
+		decoder_go(ThisInstruction);
 
-	if (emuctx->Step == 2) {
-		if (emuctx->Step < 2) {
-			printf("--- BEGIN DEBUG INFO ---\n");
-			printf("What would you like to do? [c,s]\n");
-			printf("Continue, Step: ");
-		}
-		char Input = fgetc(stdin);
-		switch (Input) {
-		case 'c':
-			emuctx->DebuggerEnabled = 0;
-			emuctx->Step = 0;
-			emuctx->BreakActive = 0;
-			break;
-		default:
-		case 's':
-			if (emuctx->Stepper < 2)
-				emuctx->Stepper++;
-			break;
-		}
-
-		if (emuctx->Step < 2)
-			printf("--- END  DEBUG  INFO --- \n");
-	}
 	Instructions[ThisInstruction]();
 
 	return;
-
-
 }

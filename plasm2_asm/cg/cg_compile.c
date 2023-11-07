@@ -14,7 +14,6 @@ plasm2_asm
 extern FILE* PrimaryInput, * PrimaryOutput;
 
 void cg_compile(void) {
-
 	fprintf(stdout, "\nBeginning Compliation...\n\n");
 
 	link_go();

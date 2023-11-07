@@ -110,6 +110,7 @@ u64 fdisk_sendcommand(u32 Device, u64 Command) {
 		fdiskctx->ExpectingData = 1;
 		break;
 	default:
+		fdiskctx->CurrentStatus |= DEVSTATUS_RSN_INVCMD;
 		break;
 	}
 	return 0;
@@ -131,10 +132,10 @@ u64 fdisk_senddata(u32 Device, u64 Data) {
 			fdiski_farseek(fdiskctx->CurrentDrive, Data);
 			break;
 		case 0x10:
-			fdiski_driveseek(fdiskctx->CurrentDrive, Data);
+			fdiski_driveseek(fdiskctx->CurrentCommand, Data);
 			break;
 		case 0x12:
-			fdiski_drivewritestack(fdiskctx->CurrentDrive, Data);
+			fdiski_drivewritestack(fdiskctx->CurrentCommand, Data);
 			break;
 		}
 		fdiskctx->ExpectingData = 0;

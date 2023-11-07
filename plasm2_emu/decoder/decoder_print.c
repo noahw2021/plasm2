@@ -12,7 +12,7 @@ plasm2_emu
 */
 
 void decoder_print(const char* Format) {
-	printf("[DBG]: ");
+	fprintf(stdout, "[DBG]: ");
 	
 	int i = 0;
 	while (Format[i]) {

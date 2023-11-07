@@ -1,7 +1,6 @@
 #include "vf.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
 /*
 vf_init.c
 plasm2
@@ -16,12 +15,18 @@ void vf_init(FILE* BaseFile) {
 	vfctx = malloc(sizeof(vfctx_t));
 	memset(vfctx, 0, sizeof(vfctx_t));
 
+	vfctx->FileBase = tmpfile();
+
 	vfctx->VirtualFile = malloc(sizeof(*vfctx->VirtualFile));
-	vfctx->VirtualFile[0].Done = 0;
-	vfctx->VirtualFile[0].IsLiveInput = 0;
+	if (BaseFile == stdin) {
+		vfctx->VirtualFile[0].IsLiveInput = 1;
+		vfctx->VirtualFile[0].SortOrder = 0;
+	} else {
+		vfctx->VirtualFile[0].SortOrder = 1;
+	}
 	vfctx->VirtualFile[0].PhysicalFile = BaseFile;
-	vfctx->VirtualFile[0].SortOrder = 0;
-	vfctx->VirtualFileCount = 1;
+	vfctx->VirtualFileCount++;
+	vfctx->Started = 1;
 
 	return;
 }
