@@ -18,6 +18,11 @@ plasm2_emu
 #define CSM_PAGETOOSMALL  0x03 // Trying to read too much from a page
 #define CSM_XPAGETOOSMALL 0x04 // Trying to execute too much from a page
 
+#define SYSARG_INTTMNS 10000 // number of nanoseconds between 'clock' interrupt
+
+// System Interrupts
+#define SYSINT_CLOCK 0x00 // called every SYSARG_INTTMNS ns
+
 // System Rings (i->security_s.SecurityLevel), 0-31
 /*
 0: System Ring: Kernel
