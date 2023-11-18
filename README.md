@@ -1,9 +1,14 @@
 # plasm2
+PLASM2 is a project containing an Assembler and Emulator for the PLASM2 instruction set architecture.
 
-Upcoming version of plasm, in extreme alpha. Some things may not work. Many things are untested. All projects are stored in this repository
+![Lines of Code](https://tokei.rs/b1/github/noahw2021/plasm2)
+![Code size](https://img.shields.io/github/languages/code-size/noahw2021/plasm2.svg)
+
 
 ## Build Status
 Below is a table of build statuses by platform.
+
+[![Windows Build](https://github.com/noahw2021/plasm2/actions/workflows/msbuild.yml/badge.svg)](https://github.com/noahw2021/plasm2/actions/workflows/msbuild.yml)
 
 ## Documentation
 Limited documentation available [here](https://github.com/noahw2021/plasm2/blob/master/DOCs.md)
