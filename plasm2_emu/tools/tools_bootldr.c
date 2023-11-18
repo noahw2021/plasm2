@@ -34,6 +34,9 @@ typedef struct _bootimg {
 #define BOOTLDRFLAG_SAVE 0x01
 #define BOOTLDRFLAG_LOAD 0x02
 
+extern int __t_argc;
+extern char** __t_argv;
+
 void toolsi_bootloader(void) {
 	char* Strbuf = malloc(240);
 

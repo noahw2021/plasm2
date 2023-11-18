@@ -1,4 +1,3 @@
-#pragma once
 #include "psin2.h"
 /*
 psin2_data.c

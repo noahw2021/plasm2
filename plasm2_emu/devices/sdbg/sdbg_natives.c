@@ -1,6 +1,6 @@
 #include "sdbg.h"
-#include "../cpu/cpu.h"
-#include "../cpu/mmu/mmu.h"
+#include "../../cpu/cpu.h"
+#include "../../cpu/mmu/mmu.h"
 #include <string.h>
 /*
 sdbg_natives.c

@@ -18,7 +18,6 @@ byte PauseDrawing;
 videoctx_t* videoctx;
 SDL_Thread* LoopThread;
 
-
 #pragma warning(disable: 6011 6387)
 
 void videoii_loop(void);

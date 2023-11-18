@@ -1,5 +1,5 @@
 #include "fdisk.h"
-#include "../cpu/cpu.h"
+#include "../../cpu/cpu.h"
 #include <stdlib.h>
 #include <string.h>
 /*

@@ -11,7 +11,6 @@
 #include "psin2/psin2.h"
 #include "decoder/decoder.h"
 #include "tools/tools.h"
-
 #pragma warning(disable: 6308 6387 26451 28182)
 
 /*
@@ -19,7 +18,7 @@ main.c
 plasm2
 plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
-*/
+*/  
 
 /*
 Starting physical memory map:
@@ -34,8 +33,11 @@ Starting physical memory map:
 0x25F0: End of stack
 */
 
+int __t_argc;
+char** __t_argv;
+PPLASM2_CTX i;
+
 int main(int argc, char** argv) {
-	//fgetc(stdin);
 	FILE* a = freopen("rstd", "w", stdout);
 
 	emu_init();
@@ -44,7 +46,7 @@ int main(int argc, char** argv) {
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
 
-	for (int i = 0; i < argc; i++) {
+	for (int i = 1; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
 			emuctx->DebuggerEnabled = 1;
 		}
@@ -60,7 +62,7 @@ int main(int argc, char** argv) {
 			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
-			
+            
 			printf("\nBy default, PLASM2Emu accepts a properly formed 'bios.bin'.\n");
 			return 0;
 		}
@@ -75,15 +77,18 @@ int main(int argc, char** argv) {
 			FixedDiskCount++;
 		}
 		if (strstr(argv[i], "-t") || strstr(argv[i], "--tools")) {
+            __t_argc = argc;
+            __t_argv = argv;
 			tools_main();
 			return 0;
 		}
 	}
 	
-	cpu_init();
-
+    i = malloc(sizeof(PLASM2_CTX));
 	memset(i, 0, sizeof(*i));
 
+    cpu_init();
+    
 	i->pti.dvptr = 0x0000;
 	i->ip = 0x03A0;
 	i->pti.slb = 0x24F0;
@@ -158,11 +163,12 @@ int main(int argc, char** argv) {
 	printf("CPU Halted.\n");
 
 	printf("Total Clocks: %llu\n", ClockCnt);
-	time_t Diff = (Startdown - Startup) + 1;
-	printf("Total Time: %llum %llus\n", Diff / 60, Diff % 60);
+	time_t Diff = (Startdown - Startup) + 1;   
+    printf("Total Time: %ldm %lds\n", Diff / 60, Diff % 60);
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
 	fclose(a);
-
+    free(i);
+    
 	return 0;
 }

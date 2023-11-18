@@ -1,6 +1,7 @@
 #pragma once
 #include "../basetypes.h"
 #include <time.h>
+
 /*
 cpu.h
 plasm2
@@ -148,7 +149,7 @@ extern void(*Instructions[256])(void);
 #define REGCOUNT_SPEC  16
 #define REGCOUNT_TOTAL REGCOUNT_GPRS + REGCOUNT_SPEC
 
-struct {
+typedef struct _PLASM2_CTX {
 	union {
 		union {
 			u64 rs_64[REGCOUNT_TOTAL];
@@ -203,7 +204,8 @@ struct {
 			}pti;
 		};
 	};
-}i[1];
+}PLASM2_CTX, *PPLASM2_CTX;
+extern PPLASM2_CTX i;
 
 void cpui_csm_set(u64 Handler);
 void cpui_csm_msg(byte Code, u64 AddtData);
