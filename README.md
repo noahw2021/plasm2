@@ -1,32 +1,26 @@
 # plasm2
-PLASM2 is a project containing an Assembler and Emulator for the PLASM2 instruction set architecture.
 
-![Lines of Code](https://tokei.rs/b1/github/noahw2021/plasm2)
-![Code size](https://img.shields.io/github/languages/code-size/noahw2021/plasm2.svg)
+Upcoming version of plasm, in extreme alpha. Some things may not work. Many things are untested. All projects are stored in this repository.
 
 
-## Build Status
-Below is a table of build statuses by platform.
+## source control
+main branch is now protected, pull requests required!
 
-[![Windows Build](https://github.com/noahw2021/plasm2/actions/workflows/msbuild.yml/badge.svg)](https://github.com/noahw2021/plasm2/actions/workflows/msbuild.yml)
+## non-explicit documentation
+I plan on fully documenting this instruction set, however some important things that are not super clear in the code are laid out here.
 
-## Documentation
-Limited documentation available [here](https://github.com/noahw2021/plasm2/blob/master/DOCs.md)
+### system timer interrupt
+This system timer interrupt fires every fixed amount of nanoseconds, by default 10,000 NS (100 fires per MS, 100,000 fires per S), and this time cannot be changed by the system. This calls interrupt '0x00'.
 
-## Build Guide
-Below is a build guide for various platforms. Contributions welcome!
+### interrupt system
+The interrupt system is very simple, and has constraints on what an interrupt can do, and how multiple interrupts are handled.
 
-### Windows
-Using Visual Studio 2019 or later, clone the GitHub repository and launch the plasm2.slm file. Then, you may build for x86/x64 and Debug/Release.
+#### interrupt queue
+The interrupt queue system logic is computed every clock, however not if the system is currently inside of an interrupt. It will wait for this interrupt to return before firing the next one. Thus, it is very important that only trusted system code is executed as an interrupt, as otherwise the system can very easily hang. This may be updated in the future, altough this instruction set is designed to be fully backwards compatible, so it is safe to assume that this scheme of interrupts being unable to interrupt interrupts is true, unless a flag is set.
 
-### macOS (Xcode 15.0+)
-WIP
+The system will pick the newest interrupt to fire after the current interrupt returns.
 
-### macOS (Xcode CLI / Clang)
-WIP
+The system will walk through the entire interrupt queue before firing a system timer / clock interrupt.
 
-### Linux gcc
-WIP
-
-### Linux clang
-WIP
+#### interrupt stacking
+Interrupts cannot stack, as in an interrupt cannot call another interrupt.

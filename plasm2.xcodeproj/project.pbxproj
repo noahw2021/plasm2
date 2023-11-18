@@ -1,0 +1,136 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXContainerItemProxy section */
+		8CEEAFE72B0954F50026004C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8CEEAFD92B0954F50026004C;
+			remoteInfo = plasm2_emu;
+		};
+		8CEEB0002B0955070026004C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8CEEAFF22B0955070026004C;
+			remoteInfo = plasm2_asm;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = plasm2_emu.xcodeproj; path = plasm2_emu/plasm2_emu.xcodeproj; sourceTree = "<group>"; };
+		8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = plasm2_asm.xcodeproj; path = plasm2_asm/plasm2_asm.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		8CEEAFC92B0954E20026004C = {
+			isa = PBXGroup;
+			children = (
+				8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */,
+				8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		8CEEAFE42B0954F50026004C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8CEEAFE82B0954F50026004C /* plasm2_emu */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8CEEAFFD2B0955070026004C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8CEEB0012B0955070026004C /* plasm2_asm */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		8CEEAFCA2B0954E20026004C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 8CEEAFCD2B0954E20026004C /* Build configuration list for PBXProject "plasm2" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8CEEAFC92B0954E20026004C;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8CEEAFFD2B0955070026004C /* Products */;
+					ProjectRef = 8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */;
+				},
+				{
+					ProductGroup = 8CEEAFE42B0954F50026004C /* Products */;
+					ProjectRef = 8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8CEEAFE82B0954F50026004C /* plasm2_emu */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plasm2_emu;
+			remoteRef = 8CEEAFE72B0954F50026004C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8CEEB0012B0955070026004C /* plasm2_asm */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plasm2_asm;
+			remoteRef = 8CEEB0002B0955070026004C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin XCBuildConfiguration section */
+		8CEEAFCE2B0954E20026004C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		8CEEAFCF2B0954E20026004C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8CEEAFCD2B0954E20026004C /* Build configuration list for PBXProject "plasm2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CEEAFCE2B0954E20026004C /* Debug */,
+				8CEEAFCF2B0954E20026004C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8CEEAFCA2B0954E20026004C /* Project object */;
+}
