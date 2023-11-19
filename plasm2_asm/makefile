@@ -1,6 +1,6 @@
 # https://spin.atomicobject.com/2016/08/26/makefile-c-projects/ :)
 TARGET_EXEC := plasm2_asm64
-BUILD_DIR := ./../build/
+BUILD_DIR := ./../build/asm
 SRC_DIRS := ./
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
@@ -21,3 +21,4 @@ $(BUILD_DIR)/%.c.o: %.c
 clean:
 	rm -r $(BUILD_DIR)
 -include $(DEPS)
+

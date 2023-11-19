@@ -1,6 +1,6 @@
 # https://spin.atomicobject.com/2016/08/26/makefile-c-projects/ :)
 TARGET_EXEC := plasm2_emu64
-BUILD_DIR := ./../build
+BUILD_DIR := ./../build/emu
 SRC_DIRS := ./
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
@@ -14,7 +14,7 @@ ifeq ($(UNAME_S),Linux)
 		LNKFLAGS := -lSDL2 -lm -ldl
 endif
 ifeq ($(UNAME_S),Darwin)
-        CPPFLAGS += -I"/opt/homebrew/Cellar/sdl2/2.28.5/include/SDL2"
+        CPPFLAGS += -I"/opt/homebrew/Cellar/sdl2/2.28.5/include/SDL2/"
 		LNKFLAGS := -lSDL2 -L"/opt/homebrew/Cellar/sdl2/2.28.5/lib/"
 endif
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
