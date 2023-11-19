@@ -245,3 +245,10 @@ void STH(void) {
 	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
 	return;
 }
+
+void PSI(void) {
+    u64 Immediate = mmu_read8(i->ip);
+    i->ip += 8;
+    mmu_push(Immediate);
+    return;
+}

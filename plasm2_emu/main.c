@@ -37,7 +37,32 @@ int __t_argc;
 char** __t_argv;
 PPLASM2_CTX i;
 
+typedef struct _appargs {
+    char** argv;
+    int argc;
+}appargs_t;
+int __nonvideo_main(appargs_t*);
+
+#include <SDL.h>
+
+_bool ShouldStartVideo;
 int main(int argc, char** argv) {
+    ShouldStartVideo = FALSE;
+    
+    appargs_t* Args = malloc(sizeof(appargs_t));
+    Args->argc = argc;
+    Args->argv = argv;
+    
+    SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
+    
+    while (!ShouldStartVideo);
+    video_init();
+}
+
+int __nonvideo_main(appargs_t* Args) {
+    int argc = Args->argc;
+    char** argv = Args->argv;
+    
 	FILE* a = freopen("rstd", "w", stdout);
 
 	emu_init();

@@ -4,7 +4,7 @@
 /*
 psin2_getcg.c
 plasm2
-plasm2_emu
+plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
@@ -50,8 +50,12 @@ int	  psin2i_getoperandcnt(int Id) {
 
 int  psin2i_getinstructionbyname(const char* Operand) {
 	for (int i = 0; i < psin2ctx->InstructionCount; i++) {
-		if (!strcmp(psin2ctx->Instructions[i].Instruction, Operand))
-			return i;
+		if (psin2ctx->Instructions[i].Instruction[0] == Operand[0] &&
+            psin2ctx->Instructions[i].Instruction[1] == Operand[1] &&
+            psin2ctx->Instructions[i].Instruction[2] == Operand[2]
+        ) {
+            return i;
+        }
 	}
 	return -1;
 }
@@ -61,5 +65,5 @@ int   psin2i_getinstructionbycd(byte Opcode) {
 		if (psin2ctx->Instructions[i].Opcode == Opcode)
 			return i;
 	}
-	return 0xFFFF;
+	return 0;
 }

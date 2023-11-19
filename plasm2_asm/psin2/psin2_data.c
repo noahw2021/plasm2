@@ -2,7 +2,7 @@
 /*
 psin2_data.c
 plasm2
-plasm2_emu
+plasm2_asm
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
@@ -13,7 +13,7 @@ void psin2_load(void) {
 	psin2_parse("__NXC = 0x03, // NXC 03                                   08 : Next Execute Clear");
 	psin2_parse("__NXE = 0x04, // NXE 04                                   08 : Next Execute If Equal");
 	psin2_parse("__NXZ = 0x05, // NXZ 05                                   08 : Next Execute If Zero");
-	psin2_parse("__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater"); 
+	psin2_parse("__NXG = 0x06, // NXG 06                                   08 : Next Execute If Greater");
 	psin2_parse("__NXL = 0x07, // NXL 07                                   08 : Next Execute If Less");
 	psin2_parse("__CLL = 0x08, // CLL 08 (R:04,08 ___ADR)                  16 : Call");
 	psin2_parse("__RET = 0x09, // RET 09                                   08 : Return");
@@ -37,8 +37,7 @@ void psin2_load(void) {
 	psin2_parse("__MLI = 0x29, // MLI 29 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Multiply Immediate");
 	psin2_parse("__DVI = 0x2A, // DVI 2A (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Divide Immediate");
 	psin2_parse("__MDI = 0x2B, // MDI 2B (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Modulo Immediate");
-    psin2_parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
-    
+
 	psin2_parse("// Bitwise Instruction");
 	psin2_parse("__AND = 0x40, // AND 40 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise AND");
 	psin2_parse("__BOR = 0x41, // BOR 41 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise OR");
@@ -75,6 +74,7 @@ void psin2_load(void) {
 	psin2_parse("__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)");
 	psin2_parse("__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory");
 	psin2_parse("__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory");
+    psin2_parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
 
 	psin2_parse("// Device Instructions");
 	psin2_parse("__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query");
