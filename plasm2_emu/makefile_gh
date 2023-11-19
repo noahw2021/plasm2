@@ -14,8 +14,8 @@ ifeq ($(UNAME_S),Linux)
 		LNKFLAGS := -lSDL2 -lm -ldl
 endif
 ifeq ($(UNAME_S),Darwin)
-        CPPFLAGS += -I"/usr/local/Cellar/sdl2/2.28.3/include/SDL2"
-		LNKFLAGS := -lSDL2 -L"/usr/Local/Cellar/sdl2/2.28.3/lib/"
+        CPPFLAGS += -I"/usr/local/include/SDL2"
+		LNKFLAGS := -lSDL2 -L"/usr/local/lib"
 endif
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(LNKFLAGS)
