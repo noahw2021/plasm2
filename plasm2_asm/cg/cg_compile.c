@@ -24,7 +24,7 @@ void cg_compile(void) {
 	fprintf(stdout, "%i errors generated.\n", ErrorCount);
 
 	fclose(PrimaryOutput);
-	fprintf(stdout, "Complation complete, executible size: 0x%08llX", cgctx->DataPosition);
+	fprintf(stdout, "Complation complete, executible size: 0x%08llX\n", cgctx->DataPosition);
 
 	if (PrimaryInput != stdin)
 		fclose(PrimaryInput);

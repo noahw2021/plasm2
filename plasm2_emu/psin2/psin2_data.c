@@ -1,4 +1,3 @@
-#pragma once
 #include "psin2.h"
 /*
 psin2_data.c
@@ -38,7 +37,8 @@ void psin2_load(void) {
 	psin2_parse("__MLI = 0x29, // MLI 29 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Multiply Immediate");
 	psin2_parse("__DVI = 0x2A, // DVI 2A (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Divide Immediate");
 	psin2_parse("__MDI = 0x2B, // MDI 2B (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Modulo Immediate");
-
+    psin2_parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
+    
 	psin2_parse("// Bitwise Instruction");
 	psin2_parse("__AND = 0x40, // AND 40 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise AND");
 	psin2_parse("__BOR = 0x41, // BOR 41 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise OR");

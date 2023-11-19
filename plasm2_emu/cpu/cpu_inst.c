@@ -34,7 +34,7 @@ void cpui_inst_cll(u64 Address) {
 	SecurityPacket.Flags = (u32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
-	i->flags_s.SF = 1;
+    i->flags_s.SF = 1;
 	i->ip = Address;
 	i->flags_s.CF = 1;
 	return;
@@ -71,7 +71,6 @@ void cpui_inst_int(byte Interrupt) {
 	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
 	u64 VirtualAddress = InterruptTable[Interrupt];
 	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
-	byte BackupLevel = i->security_s.SecurityLevel;
 	i->security_s.SecurityLevel = SecurityLevel;
 	u64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (!PhysicalAddress) {

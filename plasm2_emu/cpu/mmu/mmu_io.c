@@ -51,7 +51,7 @@ void mmu_put1(u64 Address, byte Value) {
 }
 
 void mmu_put4(u64 Address, u32 Value) {
-	u32* PhysicalBytes = (byte*)((byte*)cpuctx->PhysicalMemory + Address); // PM usage good (reason: comes from trust)
+	u32* PhysicalBytes = (u32*)((byte*)cpuctx->PhysicalMemory + Address); // PM usage good (reason: comes from trust)
 	if (Address > PHYS_MEMSZ)
 		i->flags_s.XF = 1;
 	else

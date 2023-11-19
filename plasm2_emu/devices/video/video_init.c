@@ -18,7 +18,6 @@ byte PauseDrawing;
 videoctx_t* videoctx;
 SDL_Thread* LoopThread;
 
-
 #pragma warning(disable: 6011 6387)
 
 void videoii_loop(void);
@@ -30,10 +29,7 @@ void video_init(void) {
 	videoctx->Status = DEVSTATUS_GOOD;
 
 	PauseDrawing = 0;
-	SDL_Init(SDL_INIT_VIDEO);
-	Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
-	Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
-	LoopThread = SDL_CreateThread((SDL_ThreadFunction)videoii_loop, "Plasm2EmuSDLLoop", NULL);
+    videoii_loop();
 }
 
 void video_shutdown(void) {
@@ -47,6 +43,11 @@ void video_shutdown(void) {
 void videoii_loop(void) {
 	SDL_Event Event;
 	byte Quit = 0;
+    
+    SDL_Init(SDL_INIT_VIDEO);
+    Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
+    Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+    
 	while (!Quit) {
 		while (SDL_PollEvent(&Event)) {
 			if (PauseDrawing)

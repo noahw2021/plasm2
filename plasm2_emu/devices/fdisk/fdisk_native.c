@@ -177,7 +177,7 @@ void fdiski_drivegetvendorsz(int DriveId, u64 Pointer) {
 		return;
 
 	u64 RPointer = mmu_translate(Pointer, REASON_WRTE, 16);
-	char* TPointer = ((byte*)cpuctx->PhysicalMemory + RPointer);
+	byte* TPointer = ((byte*)cpuctx->PhysicalMemory + RPointer);
 	memcpy(TPointer, fdiskctx->Drives[DriveId].DeviceVendor, 16);
 
 	return;

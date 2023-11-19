@@ -109,7 +109,7 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 		i->flags_s.GF = 1;
 	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
 		i->flags_s.EF = 1;
-	if (i->rs_gprs[Input.r2] < i->rs_gprs[Input.r2])
+	if (i->rs_gprs[Input.r1] < i->rs_gprs[Input.r2])
 		i->flags_s.LF = 1;
 	
 	return;

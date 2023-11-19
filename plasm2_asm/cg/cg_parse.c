@@ -55,12 +55,13 @@ void cg_parse(const char* Line) {
 		*(char*)(strstr(Line, "\n")) = 0x00;
 
 	// Grab operand name
+    int c2 = c;
 	if (Line[0] != '-') {
 		while (Line[c] && Line[c] != ' ')
-			Temporary[c] = Line[c++] & ~0x20;
+			Temporary[c2++] = Line[c++] & ~0x20;
 	} else {
 		while (Line[c] && Line[c] != ' ')
-			Temporary[c] = Line[c++];
+			Temporary[c2++] = Line[c++];
 	}
 	c++;
 	Temporary[c] = 0x00;
@@ -68,6 +69,7 @@ void cg_parse(const char* Line) {
 	int Usage = 0;
 	char* FollowString = (char*)Line + 3;
 
+    
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
@@ -113,7 +115,7 @@ void cg_parse(const char* Line) {
 	}
 
 	char* _Line = (char*)Line;
-	int __x = strlen(Line);
+	unsigned long __x = strlen(Line);
 	int Count = 0;
 	while (_Line[__x - Count] != ':') {
 		Count++;
@@ -128,7 +130,7 @@ void cg_parse(const char* Line) {
 		goto ExitThis;
 	}
 
-	int Psin = psin2i_getinstructionname(Temporary);
+	int Psin = psin2i_getinstructionbyname(Temporary);
 
 	if (Psin == -1) {
 		cge_error(cgctx->CurrentLine, "[E1002]: Invalid operand");
@@ -215,7 +217,7 @@ OutB:
 		}
 	}
 
-	byte TwoOpsOneByte = 0, DualOutput;
+    byte TwoOpsOneByte = 0, DualOutput = '\0';
 	if (OperandPtrSizes[0] == 4 && OperandPtrSizes[1] == 4) {
 		TwoOpsOneByte = 1;
 		union {

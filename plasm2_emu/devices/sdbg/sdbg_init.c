@@ -1,6 +1,6 @@
 #include "sdbg.h"
-#include "../emu.h"
-#include "../cpu/cpu.h"
+#include "../../emu.h"
+#include "../../cpu/cpu.h"
 #include <stdlib.h>
 #include <string.h>
 /*

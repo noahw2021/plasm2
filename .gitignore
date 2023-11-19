@@ -181,6 +181,8 @@ DocProject/Help/html
 # Click-Once directory
 publish/
 
+*.DS_Store
+
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
@@ -363,3 +365,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+build/
+*.DS_Store
+.DS_Store

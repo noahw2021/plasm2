@@ -1,6 +1,7 @@
 #pragma once
 #include "../basetypes.h"
 #include <time.h>
+
 /*
 cpu.h
 plasm2
@@ -102,6 +103,7 @@ enum {
 	__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)
 	__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory
 	__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory
+    __PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)
 
 	// Device Instructions
 	__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query
@@ -148,7 +150,7 @@ extern void(*Instructions[256])(void);
 #define REGCOUNT_SPEC  16
 #define REGCOUNT_TOTAL REGCOUNT_GPRS + REGCOUNT_SPEC
 
-struct {
+typedef struct _PLASM2_CTX {
 	union {
 		union {
 			u64 rs_64[REGCOUNT_TOTAL];
@@ -203,7 +205,8 @@ struct {
 			}pti;
 		};
 	};
-}i[1];
+}PLASM2_CTX, *PPLASM2_CTX;
+extern PPLASM2_CTX i;
 
 void cpui_csm_set(u64 Handler);
 void cpui_csm_msg(byte Code, u64 AddtData);

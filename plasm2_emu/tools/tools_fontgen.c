@@ -10,9 +10,6 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-SDL_Window* Window;
-SDL_Renderer* Renderer;
-
 #pragma warning(disable: 6011)
 
 #define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit)) >> Bit
@@ -79,8 +76,8 @@ void toolsi_fontgen(void) {
 		return;
 	}
 
-	SDL_Window* Window = SDL_CreateWindow("PLASM2 Font Generator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 640, 0);
-	SDL_Renderer* Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Window* FontWindow = SDL_CreateWindow("PLASM2 Font Generator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 640, 0);
+	SDL_Renderer* FontRenderer = SDL_CreateRenderer(FontWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	char Quit = 0;
 	while (!Quit) {
@@ -111,19 +108,19 @@ void toolsi_fontgen(void) {
 		if (Quit)
 			break;
 
-		SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
-		SDL_RenderClear(Renderer);
+		SDL_SetRenderDrawColor(FontRenderer, 0, 0, 0, 255);
+		SDL_RenderClear(FontRenderer);
 
-		SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
+		SDL_SetRenderDrawColor(FontRenderer, 200, 200, 200, 255);
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 16; y++) {
 				SDL_Rect Rectangle = { (x * 32) + 1, (y * 32) + 1, 31, 31 };
 				if (Bitmap[CurrentChar][(y * 8) + x]) {
-					SDL_SetRenderDrawColor(Renderer, 220, 220, 220, 255);
-					SDL_RenderFillRect(Renderer, &Rectangle);
-					SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
+					SDL_SetRenderDrawColor(FontRenderer, 220, 220, 220, 255);
+					SDL_RenderFillRect(FontRenderer, &Rectangle);
+					SDL_SetRenderDrawColor(FontRenderer, 200, 200, 200, 255);
 				}
-				SDL_RenderDrawRect(Renderer, &Rectangle);
+				SDL_RenderDrawRect(FontRenderer, &Rectangle);
 				if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
 					if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h)) {
 						if (IsMouseDown[0])
@@ -136,8 +133,8 @@ void toolsi_fontgen(void) {
 		}
 		for (int b = 0; b < 2; b++) {
 			SDL_Rect Rectangle = { 1 + (1 * b) + (127 * b), 523, 128, 127 };
-			SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
-			SDL_RenderDrawRect(Renderer, &Rectangle);
+			SDL_SetRenderDrawColor(FontRenderer, 200, 200, 200, 255);
+			SDL_RenderDrawRect(FontRenderer, &Rectangle);
 
 			if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
 				if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h) && IsMouseDown[0]) {
@@ -151,11 +148,11 @@ void toolsi_fontgen(void) {
 			}
 
 			if (b) {
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 107, Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 107, Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
 			} else {
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
 			}
 		}
 
@@ -178,7 +175,7 @@ void toolsi_fontgen(void) {
 			}
 		}
 
-		SDL_RenderPresent(Renderer);
+		SDL_RenderPresent(FontRenderer);
 		SDL_Delay(10);
 	}
 

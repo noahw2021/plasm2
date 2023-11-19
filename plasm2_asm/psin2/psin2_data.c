@@ -1,4 +1,3 @@
-#pragma once
 #include "psin2.h"
 /*
 psin2_data.c
@@ -75,6 +74,7 @@ void psin2_load(void) {
 	psin2_parse("__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)");
 	psin2_parse("__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory");
 	psin2_parse("__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory");
+    psin2_parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
 
 	psin2_parse("// Device Instructions");
 	psin2_parse("__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query");

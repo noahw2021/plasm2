@@ -43,5 +43,5 @@ char* psin2i_getoperandname(int Id, byte OperandId);
 byte  psin2i_totalsize(int Id);
 char* psin2i_description(int Id);
 int	  psin2i_getoperandcnt(int Id);
-int   psin2i_getinstructionname(const char* Operand);
+int   psin2i_getinstructionbyname(const char* Operand);
 int   psin2i_getinstructionbycd(byte Opcode);

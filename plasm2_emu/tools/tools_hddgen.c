@@ -120,7 +120,7 @@ SizeTryAgain:
 	memset(FdHdr, 0, sizeof(fdiskhdr_t));
 	
 	FdHdr->Magic = FDISKHDR_MAGIC;
-	srand((u32)time(NULL));
+	srand(time(NULL) & 0xFFFFFFFF);
 	FdHdr->DeviceSerial = rand();
 	FdHdr->DeviceVendorId = 0x4273;
 	strcpy(FdHdr->DeviceVendor, "PLASM2 HDDGnr8r");
