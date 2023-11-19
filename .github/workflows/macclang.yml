@@ -24,4 +24,4 @@ jobs:
     - name: build plasm2_emu
       run: |
         cd plasm2_emu
-        make
+        make -f "makefile_gh"
