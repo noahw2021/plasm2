@@ -1,0 +1,21 @@
+name: macOS Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: macOS-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: get sdl2
+      run: |
+        brew install SDL2
+    - uses: actions/checkout@v2
+    - name: make
+      run: make
