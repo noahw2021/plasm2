@@ -13,7 +13,7 @@
 
 fdiskctx_t* fdiskctx;
 
-void fdisk_init(void) {
+void FdiskInit(void) {
 	fdiskctx = malloc(sizeof(fdiskctx_t));
 	memset(fdiskctx, 0, sizeof(fdiskctx_t));
 
@@ -46,7 +46,7 @@ _bool fdisk_register(const char* DiskFile) {
 		return 0;
 	}
 
-	u64 RunningTotal = 0x00;
+	WORD64 RunningTotal = 0x00;
 	for (int i = 0; i < sizeof(PotHeader->DeviceVendor); i++)
 		RunningTotal += PotHeader->DeviceVendor[i];
 	RunningTotal += PotHeader->DeviceVendorId;
@@ -60,7 +60,7 @@ _bool fdisk_register(const char* DiskFile) {
 	}
 
 	fseek(Tfp, 0, SEEK_END);
-	u64 FileSize = pftell(Tfp);
+	WORD64 FileSize = pftell(Tfp);
 	FileSize -= sizeof(fdiskhdr_t);
 
 	if (FileSize != PotHeader->ExpectedPhysicalSize) {
@@ -91,7 +91,7 @@ _bool fdisk_register(const char* DiskFile) {
 
 void fdisk_clock(void) {
 	int OldestPair = 0;
-	u64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
+	WORD64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
 	for (int i = 0; i < fdiskctx->DriveCount; i++) {
 		if (fdiskctx->Drives[i].NextChunkScan > cput_gettime())
 			continue;
