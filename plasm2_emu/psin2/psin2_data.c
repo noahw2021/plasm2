@@ -38,6 +38,7 @@ void psin2_load(void) {
 	psin2_parse("__DVI = 0x2A, // DVI 2A (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Divide Immediate");
 	psin2_parse("__MDI = 0x2B, // MDI 2B (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Modulo Immediate");
     psin2_parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
+    psin2_parse("__CLR = 0x12, // CLR 12                                   08 : Call Execute");
     
 	psin2_parse("// Bitwise Instruction");
 	psin2_parse("__AND = 0x40, // AND 40 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Bitwise AND");

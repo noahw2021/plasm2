@@ -81,6 +81,21 @@
                   endingLineNumber = "60"
                   offsetFromSymbolStart = "260">
                </Location>
+               <Location
+                  uuid = "6D70CE28-7CF2-43B5-A58D-FF321C57FC9C - 6e141303c0a29c92"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "psin2i_getinstructionbyname"
+                  moduleName = "plasm2_asm"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Documents/plasm2-xc/plasm2_asm/psin2/psin2_getcg.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "260">
+               </Location>
             </Locations>
          </BreakpointContent>
       </BreakpointProxy>

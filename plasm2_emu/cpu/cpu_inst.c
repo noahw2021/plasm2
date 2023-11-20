@@ -13,6 +13,7 @@ void cpui_inst_jmp(u64 Address) {
 	i->ip = Address;
 	return;
 }
+
 void cpui_inst_cll(u64 Address) {
 	if (!Address) {
 		i->flags_s.XF = 1;
@@ -20,7 +21,6 @@ void cpui_inst_cll(u64 Address) {
 	}
 
 	i->pti.ral = i->sp;
-	mmu_push(i->ip);
 	union {
 		u64 Raw;
 		struct {
@@ -39,6 +39,7 @@ void cpui_inst_cll(u64 Address) {
 	i->flags_s.CF = 1;
 	return;
 }
+
 void cpui_inst_ret(void) {
 	if (!i->flags_s.CF)
 		return;
@@ -95,4 +96,9 @@ void cpui_inst_int(byte Interrupt) {
 	i->flags_s.SF = 1;
 	i->ip = PhysicalAddress;
 	return;
+}
+
+void cpui_inst_clr(void) {
+    mmu_push(i->pti.ral);
+    return;
 }

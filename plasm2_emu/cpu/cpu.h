@@ -52,7 +52,8 @@ enum {
 	__JMI = 0x0F, // JMI 0F (I:64,64 __ADDR)                  72 : Jump Immediate
 	__CLI = 0x10, // CLI 10 (I:64,64 __ADDR)                  72 : Call Immediate
 	__CMI = 0x11, // CMI 11 (R:04,08 _CMPA0) (I:64,64 _CMPA1) 80 : Compare Against Immediate
-
+    __CLR = 0x12, // CLR 12                                   08 : Call Execute
+    
 	// Arithmetic Instructions
 	__ADD = 0x20, // ADD 20 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Add
 	__SUB = 0x21, // SUB 21 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Subtract
@@ -79,7 +80,7 @@ enum {
 	__XOI = 0x48, // XOI 48 (R:04,08 __DEST) (I:64,64 ___SRC) 80 : Bitwise XOR w/ Immediate
 	__BLI = 0x49, // BLI 49 (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Left w/ Immediate
 	__BRI = 0x4A, // BRI 4A (R:04,08 __DEST) (I:06,08 ___SRC) 24 : Bitshift Right w/ Immediate
-
+    
 	// Memory Instructions
 	__LDW = 0x60, // LDW 60 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Word From Memory
 	__LDB = 0x61, // LDB 61 (R:04,04 __DEST) (R:04,04 ___PTR) 16 : Load Byte From Memory
@@ -216,6 +217,7 @@ void cpui_inst_jmp(u64 Address);
 void cpui_inst_cll(u64 Address);
 void cpui_inst_ret(void);
 void cpui_inst_int(byte Interrupt);
+void cpui_inst_clr(void);
 
 // cpu advanced functions
 

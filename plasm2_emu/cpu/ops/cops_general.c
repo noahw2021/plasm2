@@ -155,3 +155,7 @@ void CMI(void) {
 
 	return;
 }
+
+void CLR(void) {
+    return cpui_inst_clr();
+}
