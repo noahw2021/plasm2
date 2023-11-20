@@ -6,10 +6,10 @@
 //
 
 #include <stdio.h>
+#include "basetypes.h"
 
 int main(int argc, char** argv) {
     printf("PLASM2 Disassembler\n");
-    
     
     return 0;
 }
