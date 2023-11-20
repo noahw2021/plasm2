@@ -211,6 +211,7 @@
     <ClCompile Include="tools\tools_fontview.c" />
     <ClCompile Include="tools\tools_hddgen.c" />
     <ClCompile Include="tools\tools_main.c" />
+    <ClCompile Include="tools\tools_bootldr.c" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
