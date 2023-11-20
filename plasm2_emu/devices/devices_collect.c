@@ -21,7 +21,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-void devices_collect(void) {
+void DevicesCollect(void) {
 	video_collect();
 	kb_collect();
 	fdisk_collect();

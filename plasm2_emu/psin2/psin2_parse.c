@@ -144,6 +144,6 @@ int Psin2Parse(const char* InstructionData) {
 	return Psin2Ctx->InstructionCount;
 }
 
-int psin2_getcnt(void) {
+int Psin2InstructionCount(void) {
 	return Psin2Ctx->InstructionCount;
 }

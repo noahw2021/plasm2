@@ -18,7 +18,7 @@ devicesctx_t* devicesctx;
 
 extern _bool ShouldStartVideo;
 
-void devices_init(void) {
+void DevicesInit(void) {
 	devicesctx = malloc(sizeof(devicesctx_t));
 	memset(devicesctx, 0, sizeof(devicesctx_t));
 	
@@ -29,7 +29,7 @@ void devices_init(void) {
 	kb_init();
 	fdisk_init();
 }
-void devices_shutdown(void) {
+void DevicesShutdown(void) {
 	kb_shutdown();
 	video_shutdown();
 	return;

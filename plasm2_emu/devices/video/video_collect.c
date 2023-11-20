@@ -9,25 +9,25 @@
 #include "../../cpu/cpu.h"
 #include <string.h>
 
-void video_collect(void) {
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_VIDEO;
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Emulated Video Driver");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4270;
-	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.Active = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.On = 1;
+void VideoCollect(void) {
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_VIDEO;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Emulated Video Driver");
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4270;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
 	
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = video_statusquery;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = video_sendcommand;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = video_senddata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = video_getdata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = video_reset;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = video_off;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = video_on;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = VideoStatusQuery;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = VideoSendCommand;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = VideoSendData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = VideoGetData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = VideoReset;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = VideoOff;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = VideoOn;
 
-	devicesctx->DeviceCount++;
+	DevicesCtx->DeviceCount++;
 
 	return;
 }
