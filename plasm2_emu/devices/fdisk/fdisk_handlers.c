@@ -6,9 +6,9 @@
 //
 #include "fdisk.h"
 
-u64 fdisk_statusquery(u32 Device, u64 NullArg) {
-	u64 Return = fdiskctx->CurrentStatus;
-	fdiskctx->CurrentStatus &= ~(DEVSTATUS_RSN_CLEAR);
+WORD64 FdiskStatusQuery(WORD32 Device, WORD64 NullArg) {
+	WORD64 Return = FdiskCtx->CurrentStatus;
+	FdiskCtx->CurrentStatus &= ~(DEVSTATUS_RSN_CLEAR);
 	return Return;
 }
 
@@ -36,133 +36,133 @@ commands:
 12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
 */
 
-u64 fdisk_sendcommand(u32 Device, u64 Command) {
+WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command) {
 	switch (Command) {
 	case 0x00:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	case 0x01:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_getdrivecnt();
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiGetDriveCount();
 		break;
 	case 0x02:
-		fdiski_drivesleep(fdiskctx->CurrentDrive);
+		FdiskiDriveSleep(FdiskCtx->CurrentDrive);
 		break;
 	case 0x03:
-		fdiski_driveawake(fdiskctx->CurrentDrive);
+		FdiskiDriveAwake(FdiskCtx->CurrentDrive);
 		break;
 	case 0x04:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_getdrivesize(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiGetDriveSize(FdiskCtx->CurrentDrive);
 		break;
 	case 0x05:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_isdriveready(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiIsDriveReady(FdiskCtx->CurrentDrive);
 		break;
 	case 0x06:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_driveread(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiDriveRead(FdiskCtx->CurrentDrive);
 		break;
 	case 0x07:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	case 0x08:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_drivegetserial(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiGetDriveSerial(FdiskCtx->CurrentDrive);
 		break;
 	case 0x09:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	case 0x0A:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_drivegetmodel(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiGetDriveModel(FdiskCtx->CurrentDrive);
 		break;
 	case 0x0B:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_drivegetvendorid(fdiskctx->CurrentDrive);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiGetDriveVendorId(FdiskCtx->CurrentDrive);
 		break;
 	case 0x0C:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	case 0x0D:
-		fdiski_skipfpinc(fdiskctx->CurrentDrive);
+		FdiskiSkipFpIncrement(FdiskCtx->CurrentDrive);
 		break;
 	case 0x0E:
-		fdiski_fpincoff(fdiskctx->CurrentCommand);
+		FdiskiDisableFpIncrement(FdiskCtx->CurrentCommand);
 		break;
 	case 0x0F:
-		fdiski_fpincon(fdiskctx->CurrentCommand);
+		FdiskiEnableFpIncrement(FdiskCtx->CurrentCommand);
 		break;
 	case 0x10:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	case 0x11:
-		fdiskctx->RecvData = 1;
-		fdiskctx->OutgoingData = fdiski_drivereadstack(fdiskctx->CurrentCommand);
+		FdiskCtx->RecvData = 1;
+		FdiskCtx->OutgoingData = FdiskiDriveReadStack(FdiskCtx->CurrentCommand);
 		break;
 	case 0x12:
-		fdiskctx->CurrentCommand = (byte)Command;
-		fdiskctx->ExpectingData = 1;
+		FdiskCtx->CurrentCommand = (BYTE)Command;
+		FdiskCtx->ExpectingData = 1;
 		break;
 	default:
-		fdiskctx->CurrentStatus |= DEVSTATUS_RSN_INVCMD;
+		FdiskCtx->CurrentStatus |= DEVSTATUS_RSN_INVCMD;
 		break;
 	}
 	return 0;
 }
 
-u64 fdisk_senddata(u32 Device, u64 Data) {
-	if (fdiskctx->ExpectingData) {
-		switch (fdiskctx->CurrentCommand) {
+WORD64 FdiskSendData(WORD32 Device, WORD64 Data) {
+	if (FdiskCtx->ExpectingData) {
+		switch (FdiskCtx->CurrentCommand) {
 		case 0x00:
-			fdiski_setactivedrive((int)Data);
+			FdiskiSetActiveDrive((int)Data);
 			break;
 		case 0x07:
-			fdiski_drivewrite(fdiskctx->CurrentDrive, Data);
+			FdiskiDriveWrite(FdiskCtx->CurrentDrive, Data);
 			break;
 		case 0x09:
-			fdiski_drivegetvendorsz(fdiskctx->CurrentDrive, Data);
+			FdiskiGetDriveVendorString(FdiskCtx->CurrentDrive, Data);
 			break;
 		case 0x0C:
-			fdiski_farseek(fdiskctx->CurrentDrive, Data);
+			FdiskiFarSeek(FdiskCtx->CurrentDrive, Data);
 			break;
 		case 0x10:
-			fdiski_driveseek(fdiskctx->CurrentCommand, Data);
+			FdiskiDriveSeek(FdiskCtx->CurrentCommand, Data);
 			break;
 		case 0x12:
-			fdiski_drivewritestack(fdiskctx->CurrentCommand, Data);
+			FdiskiDriveWriteStack(FdiskCtx->CurrentCommand, Data);
 			break;
 		}
-		fdiskctx->ExpectingData = 0;
+		FdiskCtx->ExpectingData = 0;
 	}
 	return 0;
 }
 
-u64  fdisk_getdata(u32 Device, u64 NullArg) {
-	if (fdiskctx->RecvData) {
-		fdiskctx->RecvData = 0; 
-		return fdiskctx->OutgoingData;
+WORD64  FdiskGetData(WORD32 Device, WORD64 NullArg) {
+	if (FdiskCtx->RecvData) {
+		FdiskCtx->RecvData = 0; 
+		return FdiskCtx->OutgoingData;
 	}
 	return 0;
 }
 
-u64 fdisk_reset(u32 Device, u64 NullArg) {
+WORD64 FdiskReset(WORD32 Device, WORD64 NullArg) {
 	return 0;
 }
 
-u64 fdisk_off(u32 Device, u64 NullArg) {
-	for (int i = 0; i < fdiskctx->DriveCount; i++)
-		fdiski_drivesleep(i);
+WORD64 FdiskOff(WORD32 Device, WORD64 NullArg) {
+	for (int i = 0; i < FdiskCtx->DriveCount; i++)
+		FdiskiDriveSleep(i);
 	return 0;
 }
 
-u64 fdisk_on(u32 Device, u64 NullArg) {
-	for (int i = 0; i < fdiskctx->DriveCount; i++)
-		fdiski_driveawake(i);
+WORD64 FdiskOn(WORD32 Device, WORD64 NullArg) {
+	for (int i = 0; i < FdiskCtx->DriveCount; i++)
+		FdiskiDriveAwake(i);
 	return 0;
 }

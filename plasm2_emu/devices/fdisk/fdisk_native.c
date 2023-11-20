@@ -12,275 +12,275 @@
 
 #pragma warning(disable: 6387)
 
-void fdiski_setactivedrive(int DriveId) {
-	fdiskctx->CurrentDrive = DriveId;
+void FdiskiSetActiveDrive(int DriveId) {
+	FdiskCtx->CurrentDrive = DriveId;
 }
 
-int  fdiski_getdrivecnt(void) {
-	return fdiskctx->DriveCount;
+int  FdiskiGetDriveCount(void) {
+	return FdiskCtx->DriveCount;
 }
 
-void fdiski_drivesleep(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDriveSleep(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
 	for (int i = 0; i < 4; i++) {
-		free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[i]);
-		fdiskctx->Drives[DriveId].LoadedChunkCpuTick[i] |= 0xF000000000000000;
+		free(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i]);
+		FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] |= 0xF000000000000000;
 	}
 
-	fdiskctx->Drives[DriveId].IsDriveAwake = 0;
+	FdiskCtx->Drives[DriveId].IsDriveAwake = 0;
 }
 
-void fdiski_driveawake(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDriveAwake(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 	
 	for (int i = 0; i < 4; i++) {
-		fdiskctx->Drives[DriveId].CurrentLoadedChunks[i] = malloc(fdiskctx->Drives[DriveId].LoadedChunkSize[i]);
-		pfseek(fdiskctx->Drives[i].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i] + sizeof(fdiskhdr_t), SEEK_SET);
-		fread(fdiskctx->Drives[DriveId].CurrentLoadedChunks[i], fdiskctx->Drives[DriveId].LoadedChunkSize[i], 1, fdiskctx->Drives[DriveId].DrivePhysicalPointer);
-		fdiskctx->Drives[DriveId].LoadedChunkCpuTick[i] &= ~(0xF000000000000000);
+		FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i] = malloc(FdiskCtx->Drives[DriveId].LoadedChunkSize[i]);
+		pfseek(FdiskCtx->Drives[i].DrivePhysicalPointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i] + sizeof(FDISK_HDR), SEEK_SET);
+		fread(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i], FdiskCtx->Drives[DriveId].LoadedChunkSize[i], 1, FdiskCtx->Drives[DriveId].DrivePhysicalPointer);
+		FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] &= ~(0xF000000000000000);
 	}
 
-	fdiskctx->Drives[DriveId].IsDriveAwake = 1;
+	FdiskCtx->Drives[DriveId].IsDriveAwake = 1;
 	return;
 } 
 
-u64  fdiski_getdrivesize(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiGetDriveSize(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
-	return fdiskctx->Drives[DriveId].DrivePhysicalSize;
+	return FdiskCtx->Drives[DriveId].DrivePhysicalSize;
 }
 
-_bool fdiski_isdriveready(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+_bool FdiskiIsDriveReady(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
 	return 1;
 }
 
-u64  fdiski_driveread(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiDriveRead(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
 
 	for (int i = 0; i < 4; i++) {
-		if (InRange(fdiskctx->Drives[DriveId].CurrentFilePointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i], fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i] + fdiskctx->Drives[DriveId].LoadedChunkSize[i])) {
-			byte* AsBytes = ((byte*)fdiskctx->Drives[DriveId].CurrentLoadedChunks[i] + (fdiskctx->Drives[DriveId].CurrentFilePointer - fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i]));
-			u64* AsU64 = (u64*)AsBytes;
-			fdiskctx->Drives[DriveId].LoadedChunkCpuTick[i] = cput_gettime();
-			if (!fdiskctx->Drives[DriveId].SkipInc && !fdiskctx->Drives[DriveId].DisableInc) {
-				fdiskctx->Drives[DriveId].CurrentFilePointer += 0x8;
+		if (InRange(FdiskCtx->Drives[DriveId].CurrentFilePointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i], FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i] + FdiskCtx->Drives[DriveId].LoadedChunkSize[i])) {
+			BYTE* AsBytes = ((BYTE*)FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i] + (FdiskCtx->Drives[DriveId].CurrentFilePointer - FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i]));
+			WORD64* AsU64 = (WORD64*)AsBytes;
+			FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] = cput_gettime();
+			if (!FdiskCtx->Drives[DriveId].SkipInc && !FdiskCtx->Drives[DriveId].DisableInc) {
+				FdiskCtx->Drives[DriveId].CurrentFilePointer += 0x8;
 			}
 			else {
-				if (fdiskctx->Drives[DriveId].SkipInc)
-					fdiskctx->Drives[DriveId].SkipInc = 0;
+				if (FdiskCtx->Drives[DriveId].SkipInc)
+					FdiskCtx->Drives[DriveId].SkipInc = 0;
 			}
 			return AsU64[0];
 		}
 	}
 
 	// hdd cache miss eh
-	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
-	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
-	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2 );
-	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
-	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
-	fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(fdiskctx->Drives[DriveId].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, fdiskctx->Drives[DriveId].DrivePhysicalPointer);
-	fdiskctx->Drives[DriveId].NextChunkScan = 0; // force a chunk scan
+	int NewChunkId = FdiskCtx->Drives[DriveId].OldestChunk;
+	free(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = FdiskCtx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2 );
+	FdiskCtx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
+	FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
+	FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
+	pfseek(FdiskCtx->Drives[DriveId].DrivePhysicalPointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, FdiskCtx->Drives[DriveId].DrivePhysicalPointer);
+	FdiskCtx->Drives[DriveId].NextChunkScan = 0; // force a chunk scan
 
-	byte* AsBytes = ((byte*)fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] + (fdiskctx->Drives[DriveId].CurrentFilePointer - fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId]));
-	u64* AsU64 = (u64*)AsBytes;
-	if (!fdiskctx->Drives[DriveId].SkipInc && !fdiskctx->Drives[DriveId].DisableInc) {
-		fdiskctx->Drives[DriveId].CurrentFilePointer += 0x8;
+	BYTE* AsBytes = ((BYTE*)FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] + (FdiskCtx->Drives[DriveId].CurrentFilePointer - FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId]));
+	WORD64* AsU64 = (WORD64*)AsBytes;
+	if (!FdiskCtx->Drives[DriveId].SkipInc && !FdiskCtx->Drives[DriveId].DisableInc) {
+		FdiskCtx->Drives[DriveId].CurrentFilePointer += 0x8;
 	}
 	else {
-		if (fdiskctx->Drives[DriveId].SkipInc)
-			fdiskctx->Drives[DriveId].SkipInc = 0;
+		if (FdiskCtx->Drives[DriveId].SkipInc)
+			FdiskCtx->Drives[DriveId].SkipInc = 0;
 	}
 	return AsU64[0];
 }
 
-void fdiski_drivewrite(int DriveId, u64 Data) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDriveWrite(int DriveId, WORD64 Data) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
 	for (int i = 0; i < 4; i++) {
-		if (InRange(fdiskctx->Drives[DriveId].CurrentFilePointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i], fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i] + fdiskctx->Drives[DriveId].LoadedChunkSize[i])) {
-			byte* AsBytes = ((byte*)fdiskctx->Drives[DriveId].CurrentLoadedChunks[i] + (fdiskctx->Drives[DriveId].CurrentFilePointer - fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[i]));
-			u64* AsU64 = (u64*)AsBytes;
-			fdiskctx->Drives[DriveId].LoadedChunkCpuTick[i] = cput_gettime();
+		if (InRange(FdiskCtx->Drives[DriveId].CurrentFilePointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i], FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i] + FdiskCtx->Drives[DriveId].LoadedChunkSize[i])) {
+			BYTE* AsBytes = ((BYTE*)FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i] + (FdiskCtx->Drives[DriveId].CurrentFilePointer - FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[i]));
+			WORD64* AsU64 = (WORD64*)AsBytes;
+			FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] = cput_gettime();
 			AsU64[0] = Data;
-			if (!fdiskctx->Drives[DriveId].SkipInc && !fdiskctx->Drives[DriveId].DisableInc) {
-				fdiskctx->Drives[DriveId].CurrentFilePointer += 0x8;
+			if (!FdiskCtx->Drives[DriveId].SkipInc && !FdiskCtx->Drives[DriveId].DisableInc) {
+				FdiskCtx->Drives[DriveId].CurrentFilePointer += 0x8;
 			} else {
-				if (fdiskctx->Drives[DriveId].SkipInc)
-					fdiskctx->Drives[DriveId].SkipInc = 0;
+				if (FdiskCtx->Drives[DriveId].SkipInc)
+					FdiskCtx->Drives[DriveId].SkipInc = 0;
 			}
 			return;
 		}
 	}
 
-	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
-	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
-	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2);
-	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
-	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
-	fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(fdiskctx->Drives[DriveId].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, fdiskctx->Drives[DriveId].DrivePhysicalPointer);
-	fdiskctx->Drives[DriveId].NextChunkScan = 0; // force a chunk scan
+	int NewChunkId = FdiskCtx->Drives[DriveId].OldestChunk;
+	free(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = FdiskCtx->Drives[DriveId].CurrentFilePointer - (FDISK_CACHE_CHUNK / 2);
+	FdiskCtx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
+	FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
+	FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
+	pfseek(FdiskCtx->Drives[DriveId].DrivePhysicalPointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, FdiskCtx->Drives[DriveId].DrivePhysicalPointer);
+	FdiskCtx->Drives[DriveId].NextChunkScan = 0; // force a chunk scan
 
-	byte* AsBytes = ((byte*)fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] + (fdiskctx->Drives[DriveId].CurrentFilePointer - fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId]));
-	u64* AsU64 = (u64*)AsBytes;
+	BYTE* AsBytes = ((BYTE*)FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] + (FdiskCtx->Drives[DriveId].CurrentFilePointer - FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId]));
+	WORD64* AsU64 = (WORD64*)AsBytes;
 	AsU64[0] = Data;
-	if (!fdiskctx->Drives[DriveId].SkipInc && !fdiskctx->Drives[DriveId].DisableInc) {
-		fdiskctx->Drives[DriveId].CurrentFilePointer += 0x8;
+	if (!FdiskCtx->Drives[DriveId].SkipInc && !FdiskCtx->Drives[DriveId].DisableInc) {
+		FdiskCtx->Drives[DriveId].CurrentFilePointer += 0x8;
 	}
 	else {
-		if (fdiskctx->Drives[DriveId].SkipInc)
-			fdiskctx->Drives[DriveId].SkipInc = 0;
+		if (FdiskCtx->Drives[DriveId].SkipInc)
+			FdiskCtx->Drives[DriveId].SkipInc = 0;
 	}
 
 	return;
 }
 
-u64  fdiski_drivegetserial(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiGetDriveSerial(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
-	return fdiskctx->Drives[DriveId].DeviceSerial;
+	return FdiskCtx->Drives[DriveId].DeviceSerial;
 }
 
-void fdiski_drivegetvendorsz(int DriveId, u64 Pointer) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	u64 RPointer = mmu_translate(Pointer, REASON_WRTE, 16);
-	byte* TPointer = ((byte*)cpuctx->PhysicalMemory + RPointer);
-	memcpy(TPointer, fdiskctx->Drives[DriveId].DeviceVendor, 16);
+	WORD64 RPointer = mmu_translate(Pointer, REASON_WRTE, 16);
+	BYTE* TPointer = ((BYTE*)cpuctx->PhysicalMemory + RPointer);
+	memcpy(TPointer, FdiskCtx->Drives[DriveId].DeviceVendor, 16);
 
 	return;
 }
 
-u64  fdiski_drivegetmodel(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiGetDriveModel(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
-	return fdiskctx->Drives[DriveId].DeviceModelNum;
+	return FdiskCtx->Drives[DriveId].DeviceModelNum;
 }
 
-u64  fdiski_drivegetvendorid(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiGetDriveVendorId(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 	
-	return fdiskctx->Drives[DriveId].DeviceVendorId;
+	return FdiskCtx->Drives[DriveId].DeviceVendorId;
 }
 
-void fdiski_farseek(int DriveId, u64 SpecPos) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiFarSeek(int DriveId, WORD64 SpecPos) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
 	// forces a chunk search, as it targets this specific pointer
-	fdiskctx->Drives[DriveId].SpeculativeSeek = SpecPos;
-	int NewChunkId = fdiskctx->Drives[DriveId].OldestChunk;
-	free(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
-	fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = fdiskctx->Drives[DriveId].SpeculativeSeek - (FDISK_CACHE_CHUNK / 2);
-	fdiskctx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
-	fdiskctx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
-	fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(fdiskctx->Drives[DriveId].DrivePhysicalPointer, fdiskctx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(fdiskctx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, fdiskctx->Drives[DriveId].DrivePhysicalPointer);
-	fdiskctx->Drives[DriveId].NextChunkScan = 0;
+	FdiskCtx->Drives[DriveId].SpeculativeSeek = SpecPos;
+	int NewChunkId = FdiskCtx->Drives[DriveId].OldestChunk;
+	free(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId]);
+	FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId] = FdiskCtx->Drives[DriveId].SpeculativeSeek - (FDISK_CACHE_CHUNK / 2);
+	FdiskCtx->Drives[DriveId].LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
+	FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[NewChunkId] = cput_gettime();
+	FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
+	pfseek(FdiskCtx->Drives[DriveId].DrivePhysicalPointer, FdiskCtx->Drives[DriveId].LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, FdiskCtx->Drives[DriveId].DrivePhysicalPointer);
+	FdiskCtx->Drives[DriveId].NextChunkScan = 0;
 
 	return;
 }
 
-void fdiski_skipfpinc(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiSkipFpIncrement(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	fdiskctx->Drives[DriveId].SkipInc = 1;
+	FdiskCtx->Drives[DriveId].SkipInc = 1;
 }
 
-void fdiski_fpincon(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiEnableFpIncrement(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	fdiskctx->Drives[DriveId].DisableInc = 0;
+	FdiskCtx->Drives[DriveId].DisableInc = 0;
 }
 
-void fdiski_fpincoff(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDisableFpIncrement(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	fdiskctx->Drives[DriveId].DisableInc = 1;
+	FdiskCtx->Drives[DriveId].DisableInc = 1;
 }
 
-void fdiski_driveseek(int DriveId, u64 NewPos) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDriveSeek(int DriveId, WORD64 NewPos) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	fdiskctx->Drives[DriveId].CurrentFilePointer = NewPos;
+	FdiskCtx->Drives[DriveId].CurrentFilePointer = NewPos;
 }
 
-u64  fdiski_drivereadstack(int DriveId) {
-	if (DriveId >= fdiskctx->DriveCount)
+WORD64  FdiskiDriveReadStack(int DriveId) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return 0;
 
-	u64 CFPBackup = fdiskctx->Drives[DriveId].CurrentFilePointer;
-	fdiskctx->Drives[DriveId].CurrentFilePointer = mmu_pop();
-	u64 Return = fdiski_driveread(DriveId);
-	fdiskctx->Drives[DriveId].CurrentFilePointer = CFPBackup;
+	WORD64 CFPBackup = FdiskCtx->Drives[DriveId].CurrentFilePointer;
+	FdiskCtx->Drives[DriveId].CurrentFilePointer = mmu_pop();
+	WORD64 Return = FdiskiDriveRead(DriveId);
+	FdiskCtx->Drives[DriveId].CurrentFilePointer = CFPBackup;
 	return Return;
 }
 
-void fdiski_drivewritestack(int DriveId, u64 Data) {
-	if (DriveId >= fdiskctx->DriveCount)
+void FdiskiDriveWriteStack(int DriveId, WORD64 Data) {
+	if (DriveId >= FdiskCtx->DriveCount)
 		return;
-	if (!fdiskctx->Drives[DriveId].IsDriveAwake)
+	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
 		return;
 
-	u64 CFPBackup = fdiskctx->Drives[DriveId].CurrentFilePointer;
-	fdiskctx->Drives[DriveId].CurrentFilePointer = mmu_pop();
-	fdiski_drivewrite(DriveId, Data);
-	fdiskctx->Drives[DriveId].CurrentFilePointer = CFPBackup;
+	WORD64 CFPBackup = FdiskCtx->Drives[DriveId].CurrentFilePointer;
+	FdiskCtx->Drives[DriveId].CurrentFilePointer = mmu_pop();
+	FdiskiDriveWrite(DriveId, Data);
+	FdiskCtx->Drives[DriveId].CurrentFilePointer = CFPBackup;
 
 	return;
 }

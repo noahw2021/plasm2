@@ -1,14 +1,14 @@
-#include "psin2.h"
-#include <stdlib.h>
-#include <string.h>
 //
 //  psin2_init.c
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+#include "psin2.h"
+#include <stdlib.h>
+#include <string.h>
 
-PSIN2_CTX* Psin2Ctx;
+PPSIN2_CTX Psin2Ctx;
 
 #pragma warning(disable: 6001 6387)
 
@@ -24,8 +24,8 @@ void Psin2Shutdown(void) {
 		if (Psin2Ctx->Instructions[i].InstructionDescription)
 			free(Psin2Ctx->Instructions[i].InstructionDescription);
 	}
+    
 	free(Psin2Ctx->Instructions);
-	free(Psin2Ctx);
-
+    free(Psin2Ctx);
 	return;
 }

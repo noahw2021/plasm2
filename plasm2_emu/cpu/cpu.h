@@ -131,13 +131,13 @@ void cpu_shutdown(void);
 void cpu_clock(void);
 
 typedef struct _cpuctx {
-	u64 ClocksPerSecond;
-	u64 SystemSeconds;
-	u64 SystemNanoSeconds;
+	WORD64 ClocksPerSecond;
+	WORD64 SystemSeconds;
+	WORD64 SystemNanoSeconds;
 	time_t SystemBoot; // silly and quick 'timer'
 
-	byte* PhysicalMemory; // PM usage good
-	u64 PhysicalMemorySize;
+	BYTE* PhysicalMemory; // PM usage good
+	WORD64 PhysicalMemorySize;
 }cpuctx_t;
 extern cpuctx_t* cpuctx;
 
@@ -153,69 +153,69 @@ extern void(*Instructions[256])(void);
 typedef struct _PLASM2_CTX {
 	union {
 		union {
-			u64 rs_64[REGCOUNT_TOTAL];
+			WORD64 rs_64[REGCOUNT_TOTAL];
 			struct {
-				u64 rs_gprs[REGCOUNT_GPRS];
-				u64 rs_spec[REGCOUNT_SPEC];
+				WORD64 rs_gprs[REGCOUNT_GPRS];
+				WORD64 rs_spec[REGCOUNT_SPEC];
 			};
 		};
 		struct {
-			u64 r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15;
-			u64 ip;
-			u64 sp;
+			WORD64 r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15;
+			WORD64 ip;
+			WORD64 sp;
 			union {
-				u64 flags;
+				WORD64 flags;
 				struct {
-					byte GF : 1; // Greater flag
-					byte EF : 1; // Equal flag
-					byte ZF : 1; // Zero flag
-					byte HF : 1; // Halt flag
-					byte IF : 1; // Interrupt flag
-					byte VF : 1; // Virtual flag
-					byte XF : 1; // Exception flag
-					byte NF : 1; // Next Execute skip flag
-					byte OF : 1; // Overflow flag
-					byte SF : 1; // StackSkip flag
-					byte CF : 1; // Call flag
-					byte AF : 1; // Extra security flag
-					byte TF : 1; // Interrupt table set
-					byte MF : 1; // Memory Guard Flag
-					byte LF : 1; // Less than flag
+					BYTE GF : 1; // Greater flag
+					BYTE EF : 1; // Equal flag
+					BYTE ZF : 1; // Zero flag
+					BYTE HF : 1; // Halt flag
+					BYTE IF : 1; // Interrupt flag
+					BYTE VF : 1; // Virtual flag
+					BYTE XF : 1; // Exception flag
+					BYTE NF : 1; // Next Execute skip flag
+					BYTE OF : 1; // Overflow flag
+					BYTE SF : 1; // StackSkip flag
+					BYTE CF : 1; // Call flag
+					BYTE AF : 1; // Extra security flag
+					BYTE TF : 1; // Interrupt table set
+					BYTE MF : 1; // Memory Guard Flag
+					BYTE LF : 1; // Less than flag
 				}flags_s;
 			};
 			union {
-				u64 security;
+				WORD64 security;
 				struct {
-					byte SecurityLevel : 5;
-					u64 Reserved : 59;
+					BYTE SecurityLevel : 5;
+					WORD64 Reserved : 59;
 				}security_s;
 			};
 			struct {
-				u64 ps; // page start
-				u64 pe; // page end
-				u64 ral; // return address location, backup stack pointer
-				u64 it; // interrupt table
-				u64 vsp; // virtual trailing arm
-				u64 csm; // csm handler
-				u64 dvptr; // device map pointer
-				u64 spb; // stack pointer upper bound
-				u64 slb; // stack lower bound
-				u64 pml; // page max location
-				u64 reserved[2];
+				WORD64 ps; // page start
+				WORD64 pe; // page end
+				WORD64 ral; // return address location, backup stack pointer
+				WORD64 it; // interrupt table
+				WORD64 vsp; // virtual trailing arm
+				WORD64 csm; // csm handler
+				WORD64 dvptr; // device map pointer
+				WORD64 spb; // stack pointer upper bound
+				WORD64 slb; // stack lower bound
+				WORD64 pml; // page max location
+				WORD64 reserved[2];
 			}pti;
 		};
 	};
 }PLASM2_CTX, *PPLASM2_CTX;
 extern PPLASM2_CTX i;
 
-void cpui_csm_set(u64 Handler);
-void cpui_csm_msg(byte Code, u64 AddtData);
+void cpui_csm_set(WORD64 Handler);
+void cpui_csm_msg(BYTE Code, WORD64 AddtData);
 
 // addresses are physical
-void cpui_inst_jmp(u64 Address);
-void cpui_inst_cll(u64 Address);
+void cpui_inst_jmp(WORD64 Address);
+void cpui_inst_cll(WORD64 Address);
 void cpui_inst_ret(void);
-void cpui_inst_int(byte Interrupt);
+void cpui_inst_int(BYTE Interrupt);
 void cpui_inst_clr(void);
 
 // cpu advanced functions
@@ -228,7 +228,7 @@ timer, but cput_gettime will always return
 the time in MS.
 */
 
-u64  cput_gettime(void); // get current ms since system start
+WORD64  cput_gettime(void); // get current ms since system start
 void cput_pwr_sleep(void);
 void cput_pwr_shutdown(void);
 void cput_pwr_restart(void);

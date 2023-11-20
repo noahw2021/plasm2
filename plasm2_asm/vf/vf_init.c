@@ -1,15 +1,15 @@
-#include "vf.h"
-#include <stdlib.h>
-#include <string.h>
 //
 //  vf_init.c
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-VF_CTX* VfCtx;
-
+#include "vf.h"
+#include <stdlib.h>
+#include <string.h>
 #pragma warning(disable: 6011 6387)
+
+PVF_CTX VfCtx;
 
 void VfInit(FILE* BaseFile) {
 	VfCtx = malloc(sizeof(VF_CTX));

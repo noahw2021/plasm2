@@ -17,7 +17,7 @@ void LinkGo(void) {
 		if (!LinkCtx->Symbols[s].Resolved) {
 			char* ErrorMsg = malloc(512);
 			sprintf(ErrorMsg, "[E5000]: Unresolved symbol '%s'.", LinkCtx->Symbols[s].SymbolName);
-			cge_error(0xFFFF, ErrorMsg);
+			CgeError(0xFFFF, ErrorMsg);
 			free(ErrorMsg);
 		}
 

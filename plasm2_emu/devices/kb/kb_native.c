@@ -10,21 +10,21 @@
 #include "kb.h"
 #include <string.h>
 
-void kbi_setkeydownint(u64 Interrupt) {
-	kbctx->KeyDown = (byte)Interrupt;
+void KbiSetKeyDownInterrupt(WORD64 Interrupt) {
+	KbCtx->KeyDown = (BYTE)Interrupt;
 	return;
 }
 
-void kbi_setkeyupint(u64 Interrupt) {
-	kbctx->KeyUp = (byte)Interrupt;
+void KbiSetKeyUpInterrupt(WORD64 Interrupt) {
+	KbCtx->KeyUp = (BYTE)Interrupt;
 	return;
 }
 
-u64  kbi_getkeymapptr(void) {
+WORD64  KbiGetKeyMapPointer(void) {
 	return mmu_translate(0x23F0, REASON_READ, 256);
 }
 
-void kbii_markkey(byte Keycode, byte Status) {
+void KbiiMarkKeyState(BYTE Keycode, BYTE Status) {
 	if (Status)
 		KeysDown[Keycode / 4] |= 0x1LLU << (Keycode % 64);
 	else

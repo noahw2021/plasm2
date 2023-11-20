@@ -11,25 +11,25 @@
 #include "../kb/kb.h"
 #include <string.h>
 
-#define GET16_HIHI(x) (u64)((x & 0xFFFF000000000000) >> 48)
-#define GET16_HILO(x) (u64)((x & 0x0000FFFF00000000) >> 32)
-#define GET16_LOHI(x) (u64)((x & 0x00000000FFFF0000) >> 16)
-#define GET16_LOLO(x) (u64)((x & 0x000000000000FFFF) >> 00)
+#define GET16_HIHI(x) (WORD64)((x & 0xFFFF000000000000) >> 48)
+#define GET16_HILO(x) (WORD64)((x & 0x0000FFFF00000000) >> 32)
+#define GET16_LOHI(x) (WORD64)((x & 0x00000000FFFF0000) >> 16)
+#define GET16_LOLO(x) (WORD64)((x & 0x000000000000FFFF) >> 00)
 
-u64  video_statusquery(u32 Device, u64 NullArg) {
+WORD64  VideoStatusQuery(WORD32 Device, WORD64 NullArg) {
 	return DEVSTATUS_GOOD;
 }
 
-u64 video_sendcommand(u32 Device, u64 Command) {
+WORD64 VideoSendCommand(WORD32 Device, WORD64 Command) {
 	switch (Command) {
 	case 0x06:
 	case 0x00:
-		videoctx->AwaitingData = 0;
-		videoctx->PendingDataSend = 1;
+		VideoCtx->AwaitingData = 0;
+		VideoCtx->PendingDataSend = 1;
 		if (Command == 0x06)
-			videoctx->Outgoing = videoi_getwh();
+			VideoCtx->Outgoing = VideoiGetWidthHeight();
 		else
-			videoctx->Outgoing = videoi_gettextbuffer();
+			VideoCtx->Outgoing = VideoiGetTextBuffer();
 		break;
 	case 0x01:
 	case 0x02:
@@ -37,44 +37,44 @@ u64 video_sendcommand(u32 Device, u64 Command) {
 	case 0x04:
 	case 0x05:
 	case 0x07:
-		videoctx->DestinationCommand = Command;
-		videoctx->AwaitingData = 1;
-		videoctx->PendingDataSend = 0;
+		VideoCtx->DestinationCommand = Command;
+		VideoCtx->AwaitingData = 1;
+		VideoCtx->PendingDataSend = 0;
 		break;
 	default:
-		videoctx->Status = DEVSTAUTS_INVL; // invalid command
+		VideoCtx->Status = DEVSTAUTS_INVL; // invalid command
 		return 0;
 	}
 
-	videoctx->DestinationCommand = (byte)Command;
-	kbctx->Status = DEVSTATUS_GOOD;
+	VideoCtx->DestinationCommand = (BYTE)Command;
+	KbCtx->Status = DEVSTATUS_GOOD;
 	return 0;
 }
 
-u64 video_senddata(u32 Device, u64 Data) {
-	if (!videoctx->AwaitingData)
+WORD64 VideoSendData(WORD32 Device, WORD64 Data) {
+	if (!VideoCtx->AwaitingData)
 		return 0;
-	u32 Color;
-	u64 Ptr;
-	switch (videoctx->DestinationCommand) {
+	WORD32 Color;
+	WORD64 Ptr;
+	switch (VideoCtx->DestinationCommand) {
 	case 0x01:
-		videoi_settextbuffer(Data);
+		VideoiSetTextBuffer(Data);
 		break;
 	case 0x02:
-		Color = (u32)mmu_pop();
-		videoi_drawline((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
+		Color = (WORD32)mmu_pop();
+		VideoiDrawLine((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x03:
-		Color = (u32)mmu_pop();
-		videoi_drawrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
+		Color = (WORD32)mmu_pop();
+		VideoiDrawRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x04:
-		Color = (u32)mmu_pop();
-		videoi_drawfill((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Color);
+		Color = (WORD32)mmu_pop();
+		VideoiDrawFill((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x05:
 		Ptr = mmu_pop(); // aka pointer here
-		videoi_copyrect((u16)GET16_HIHI(Data), (u16)GET16_HILO(Data), (u16)GET16_LOHI(Data), (u16)GET16_LOLO(Data), Ptr);
+		VideoiCopyRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Ptr);
 		break;
 	case 0x06: // wip
 		break;
@@ -82,28 +82,28 @@ u64 video_senddata(u32 Device, u64 Data) {
 	return 0;
 }
 
-u64  video_getdata(u32 Device, u64 NullArg) {
-	if (videoctx->PendingDataSend)
-		return videoctx->Outgoing;
+WORD64  VideoGetData(WORD32 Device, WORD64 NullArg) {
+	if (VideoCtx->PendingDataSend)
+		return VideoCtx->Outgoing;
 	return 0;
 }
 
-u64 video_reset(u32 Device, u64 NullArg) {
-	videoi_drawrect(0, 0, videoctx->w, videoctx->h, 0x000000FF);
+WORD64 VideoReset(WORD32 Device, WORD64 NullArg) {
+	VideoiDrawRect(0, 0, VideoCtx->w, VideoCtx->h, 0x000000FF);
 	return 0;
 }
 
-u64 video_off(u32 Device, u64 NullArg) {
+WORD64 VideoOff(WORD32 Device, WORD64 NullArg) {
 	if (i->security_s.SecurityLevel < 2)
-		video_shutdown();
+		VideoShutdown();
 	return 0;
 }
-u64 video_on(u32 Device, u64 NullArg) {
+WORD64 VideoOn(WORD32 Device, WORD64 NullArg) {
 	if (i->security_s.SecurityLevel < 2)
-		video_init();
+		VideoInit();
 	return 0;
 }
 
-void video_clock(void) { 
+void VideoClock(void) { 
 	return;
 }

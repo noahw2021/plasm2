@@ -8,21 +8,21 @@
 #include "../mmu/mmu.h"
 
 void INT(void) {
-	byte Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;
+	BYTE Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;
 	cpui_inst_int(Interrupt);
 	return;
 }
 
 void HND(void) {
 	union {
-		byte Byte;
+		BYTE Byte;
 		struct {
-			byte Handler : 4;
-			byte Interrupt : 4;
+			BYTE Handler : 4;
+			BYTE Interrupt : 4;
 		};
 	}Input;
 	Input.Byte = mmu_read1(i->ip++);
-	byte SecurityLevel = (byte)mmu_pop();
+	BYTE SecurityLevel = (BYTE)mmu_pop();
 	if (!i->flags_s.TF) {
 		i->flags_s.XF = 1;
 		return;
@@ -31,10 +31,10 @@ void HND(void) {
 		i->flags_s.XF = 1;
 		return;
 	}
-	u64 VirtualAddress = i->rs_gprs[Input.Handler];
+	WORD64 VirtualAddress = i->rs_gprs[Input.Handler];
 	VirtualAddress &= 0x00FFFFFFFFFFFFFF;
-	VirtualAddress |= ((u64)SecurityLevel) << 56;
-	mmu_put8(i->pti.it + ((u64)Input.Interrupt * 8), VirtualAddress);
+	VirtualAddress |= ((WORD64)SecurityLevel) << 56;
+	mmu_put8(i->pti.it + ((WORD64)Input.Interrupt * 8), VirtualAddress);
 	return;
 }
 
@@ -48,12 +48,12 @@ void IRT(void) {
 	}
 	i->sp = i->pti.ral;
 	union {
-		u64 Raw;
+		WORD64 Raw;
 		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
+			WORD32 Flags;
+			BYTE SecurityLevel;
+			BYTE CallFlag;
+			WORD16 Reserved;
 		};
 	}SecurityPacket;
 	SecurityPacket.Raw = mmu_pop();
@@ -75,7 +75,7 @@ void DSI(void) {
 }
 
 void SMH(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	if (i->security_s.SecurityLevel == 0)
 		cpui_csm_set(i->rs_gprs[Register]);
 	else
@@ -84,7 +84,7 @@ void SMH(void) {
 }
 
 void SIT(void) {
-	u64 PhysicalAddress = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	WORD64 PhysicalAddress = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
 	if (i->security_s.SecurityLevel < 2)
 		i->pti.it = PhysicalAddress;
 	return;

@@ -13,34 +13,36 @@
 serial debugger
 */
 
-void sdbg_init(void);
-void sdbg_shutdown(void);
-void sdbg_clock(void);
-void sdbg_collect(void);
+// @TODO 11/20/23 remove sdbg, unused & deprecated
 
-u64 sdbg_statusquery(u32 Device, u64 NullArg);
-u64 sdbg_sendcommand(u32 Device, u64 Command);
-u64 sdbg_senddata(u32 Device, u64 Command);
-u64 sdbg_getdata(u32 Device, u64 NullArg);
-u64 sdbg_reset(u32 Device, u64 NullArg);
-u64 sdbg_off(u32 Device, u64 NullArg);
-u64 sdbg_on(u32 Device, u64 NullArg);
+void SdbgInit(void);
+void SdbgShutdown(void);
+void SdbgClock(void);
+void SdbgCollect(void);
 
-typedef struct _sdbgctx {
+WORD64 SdbgStatusQuery(WORD32 Device, WORD64 NullArg);
+WORD64 SdbgSendCommand(WORD32 Device, WORD64 Command);
+WORD64 SdbgSendData(WORD32 Device, WORD64 Command);
+WORD64 SdbgGetData(WORD32 Device, WORD64 NullArg);
+WORD64 SdbgReset(WORD32 Device, WORD64 NullArg);
+WORD64 SdbgOff(WORD32 Device, WORD64 NullArg);
+WORD64 SdbgOn(WORD32 Device, WORD64 NullArg);
+
+typedef struct SDBG_CTX {
 	char* CollectionBufferOut, *CollectionBufferIn;
-	u64 CollectionSizeOut, CollectionSizeIn;
-	byte ReadyOut, ReadyIn;
+	WORD64 CollectionSizeOut, CollectionSizeIn;
+	BYTE ReadyOut, ReadyIn;
 
-	u64 LastSend;
-	u64 VirtualPointer;
-	u64 VirtualSize;
+	WORD64 LastSend;
+	WORD64 VirtualPointer;
+	WORD64 VirtualSize;
 
-	u64 DeviceStatus;
-	byte Active;
-	byte AwaitingData;
-	u64 LastCommand;
-}sdbgctx_t;
-extern sdbgctx_t* sdbgctx;
+	WORD64 DeviceStatus;
+	BYTE Active;
+	BYTE AwaitingData;
+	WORD64 LastCommand;
+}SDBG_CTX, *PSDBG_CTX;
+extern PSDBG_CTX sdbgctx;
 
 /*
 00 Send
@@ -48,6 +50,6 @@ extern sdbgctx_t* sdbgctx;
 02 SetSendSz
 */
 
-void sdbg_send(void);
-void sdbg_setsendloc(u64 Location);
-void sdbg_setsendsz(u64 Size);
+void SdbgSend(void);
+void SdbgSetLocation(WORD64 Location);
+void SdbgSetSize(WORD64 Size);

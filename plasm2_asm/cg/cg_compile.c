@@ -18,9 +18,9 @@ void CgCompile(void) {
 
 	LinkGo();
 
-	int ErrorCount = cge_errorcnt();
+	int ErrorCount = CgeErrorCount();
 	for (int i = 0; i < ErrorCount; i++)
-		fprintf(stdout, "%s\n", cge_geterr(i));
+		fprintf(stdout, "%s\n", CgeGetErrorString(i));
 	fprintf(stdout, "%i errors generated.\n", ErrorCount);
 
 	fclose(PrimaryOutput);

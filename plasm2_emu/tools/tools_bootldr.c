@@ -16,21 +16,21 @@
 
 #define BOOTIMG_MAGIC 0x504C4D4254494D47
 typedef struct _bootimg {
-	u64 Magic;
-	u64 EntryPoint;
-	u64 ExpectedMapPoint;
-	u64 OsId;
+	WORD64 Magic;
+	WORD64 EntryPoint;
+	WORD64 ExpectedMapPoint;
+	WORD64 OsId;
 
-	u64 gFont;
-	u64 gRenderChar;
-	u64 gRenderStr;
-	u64 gHddCount;
+	WORD64 gFont;
+	WORD64 gRenderChar;
+	WORD64 gRenderStr;
+	WORD64 gHddCount;
 
-	u64 RawDiskPtr;
-	u64 RawDiskSize;
-	u64 Reserved0[2];
+	WORD64 RawDiskPtr;
+	WORD64 RawDiskSize;
+	WORD64 Reserved0[2];
 
-	u64 Reserved1[4];
+	WORD64 Reserved1[4];
 }bootimg_t;
 
 #define BOOTLDRFLAG_SAVE 0x01
@@ -39,7 +39,7 @@ typedef struct _bootimg {
 extern int __t_argc;
 extern char** __t_argv;
 
-void toolsi_bootloader(void) {
+void ToolsiBootloader(void) {
 	char* Strbuf = malloc(240);
 
 	if (!__t_argv) {
@@ -91,7 +91,7 @@ void toolsi_bootloader(void) {
 	}
 
 	fseek(_Input, 0, SEEK_END);
-	u64 FileSize = ftell(_Input);
+	WORD64 FileSize = ftell(_Input);
 	fseek(_Input, 0, SEEK_SET);
 	void* _Data = malloc(FileSize);
 	fread(_Data, FileSize, 1, _Input);
@@ -100,7 +100,7 @@ void toolsi_bootloader(void) {
 	bootimg_t* BootImg = malloc(sizeof(bootimg_t));
 	memset(BootImg, 0, sizeof(bootimg_t));
 	
-	byte Flags = 0x00;
+	BYTE Flags = 0x00;
 	if (__t_argv) {
 		for (int i = 0; i < __t_argc; i++) {
 			if (!strcmp(__t_argv[i], "--savehdr"))

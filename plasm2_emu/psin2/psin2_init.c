@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-PSIN2_CTX* Psin2Ctx;
+PPSIN2_CTX Psin2Ctx;
 
 #pragma warning(disable: 6001 6387)
 

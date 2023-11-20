@@ -19,7 +19,6 @@
 #include "tools/tools.h"
 #pragma warning(disable: 6308 6387 26451 28182)
 
-
 /*
 Starting physical memory map:
 
@@ -56,7 +55,7 @@ int main(int argc, char** argv) {
     SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
     
     while (!ShouldStartVideo);
-    video_init();
+    VideoInit();
 }
 
 int __nonvideo_main(appargs_t* Args) {
@@ -66,7 +65,7 @@ int __nonvideo_main(appargs_t* Args) {
 	FILE* a = freopen("rstd", "w", stdout);
 
 	emu_init();
-	psin2_init();
+	Psin2Init();
 	
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
@@ -104,7 +103,7 @@ int __nonvideo_main(appargs_t* Args) {
 		if (strstr(argv[i], "-t") || strstr(argv[i], "--tools")) {
             __t_argc = argc;
             __t_argv = argv;
-			tools_main();
+			ToolsMain();
 			return 0;
 		}
 	}
@@ -127,17 +126,17 @@ int __nonvideo_main(appargs_t* Args) {
 	}
 	// pm usage good (reason: internal use only)
     fseek(Bios, 0, SEEK_END);
-    u32 BiosLength = ftell(Bios);
+    WORD32 BiosLength = ftell(Bios);
     if (BiosLength > 4096)
         BiosLength = 4906;
     
-	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
+	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
 
-	devices_init();
-	devices_collect();// PM usage good (reason: comes from trust)
+	DevicesInit();
+	DevicesCollect();// PM usage good (reason: comes from trust)
 
 	for (int i = 0; i < FixedDiskCount; i++) {
-		if (!fdisk_register(FixedDisks[i])) {
+		if (!FdiskRegister(FixedDisks[i])) {
 			printf("[ERR]: Failed to open fixed disk '%s'!\n", FixedDisks[i]);
 			emu_register_fatal("Could not obtain drive.");
 		}
@@ -153,7 +152,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	time_t Startup, Startdown;
 	Startup = time(NULL);
-	u64 ClockCnt = 0;
+	WORD64 ClockCnt = 0;
 
 	while (1) {
 		if (emu_aufhoren(TheHaltReason)) {
@@ -161,8 +160,8 @@ int __nonvideo_main(appargs_t* Args) {
 			printf("%s\n", TheHaltReason);
 			break;
 		}
-		kb_clock();
-		video_clock();
+		KbClock();
+		VideoClock();
 		cpu_clock();
 		ClockCnt++;
 
@@ -175,7 +174,7 @@ int __nonvideo_main(appargs_t* Args) {
 	if (emuctx->DebuggerEnabled)
 		decoder_shutdown();
 
-	video_clock();
+	VideoClock();
 	printf("Debug Shutdown Interrupt.\n");
 
 	FILE* MemOut = fopen("memout.bin", "wb");
@@ -186,7 +185,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	fgetc(stdin);
 
-	devices_shutdown();
+	DevicesShutdown();
 	cpu_shutdown();
 	emu_shutdown();
 

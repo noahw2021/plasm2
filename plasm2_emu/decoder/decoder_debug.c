@@ -14,20 +14,20 @@
 
 #pragma warning(disable: 6011 6387) // no it couldnt
 
-byte decoderi_g1(void) {
-	byte Return = mmu_read1(dcctx->SpeculativePointer);
+BYTE decoderi_g1(void) {
+	BYTE Return = mmu_read1(dcctx->SpeculativePointer);
 	dcctx->SpeculativePointer += 1;
 	return Return;
 }
 
-u64  decoderi_gx(byte HowMuch) {
-	u64 Returns = mmu_readx(dcctx->SpeculativePointer, HowMuch);
+WORD64  decoderi_gx(BYTE HowMuch) {
+	WORD64 Returns = mmu_readx(dcctx->SpeculativePointer, HowMuch);
 	dcctx->SpeculativePointer += HowMuch;
 	return Returns;
 }
 
-void decoder_go(byte Instruction) {
-	int Psin2Id = psin2i_getinstructionbycd(Instruction);	
+void decoder_go(BYTE Instruction) {
+	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);	
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
 	as of 7/21/23. this may be implemented in the future, but for now there will
@@ -44,23 +44,23 @@ void decoder_go(byte Instruction) {
 
 	_bool TwoArgsOneByte = TRUE;
 	_bool IsOperandRegister[2] = { FALSE, FALSE };
-	u64  OperandValues[2] = { 0, 0 };
-	u64  ActiveOperandSize;
-	byte OperandCnt = 0;
+	WORD64  OperandValues[2] = { 0, 0 };
+	WORD64  ActiveOperandSize;
+	BYTE OperandCnt = 0;
 
-	for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
-		if (psin2i_getphyssize(Psin2Id, i) != 4)
+	for (int i = 0; i < Psin2iGetOperandCount(Psin2Id); i++) {
+		if (Psin2iGetPhysicalSize(Psin2Id, i) != 4)
 			TwoArgsOneByte = FALSE;
 	}
-	if (psin2i_getoperandcnt(Psin2Id) == 1)
+	if (Psin2iGetOperandCount(Psin2Id) == 1)
 		TwoArgsOneByte = FALSE;
 
 	if (TwoArgsOneByte) {
 		union {
-			byte Raw;
+			BYTE Raw;
 			struct {
-				byte r1 : 4;
-				byte r0 : 4;
+				BYTE r1 : 4;
+				BYTE r0 : 4;
 			};
 		}InputData;
 		InputData.Raw = decoderi_g1();
@@ -72,15 +72,15 @@ void decoder_go(byte Instruction) {
 
 		OperandCnt = 2;
 	} else {
-		for (int i = 0; i < psin2i_getoperandcnt(Psin2Id); i++) {
-			byte StoredSize = psin2i_getphyssize(Psin2Id, i);
+		for (int i = 0; i < Psin2iGetOperandCount(Psin2Id); i++) {
+			BYTE StoredSize = Psin2iGetPhysicalSize(Psin2Id, i);
 			if (StoredSize == 4)
 				ActiveOperandSize = 1;
 			else
 				ActiveOperandSize = StoredSize / 8;
 
-			IsOperandRegister[i] = psin2i_getoperandtype(Psin2Id, i) ^ 1; // psin2 stores these opposite
-			OperandValues[i] = decoderi_gx((byte)ActiveOperandSize);
+			IsOperandRegister[i] = Psin2iGetOperandType(Psin2Id, i) ^ 1; // psin2 stores these opposite
+			OperandValues[i] = decoderi_gx((BYTE)ActiveOperandSize);
 			OperandCnt++;
 		}
 	}
@@ -89,15 +89,15 @@ void decoder_go(byte Instruction) {
 
 	switch (OperandCnt) {
 	case 0: // OPC
-		sprintf(DebugStr, "%s", psin2i_getname(Psin2Id));
+		sprintf(DebugStr, "%s", Psin2iGetInstructionName(Psin2Id));
 		break;
 	case 1: // OPC ARG
-		sprintf(DebugStr, "%s %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
+		sprintf(DebugStr, "%s %s=%c%llu", Psin2iGetInstructionName(Psin2Id), Psin2iGetOperandName(Psin2Id, 0), 
 			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0]);
 		break;
 	case 2: // OPC ARG, RG2
-		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", psin2i_getname(Psin2Id), psin2i_getoperandname(Psin2Id, 0), 
-			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], psin2i_getoperandname(Psin2Id, 1), 
+		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", Psin2iGetInstructionName(Psin2Id), Psin2iGetOperandName(Psin2Id, 0), 
+			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], Psin2iGetOperandName(Psin2Id, 1), 
 			(IsOperandRegister[1] == 1 ? 'r' : 0xEE), OperandValues[1]);
 		break;
 	}

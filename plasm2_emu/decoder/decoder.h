@@ -12,14 +12,14 @@
 void decoder_init(void);
 void decoder_shutdown(void);
 
-byte decoderi_g1(void);
-u64  decoderi_gx(byte HowMuch);
+BYTE decoderi_g1(void);
+WORD64  decoderi_gx(BYTE HowMuch);
 
-void decoder_go(byte Instruction);
+void decoder_go(BYTE Instruction);
 
 void decoder_print(const char* Format);
 
 typedef struct _dcctx {
-	u64 SpeculativePointer; 
+	WORD64 SpeculativePointer; 
 }dcctx_t;
 extern dcctx_t* dcctx;

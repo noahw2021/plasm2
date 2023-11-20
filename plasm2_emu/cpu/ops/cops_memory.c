@@ -9,14 +9,14 @@
 
 void LDW(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Address : 4;
-			byte Destination : 4;
+			BYTE Address : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 8);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 8);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -27,14 +27,14 @@ void LDW(void) {
 
 void LDB(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Address : 4;
-			byte Destination : 4;
+			BYTE Address : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 1);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 1);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -45,14 +45,14 @@ void LDB(void) {
 
 void STW(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Register : 4;
-			byte Address : 4;
+			BYTE Register : 4;
+			BYTE Address : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -63,30 +63,30 @@ void STW(void) {
 
 void STB(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Register : 4;
-			byte Address : 4;
+			BYTE Register : 4;
+			BYTE Address : 4;
 		};
 	}Inputs; 
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 1);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 1);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
 	}
-	mmu_put1(VirtualAddress, (byte)i->rs_gprs[Inputs.Register]);
+	mmu_put1(VirtualAddress, (BYTE)i->rs_gprs[Inputs.Register]);
 	return;
 }
 
 void PSH(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	mmu_push(i->rs_gprs[Register]);
 	return;
 }
 
 void POP(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	i->rs_gprs[Register] = mmu_pop();
 	return;
 }
@@ -115,10 +115,10 @@ void VMD(void) {
 
 void VPC(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Size : 4;
-			byte PhysicalAddress : 4;
+			BYTE Size : 4;
+			BYTE PhysicalAddress : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -128,13 +128,13 @@ void VPC(void) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
 	}
-	u64 VirtualAddr = mmu_createpage(i->rs_gprs[Inputs.PhysicalAddress], i->rs_gprs[Inputs.Size], i->r0 & (REASON_EXEC | REASON_READ | REASON_WRTE));
+	WORD64 VirtualAddr = mmu_createpage(i->rs_gprs[Inputs.PhysicalAddress], i->rs_gprs[Inputs.Size], i->r0 & (REASON_EXEC | REASON_READ | REASON_WRTE));
 	mmu_push(VirtualAddr);
 	return;
 }
 
 void VPD(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	if (!i->flags_s.VF)
 		return;
 	if (i->flags_s.AF) {
@@ -157,19 +157,19 @@ void VSD(void) {
 }
 
 void SPS(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	i->sp = i->rs_gprs[Register];
 	return;
 }
 
 void SPG(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	i->rs_gprs[Register] = i->sp;
 	return;
 }
 
 void VSS(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
@@ -179,7 +179,7 @@ void VSS(void) {
 }
 
 void VES(void) {
-	byte Register = mmu_read1(i->ip++) & 0xF;
+	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	if (i->flags_s.AF) {
 		if (i->security_s.SecurityLevel > 1)
 			return;
@@ -189,21 +189,21 @@ void VES(void) {
 }
 
 void LWS(void) {
-	byte Register = mmu_read1(i->ip++) & 0x0F;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Register = mmu_read1(i->ip++) & 0x0F;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
-	u64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
+	WORD64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
 	i->rs_gprs[Register] = mmu_read8(Virtual);
 	return;
 }
 
 void SWS(void) {
-	byte Register = mmu_read1(i->ip++) & 0x0F;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Register = mmu_read1(i->ip++) & 0x0F;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
-	u64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
+	WORD64 Virtual = mmu_translate(Immediate, REASON_READ, 8);
 	mmu_put8(Virtual, i->rs_gprs[Register]);
 
 	return;
@@ -211,14 +211,14 @@ void SWS(void) {
 
 void LDH(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Address : 4;
-			byte Destination : 4;
+			BYTE Address : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 4);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_READ, 4);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -229,25 +229,25 @@ void LDH(void) {
 
 void STH(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Register : 4;
-			byte Address : 4;
+			BYTE Register : 4;
+			BYTE Address : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
-	u64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
+	WORD64 VirtualAddress = mmu_translate(i->rs_gprs[Inputs.Address], REASON_WRTE, 8);
 	if (!VirtualAddress) {
 		i->flags_s.XF = 1;
 		return;
 	}
 
-	mmu_put4(VirtualAddress, (u32)i->rs_gprs[Inputs.Register]);
+	mmu_put4(VirtualAddress, (WORD32)i->rs_gprs[Inputs.Register]);
 	return;
 }
 
 void PSI(void) {
-    u64 Immediate = mmu_read8(i->ip);
+    WORD64 Immediate = mmu_read8(i->ip);
     i->ip += 8;
     mmu_push(Immediate);
     return;

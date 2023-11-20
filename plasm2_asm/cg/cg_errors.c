@@ -12,15 +12,15 @@
 
 #pragma warning(disable: 6308 6387 26451 28182)
 
-void cge_error(int Line, const char* Reason, ...) {
-	if (!cgctx->Errors) {
-		cgctx->Errors = malloc(sizeof(cgctx->Errors[0]));
-		memset(cgctx->Errors, 0, sizeof(cgctx->Errors[0]));
-		cgctx->ErrorCount++;
+void CgeError(int Line, const char* Reason, ...) {
+	if (!CgCtx->Errors) {
+		CgCtx->Errors = malloc(sizeof(CgCtx->Errors[0]));
+		memset(CgCtx->Errors, 0, sizeof(CgCtx->Errors[0]));
+		CgCtx->ErrorCount++;
 	} else {
-		cgctx->Errors = realloc(cgctx->Errors, (sizeof(cgctx->Errors[0]) * (cgctx->ErrorCount + 1)));
-		memset(&cgctx->Errors[cgctx->ErrorCount], 0, sizeof(cgctx->Errors[0]));
-		cgctx->ErrorCount++;
+		CgCtx->Errors = realloc(CgCtx->Errors, (sizeof(CgCtx->Errors[0]) * (CgCtx->ErrorCount + 1)));
+		memset(&CgCtx->Errors[CgCtx->ErrorCount], 0, sizeof(CgCtx->Errors[0]));
+		CgCtx->ErrorCount++;
 	}
 
 	va_list VaList;
@@ -29,26 +29,26 @@ void cge_error(int Line, const char* Reason, ...) {
 	vsprintf(ReasonBuffer, Reason, VaList);
 	va_end(VaList);
 
-	cgctx->Errors[cgctx->ErrorCount - 1].Line = Line;
-	cgctx->Errors[cgctx->ErrorCount - 1].Reason = ReasonBuffer;
+	CgCtx->Errors[CgCtx->ErrorCount - 1].Line = Line;
+	CgCtx->Errors[CgCtx->ErrorCount - 1].Reason = ReasonBuffer;
 
 	return;
 }
 	
-int  cge_errorcnt(void) {
-	return cgctx->ErrorCount;
+int  CgeErrorCount(void) {
+	return CgCtx->ErrorCount;
 }
 
-char* cge_geterr(int i) {
-	for (int e = 0; e < cgctx->ErrorCount; e++) {
+char* CgeGetErrorString(int i) {
+	for (int e = 0; e < CgCtx->ErrorCount; e++) {
 		if (e != i)
 			continue;
 		char* Return = malloc(512);
 
-		if (cgctx->Errors[e].Line == 0xFFFF)
-			sprintf(Return, "[LINK]: %s", cgctx->Errors[e].Reason);
+		if (CgCtx->Errors[e].Line == 0xFFFF)
+			sprintf(Return, "[LINK]: %s", CgCtx->Errors[e].Reason);
 		else
-			sprintf(Return, "[%04i]: %s", cgctx->Errors[e].Line, cgctx->Errors[e].Reason);
+			sprintf(Return, "[%04i]: %s", CgCtx->Errors[e].Line, CgCtx->Errors[e].Reason);
 
 		return Return;
 	}

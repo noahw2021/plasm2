@@ -11,7 +11,7 @@
 
 #pragma warning(disable: 6011 6308 6387 26451)
 
-FDISK_CTX* FdiskCtx;
+PFDISK_CTX FdiskCtx;
 
 void FdiskInit(void) {
 	FdiskCtx = malloc(sizeof(FDISK_CTX));

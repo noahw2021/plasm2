@@ -9,10 +9,10 @@
 
 void AND(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -22,10 +22,10 @@ void AND(void) {
 
 void BOR(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -35,10 +35,10 @@ void BOR(void) {
 
 void XOR(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -48,10 +48,10 @@ void XOR(void) {
 
 void BSL(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -60,10 +60,10 @@ void BSL(void) {
 
 void BSR(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -72,10 +72,10 @@ void BSR(void) {
 
 void NOT(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -83,8 +83,8 @@ void NOT(void) {
 }
 
 void ANI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] &= Immediate;
@@ -92,8 +92,8 @@ void ANI(void) {
 }
 
 void XOI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] ^= Immediate;
@@ -101,8 +101,8 @@ void XOI(void) {
 }
 
 void ORI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] |= Immediate;
@@ -110,16 +110,16 @@ void ORI(void) {
 }
 
 void BLI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	byte Immediate = mmu_read1(i->ip++);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	BYTE Immediate = mmu_read1(i->ip++);
 
 	i->rs_gprs[Input] <<= Immediate;
 	return;
 }
 
 void BRI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	byte Immediate = mmu_read1(i->ip++);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	BYTE Immediate = mmu_read1(i->ip++);
 
 
 	i->rs_gprs[Input] >>= Immediate;

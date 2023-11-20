@@ -8,35 +8,35 @@
 #include "../devices.h"
 #include "../../basetypes.h"
 
-void kbii_markkey(byte Key, byte Status);
-extern u64 KeysDown[4];
+void KbiiMarkKeyState(BYTE Key, BYTE Status);
+extern WORD64 KeysDown[4];
 
-void kb_init(void);
-void kb_shutdown(void);
-void kb_clock(void);
-void kb_collect(void);
+void KbInit(void);
+void KbShutdown(void);
+void KbClock(void);
+void KbCollect(void);
 
-u64 kb_statusquery(u32 Device, u64 NullArg);
-u64 kb_sendcommand(u32 Device, u64 Command);
-u64 kb_senddata(u32 Device, u64 Command);
-u64 kb_getdata(u32 Device, u64 NullArg);
-u64 kb_reset(u32 Device, u64 NullArg);
-u64 kb_off(u32 Device, u64 NullArg);
-u64 kb_on(u32 Device, u64 NullArg);
+WORD64 KbStatusQuery(WORD32 Device, WORD64 NullArg);
+WORD64 KbSendCommand(WORD32 Device, WORD64 Command);
+WORD64 KbSendData(WORD32 Device, WORD64 Command);
+WORD64 KbGetData(WORD32 Device, WORD64 NullArg);
+WORD64 KbReset(WORD32 Device, WORD64 NullArg);
+WORD64 KbOff(WORD32 Device, WORD64 NullArg);
+WORD64 KbOn(WORD32 Device, WORD64 NullArg);
 
-typedef struct _kbctx {
-	byte AwaitingData;
-	byte DataQueued;
-	u64 OutputQueue;
-	byte AwaitingCommand;
-	u64 Status;
-	byte HoldUp;
-	byte NotifyUp, NotifyDown;
+typedef struct _KB_CTX {
+	BYTE AwaitingData;
+	BYTE DataQueued;
+	WORD64 OutputQueue;
+	BYTE AwaitingCommand;
+	WORD64 Status;
+	BYTE HoldUp;
+	BYTE NotifyUp, NotifyDown;
 
-	byte KeyUp, KeyDown;
-	u64 KeyUpHandlr, KeyDownHandlr;
-}kbctx_t;
-extern kbctx_t* kbctx;
+	BYTE KeyUp, KeyDown;
+	WORD64 KeyUpHandlr, KeyDownHandlr;
+}KB_CTX, *PKB_CTX;
+extern PKB_CTX KbCtx;
 
 /*
 commands:
@@ -47,6 +47,6 @@ commands:
 
 */
 
-void kbi_setkeydownint(u64 Interrupt);
-void kbi_setkeyupint(u64 Interrupt);
-u64  kbi_getkeymapptr(void);
+void KbiSetKeyDownInterrupt(WORD64 Interrupt);
+void KbiSetKeyUpInterrupt(WORD64 Interrupt);
+WORD64 KbiGetKeyMapPointer(void);

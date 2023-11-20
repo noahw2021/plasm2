@@ -14,17 +14,11 @@
 #include "video/video.h"
 #include "fdisk/fdisk.h"
 
-/*
-devices_collect.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void DevicesCollect(void) {
-	video_collect();
-	kb_collect();
-	fdisk_collect();
+	VideoCollect();
+	KbCollect();
+	FdiskCollect();
 
 	return;
 }

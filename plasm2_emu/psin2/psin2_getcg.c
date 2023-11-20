@@ -9,57 +9,57 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* psin2i_getname(int Id) {
-	return psin2ctx->Instructions[Id].Instruction;
+char* Psin2iGetInstructionName(int Id) {
+	return Psin2Ctx->Instructions[Id].Instruction;
 }
 
-byte  psin2i_getopcode(int Id) {
-	return psin2ctx->Instructions[Id].Opcode;
+BYTE  Psin2iGetInstructinOpcode(int Id) {
+	return Psin2Ctx->Instructions[Id].Opcode;
 }
 
-byte  psin2i_getoperandtype(int Id, byte OperandId) {
-	return psin2ctx->Instructions[Id].Operands[OperandId].Type;
+BYTE  Psin2iGetOperandType(int Id, BYTE OperandId) {
+	return Psin2Ctx->Instructions[Id].Operands[OperandId].Type;
 }
 
-byte  psin2i_getphyssize(int Id, byte OperandId) {
-	return psin2ctx->Instructions[Id].Operands[OperandId].PhysicalSize;
+BYTE  Psin2iGetPhysicalSize(int Id, BYTE OperandId) {
+	return Psin2Ctx->Instructions[Id].Operands[OperandId].PhysicalSize;
 }
 
-byte  psin2i_getavailsize(int Id, byte OperandId) {
-	return psin2ctx->Instructions[Id].Operands[OperandId].AvailableSize;
+BYTE  Psin2iGetAvailableSize(int Id, BYTE OperandId) {
+	return Psin2Ctx->Instructions[Id].Operands[OperandId].AvailableSize;
 }
 
-char* psin2i_getoperandname(int Id, byte OperandId) {
-	char* ret = psin2ctx->Instructions[Id].Operands[OperandId].OperandName;
+char* Psin2iGetOperandName(int Id, BYTE OperandId) {
+	char* ret = Psin2Ctx->Instructions[Id].Operands[OperandId].OperandName;
 	int r = 0;
 	while (ret[r] == ' ')
 		r++;
 	return ret + r;
 }
 
-byte  psin2i_totalsize(int Id) {
-	return psin2ctx->Instructions[Id].TotalInstructionSize;
+BYTE  Psin2iGetTotalSize(int Id) {
+	return Psin2Ctx->Instructions[Id].TotalInstructionSize;
 }
 
-char* psin2i_description(int Id) {
-	return psin2ctx->Instructions[Id].InstructionDescription;
+char* Psin2iGetDescription(int Id) {
+	return Psin2Ctx->Instructions[Id].InstructionDescription;
 }
 
-int	  psin2i_getoperandcnt(int Id) {
-	return psin2ctx->Instructions[Id].OperandCount;
+int	  Psin2iGetOperandCount(int Id) {
+	return Psin2Ctx->Instructions[Id].OperandCount;
 }
 
-int  psin2i_getinstructionbyname(const char* Operand) {
-	for (int i = 0; i < psin2ctx->InstructionCount; i++) {
-		if (!strcmp(psin2ctx->Instructions[i].Instruction, Operand))
+int  Psin2iGetInstructionByName(const char* Operand) {
+	for (int i = 0; i < Psin2Ctx->InstructionCount; i++) {
+		if (!strcmp(Psin2Ctx->Instructions[i].Instruction, Operand))
 			return i;
 	}
 	return -1;
 }
 
-int   psin2i_getinstructionbycd(byte Opcode) {
-	for (int i = 0; i < psin2ctx->InstructionCount; i++) {
-		if (psin2ctx->Instructions[i].Opcode == Opcode)
+int   Psin2iGetInstructionByOpcode(BYTE Opcode) {
+	for (int i = 0; i < Psin2Ctx->InstructionCount; i++) {
+		if (Psin2Ctx->Instructions[i].Opcode == Opcode)
 			return i;
 	}
 	return 0xFFFF;

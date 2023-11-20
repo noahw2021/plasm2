@@ -7,29 +7,29 @@
 #pragma once
 #include "../basetypes.h"
 
-void cg_init(void);
-void cg_shutdown(void);
+void CgInit(void);
+void CgShutdown(void);
 
-void cg_parse(const char* Line);
-void cg_compile(void);
+void CgParse(const char* Line);
+void CgCompile(void);
 
-void cge_error(int Line, const char* Reason, ...);
-int  cge_errorcnt(void);
-char* cge_geterr(int i );
+void CgeError(int Line, const char* Reason, ...);
+int  CgeErrorCount(void);
+char* CgeGetErrorString(int i);
 
-void cgp_put1(byte Data);
-void cgp_put8(u64 Data);
-void cgp_putx(u64 Data, byte ByteSize);
+void CgpPut1(BYTE Data);
+void CgpPut8(WORD64 Data);
+void CgpPutX(WORD64 Data, BYTE ByteSize);
 
-typedef struct _cgctx {
+typedef struct _CG_CTX {
 	int LineCount;
 	int CurrentLine;
 	int CurrentRadix;
 
-	u64 DataPosition;
-	u64 HighestPosition;
-	u64 ReferencePtr;
-	byte InSub;
+	WORD64 DataPosition;
+	WORD64 HighestPosition;
+	WORD64 ReferencePtr;
+	BYTE InSub;
 
 	int ErrorCount;
 	struct {
@@ -37,6 +37,6 @@ typedef struct _cgctx {
 		char* Reason;
 	}*Errors;
 
-	byte Shutdown;
-}cgctx_t;
-extern cgctx_t* cgctx;
+	BYTE Shutdown;
+}CG_CTX, *PCG_CTX;
+extern PCG_CTX CgCtx;

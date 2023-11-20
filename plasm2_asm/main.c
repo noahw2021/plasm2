@@ -28,11 +28,11 @@ int main(int argc, char** argv) {
 	if (!IsDebuggerPresent())
 		fgetc(stdin);
 #endif
-	cg_init(); 
-	psin2_init();
-	link_init();
+	CgInit(); 
+	Psin2Init();
+	LinkInit();
 
-	psin2_load();
+	Psin2Load();
 
 	for (int i = 0; i < argc; i++) {
 		if (!strcmp(argv[i], "-h")) {
@@ -89,15 +89,15 @@ int main(int argc, char** argv) {
 	if (!PrimaryInput)
 		PrimaryInput = stdin;
 
-	vf_init(PrimaryInput);
+	VfInit(PrimaryInput);
 
 	char* Line = malloc(2048);
-	while (cgctx) {
-        printf("[%06llX]: ", (u32)cgctx->DataPosition + (cgctx->ReferencePtr * cgctx->InSub));
-		strcpy(Line, vf_get());
-		if (vf_ci() != stdin)
+	while (CgCtx) {
+        printf("[%06llX]: ", (WORD32)CgCtx->DataPosition + (CgCtx->ReferencePtr * CgCtx->InSub));
+		strcpy(Line, VfGet());
+		if (VfCi() != stdin)
 			printf("%s", Line);
-		cg_parse(Line);
+		CgParse(Line);
 	}
 	free(Line);
     

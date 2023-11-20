@@ -40,7 +40,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "6D70CE28-7CF2-43B5-A58D-FF321C57FC9C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "plasm2_asm/psin2/psin2_getcg.c"
@@ -48,7 +48,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
             endingLineNumber = "60"
-            landmarkName = "psin2i_getinstructionbyname(Operand)"
+            landmarkName = "Psin2iGetInstructionByName(Operand)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -141,8 +141,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -157,8 +157,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "155"
-            endingLineNumber = "155"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
          </BreakpointContent>

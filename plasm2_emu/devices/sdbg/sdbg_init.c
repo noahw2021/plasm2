@@ -10,13 +10,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-sdbgctx_t* sdbgctx;
+PSDBG_CTX sdbgctx;
 
 #pragma warning(disable: 6011 6387)
 
-void sdbg_init(void) {
-	sdbgctx = malloc(sizeof(sdbgctx_t));
-	memset(sdbgctx, 0, sizeof(sdbgctx_t));
+void SdbgInit(void) {
+	sdbgctx = malloc(sizeof(SDBG_CTX));
+	memset(sdbgctx, 0, sizeof(SDBG_CTX));
 
 	sdbgctx->CollectionBufferIn = malloc(sizeof(char) * 256);
 	sdbgctx->CollectionBufferOut = malloc(sizeof(char) * 256);
@@ -26,11 +26,11 @@ void sdbg_init(void) {
 	return;
 }
 
-void sdbg_shutdown(void) {
+void SdbgShutdown(void) {
 	free(sdbgctx);
 }
 
-void sdbg_clock(void) {
+void SdbgClock(void) {
 	if (sdbgctx->LastSend > cput_gettime()) {
 		if (sdbgctx->ReadyOut) {
 			printf("%s", sdbgctx->CollectionBufferOut);
@@ -39,26 +39,26 @@ void sdbg_clock(void) {
 	}
 }
 
-void sdbg_collect(void) {
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_TERMINAL;
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
+void SdbgCollect(void) {
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_TERMINAL;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
 
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Serialish Debugger");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4279;
-	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.Active = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.On = 1;
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Serialish Debugger");
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4279;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
 
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = sdbg_statusquery;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = sdbg_sendcommand;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = sdbg_senddata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = sdbg_getdata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = sdbg_reset;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = sdbg_off;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = sdbg_on;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = SdbgStatusQuery;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = SdbgSendCommand;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = SdbgSendData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = SdbgGetData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = SdbgReset;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = SdbgOff;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = SdbgOn;
 
-	devicesctx->DeviceCount++;
+	DevicesCtx->DeviceCount++;
 
 	return;
 }

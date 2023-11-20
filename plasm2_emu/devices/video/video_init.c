@@ -14,7 +14,7 @@
 SDL_Window* Window;
 SDL_Renderer* Renderer;
 BYTE PauseDrawing;
-VIDEO_CTX* VideoCtx;
+PVIDEO_CTX VideoCtx;
 SDL_Thread* LoopThread;
 
 #pragma warning(disable: 6011 6387)
@@ -53,13 +53,13 @@ void videoii_loop(void) {
 				break;
 			if (Event.type == SDL_QUIT)
 				Quit = 1;
-			if (Event.type == SDL_KEYDOWN && !kbctx->HoldUp) {
-				kbii_markkey(Event.key.keysym.scancode, 1);
-				kbctx->NotifyDown = Event.key.keysym.scancode;
+			if (Event.type == SDL_KEYDOWN && !KbCtx->HoldUp) {
+				KbiiMarkKeyState(Event.key.keysym.scancode, 1);
+				KbCtx->NotifyDown = Event.key.keysym.scancode;
 			}
-			if (Event.type == SDL_KEYUP && !kbctx->HoldUp) {
-				kbii_markkey(Event.key.keysym.scancode, 0);
-				kbctx->NotifyUp = Event.key.keysym.scancode;
+			if (Event.type == SDL_KEYUP && !KbCtx->HoldUp) {
+				KbiiMarkKeyState(Event.key.keysym.scancode, 0);
+				KbCtx->NotifyUp = Event.key.keysym.scancode;
 			}
 			
 		}
@@ -67,4 +67,6 @@ void videoii_loop(void) {
 			SDL_RenderPresent(Renderer);
 		SDL_Delay(16);
 	}
+    
+    return;
 }
