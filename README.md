@@ -33,6 +33,7 @@ Download the solution, and compile using Visual Studio 2019 or later.
 Using XCode 15.0 or later, open the project and build each file.
 
 ### Linux:
+WIP
 
 ## Documentation
 Limited documentation available [here](https://github.com/noahw2021/plasm2/blob/master/DOCs.md).
