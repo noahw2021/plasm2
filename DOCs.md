@@ -7,6 +7,8 @@ I plan on fully documenting this instruction set, however some important things 
 ### system timer interrupt
 This system timer interrupt fires every fixed amount of nanoseconds, by default 10,000 NS (100 fires per MS, 100,000 fires per S), and this time cannot be changed by the system. This calls interrupt '0x00'.
 
+Note: this feature is currently not implemented on most platforms.
+
 ### interrupt system
 The interrupt system is very simple, and has constraints on what an interrupt can do, and how multiple interrupts are handled.
 
