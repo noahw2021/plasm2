@@ -7,26 +7,26 @@
 #include "fdisk.h"
 #include <string.h>
 
-void fdisk_collect(void) {
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_FDISKC;
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
+void FdiskCollect(void) {
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_FDISKC;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
 
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Fixed Disk Controller");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4272;
-	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.Active = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.On = 1;
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Fixed Disk Controller");
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4272;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
 
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = fdisk_statusquery;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = fdisk_sendcommand;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = fdisk_senddata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = fdisk_getdata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = fdisk_reset;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = fdisk_off;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = fdisk_on;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = FdiskStatusQuery;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = FdiskSendCommand;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = FdiskSendData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = FdiskGetData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = FdiskReset;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = FdiskOff;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = FdiskOn;
 
-	devicesctx->DeviceCount++;
+	DevicesCtx->DeviceCount++;
 
 	return;
 }
