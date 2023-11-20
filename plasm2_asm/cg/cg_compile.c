@@ -13,10 +13,10 @@
 
 extern FILE* PrimaryInput, * PrimaryOutput;
 
-void cg_compile(void) {
+void CgCompile(void) {
 	fprintf(stdout, "\nBeginning Compliation...\n\n");
 
-	link_go();
+	LinkGo();
 
 	int ErrorCount = cge_errorcnt();
 	for (int i = 0; i < ErrorCount; i++)
@@ -24,15 +24,15 @@ void cg_compile(void) {
 	fprintf(stdout, "%i errors generated.\n", ErrorCount);
 
 	fclose(PrimaryOutput);
-	fprintf(stdout, "Complation complete, executible size: 0x%08llX\n", cgctx->DataPosition);
+	fprintf(stdout, "Complation complete, executible size: 0x%08llX\n", CgCtx->DataPosition);
 
 	if (PrimaryInput != stdin)
 		fclose(PrimaryInput);
 
 	PrimaryInput = NULL;
 
-	cg_shutdown();
-	psin2_shutdown();
+	CgShutdown();
+	Psin2Shutdown();
 
 	return;
 }

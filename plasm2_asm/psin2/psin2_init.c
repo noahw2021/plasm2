@@ -8,24 +8,24 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-psin2ctx_t* psin2ctx;
+PSIN2_CTX* Psin2Ctx;
 
 #pragma warning(disable: 6001 6387)
 
-void psin2_init(void) {
-	psin2ctx = malloc(sizeof(psin2ctx_t));
-	memset(psin2ctx, 0, sizeof(psin2ctx_t));
+void Psin2Init(void) {
+	Psin2Ctx = malloc(sizeof(PSIN2_CTX));
+	memset(Psin2Ctx, 0, sizeof(PSIN2_CTX));
 
 	return;
 }
 
-void psin2_shutdown(void) {
-	for (int i = 0; i < psin2ctx->InstructionCount; i++) {
-		if (psin2ctx->Instructions[i].InstructionDescription)
-			free(psin2ctx->Instructions[i].InstructionDescription);
+void Psin2Shutdown(void) {
+	for (int i = 0; i < Psin2Ctx->InstructionCount; i++) {
+		if (Psin2Ctx->Instructions[i].InstructionDescription)
+			free(Psin2Ctx->Instructions[i].InstructionDescription);
 	}
-	free(psin2ctx->Instructions);
-	free(psin2ctx);
+	free(Psin2Ctx->Instructions);
+	free(Psin2Ctx);
 
 	return;
 }

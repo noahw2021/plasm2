@@ -13,7 +13,7 @@ psin2ctx_t* psin2ctx;
 
 #pragma warning(disable: 6001 6387)
 
-void psin2_init(void) {
+void Psin2Init(void) {
 	psin2ctx = malloc(sizeof(psin2ctx_t));
 	memset(psin2ctx, 0, sizeof(psin2ctx_t));
 

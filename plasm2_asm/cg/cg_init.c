@@ -8,30 +8,30 @@
 #include <stdlib.h>
 #include <string.h>
 
-cgctx_t* cgctx;
+PCG_CTX CgCtx;
 
 #pragma warning(disable: 6001 6011 6387)
 
-void cg_init(void) {
-	cgctx = malloc(sizeof(cgctx_t));
-	memset(cgctx, 0, sizeof(cgctx_t));
+void CgInit(void) {
+	CgCtx = malloc(sizeof(CG_CTX));
+	memset(CgCtx, 0, sizeof(CG_CTX));
 
-	cgctx->CurrentRadix = 10;
-	cgctx->Shutdown = 0;
+	CgCtx->CurrentRadix = 10;
+	CgCtx->Shutdown = 0;
 
 	return;
 }
 
-void cg_shutdown(void) {
-	if (cgctx->Errors) {
-		for (int i = 0; i < cgctx->ErrorCount; i++) {
-			if (cgctx->Errors[i].Reason)
-				free(cgctx->Errors[i].Reason);
+void CgShutdown(void) {
+	if (CgCtx->Errors) {
+		for (int i = 0; i < CgCtx->ErrorCount; i++) {
+			if (CgCtx->Errors[i].Reason)
+				free(CgCtx->Errors[i].Reason);
 		}
-		free(cgctx->Errors);
+		free(CgCtx->Errors);
 	}
-	free(cgctx);
-	cgctx = NULL;
+	free(CgCtx);
+	CgCtx = NULL;
 
 	return;
 }
