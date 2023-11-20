@@ -3,13 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-/*
-link_go.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
-
+//
+//  link_go.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 extern FILE* PrimaryOutput;
 #pragma warning(disable: 6001 6386 6387)
 

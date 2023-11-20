@@ -1,12 +1,12 @@
 #include "vf.h"
 #include <stdlib.h>
 #include <string.h>
-/*
-vf_init.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  vf_init.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 vfctx_t* vfctx;
 
 #pragma warning(disable: 6011 6387)

@@ -1,3 +1,10 @@
+//
+//  main.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,12 +13,6 @@
 #include "cg/cg.h"
 #include "link/link.h"
 #include "vf/vf.h"
-/*
-main.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 FILE* PrimaryInput;
 FILE* PrimaryOutput;

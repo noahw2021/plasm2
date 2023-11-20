@@ -1,11 +1,11 @@
 #pragma once
 #include "../basetypes.h"
-/*
-psin2.h
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  psin2.h
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 void psin2_init(void);
 void psin2_shutdown(void);

@@ -1,12 +1,12 @@
 #pragma once
 #include "../basetypes.h"
 #include <stdio.h>
-/*
-vf.h
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  vf.h
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 typedef struct _vfctx {
 	byte Started;

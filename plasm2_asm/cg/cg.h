@@ -1,11 +1,11 @@
+//
+//  cg.h
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../basetypes.h"
-/*
-cg.h
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void cg_init(void);
 void cg_shutdown(void);

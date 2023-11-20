@@ -1,12 +1,12 @@
 #include "psin2.h"
 #include <stdlib.h>
 #include <string.h>
-/*
-psin2_init.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  psin2_init.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 psin2ctx_t* psin2ctx;
 

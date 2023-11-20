@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-vf_files.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  vf_files.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 #pragma warning(disable: 6385 6387)
 #define VF_SIZE(x) (sizeof(*vfctx->VirtualFile) * x)

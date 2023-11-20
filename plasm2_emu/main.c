@@ -126,7 +126,12 @@ int __nonvideo_main(appargs_t* Args) {
 		return -1;
 	}
 	// pm usage good (reason: internal use only)
-	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, 4096, 1, Bios); // read the bios into ram
+    fseek(Bios, 0, SEEK_END);
+    u32 BiosLength = ftell(Bios);
+    if (BiosLength > 4096)
+        BiosLength = 4906;
+    
+	fread((byte*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
 
 	devices_init();
 	devices_collect();// PM usage good (reason: comes from trust)

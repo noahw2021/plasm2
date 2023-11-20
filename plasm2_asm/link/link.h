@@ -1,11 +1,11 @@
 #pragma once
 #include "../basetypes.h"
-/*
-link.h
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  link.h
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 void link_init(void);
 void link_shutdown(void);

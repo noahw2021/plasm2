@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 #include "psin2.h"
-/*
-psin2_parse.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  psin2_parse.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 #pragma warning(disable: 6308 26451 28182)
 

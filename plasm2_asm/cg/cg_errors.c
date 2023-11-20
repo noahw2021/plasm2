@@ -1,14 +1,14 @@
+//
+//  cg_errors.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "cg.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
-/*
-cg_errors.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #pragma warning(disable: 6308 6387 26451 28182)
 

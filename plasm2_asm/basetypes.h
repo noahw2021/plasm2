@@ -1,10 +1,10 @@
-    #pragma once
-/*
-basetypes.h
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  basetypes.h
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+#pragma once
 
 typedef unsigned long long u64;
 typedef unsigned long u32;

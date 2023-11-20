@@ -1,12 +1,12 @@
+//
+//  cg_init.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "cg.h"
 #include <stdlib.h>
 #include <string.h>
-/*
-cg_init.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 cgctx_t* cgctx;
 

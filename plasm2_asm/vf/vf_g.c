@@ -1,11 +1,11 @@
 #include "vf.h"
 #include "../cg/cg.h"
-/*
-vf_g.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  vf_g.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 void vfg_write(const char* Filename, u64 Dp) {
 	FILE* InFile = fopen(Filename, "rb");

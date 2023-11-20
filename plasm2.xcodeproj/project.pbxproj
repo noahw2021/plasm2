@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
+		8C6259CC2B0BA22100D5F5A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C6259C72B0BA22000D5F5A3 /* plasm2_disassembler.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8C6259BD2B0BA22000D5F5A3;
+			remoteInfo = plasm2_disassembler;
+		};
 		8CEEAFE72B0954F50026004C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */;
@@ -24,14 +31,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8C6259C72B0BA22000D5F5A3 /* plasm2_disassembler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = plasm2_disassembler.xcodeproj; path = ../plasm2_xcmaster/plasm2_disassembler/plasm2_disassembler.xcodeproj; sourceTree = "<group>"; };
 		8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = plasm2_emu.xcodeproj; path = plasm2_emu/plasm2_emu.xcodeproj; sourceTree = "<group>"; };
 		8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = plasm2_asm.xcodeproj; path = plasm2_asm/plasm2_asm.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		8C6259C82B0BA22000D5F5A3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8C6259CD2B0BA22100D5F5A3 /* plasm2_disassembler */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		8CEEAFC92B0954E20026004C = {
 			isa = PBXGroup;
 			children = (
+				8C6259C72B0BA22000D5F5A3 /* plasm2_disassembler.xcodeproj */,
 				8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */,
 				8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */,
 			);
@@ -78,6 +95,10 @@
 					ProjectRef = 8CEEAFFC2B0955070026004C /* plasm2_asm.xcodeproj */;
 				},
 				{
+					ProductGroup = 8C6259C82B0BA22000D5F5A3 /* Products */;
+					ProjectRef = 8C6259C72B0BA22000D5F5A3 /* plasm2_disassembler.xcodeproj */;
+				},
+				{
 					ProductGroup = 8CEEAFE42B0954F50026004C /* Products */;
 					ProjectRef = 8CEEAFE32B0954F50026004C /* plasm2_emu.xcodeproj */;
 				},
@@ -89,6 +110,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8C6259CD2B0BA22100D5F5A3 /* plasm2_disassembler */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plasm2_disassembler;
+			remoteRef = 8C6259CC2B0BA22100D5F5A3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8CEEAFE82B0954F50026004C /* plasm2_emu */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";

@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-/*
-link_init.c
-plasm2
-plasm2_asm
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+//
+//  link_init.c
+//  plasm2_asm
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 
 linkctx_t* linkctx;
 
