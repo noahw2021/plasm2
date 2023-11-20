@@ -1,12 +1,13 @@
+//
+//  tools_main.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+
 #include "tools.h"
 #include <stdio.h>
 #include <stdlib.h>
-/*
-tools_main.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #pragma warning(disable: 6031)
 

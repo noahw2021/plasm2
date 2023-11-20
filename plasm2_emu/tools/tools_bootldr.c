@@ -1,14 +1,16 @@
+//
+//  tools_bootldr.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+
+
 #include "../basetypes.h"
 #include "tools.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-tools_bootldr.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #pragma warning(disable: 6011 6031 6387)
 

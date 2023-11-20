@@ -1,16 +1,15 @@
+//
+//  video_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "../kb/kb.h"
 #include "../../cpu/cpu.h"
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
-
-/*
-video_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 SDL_Window* Window;
 SDL_Renderer* Renderer;

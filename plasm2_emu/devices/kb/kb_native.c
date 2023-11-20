@@ -1,14 +1,14 @@
+//
+//  kb_native.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include "kb.h"
 #include <string.h>
-/*
-video_native.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void kbi_setkeydownint(u64 Interrupt) {
 	kbctx->KeyDown = (byte)Interrupt;

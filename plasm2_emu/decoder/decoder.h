@@ -1,11 +1,11 @@
+//
+//  decoder.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../basetypes.h"
-/*
-decoder.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 // decoder, debugger, and disassembler
 

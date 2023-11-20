@@ -1,12 +1,12 @@
+//
+//  kb.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../devices.h"
 #include "../../basetypes.h"
-/*
-kb.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void kbii_markkey(byte Key, byte Status);
 extern u64 KeysDown[4];

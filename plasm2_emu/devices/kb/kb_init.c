@@ -1,15 +1,16 @@
+//
+//  kb_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "kb.h"
 #include "../devices.h"
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include <string.h>
 #include <stdlib.h>
-/*
-kb_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+
 u64 KeysDown[4];
 kbctx_t* kbctx;
 

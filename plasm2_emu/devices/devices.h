@@ -1,12 +1,12 @@
+//
+//  devices.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include <stddef.h>
 #include "../basetypes.h"
-/*
-devices.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void devices_init(void);
 void devices_shutdown(void);

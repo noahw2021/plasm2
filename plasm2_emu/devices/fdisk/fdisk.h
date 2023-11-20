@@ -1,13 +1,13 @@
+//
+//  fdisk.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../devices.h"
 #include "../../basetypes.h"
 #include <stdio.h>
-/*
-fdisk.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #ifdef _WIN32
 #define pfseek _fseeki64

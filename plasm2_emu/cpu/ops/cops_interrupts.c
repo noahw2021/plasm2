@@ -1,11 +1,11 @@
+//
+//  cops_interrupts.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../cpu.h"
 #include "../mmu/mmu.h"
-/*
-cops_interrupts.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void INT(void) {
 	byte Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;

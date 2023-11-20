@@ -1,3 +1,9 @@
+//
+//  video_native.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "../kb/kb.h"
 #include "../../cpu/cpu.h"
@@ -5,12 +11,6 @@
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
-/*
-video_native.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;

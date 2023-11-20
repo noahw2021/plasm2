@@ -1,3 +1,9 @@
+//
+//  devices_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "devices.h"
 #include "../cpu/cpu.h"
 #include "kb/kb.h"
@@ -5,12 +11,7 @@
 #include "fdisk/fdisk.h"
 #include <string.h>
 #include <stdlib.h>
-/*
-devices_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
+
 devicesctx_t* devicesctx;
 
 #pragma warning(disable: 6011 6387)

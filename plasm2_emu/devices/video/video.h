@@ -1,11 +1,11 @@
+//
+//  video.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../devices.h"
-/*
-video.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void video_init(void);
 void video_shutdown(void);

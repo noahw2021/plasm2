@@ -1,12 +1,12 @@
+//
+//  cops_device.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../cpu.h"
 #include "../mmu/mmu.h"
 #include "../../devices/devices.h"
-/*
-cops_devices.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void DSQ(void) {
 	byte Register = mmu_read1(i->ip++) & 0xF;

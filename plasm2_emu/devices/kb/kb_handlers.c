@@ -1,13 +1,13 @@
+//
+//  kb_handlers.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "../../cpu/cpu.h"
 #include "kb.h"
 #include <string.h>
-/*
-kb_handlers.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 u64  kb_statusquery(u32 Device, u64 NullArg) {
 	return kbctx->Status;

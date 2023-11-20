@@ -1,13 +1,13 @@
+//
+//  sdbg_natives.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "sdbg.h"
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include <string.h>
-/*
-sdbg_natives.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void sdbg_send(void) {
 	memset(sdbgctx->CollectionBufferOut, 0, 256);

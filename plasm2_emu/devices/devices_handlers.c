@@ -1,12 +1,12 @@
+//
+//  devices_collect.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "devices.h"
 #include "../cpu/cpu.h"
 #include <string.h>
-/*
-devices_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 u64 devicesi_statusquery(u32 Device) {
 	if (Device >= devicesctx->DeviceCount)

@@ -1,12 +1,11 @@
+//
+//  emu.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "basetypes.h"
-
-/*
-emu.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 /*
 This is an emulator, and thus

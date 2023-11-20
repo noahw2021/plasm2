@@ -1,11 +1,11 @@
+//
+//  psin2.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../basetypes.h"
-/*
-psin2.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void psin2_init(void);
 void psin2_shutdown(void);

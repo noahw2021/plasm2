@@ -1,13 +1,14 @@
+//
+//  psin2_parse.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "psin2.h"
-/*
-psin2_parse.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #pragma warning(disable: 6308 26451 28182)
 

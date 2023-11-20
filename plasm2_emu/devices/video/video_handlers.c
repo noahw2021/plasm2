@@ -1,15 +1,15 @@
+//
+//  video_handlers.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include "video.h"
 #include "../kb/kb.h"
 #include <string.h>
-/*
-video_handlers.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #define GET16_HIHI(x) (u64)((x & 0xFFFF000000000000) >> 48)
 #define GET16_HILO(x) (u64)((x & 0x0000FFFF00000000) >> 32)

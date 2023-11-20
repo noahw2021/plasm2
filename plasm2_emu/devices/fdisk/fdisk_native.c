@@ -1,14 +1,14 @@
+//
+//  fdisk_native.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "fdisk.h"
 #include "../../cpu/cpu.h"
 #include "../../cpu/mmu/mmu.h"
 #include <stdlib.h>
 #include <string.h>
-/*
-fdisk_native.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #pragma warning(disable: 6387)
 

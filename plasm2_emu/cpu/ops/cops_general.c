@@ -1,11 +1,11 @@
+//
+//  cops_general.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../cpu.h"
 #include "../mmu/mmu.h"
-/*
-cops_general.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void MOV(void) {
 	union {

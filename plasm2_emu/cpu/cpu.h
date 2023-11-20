@@ -1,13 +1,12 @@
+//
+//  cpu.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../basetypes.h"
 #include <time.h>
-
-/*
-cpu.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 // Current clock speed
 #define BASE_CLOCK 1000

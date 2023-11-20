@@ -1,10 +1,10 @@
+//
+//  psin2_data.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "psin2.h"
-/*
-psin2_data.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void psin2_load(void) {
 	psin2_parse("__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers");

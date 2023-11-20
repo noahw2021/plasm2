@@ -1,13 +1,13 @@
+//
+//  kb_collect.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../devices.h"
 #include "kb.h"
 #include "../../cpu/cpu.h"
 #include <string.h>
-/*
-kb_collect.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 void kb_collect(void) {
 	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_KB;

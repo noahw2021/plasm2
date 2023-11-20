@@ -1,10 +1,10 @@
+//
+//  cpu_handlers.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "cpu.h"
-/*
-cpu_handlers.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 DeclInstruction(MOV);
 DeclInstruction(LDI);

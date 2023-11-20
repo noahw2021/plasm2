@@ -1,10 +1,11 @@
+//
+//  tools.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
+
 #pragma once
-/*
-tools.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 /*
 There used to be another project called

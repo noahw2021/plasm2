@@ -1,3 +1,9 @@
+//
+//  main.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -13,12 +19,6 @@
 #include "tools/tools.h"
 #pragma warning(disable: 6308 6387 26451 28182)
 
-/*
-main.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/  
 
 /*
 Starting physical memory map:

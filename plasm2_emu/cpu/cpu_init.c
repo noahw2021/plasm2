@@ -1,14 +1,14 @@
+//
+//  cpu_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "cpu.h"
 #include "mmu/mmu.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-/*
-cpu_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 cpuctx_t* cpuctx;
 

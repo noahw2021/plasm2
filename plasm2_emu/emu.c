@@ -1,14 +1,13 @@
+//
+//  emu.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "basetypes.h"
 #include "emu.h"
 #include <stdlib.h>
 #include <string.h>
-
-/*
-emu.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 // this will be very simple, we can combine into one file
 
