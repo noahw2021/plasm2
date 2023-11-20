@@ -7,7 +7,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64 mmu_createpage(u64 PhysicalAddress, u64 Size, byte Permissions) {
+WORD64 mmu_createpage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
 	if (mmuctx->PageCount + 1 > mmuctx->MaxPageCount) {
 		cpui_csm_msg(CSM_PTFAILNOTSIZE, mmuctx->PageCount + 1LLU);
 		return 0;

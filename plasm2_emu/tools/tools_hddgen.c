@@ -15,7 +15,7 @@
 
 #pragma warning(disable: 6001 6011 6031 6308 6387 26451 28183)
 
-void toolsi_hddgen(void) {
+void ToolsiHddGen(void) {
 	printf("HDD File Generator: \n");
 	printf(" Output file name: ");
 	
@@ -37,7 +37,7 @@ void toolsi_hddgen(void) {
 	fgetc(stdin); // absorb said newline
 	
 
-	u64 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
+	WORD64 WhereToMount = 0xFFFFFFFF, DestinedSize = 0;
 	void* AttemptedBuffer = NULL;
 	if ((YNInput & ~(0x20)) == 'Y') {
 		printf("  Please enter the path: ");
@@ -69,7 +69,7 @@ void toolsi_hddgen(void) {
 		fclose(AttemptedMount);
 	}
 
-	u64 WantedSize;
+	WORD64 WantedSize;
 	char* TempBfr = malloc(32);
 SizeTryAgain:
 	printf(" How large would you like the drive in bytes?: ");
@@ -83,15 +83,15 @@ SizeTryAgain:
 	}
 	free(TempBfr);
 
-	u64 LBreak = 0x00;
+	WORD64 LBreak = 0x00;
 	if (WantedSize == DestinedSize) {
 		LBreak = WantedSize;
 	} else {
 		if (WhereToMount != 0xFFFFFFFF) {
-			byte* Zeros = malloc(1024);
+			BYTE* Zeros = malloc(1024);
 			memset(Zeros, 0, 1024);
 			for (int i = 0; i < (WantedSize / 1024); i++) {
-				fseek(AttemptedFile, (i * 1024) + sizeof(fdiskhdr_t), SEEK_SET);
+				fseek(AttemptedFile, (i * 1024) + sizeof(FDISK_HDR), SEEK_SET);
 				fwrite(Zeros, 1024, 1, AttemptedFile);
 				if ((i * 1024) > WhereToMount) {
 					LBreak = (i * 1024);
@@ -101,14 +101,14 @@ SizeTryAgain:
 
 			if (!LBreak) {
 				Zeros = realloc(Zeros, WantedSize % 1024);
-				fseek(AttemptedFile, (long)(sizeof(fdiskhdr_t) + (WantedSize / 1024)), SEEK_SET);
+				fseek(AttemptedFile, (long)(sizeof(FDISK_HDR) + (WantedSize / 1024)), SEEK_SET);
 				if (Zeros) {
 					fwrite(Zeros, WantedSize % 1024, 1, AttemptedFile);
 					free(Zeros);
 				}
 			} // shouldnt ever happen
 
-			fseek(AttemptedFile, (long)WhereToMount + sizeof(fdiskhdr_t), SEEK_SET);
+			fseek(AttemptedFile, (long)WhereToMount + sizeof(FDISK_HDR), SEEK_SET);
 			fwrite(AttemptedBuffer, DestinedSize, 1, AttemptedFile);
 			free(AttemptedBuffer);
 		}
@@ -117,8 +117,8 @@ SizeTryAgain:
 
 	free(InputFileName);
 	
-	fdiskhdr_t* FdHdr = malloc(sizeof(fdiskhdr_t));
-	memset(FdHdr, 0, sizeof(fdiskhdr_t));
+	FDISK_HDR* FdHdr = malloc(sizeof(FDISK_HDR));
+	memset(FdHdr, 0, sizeof(FDISK_HDR));
 	
 	FdHdr->Magic = FDISKHDR_MAGIC;
 	srand(time(NULL) & 0xFFFFFFFF);
@@ -130,11 +130,11 @@ SizeTryAgain:
 		FdHdr->PartsSum += FdHdr->DeviceVendor[i];
 	FdHdr->DriveVirtualSize = WantedSize;
 	if (LBreak)
-		FdHdr->ExpectedPhysicalSize = LBreak + sizeof(fdiskhdr_t);
+		FdHdr->ExpectedPhysicalSize = LBreak + sizeof(FDISK_HDR);
 	else
-		FdHdr->ExpectedPhysicalSize = sizeof(fdiskhdr_t);
+		FdHdr->ExpectedPhysicalSize = sizeof(FDISK_HDR);
 
-	fwrite(FdHdr, sizeof(fdiskhdr_t), 1, AttemptedFile);
+	fwrite(FdHdr, sizeof(FDISK_HDR), 1, AttemptedFile);
 	fclose(AttemptedFile);
 	free(FdHdr);
 

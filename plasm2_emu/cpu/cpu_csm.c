@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void cpui_csm_set(u64 Handler) {
+void cpui_csm_set(WORD64 Handler) {
 	if (i->security_s.SecurityLevel < 2)
 		i->pti.csm = Handler;
 	else
@@ -17,7 +17,7 @@ void cpui_csm_set(u64 Handler) {
 	return;
 }
 
-void cpui_csm_msg(byte Code, u64 AddtData) {
+void cpui_csm_msg(BYTE Code, WORD64 AddtData) {
 	if (i->security_s.SecurityLevel >= 3)
 		i->flags_s.XF = 1;
 	for (int c = 0; c < REGCOUNT_SPEC; c++)

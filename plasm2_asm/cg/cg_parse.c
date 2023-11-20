@@ -16,8 +16,8 @@
 
 extern FILE* PrimaryOutput;
 
-void cg_parse(const char* Line) {
-	cgctx->CurrentLine++;
+void CgParse(const char* Line) {
+	CgCtx->CurrentLine++;
 
 	char* CommentCorrect = (char*)Line;
 	// incredibly basic and temporary comment system
@@ -29,8 +29,8 @@ void cg_parse(const char* Line) {
 
 	// MOV r0, r1
 	int c = 0, t = 0;
-	byte OperandAPresent = 0, OperandBPresent = 0;
-	byte** OperandPtrs = malloc(sizeof(byte*) * 2);
+	BYTE OperandAPresent = 0, OperandBPresent = 0;
+	BYTE** OperandPtrs = malloc(sizeof(BYTE*) * 2);
 	OperandPtrs[0] = &OperandAPresent;
 	OperandPtrs[1] = &OperandBPresent;
 
@@ -39,16 +39,16 @@ void cg_parse(const char* Line) {
 	memset(Temporary, 0, 256);
 	OperandA = malloc(64);
 	OperandB = malloc(64);
-	u64 OperandAPhys = 0, OperandBPhys = 0;
-	u64** OperandPhysPtrs;
-	OperandPhysPtrs = malloc(sizeof(u64*) * 2);
+	WORD64 OperandAPhys = 0, OperandBPhys = 0;
+	WORD64** OperandPhysPtrs;
+	OperandPhysPtrs = malloc(sizeof(WORD64*) * 2);
 	OperandPhysPtrs[0] = &OperandAPhys;
 	OperandPhysPtrs[1] = &OperandBPhys;
 	char** OperandNamePtrs[2];
 	OperandNamePtrs[0] = &OperandA;
 	OperandNamePtrs[1] = &OperandB;
-	byte OperandPtrSizes[2] = { 0, 0 };
-	byte OperandSingleByte = 0x00;
+	BYTE OperandPtrSizes[2] = { 0, 0 };
+	BYTE OperandSingleByte = 0x00;
 
 
 	if (strstr(Line, "\n"))
@@ -73,42 +73,42 @@ void cg_parse(const char* Line) {
 	if (Temporary[0] == '-') { // pragmas
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
-			cgctx->InSub = 0;
-			cgctx->DataPosition = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
-			fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
+			CgCtx->InSub = 0;
+			CgCtx->DataPosition = strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
+			fseek(PrimaryOutput, (WORD32)CgCtx->DataPosition, SEEK_SET);
 			break;
 		case 'b': // base set
-			cgctx->CurrentRadix = atoi(Line  + 3);
+			CgCtx->CurrentRadix = atoi(Line  + 3);
 			break;
 		case 'c': // compile
-			cgctx->DataPosition = cgctx->HighestPosition;
-			cg_compile();
+			CgCtx->DataPosition = CgCtx->HighestPosition;
+			CgCompile();
 			break;
 		case 'f': // fill
-			vfg_write(Line + 3, cgctx->DataPosition);
+			VfgWrite(Line + 3, CgCtx->DataPosition);
 			break;
 		case 'i': // include
-			vf_register(FollowString);
+			VfRegister(FollowString);
 			break;
 		case 'p': // pad with zero until x size
-			Usage = (int)strtoull(Line + 3, NULL, cgctx->CurrentRadix);
-			cgctx->DataPosition = cgctx->HighestPosition;
-			while (cgctx->DataPosition < Usage)
-				cgp_put1('\0');
+			Usage = (int)strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
+			CgCtx->DataPosition = CgCtx->HighestPosition;
+			while (CgCtx->DataPosition < Usage)
+				CgpPut1('\0');
 			break;
 		case 'r': // set the current reference (location in memory)
-			cgctx->ReferencePtr = strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			CgCtx->ReferencePtr = strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
 			break;
 		case 's': // string
 			Usage = 1;
 			while (FollowString[Usage] != '"')
-				cgp_put1(FollowString[Usage++]);
-			cgp_put1('\0');
+				CgpPut1(FollowString[Usage++]);
+			CgpPut1('\0');
 			break;
 		case 'z': // fill with zero
-			Usage = (int)strtoull(Line + 3, NULL, cgctx->CurrentRadix);
+			Usage = (int)strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
 			for (int i = 0; i < Usage; i++)
-				cgp_put1('\0');
+				CgpPut1('\0');
 			break;
 		}
 		goto ExitThis;
@@ -125,15 +125,15 @@ void cg_parse(const char* Line) {
 	if (Count != __x) {
 		if (strstr(_Line, ":"))
 			*(char*)strstr(_Line, ":") = 0x00;
-		link_resolve(Line, cgctx->DataPosition);
-		cgctx->InSub = 1;
+		LinkResolve(Line, CgCtx->DataPosition);
+		CgCtx->InSub = 1;
 		goto ExitThis;
 	}
 
-	int Psin = psin2i_getinstructionbyname(Temporary);
+	int Psin = Psin2iGetInstructionByName(Temporary);
 
 	if (Psin == -1) {
-		cge_error(cgctx->CurrentLine, "[E1002]: Invalid operand");
+		CgeError(CgCtx->CurrentLine, "[E1002]: Invalid operand");
 		goto ExitThis;
 	}
 
@@ -153,10 +153,10 @@ void cg_parse(const char* Line) {
 		strcpy(OperandA, Temporary);
 
 		if (OperandA[0] != 'r') {
-			if (!(InRange(OperandA[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandA[0], 'A', 'F')))) {
-				u64 Resolved = link_getsymbol(OperandA, 1);
+			if (!(InRange(OperandA[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandA[0], 'A', 'F')))) {
+				WORD64 Resolved = LinkGetSymbol(OperandA, 1);
 				char* ToString = malloc(64);
-				if (cgctx->CurrentRadix == 16)
+				if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
 				else
 					sprintf(ToString, "%llu", Resolved);
@@ -179,10 +179,10 @@ OutA:
 		strcpy(OperandB, Temporary);
 
 		if (OperandB[0] != 'r') {
-			if (!(InRange(OperandB[0], '0', '9') || ((cgctx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
-				u64 Resolved = link_getsymbol(OperandB, 1);
+			if (!(InRange(OperandB[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
+				WORD64 Resolved = LinkGetSymbol(OperandB, 1);
 				char* ToString = malloc(64);
-				if (cgctx->CurrentRadix == 16)
+				if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
 				else
 					sprintf(ToString, "%llu", Resolved);
@@ -193,43 +193,43 @@ OutA:
 	}
 OutB:
 
-	for (int o = 0; o < psin2i_getoperandcnt(Psin); o++) {
+	for (int o = 0; o < Psin2iGetOperandCount(Psin); o++) {
 		if (!OperandPtrs[o]) {
-			cge_error(cgctx->CurrentLine, "[E1000]: Missing Operand %c", (o == 0) ? 'A' : 'B');
+			CgeError(CgCtx->CurrentLine, "[E1000]: Missing Operand %c", (o == 0) ? 'A' : 'B');
 			goto ExitThis;
 		}
 
-		if (psin2i_getoperandtype(Psin, o) == 0) {
+		if (Psin2iGetOperandType(Psin, o) == 0) {
 			if (OperandNamePtrs[o][0][0] != 'r') {
-				cge_error(cgctx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
+				CgeError(CgCtx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
 				goto ExitThis;
 			}
 			OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
-			if (psin2i_getphyssize(Psin, o) == 4) {
+			if (Psin2iGetPhysicalSize(Psin, o) == 4) {
 				OperandSingleByte |= *OperandPhysPtrs[o] << (4 * (1 - o));
 				OperandPtrSizes[o] = 4;
 			} else {
-				OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
+				OperandPtrSizes[o] = Psin2iGetPhysicalSize(Psin, o);
 			}
 		} else {
-			OperandPtrSizes[o] = psin2i_getphyssize(Psin, o);
-			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, cgctx->CurrentRadix);
+			OperandPtrSizes[o] = Psin2iGetPhysicalSize(Psin, o);
+			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, CgCtx->CurrentRadix);
 		}
 	}
 
-    byte TwoOpsOneByte = 0, DualOutput = '\0';
+    BYTE TwoOpsOneByte = 0, DualOutput = '\0';
 	if (OperandPtrSizes[0] == 4 && OperandPtrSizes[1] == 4) {
 		TwoOpsOneByte = 1;
 		union {
-			byte Single;
+			BYTE Single;
 			struct {
-				byte DualA : 4;
-				byte DualB : 4;
+				BYTE DualA : 4;
+				BYTE DualB : 4;
 			};
 		}SingleDual;
 
-		SingleDual.DualA = (byte)*OperandPhysPtrs[0];
-		SingleDual.DualB = (byte)*OperandPhysPtrs[1];
+		SingleDual.DualA = (BYTE)*OperandPhysPtrs[0];
+		SingleDual.DualB = (BYTE)*OperandPhysPtrs[1];
 
 		DualOutput = SingleDual.Single;	
 	} else {
@@ -239,17 +239,17 @@ OutB:
 		}
 	}
 
- 	cgp_put1(psin2i_getopcode(Psin));
+ 	CgpPut1(Psin2iGetInstructinOpcode(Psin));
 	if (OperandSingleByte && OperandPtrSizes[0] == 4) {
-		cgp_put1(OperandSingleByte);
+		CgpPut1(OperandSingleByte);
 	} else {
 		if (TwoOpsOneByte) {
-			cgp_put1(DualOutput);
+			CgpPut1(DualOutput);
 		} else {
 			if (OperandAPresent)
-				cgp_putx(*OperandPhysPtrs[0], OperandPtrSizes[0] / 8);
+				CgpPutX(*OperandPhysPtrs[0], OperandPtrSizes[0] / 8);
 			if (OperandBPresent)
-				cgp_putx(*OperandPhysPtrs[1], OperandPtrSizes[1] / 8);
+				CgpPutX(*OperandPhysPtrs[1], OperandPtrSizes[1] / 8);
 		}
 	}
 

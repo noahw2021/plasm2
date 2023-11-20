@@ -7,36 +7,36 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-void vfg_write(const char* Filename, u64 Dp) {
+void VfgWrite(const char* Filename, WORD64 Dp) {
 	FILE* InFile = fopen(Filename, "rb");
 	if (!InFile) {
-		cge_error(cgctx->CurrentLine, "[E1002]: Invalid file");
+		CgeError(CgCtx->CurrentLine, "[E1002]: Invalid file");
 		return;
 	}
 
-	u64 OldDp = cgctx->DataPosition;
-	cgctx->DataPosition = Dp;
+	WORD64 OldDp = CgCtx->DataPosition;
+	CgCtx->DataPosition = Dp;
 	
 	fseek(InFile, 0, SEEK_END);
-	u64 FileSize = ftell(InFile);
+	WORD64 FileSize = ftell(InFile);
 	fseek(InFile, 0, SEEK_SET);
 
 	for (int i = 0; i < (FileSize / 8); i++) {
-		u64 Temp;
+		WORD64 Temp;
 		fseek(InFile, (i * 8), SEEK_SET);
 		fread(&Temp, 8, 1, InFile);
-		cgp_put8(Temp);
+		CgpPut8(Temp);
 	}
 
 	for (int i = 0; i < (FileSize % 8); i++) {
-		byte Temp;
-		fseek(InFile, (u32)(FileSize - (FileSize % 8) + i), SEEK_SET);
+		BYTE Temp;
+		fseek(InFile, (WORD32)(FileSize - (FileSize % 8) + i), SEEK_SET);
 		fread(&Temp, 1, 1, InFile);
-		cgp_put1(Temp);
+		CgpPut1(Temp);
 	}
 
 	fclose(InFile);
-	cgctx->DataPosition = OldDp + FileSize;
+	CgCtx->DataPosition = OldDp + FileSize;
 
 	return;
 }

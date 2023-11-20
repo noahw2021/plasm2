@@ -11,34 +11,34 @@
 
 #pragma warning(disable: 6011 6308 6387 26451)
 
-fdiskctx_t* fdiskctx;
+PFDISK_CTX FdiskCtx;
 
-void fdisk_init(void) {
-	fdiskctx = malloc(sizeof(fdiskctx_t));
-	memset(fdiskctx, 0, sizeof(fdiskctx_t));
+void FdiskInit(void) {
+	FdiskCtx = malloc(sizeof(FDISK_CTX));
+	memset(FdiskCtx, 0, sizeof(FDISK_CTX));
 
-	fdiskctx->CurrentStatus = DEVSTATUS_GOOD;
+	FdiskCtx->CurrentStatus = DEVSTATUS_GOOD;
 }
 
-void fdisk_shutdown(void) {
-	for (int i = 0; i < fdiskctx->DriveCount; i++) {
-		fclose(fdiskctx->Drives[i].DrivePhysicalPointer);
+void FdiskShutdown(void) {
+	for (int i = 0; i < FdiskCtx->DriveCount; i++) {
+		fclose(FdiskCtx->Drives[i].DrivePhysicalPointer);
 		for (int m = 0; m < 4; m++) {
-			if (fdiskctx->Drives[i].CurrentLoadedChunks[m])
-				free(fdiskctx->Drives[i].CurrentLoadedChunks[m]);
+			if (FdiskCtx->Drives[i].CurrentLoadedChunks[m])
+				free(FdiskCtx->Drives[i].CurrentLoadedChunks[m]);
 		}
 	}
-	free(fdiskctx->Drives);
-	free(fdiskctx);
+	free(FdiskCtx->Drives);
+	free(FdiskCtx);
 }
 
-_bool fdisk_register(const char* DiskFile) {
+_bool FdiskRegister(const char* DiskFile) {
 	FILE* Tfp = fopen(DiskFile, "wb+");
 	if (!Tfp)
 		return 0;
 
-	fdiskhdr_t* PotHeader = malloc(sizeof(fdiskhdr_t));
-	fread(PotHeader, sizeof(fdiskhdr_t), 1, Tfp);
+	FDISK_HDR* PotHeader = malloc(sizeof(FDISK_HDR));
+	fread(PotHeader, sizeof(FDISK_HDR), 1, Tfp);
 	
 	if (PotHeader->Magic != FDISKHDR_MAGIC) {
 		free(PotHeader);
@@ -46,7 +46,7 @@ _bool fdisk_register(const char* DiskFile) {
 		return 0;
 	}
 
-	u64 RunningTotal = 0x00;
+	WORD64 RunningTotal = 0x00;
 	for (int i = 0; i < sizeof(PotHeader->DeviceVendor); i++)
 		RunningTotal += PotHeader->DeviceVendor[i];
 	RunningTotal += PotHeader->DeviceVendorId;
@@ -60,8 +60,8 @@ _bool fdisk_register(const char* DiskFile) {
 	}
 
 	fseek(Tfp, 0, SEEK_END);
-	u64 FileSize = pftell(Tfp);
-	FileSize -= sizeof(fdiskhdr_t);
+	WORD64 FileSize = pftell(Tfp);
+	FileSize -= sizeof(FDISK_HDR);
 
 	if (FileSize != PotHeader->ExpectedPhysicalSize) {
 		free(PotHeader);
@@ -69,39 +69,39 @@ _bool fdisk_register(const char* DiskFile) {
 		return 0;
 	}
 
-	if (!fdiskctx->Drives)
-		fdiskctx->Drives = malloc(sizeof(*fdiskctx->Drives));
+	if (!FdiskCtx->Drives)
+		FdiskCtx->Drives = malloc(sizeof(*FdiskCtx->Drives));
 	else
-		fdiskctx->Drives = realloc(fdiskctx->Drives, sizeof(*fdiskctx->Drives) * (fdiskctx->DriveCount + 1));
-	memset(&fdiskctx->Drives[fdiskctx->DriveCount], 0, sizeof(*fdiskctx->Drives));
+		FdiskCtx->Drives = realloc(FdiskCtx->Drives, sizeof(*FdiskCtx->Drives) * (FdiskCtx->DriveCount + 1));
+	memset(&FdiskCtx->Drives[FdiskCtx->DriveCount], 0, sizeof(*FdiskCtx->Drives));
 
-	fdiskctx->Drives[fdiskctx->DriveCount].CurrentFilePointer = 0x00;
-	fdiskctx->Drives[fdiskctx->DriveCount].DeviceSerial = PotHeader->DeviceSerial;
-	memcpy(fdiskctx->Drives[fdiskctx->DriveCount].DeviceVendor, PotHeader->DeviceVendor, 16);
-	fdiskctx->Drives[fdiskctx->DriveCount].DeviceVendorId = PotHeader->DeviceVendorId;
-	fdiskctx->Drives[fdiskctx->DriveCount].DrivePhysicalPointer = Tfp;
-	fdiskctx->Drives[fdiskctx->DriveCount].DrivePhysicalSize = FileSize;
-	fdiskctx->Drives[fdiskctx->DriveCount].IsDriveActive = 1;
-	fdiskctx->Drives[fdiskctx->DriveCount].IsDriveAwake = 1;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].CurrentFilePointer = 0x00;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceSerial = PotHeader->DeviceSerial;
+	memcpy(FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendor, PotHeader->DeviceVendor, 16);
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendorId = PotHeader->DeviceVendorId;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DrivePhysicalPointer = Tfp;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DrivePhysicalSize = FileSize;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].IsDriveActive = 1;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].IsDriveAwake = 1;
 
-	fdiskctx->DriveCount++;
+	FdiskCtx->DriveCount++;
 
 	return 0;
 }
 
-void fdisk_clock(void) {
+void FdiskClock(void) {
 	int OldestPair = 0;
-	u64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
-	for (int i = 0; i < fdiskctx->DriveCount; i++) {
-		if (fdiskctx->Drives[i].NextChunkScan > cput_gettime())
+	WORD64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
+	for (int i = 0; i < FdiskCtx->DriveCount; i++) {
+		if (FdiskCtx->Drives[i].NextChunkScan > cput_gettime())
 			continue;
 		for (int c = 0; c < 4; c++) {
-			if (fdiskctx->Drives[i].LoadedChunkCpuTick[c] < OldestChunk) {
-				OldestChunk = fdiskctx->Drives[i].LoadedChunkCpuTick[c];
+			if (FdiskCtx->Drives[i].LoadedChunkCpuTick[c] < OldestChunk) {
+				OldestChunk = FdiskCtx->Drives[i].LoadedChunkCpuTick[c];
 				OldestPair = c;
 			}
 		}
-		fdiskctx->Drives[i].OldestChunk = OldestPair;
+		FdiskCtx->Drives[i].OldestChunk = OldestPair;
 	}
 
 	// write cache

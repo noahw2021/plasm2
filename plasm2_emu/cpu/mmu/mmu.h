@@ -18,38 +18,38 @@ void mmu_init(void);
 void mmu_shutdown(void);
 
 // i/o
-byte mmu_read1(u64 Address);
-u64  mmu_read8(u64 Address);
-u64  mmu_readx(u64 Address, byte BytesToRead);
-void mmu_put8(u64 Address, u64 Value);
-void mmu_put4(u64 Address, u32 Value);
-void mmu_put1(u64 Address, byte Value);
+BYTE mmu_read1(WORD64 Address);
+WORD64  mmu_read8(WORD64 Address);
+WORD64  mmu_readx(WORD64 Address, BYTE BytesToRead);
+void mmu_put8(WORD64 Address, WORD64 Value);
+void mmu_put4(WORD64 Address, WORD32 Value);
+void mmu_put1(WORD64 Address, BYTE Value);
 
 // virtual
-u64 mmu_translate(u64 VirtualAddress, byte Reason, u64 MaxSize);
-u64 mmu_createpage(u64 PhysicalAddress, u64 Size, byte Permissions);
-void mmu_deletepage(u64 VirtualAddress);
-void mmu_setptstart(u64 New);
-void mmu_setptend(u64 New);
+WORD64 mmu_translate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize);
+WORD64 mmu_createpage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions);
+void mmu_deletepage(WORD64 VirtualAddress);
+void mmu_setptstart(WORD64 New);
+void mmu_setptend(WORD64 New);
 
 // stack
-void mmu_push(u64 Value);
-u64 mmu_pop(void);
+void mmu_push(WORD64 Value);
+WORD64 mmu_pop(void);
 
 typedef struct _mmuctx {
-	u64 MaxPageCount;
-	u64 PageCount;
+	WORD64 MaxPageCount;
+	WORD64 PageCount;
 	struct {
-		u64 Physical;
-		u64 Virtual;
-		u64 Size;
+		WORD64 Physical;
+		WORD64 Virtual;
+		WORD64 Size;
 		union {
-			byte Permissions;
+			BYTE Permissions;
 			struct {
-				byte Execute : 1;
-				byte Read : 1;
-				byte Write : 1;
-				byte Active : 1;
+				BYTE Execute : 1;
+				BYTE Read : 1;
+				BYTE Write : 1;
+				BYTE Active : 1;
 			};
 		};
 	}*Pages;

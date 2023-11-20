@@ -20,11 +20,11 @@
 #define BIT_READ(Pair, Bit)  SINGLE_GET(Pair[Bit / 64], Bit % 64)
 #define BIT_WRTE(Pair, Bit, State) SINGLE_CLR(Pair[Bit / 64], Bit % 64); SINGLE_SET(Pair[Bit / 64], Bit % 64)
 
-int toolsi_renderthread(void* __a0) {
+int ToolsiiRenderThread(void* __a0) {
 	return 0;
 }
 
-void toolsi_fontgen(void) {
+void ToolsiFontGen(void) {
 	SDL_Init(SDL_INIT_VIDEO);
 	
 	char FileName[260];
@@ -37,10 +37,10 @@ void toolsi_fontgen(void) {
 	int LastChar = 0;
 	int CurrentChar = 0;
 	int MousePos[2] = { 0, 0 };
-	byte IsMouseDown[2] = { 0,0 };
-	byte** Bitmap = malloc(sizeof(byte*) * 256);
+	BYTE IsMouseDown[2] = { 0,0 };
+	BYTE** Bitmap = malloc(sizeof(BYTE*) * 256);
 	for (int i = 0; i < 256; i++) {
-		Bitmap[i] = malloc(sizeof(byte) * 128);
+		Bitmap[i] = malloc(sizeof(BYTE) * 128);
 		memset(Bitmap[i], 0, 128);
 	}
 
@@ -48,8 +48,8 @@ void toolsi_fontgen(void) {
 	
 	if (InFile) {
 		fseek(InFile, 0, SEEK_END);
-		u64 Dryer = ftell(InFile);
-		if (Dryer != (256 * sizeof(u64) * 2)) {
+		WORD64 Dryer = ftell(InFile);
+		if (Dryer != (256 * sizeof(WORD64) * 2)) {
 			printf("Malforned font file.\n");
 			fclose(InFile);
 			for (int i = 0; i < 128; i++)
@@ -59,11 +59,11 @@ void toolsi_fontgen(void) {
 		}
 
 		fseek(InFile, 0, SEEK_SET);
-		u64 InPair[2];
+		WORD64 InPair[2];
 
 		for (int i = 0; i < 256; i++) {
-			fread(InPair, sizeof(u64) * 2, 1, InFile);
-			for (u64 b = 0; b < 128; b++)
+			fread(InPair, sizeof(WORD64) * 2, 1, InFile);
+			for (WORD64 b = 0; b < 128; b++)
 				Bitmap[i][b] = BIT_READ(InPair, b);
 		}
 		fclose(InFile);
@@ -181,13 +181,13 @@ void toolsi_fontgen(void) {
 	}
 
 	for (int i = 0; i < 256; i++) {
-		u64 OutPairs[2] = { 0, 0 };
+		WORD64 OutPairs[2] = { 0, 0 };
 		for (int c = 0; c < 128; c++) {
 			if (Bitmap[i][c]) {
 				BIT_WRTE(OutPairs, c, 1);
 			}
 		}
-		fwrite(OutPairs, sizeof(u64), 2, InFile);
+		fwrite(OutPairs, sizeof(WORD64), 2, InFile);
 	}	
 
 	return;

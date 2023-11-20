@@ -9,10 +9,10 @@
 
 void ADD(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -22,10 +22,10 @@ void ADD(void) {
 
 void SUB(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -35,10 +35,10 @@ void SUB(void) {
 
 void MUL(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -48,10 +48,10 @@ void MUL(void) {
 
 void DIV(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -61,10 +61,10 @@ void DIV(void) {
 
 void MOD(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -74,10 +74,10 @@ void MOD(void) {
 
 void INC(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -87,10 +87,10 @@ void INC(void) {
 
 void DEC(void) {
 	union {
-		byte Input;
+		BYTE Input;
 		struct {
-			byte Source : 4;
-			byte Destination : 4;
+			BYTE Source : 4;
+			BYTE Destination : 4;
 		};
 	}Inputs;
 	Inputs.Input = mmu_read1(i->ip++);
@@ -99,8 +99,8 @@ void DEC(void) {
 }
 
 void ADI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] += Immediate;
@@ -108,8 +108,8 @@ void ADI(void) {
 }
 
 void SBI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] -= Immediate;
@@ -117,8 +117,8 @@ void SBI(void) {
 }
 
 void MLI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] *= Immediate;
@@ -126,8 +126,8 @@ void MLI(void) {
 }
 
 void DVI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] /= Immediate;
@@ -135,8 +135,8 @@ void DVI(void) {
 }
 
 void MDI(void) {
-	byte Input = mmu_read1(i->ip++) & 0xF;
-	u64 Immediate = mmu_read8(i->ip);
+	BYTE Input = mmu_read1(i->ip++) & 0xF;
+	WORD64 Immediate = mmu_read8(i->ip);
 	i->ip += 8;
 
 	i->rs_gprs[Input] %= Immediate;

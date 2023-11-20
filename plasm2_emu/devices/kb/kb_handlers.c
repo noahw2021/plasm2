@@ -9,62 +9,62 @@
 #include "kb.h"
 #include <string.h>
 
-u64  kb_statusquery(u32 Device, u64 NullArg) {
-	return kbctx->Status;
+WORD64  KbStatusQuery(WORD32 Device, WORD64 NullArg) {
+	return KbCtx->Status;
 }
 
-u64 kb_sendcommand(u32 Device, u64 Command) {
+WORD64 KbSendCommand(WORD32 Device, WORD64 Command) {
 	switch (Command) {
 	case 0x00: // needs data block
 	case 0x01:
-		kbctx->AwaitingData = 1;
+		KbCtx->AwaitingData = 1;
 		break;
 	case 0x02: // doesnt
-		kbctx->DataQueued = 1;
-		kbctx->OutputQueue = kbi_getkeymapptr();
+		KbCtx->DataQueued = 1;
+		KbCtx->OutputQueue = KbiGetKeyMapPointer();
 		break;
 	default:
-		kbctx->Status = DEVSTAUTS_INVL;
+		KbCtx->Status = DEVSTAUTS_INVL;
 		return 0;
 	}
-	kbctx->AwaitingCommand = (byte)Command;
-	kbctx->Status = DEVSTATUS_GOOD;
+	KbCtx->AwaitingCommand = (BYTE)Command;
+	KbCtx->Status = DEVSTATUS_GOOD;
 	return 0;
 }
 
-u64 kb_senddata(u32 Device, u64 Data) {
-	if (kbctx->AwaitingData) {
-		if (kbctx->AwaitingCommand == 0x00)
-			kbi_setkeydownint(Data);
+WORD64 KbSendData(WORD32 Device, WORD64 Data) {
+	if (KbCtx->AwaitingData) {
+		if (KbCtx->AwaitingCommand == 0x00)
+			KbiSetKeyDownInterrupt(Data);
 		else
-			kbi_setkeyupint(Data);
-		kbctx->AwaitingCommand = 0;
-		kbctx->AwaitingData = 0;
+			KbiSetKeyUpInterrupt(Data);
+		KbCtx->AwaitingCommand = 0;
+		KbCtx->AwaitingData = 0;
 	}
-	kbctx->Status = DEVSTATUS_GOOD;
+	KbCtx->Status = DEVSTATUS_GOOD;
 	return 0;
 }
 
-u64  kb_getdata(u32 Device, u64 NullArg) {
-	if (kbctx->DataQueued) {
-		kbctx->DataQueued = 0;
-		return kbctx->OutputQueue;
+WORD64  KbGetData(WORD32 Device, WORD64 NullArg) {
+	if (KbCtx->DataQueued) {
+		KbCtx->DataQueued = 0;
+		return KbCtx->OutputQueue;
 	}
 	return 0;
 }
 
-u64 kb_reset(u32 Device, u64 NullArg) {
+WORD64 KbReset(WORD32 Device, WORD64 NullArg) {
 	for (int i = 0; i < 4; i++)
 		KeysDown[i] = 0;
 	return 0;
 }
 
-u64 kb_off(u32 Device, u64 NullArg) {
-	kbctx->HoldUp = 1;
+WORD64 KbOff(WORD32 Device, WORD64 NullArg) {
+	KbCtx->HoldUp = 1;
 	return 0;
 }
 
-u64  kb_on(u32 Device, u64 NullArg) {
-	kbctx->HoldUp = 0;
+WORD64  KbOn(WORD32 Device, WORD64 NullArg) {
+	KbCtx->HoldUp = 0;
 	return 0;
 }

@@ -9,12 +9,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-void cpui_inst_jmp(u64 Address) {
+void cpui_inst_jmp(WORD64 Address) {
 	i->ip = Address;
 	return;
 }
 
-void cpui_inst_cll(u64 Address) {
+void cpui_inst_cll(WORD64 Address) {
 	if (!Address) {
 		i->flags_s.XF = 1;
 		return;
@@ -22,16 +22,16 @@ void cpui_inst_cll(u64 Address) {
 
 	i->pti.ral = i->sp;
 	union {
-		u64 Raw;
+		WORD64 Raw;
 		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
+			WORD32 Flags;
+			BYTE SecurityLevel;
+			BYTE CallFlag;
+			WORD16 Reserved;
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = (u32)i->flags;
+	SecurityPacket.Flags = (WORD32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
     i->flags_s.SF = 1;
@@ -52,12 +52,12 @@ void cpui_inst_ret(void) {
 	}
 	i->sp = i->pti.ral;
 	union {
-		u64 Raw;
+		WORD64 Raw;
 		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
+			WORD32 Flags;
+			BYTE SecurityLevel;
+			BYTE CallFlag;
+			WORD16 Reserved;
 		};
 	}SecurityPacket = { 0 };
 	SecurityPacket.Raw = mmu_pop();
@@ -68,12 +68,12 @@ void cpui_inst_ret(void) {
 	return;
 }
 
-void cpui_inst_int(byte Interrupt) {
-	u64* InterruptTable = (u64*)((byte*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
-	u64 VirtualAddress = InterruptTable[Interrupt];
-	byte SecurityLevel = (byte)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
+void cpui_inst_int(BYTE Interrupt) {
+	WORD64* InterruptTable = (WORD64*)((BYTE*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
+	WORD64 VirtualAddress = InterruptTable[Interrupt];
+	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
 	i->security_s.SecurityLevel = SecurityLevel;
-	u64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	WORD64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (!PhysicalAddress) {
 		i->flags_s.XF = 1;
 		return;
@@ -81,16 +81,16 @@ void cpui_inst_int(byte Interrupt) {
 	i->pti.ral = i->sp;
 	mmu_push(i->ip);
 	union {
-		u64 Raw;
+		WORD64 Raw;
 		struct {
-			u32 Flags;
-			byte SecurityLevel;
-			byte CallFlag;
-			u16 Reserved;
+			WORD32 Flags;
+			BYTE SecurityLevel;
+			BYTE CallFlag;
+			WORD16 Reserved;
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = (u32)i->flags;
+	SecurityPacket.Flags = (WORD32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
 	i->flags_s.SF = 1;

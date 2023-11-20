@@ -9,25 +9,25 @@
 #include "../../cpu/cpu.h"
 #include <string.h>
 
-void kb_collect(void) {
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceType = DEVTYPE_KB;
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceModel = 1;
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceName, "PLASM2EMU Emulated I/O Keyboard");
-	strcpy(devicesctx->Devices[devicesctx->DeviceCount].DeviceVendor, "noahw2021");
-	devicesctx->Devices[devicesctx->DeviceCount].DeviceSerial = 4271;
-	devicesctx->Devices[devicesctx->DeviceCount].VendorId = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.Active = 1;
-	devicesctx->Devices[devicesctx->DeviceCount].Flags.On = 1;
+void KbCollect(void) {
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_KB;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Emulated I/O Keyboard");
+	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4271;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
 
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[0] = kb_statusquery;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[1] = kb_sendcommand;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[2] = kb_senddata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[3] = kb_getdata;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[4] = kb_reset;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[5] = kb_off;
-	devicesctx->Devices[devicesctx->DeviceCount].Callbacks[6] = kb_on;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = KbStatusQuery;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = KbSendCommand;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = KbSendData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = KbGetData;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = KbReset;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = KbOff;
+	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = KbOn;
 
-	devicesctx->DeviceCount++;
+	DevicesCtx->DeviceCount++;
 
 	return;
 }

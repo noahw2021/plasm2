@@ -22,38 +22,38 @@
 
 // Fixed Disk Controller
 
-void fdisk_init(void);
-void fdisk_shutdown(void);
-void fdisk_clock(void);
-void fdisk_collect(void);
-_bool fdisk_register(const char* DiskFile);
+void FdiskInit(void);
+void FdiskShutdown(void);
+void FdiskClock(void);
+void FdiskCollect(void);
+_bool FdiskRegister(const char* DiskFile);
 
-u64 fdisk_statusquery(u32 Device, u64 NullArg);
-u64 fdisk_sendcommand(u32 Device, u64 Command);
-u64 fdisk_senddata(u32 Device, u64 Command);
-u64 fdisk_getdata(u32 Device, u64 NullArg);
-u64 fdisk_reset(u32 Device, u64 NullArg);
-u64 fdisk_off(u32 Device, u64 NullArg);
-u64 fdisk_on(u32 Device, u64 NullArg);
+WORD64 FdiskStatusQuery(WORD32 Device, WORD64 NullArg);
+WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command);
+WORD64 FdiskSendData(WORD32 Device, WORD64 Command);
+WORD64 FdiskGetData(WORD32 Device, WORD64 NullArg);
+WORD64 FdiskReset(WORD32 Device, WORD64 NullArg);
+WORD64 FdiskOff(WORD32 Device, WORD64 NullArg);
+WORD64 FdiskOn(WORD32 Device, WORD64 NullArg);
 
 #define FDISK_CACHE_TOTAL 1048576
 #define FDISK_CACHE_CHUNK FDISK_CACHE_TOTAL / 4
 
 #define FDISKHDR_MAGIC 'PLFD'
-typedef struct _fdiskhdr {
-	u64 Magic;
+typedef struct _FDISK_HDR {
+	WORD64 Magic;
 
-	u64 DriveVirtualSize;
-	u64 ExpectedPhysicalSize;
+	WORD64 DriveVirtualSize;
+	WORD64 ExpectedPhysicalSize;
 
 	char DeviceVendor[16];
-	u64 DeviceSerial;
-	u64 DeviceVendorId;
-	u64 DeviceModelNum;
-	u64 PartsSum; // not really a hash, but will tell us if something is wrong
-}fdiskhdr_t;
+	WORD64 DeviceSerial;
+	WORD64 DeviceVendorId;
+	WORD64 DeviceModelNum;
+	WORD64 PartsSum; // not really a hash, but will tell us if something is wrong
+}FDISK_HDR;
 
-typedef struct _fdiskctx {
+typedef struct _FDISK_CTX {
 	int DriveCount;
 	int CurrentDrive;
 	struct {
@@ -61,32 +61,32 @@ typedef struct _fdiskctx {
 		_bool IsDriveActive;
 
 		FILE* DrivePhysicalPointer;
-		u64 DrivePhysicalSize;
+		WORD64 DrivePhysicalSize;
 		void* CurrentLoadedChunks[4];
-		u64 LoadedChunkSize[4];
-		u64 LoadedChunkBaseAddr[4];
-		u64 LoadedChunkCpuTick[4];
+		WORD64 LoadedChunkSize[4];
+		WORD64 LoadedChunkBaseAddr[4];
+		WORD64 LoadedChunkCpuTick[4];
 		int OldestChunk;
-		u64 NextChunkScan;
+		WORD64 NextChunkScan;
 
 		char DeviceVendor[16];
-		u64 DeviceSerial;
-		u64 DeviceVendorId;
-		u64 DeviceModelNum;
+		WORD64 DeviceSerial;
+		WORD64 DeviceVendorId;
+		WORD64 DeviceModelNum;
 
-		u64 CurrentFilePointer;
-		u64 SpeculativeSeek;
-		byte DisableInc;
-		byte SkipInc;
+		WORD64 CurrentFilePointer;
+		WORD64 SpeculativeSeek;
+		BYTE DisableInc;
+		BYTE SkipInc;
 	}*Drives;
 
-	u64 OutgoingData;
-	byte RecvData;
-	byte CurrentCommand;
-	byte ExpectingData;
-	u64 CurrentStatus;
-}fdiskctx_t;
-extern fdiskctx_t* fdiskctx;
+	WORD64 OutgoingData;
+	BYTE RecvData;
+	BYTE CurrentCommand;
+	BYTE ExpectingData;
+	WORD64 CurrentStatus;
+}FDISK_CTX, *PFDISK_CTX;
+extern PFDISK_CTX FdiskCtx;
 
 /*
 commands:
@@ -112,22 +112,22 @@ c
 12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
 */
 
-void fdiski_setactivedrive(int DriveId);
-int  fdiski_getdrivecnt(void);
-void fdiski_drivesleep(int DriveId);
-void fdiski_driveawake(int DriveId);
-u64  fdiski_getdrivesize(int DriveId);
-_bool fdiski_isdriveready(int DriveId);
-u64  fdiski_driveread(int DriveId);
-void fdiski_drivewrite(int DriveId, u64 Data);
-u64  fdiski_drivegetserial(int DriveId);
-void fdiski_drivegetvendorsz(int DriveId, u64 Pointer);
-u64  fdiski_drivegetmodel(int DriveId);
-u64  fdiski_drivegetvendorid(int DriveId);
-void fdiski_farseek(int DriveId, u64 SpecPos);
-void fdiski_skipfpinc(int DriveId);
-void fdiski_fpincon(int DriveId);
-void fdiski_fpincoff(int DriveId);
-void fdiski_driveseek(int DriveId, u64 NewPos);
-u64  fdiski_drivereadstack(int DriveId);
-void fdiski_drivewritestack(int DriveId, u64 Data);
+void FdiskiSetActiveDrive(int DriveId);
+int  FdiskiGetDriveCount(void);
+void FdiskiDriveSleep(int DriveId);
+void FdiskiDriveAwake(int DriveId);
+WORD64 FdiskiGetDriveSize(int DriveId);
+_bool FdiskiIsDriveReady(int DriveId);
+WORD64 FdiskiDriveRead(int DriveId);
+void FdiskiDriveWrite(int DriveId, WORD64 Data);
+WORD64 FdiskiGetDriveSerial(int DriveId);
+void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer);
+WORD64 FdiskiGetDriveModel(int DriveId);
+WORD64 FdiskiGetDriveVendorId(int DriveId);
+void FdiskiFarSeek(int DriveId, WORD64 SpecPos);
+void FdiskiSkipFpIncrement(int DriveId);
+void FdiskiEnableFpIncrement(int DriveId);
+void FdiskiDisableFpIncrement(int DriveId);
+void FdiskiDriveSeek(int DriveId, WORD64 NewPos);
+WORD64 FdiskiDriveReadStack(int DriveId);
+void FdiskiDriveWriteStack(int DriveId, WORD64 Data);

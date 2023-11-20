@@ -15,7 +15,7 @@
 #define SINGLE_GET(Single, Bit) (Single & (1LLU << Bit)) >> Bit
 #define BIT_READ(Pair, Bit)  SINGLE_GET(Pair[Bit / 64], Bit % 64)
 
-void toolsi_fontview(void) {
+void ToolsiFontViewer(void) {
 	printf("PLASM2 Font Viewer\n");
 	char InputBuffer[260];
 	printf("Please input the font name: ");
@@ -29,18 +29,18 @@ void toolsi_fontview(void) {
 		return;
 	}
 	fseek(InFile, 0, SEEK_END);
-	u32 FileSize = ftell(InFile);
-	if (FileSize != (sizeof(u64) * 2 * 256)) {
+	WORD32 FileSize = ftell(InFile);
+	if (FileSize != (sizeof(WORD64) * 2 * 256)) {
 		fclose(InFile);
 		printf("Malformed font file.\n");
 		return;
 	}
 	
-	byte** Bitmap = malloc(sizeof(byte*) * 256);
+	BYTE** Bitmap = malloc(sizeof(BYTE*) * 256);
 	for (int i = 0; i < 256; i++) {
-		u64 InMaps[2] = { 0, 0 };
-		fseek(InFile, (2 * i * sizeof(u64)), SEEK_SET);
-		fread(InMaps, sizeof(u64), 2, InFile);
+		WORD64 InMaps[2] = { 0, 0 };
+		fseek(InFile, (2 * i * sizeof(WORD64)), SEEK_SET);
+		fread(InMaps, sizeof(WORD64), 2, InFile);
 
 		Bitmap[i] = malloc(128);
 		for (int b = 0; b < 128; b++)
@@ -52,10 +52,10 @@ void toolsi_fontview(void) {
 	SDL_Renderer* Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
 
 	int MousePos[2] = { 0, 0 };
-	byte ClickState[2] = { 0,0 };
+	BYTE ClickState[2] = { 0,0 };
 	int CurrentChar = 0x00;
 
-	byte Break = 0;
+	BYTE Break = 0;
 	while (!Break) {
 		SDL_Event Event;
 		while (SDL_PollEvent(&Event)) {
@@ -123,7 +123,7 @@ void toolsi_fontview(void) {
 		}
 
 		for (int i = 0; i < 15; i++) {
-			byte YkChar = ((CurrentChar - 7) + i) % 256;
+			BYTE YkChar = ((CurrentChar - 7) + i) % 256;
 			SDL_Rect Rectangle = { 1 + (17 * i), 655, 16 + (i == 14), 32 };
 			if (YkChar == CurrentChar)
 				SDL_SetRenderDrawColor(Renderer, 155, 255, 150, 255);

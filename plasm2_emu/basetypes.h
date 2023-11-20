@@ -6,10 +6,10 @@
 //
 #pragma once
 
-typedef unsigned long long u64;
-typedef unsigned long u32;
-typedef unsigned short u16;
-typedef unsigned char byte, _bool;
+typedef unsigned long long WORD64;
+typedef unsigned long WORD32;
+typedef unsigned short WORD16;
+typedef unsigned char BYTE, _bool;
 
 #define InRange(x, min, max) (x > min && x < max)
 

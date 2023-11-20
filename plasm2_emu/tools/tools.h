@@ -15,8 +15,9 @@ into plasm2_asm. I hope to avoid a future situation so for
 now this will reside in the emulator.
 */
 
-void tools_main(void);
+void ToolsMain(void);
 
-void toolsi_hddgen(void);
-void toolsi_fontgen(void);
-void toolsi_fontview(void);
+void ToolsiHddGen(void);
+void ToolsiFontGen(void);
+void ToolsiFontViewer(void);
+void ToolsiBootloader(void);

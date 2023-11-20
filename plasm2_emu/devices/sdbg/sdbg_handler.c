@@ -6,7 +6,7 @@
 //
 #include "sdbg.h"
 
-u64  sdbg_statusquery(u32 Device, u64 NullArg) {
+WORD64  SdbgStatusQuery(WORD32 Device, WORD64 NullArg) {
 	return sdbgctx->DeviceStatus;
 }
 /*
@@ -14,10 +14,10 @@ u64  sdbg_statusquery(u32 Device, u64 NullArg) {
 01 SetSendLoc
 02 SetSendSz
 */
-u64 sdbg_sendcommand(u32 Device, u64 Command) {
+WORD64 SdbgSendCommand(WORD32 Device, WORD64 Command) {
 	switch (Command) {
 	case 0x00: // Send
-		sdbg_send();
+		SdbgSend();
 		break;
 	case 0x01: // Set Send Location
 	case 0x02: // Set Send Size
@@ -28,32 +28,32 @@ u64 sdbg_sendcommand(u32 Device, u64 Command) {
 	return 0;
 }
 
-u64 sdbg_senddata(u32 Device, u64 Command) {
+WORD64 SdbgSendData(WORD32 Device, WORD64 Command) {
 	switch (sdbgctx->LastCommand) {
 	case 0x01:
-		sdbg_setsendloc(Command);
+		SdbgSetLocation(Command);
 		break;
 	case 0x02:
-		sdbg_setsendsz(Command);
+		SdbgSetSize(Command);
 		break;
 	}
 	return 0;
 }
 
-u64  sdbg_getdata(u32 Device, u64 NullArg) {
+WORD64  SdbgGetData(WORD32 Device, WORD64 NullArg) {
 	return 0;
 }
 
-u64 sdbg_reset(u32 Device, u64 NullArg) {
+WORD64 SdbgReset(WORD32 Device, WORD64 NullArg) {
 	return 0;
 }
 
-u64 sdbg_off(u32 Device, u64 NullArg) {
+WORD64 SdbgOff(WORD32 Device, WORD64 NullArg) {
 	sdbgctx->Active = 0;
 	return 0;
 }
 
-u64 sdbg_on(u32 Device, u64 NullArg) {
+WORD64 SdbgOn(WORD32 Device, WORD64 NullArg) {
 	sdbgctx->Active = 1;
 	return 0;
 }

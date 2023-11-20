@@ -8,8 +8,8 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-typedef struct _vfctx {
-	byte Started;
+typedef struct _VF_CTX {
+	BYTE Started;
 	FILE* FileBase;
 
 	int VirtualFileCount;
@@ -17,20 +17,16 @@ typedef struct _vfctx {
 		FILE* PhysicalFile;
 		int SortOrder;
 
-		byte IsLiveInput;
+		BYTE IsLiveInput;
 	}*VirtualFile;
 	int LastSortOrder;
-}vfctx_t;
-extern vfctx_t* vfctx;
+}VF_CTX, *PVF_CTX;
+extern PVF_CTX VfCtx;
 
-void vf_init(FILE* BaseFile);
-void vf_shutdown(void);
-
-void vf_register(const char* Filename);
-
-char* vf_get(void);
-FILE* vf_ci(void);
-
-void vfi_sort(void);
-
-void vfg_write(const char* Filename, u64 Dp);
+void VfInit(FILE* BaseFile);
+void VfShutdown(void);
+void VfRegister(const char* Filename);
+char* VfGet(void);
+FILE* VfCi(void);
+void VfiSort(void);
+void VfgWrite(const char* Filename, WORD64 Dp);

@@ -9,10 +9,10 @@
 #include "../../cpu/mmu/mmu.h"
 #include <string.h>
 
-void sdbg_send(void) {
+void SdbgSend(void) {
 	memset(sdbgctx->CollectionBufferOut, 0, 256);
 	
-	byte* RealPointer = (byte*)cpuctx->PhysicalMemory + mmu_translate(sdbgctx->VirtualPointer, REASON_READ, sdbgctx->VirtualSize);
+	BYTE* RealPointer = (BYTE*)cpuctx->PhysicalMemory + mmu_translate(sdbgctx->VirtualPointer, REASON_READ, sdbgctx->VirtualSize);
 	if (RealPointer == cpuctx->PhysicalMemory) { // failed 
 		sdbgctx->Active = 1;
 		return;
@@ -22,12 +22,12 @@ void sdbg_send(void) {
 	sdbgctx->Active = 1;
 }
 
-void sdbg_setsendloc(u64 Location) {
+void SdbgSetLocation(WORD64 Location) {
 	sdbgctx->VirtualPointer = Location;
 	return;
 }
 
-void sdbg_setsendsz(u64 Size) {
+void SdbgSetSize(WORD64 Size) {
 	sdbgctx->VirtualSize = Size;
 	return;
 }

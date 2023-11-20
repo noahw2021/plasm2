@@ -7,22 +7,22 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-void link_init(void);
-void link_shutdown(void);
+void LinkInit(void);
+void LinkShutdown(void);
 
-u64  link_getsymbol(const char* Name, u32 Offset);
-void link_resolve(const char* Name, u64 Pointer);
-void link_go(void);
+WORD64 LinkGetSymbol(const char* Name, WORD32 Offset);
+void LinkResolve(const char* Name, WORD64 Pointer);
+void LinkGo(void);
 
-typedef struct _linkctx {
-	u64 SymbolCount;
+typedef struct _LINK_CTX {
+	WORD64 SymbolCount;
 	struct {
-		u64 Resolution;
+		WORD64 Resolution;
 		char* SymbolName;
-		byte Resolved;
+		BYTE Resolved;
 
-		u64 LocationCount;
-		u64* Locations;
+		WORD64 LocationCount;
+		WORD64* Locations;
 	}*Symbols;
-}linkctx_t;
-extern linkctx_t* linkctx;
+}LINK_CTX, *PLINK_CTX;
+extern PLINK_CTX LinkCtx;

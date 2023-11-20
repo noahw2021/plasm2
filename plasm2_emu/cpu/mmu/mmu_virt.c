@@ -10,7 +10,7 @@ plasm2_emu
 (c) Noah Wooten 2023, All Rights Reserved
 */
 
-u64 mmu_translate(u64 VirtualAddress, byte Reason, u64 MaxSize) {
+WORD64 mmu_translate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
 	if (i->flags_s.VF) {
 		for (int p = 0; p < mmuctx->PageCount; p++) {
 			if (InRange(VirtualAddress, mmuctx->Pages[p].Virtual, mmuctx->Pages[p].Virtual + mmuctx->Pages[p].Size)) {

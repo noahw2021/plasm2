@@ -14,24 +14,24 @@
 
 extern SDL_Window* Window;
 extern SDL_Renderer* Renderer;
-extern byte PauseDrawing;
+extern BYTE PauseDrawing;
 
 #pragma warning(disable: 26451)
 
-#define R(x) (Uint8)((u32)(x & 0xFF000000) >> 24)
-#define G(x) (Uint8)((u32)(x & 0x00FF0000) >> 16)
-#define B(x) (Uint8)((u32)(x & 0x0000FF00) >> 8)
-#define A(x) (Uint8)((u32)(x & 0x000000FF) >> 0)
+#define R(x) (Uint8)((WORD32)(x & 0xFF000000) >> 24)
+#define G(x) (Uint8)((WORD32)(x & 0x00FF0000) >> 16)
+#define B(x) (Uint8)((WORD32)(x & 0x0000FF00) >> 8)
+#define A(x) (Uint8)((WORD32)(x & 0x000000FF) >> 0)
 
-u64 videoi_gettextbuffer(void) {
+WORD64 VideoiGetTextBuffer(void) {
 	return 0; // deprecated
 }
 
-void videoi_settextbuffer(u64 NewOffset) {
+void VideoiSetTextBuffer(WORD64 NewOffset) {
 	return; // deprecated
 }
 
-void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color) {
+void VideoiDrawLine(WORD16 x1, WORD16 y1, WORD16 x2, WORD16 y2, WORD32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_RenderDrawLine(Renderer, x1, y1, x2, y2);
@@ -40,7 +40,7 @@ void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color) {
 	return;
 }
 
-void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color) {
+void VideoiDrawRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;
@@ -54,7 +54,7 @@ void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color) {
 	return;
 }
 
-void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
+void VideoiDrawFill(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD32 color) {
 	PauseDrawing = 1;
 	SDL_SetRenderDrawColor(Renderer, R(color), G(color), B(color), A(color));
 	SDL_Rect DestRect;
@@ -73,9 +73,9 @@ void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color) {
 #define BMASK 0x0000ff00
 #define AMASK 0x000000ff
 
-void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
+void VideoiCopyRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD64 ptr) {
 	PauseDrawing = 1;
-	u64 VAdr = mmu_translate(ptr, REASON_READ, w * h * 4);
+	WORD64 VAdr = mmu_translate(ptr, REASON_READ, w * h * 4);
 	if (!VAdr) {
 		cpui_csm_msg(CSM_PAGETOOSMALL, ptr);
 	}
@@ -90,14 +90,14 @@ void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr) {
 	return;
 }
 
-u64  videoi_getwh(void) {
-	return (videoctx->w << 16) | (videoctx->h);
+WORD64  VideoiGetWidthHeight(void) {
+	return (VideoCtx->w << 16) | (VideoCtx->h);
 }
 
-void videoi_suggestwh(u16 w, u16 h) {
-	if (!videoctx->SizeLocked) {
-		videoctx->w = w;
-		videoctx->h = h;
+void VideoiSuggestSize(WORD16 w, WORD16 h) {
+	if (!VideoCtx->SizeLocked) {
+		VideoCtx->w = w;
+		VideoCtx->h = h;
 		SDL_SetWindowSize(Window, w, h);
 	}
 

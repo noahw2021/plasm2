@@ -13,23 +13,23 @@
 
 extern FILE* PrimaryOutput;
 
-void cgp_put1(byte Data) {
-	fseek(PrimaryOutput, (u32)cgctx->DataPosition, SEEK_SET);
+void CgpPut1(BYTE Data) {
+	fseek(PrimaryOutput, (WORD32)CgCtx->DataPosition, SEEK_SET);
 	fwrite(&Data, 1, 1, PrimaryOutput);
-	cgctx->DataPosition++;
-	if (cgctx->DataPosition > cgctx->HighestPosition)
-		cgctx->HighestPosition = cgctx->DataPosition;
+	CgCtx->DataPosition++;
+	if (CgCtx->DataPosition > CgCtx->HighestPosition)
+		CgCtx->HighestPosition = CgCtx->DataPosition;
 	return;
 }
-void cgp_put8(u64 Data) {
-	cgp_putx(Data, 8);
+void CgpPut8(WORD64 Data) {
+	CgpPutX(Data, 8);
 }
-void cgp_putx(u64 Data, byte ByteSize) {
+void CgpPutX(WORD64 Data, BYTE ByteSize) {
 	union {
-		byte Bytes[8];
-		u64 Data;
+		BYTE Bytes[8];
+		WORD64 Data;
 	}Union;
 	Union.Data = Data;
 	for (int i = 0; i < ByteSize; i++)
-		cgp_put1(Union.Bytes[i]);
+		CgpPut1(Union.Bytes[i]);
 }

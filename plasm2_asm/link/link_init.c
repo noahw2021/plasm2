@@ -1,27 +1,27 @@
-#include "link.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
 //
 //  link_init.c
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+#include "link.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-linkctx_t* linkctx;
+PLINK_CTX LinkCtx;
 
 #pragma warning(disable: 6387)
 
-void link_init(void) {
-	linkctx = malloc(sizeof(linkctx_t));
-	memset(linkctx, 0, sizeof(linkctx_t));
+void LinkInit(void) {
+	LinkCtx = malloc(sizeof(LINK_CTX));
+	memset(LinkCtx, 0, sizeof(LINK_CTX));
 
 	return;
 }
 
-void link_shutdown(void) {
-	free(linkctx);
+void LinkShutdown(void) {
+	free(LinkCtx);
 	return;
 
 }

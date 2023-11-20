@@ -12,25 +12,25 @@
 #include <string.h>
 #include <stdlib.h>
 
-devicesctx_t* devicesctx;
+PDEVICES_CTX DevicesCtx;
 
 #pragma warning(disable: 6011 6387)
 
 extern _bool ShouldStartVideo;
 
-void devices_init(void) {
-	devicesctx = malloc(sizeof(devicesctx_t));
-	memset(devicesctx, 0, sizeof(devicesctx_t));
+void DevicesInit(void) {
+	DevicesCtx = malloc(sizeof(DEVICES_CTX));
+	memset(DevicesCtx, 0, sizeof(DEVICES_CTX));
 	
-	devicesctx->DeviceCount = 0;
-	devicesctx->Devices = (void*)cpuctx->PhysicalMemory; // PM usage good: (reason: internal usage only)
+	DevicesCtx->DeviceCount = 0;
+	DevicesCtx->Devices = (void*)cpuctx->PhysicalMemory; // PM usage good: (reason: internal usage only)
 
     ShouldStartVideo = TRUE;
-	kb_init();
-	fdisk_init();
+	KbInit();
+	FdiskInit();
 }
-void devices_shutdown(void) {
-	kb_shutdown();
-	video_shutdown();
+void DevicesShutdown(void) {
+	KbShutdown();
+	VideoShutdown();
 	return;
 }

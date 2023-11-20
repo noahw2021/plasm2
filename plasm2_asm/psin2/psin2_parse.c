@@ -1,32 +1,32 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include "psin2.h"
 //
 //  psin2_parse.c
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include "psin2.h"
 
 #pragma warning(disable: 6308 26451 28182)
 
-int psin2_parse(const char* InstructionData) {
+int Psin2Parse(const char* InstructionData) {
 	if (InstructionData[0] == '/')
 		return 0;
 
-	if (!psin2ctx->Instructions) {
-		psin2ctx->Instructions = malloc(sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
-		memset(psin2ctx->Instructions, 0, sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1));
+	if (!Psin2Ctx->Instructions) {
+		Psin2Ctx->Instructions = malloc(sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
+		memset(Psin2Ctx->Instructions, 0, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
 	} else {
-		psin2ctx->Instructions = realloc(psin2ctx->Instructions, (sizeof(psininstruction_t) * (psin2ctx->InstructionCount + 1)));
-		memset(&psin2ctx->Instructions[psin2ctx->InstructionCount], 0, sizeof(psininstruction_t));
+		Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, (sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1)));
+		memset(&Psin2Ctx->Instructions[Psin2Ctx->InstructionCount], 0, sizeof(PSIN_INSTRUCTION));
 	}
 
 	
 
-	psininstruction_t* Target = &psin2ctx->Instructions[psin2ctx->InstructionCount];
-	psin2ctx->InstructionCount++;
+	PPSIN_INSTRUCTION Target = &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount];
+	Psin2Ctx->InstructionCount++;
 
 	char* Temporary = malloc(256);
 
@@ -46,7 +46,7 @@ int psin2_parse(const char* InstructionData) {
 
 	memcpy(Temporary, InstructionData + c, 2);
 	Temporary[2] = 0x00;
-	Target->Opcode = (byte)strtoul(Temporary, NULL, 16);
+	Target->Opcode = (BYTE)strtoul(Temporary, NULL, 16);
 	c += 3;
 
 	if (InstructionData[c] == '(') { // Operand A
@@ -57,12 +57,12 @@ int psin2_parse(const char* InstructionData) {
 		} else if (InstructionData[c] == 'I') {
 			Target->Operands[0].Type = 1;
 		} else {
-			printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", psin2ctx->InstructionCount);
-			if (psin2ctx->InstructionCount == 1)
-				free(psin2ctx->Instructions);
+			printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
+			if (Psin2Ctx->InstructionCount == 1)
+				free(Psin2Ctx->Instructions);
 			else
-				psin2ctx->Instructions = realloc(psin2ctx->Instructions, sizeof(psininstruction_t) * (psin2ctx->InstructionCount - 1));
-			psin2ctx->InstructionCount--;
+				Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
+			Psin2Ctx->InstructionCount--;
 			return 0;
 		}
 		c += 2;
@@ -94,12 +94,12 @@ int psin2_parse(const char* InstructionData) {
 				Target->Operands[1].Type = 1;
 			}
 			else {
-				printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", psin2ctx->InstructionCount);
-				if (psin2ctx->InstructionCount == 1)
-					free(psin2ctx->Instructions);
+				printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
+				if (Psin2Ctx->InstructionCount == 1)
+					free(Psin2Ctx->Instructions);
 				else
-					psin2ctx->Instructions = realloc(psin2ctx->Instructions, sizeof(psininstruction_t) * (psin2ctx->InstructionCount - 1));
-				psin2ctx->InstructionCount--;
+					Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
+				Psin2Ctx->InstructionCount--;
 				return 0;
 			}
 			c += 2;
@@ -143,6 +143,6 @@ int psin2_parse(const char* InstructionData) {
 	return 0;
 }
 
-int psin2_getcnt(void) {
-	return psin2ctx->InstructionCount;
+int Psin2InstructionCount(void) {
+	return Psin2Ctx->InstructionCount;
 }

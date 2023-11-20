@@ -11,12 +11,13 @@
 
 #pragma warning(disable: 6031)
 
-void tools_main(void) {
+void ToolsMain(void) {
 	printf("PLASM2EMU Tools: \n\n");
 	printf("1) HDD Generator\n");
 	printf("2) Font Generator\n");
-	printf("3) Font Viewr\n");
-	printf("4) Quit\n");
+	printf("3) Font Viewer\n");
+    printf("4) Boot Generator\n");
+	printf("5) Quit\n");
 
 	char Inputs[3];
 	fgets(Inputs, 3, stdin);
@@ -24,15 +25,18 @@ void tools_main(void) {
 	
 	switch (Input) {
 	case 1:
-		toolsi_hddgen();
+		ToolsiHddGen();
 		break;
 	case 2:
-		toolsi_fontgen();
+		ToolsiFontGen();
 		break;
 	case 3:
-		toolsi_fontview();
+		ToolsiFontViewer();
 		break;
-	case 4:
+    case 4:
+        ToolsiBootloader();
+        break;
+	case 5:
 		break;
 	default:
 		break;

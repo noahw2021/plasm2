@@ -11,31 +11,33 @@
 #include <string.h>
 #include <stdlib.h>
 
-u64 KeysDown[4];
-kbctx_t* kbctx;
+WORD64 KeysDown[4];
+PKB_CTX KbCtx;
 
 #pragma warning(disable: 6387)
 
-void kb_clock(void) {
-	if (kbctx->NotifyUp) {
-		mmu_push(kbctx->NotifyUp);
-		cpui_inst_int(kbctx->KeyUp);
-		kbctx->NotifyUp = 0;
+void KbClock(void) {
+	if (KbCtx->NotifyUp) {
+		mmu_push(KbCtx->NotifyUp);
+		cpui_inst_int(KbCtx->KeyUp);
+		KbCtx->NotifyUp = 0;
 	}
-	if (kbctx->NotifyDown) {
-		mmu_push(kbctx->NotifyDown);
-		cpui_inst_int(kbctx->KeyDown);
-		kbctx->NotifyDown = 0;
+	if (KbCtx->NotifyDown) {
+		mmu_push(KbCtx->NotifyDown);
+		cpui_inst_int(KbCtx->KeyDown);
+		KbCtx->NotifyDown = 0;
 	}
+    
+    return;
 }
 
-void kb_init(void) {
-	kbctx = malloc(sizeof(kbctx_t));
-	memset(kbctx, 0, sizeof(kbctx_t));
+void KbInit(void) {
+	KbCtx = malloc(sizeof(KB_CTX));
+	memset(KbCtx, 0, sizeof(KB_CTX));
 	return;
 }
 
-void kb_shutdown(void) {
-	free(kbctx);
+void KbShutdown(void) {
+	free(KbCtx);
 	return;
 }

@@ -7,18 +7,18 @@
 #pragma once
 #include "../devices.h"
 
-void video_init(void);
-void video_shutdown(void);
-void video_collect(void);
-void video_clock(void);
+void VideoInit(void);
+void VideoShutdown(void);
+void VideoCollect(void);
+void VideoClock(void);
 
-u64 video_statusquery(u32 Device, u64 NullArg);
-u64 video_sendcommand(u32 Device, u64 Command);
-u64 video_senddata(u32 Device, u64 Command);
-u64 video_getdata(u32 Device, u64 NullArg);
-u64 video_reset(u32 Device, u64 NullArg);
-u64 video_off(u32 Device, u64 NullArg);
-u64 video_on(u32 Device, u64 NullArg);
+WORD64 VideoStatusQuery(WORD32 Device, WORD64 NullArg);
+WORD64 VideoSendCommand(WORD32 Device, WORD64 Command);
+WORD64 VideoSendData(WORD32 Device, WORD64 Command);
+WORD64 VideoGetData(WORD32 Device, WORD64 NullArg);
+WORD64 VideoReset(WORD32 Device, WORD64 NullArg);
+WORD64 VideoOff(WORD32 Device, WORD64 NullArg);
+WORD64 VideoOn(WORD32 Device, WORD64 NullArg);
 
 /*
 defaults:
@@ -41,23 +41,23 @@ GetWh         06 : Get width (hi) and height (lo)
 SuggestWh     07 : Suggest a width (hi32) and height (lo32)
 */
 
-u64 videoi_gettextbuffer(void); // deprecated
-void videoi_settextbuffer(u64 NewOffset); // deprecated
-void videoi_drawline(u16 x1, u16 y1, u16 x2, u16 y2, u32 color); // color pulled from stack
-void videoi_drawrect(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
-void videoi_drawfill(u16 x, u16 y, u16 w, u16 h, u32 color);     // ^
-void videoi_copyrect(u16 x, u16 y, u16 w, u16 h, u64 ptr); // ptr pulled from stack. size = (w * h * 4)
-u64  videoi_getwh(void);
-void videoi_suggestwh(u16 w, u16 h);
+WORD64 VideoiGetTextBuffer(void); // deprecated
+void VideoiSetTextBuffer(WORD64 NewOffset); // deprecated
+void VideoiDrawLine(WORD16 x1, WORD16 y1, WORD16 x2, WORD16 y2, WORD32 color); // color pulled from stack
+void VideoiDrawRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD32 color);     // ^
+void VideoiDrawFill(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD32 color);     // ^
+void VideoiCopyRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD64 ptr); // ptr pulled from stack. size = (w * h * 4)
+WORD64  VideoiGetWidthHeight(void);
+void VideoiSuggestSize(WORD16 w, WORD16 h);
 
-typedef struct _videoctx {
-	byte SizeLocked;
-	u64 Status;
-	byte AwaitingData;
-	byte DestinationCommand;
-	byte PendingDataSend;
-	u64 Outgoing;
+typedef struct _VIDEO_CTX {
+	BYTE SizeLocked;
+	WORD64 Status;
+	BYTE AwaitingData;
+	BYTE DestinationCommand;
+	BYTE PendingDataSend;
+	WORD64 Outgoing;
 	int w;
 	int h;
-}videoctx_t;
-extern videoctx_t* videoctx;
+}VIDEO_CTX, *PVIDEO_CTX;
+extern PVIDEO_CTX VideoCtx;
