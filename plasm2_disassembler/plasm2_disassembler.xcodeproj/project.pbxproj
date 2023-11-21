@@ -30,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8C4E22252B0C607E006D70ED /* symbols_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_init.c; sourceTree = "<group>"; };
 		8C8312722B0BA903001322C3 /* plasm2_disassembler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = plasm2_disassembler; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8312842B0BA911001322C3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8C891ED42B0BC6B2005851F3 /* basetypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = basetypes.h; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				8C891EE42B0BD85D005851F3 /* symbols.h */,
+				8C4E22252B0C607E006D70ED /* symbols_init.c */,
 			);
 			path = symbols;
 			sourceTree = "<group>";

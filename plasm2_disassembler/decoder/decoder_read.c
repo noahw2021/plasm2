@@ -32,8 +32,10 @@ WORD64 DecoderReadX(int Count) {
     if (Count2 > 8)
         Count2 = 8;
     
-    for (int i = 0; i < Count2; i++)
-        Data.Word8[i] = DecoderCtx->Data[DecoderCtx->VirtualIp++];
+    for (int i = 0; i < Count2; i++) {
+        Data.Word8[i] = DecoderCtx->Data
+            [DecoderCtx->VirtualIp++];
+    }
     
     return Data.Word64;
 }

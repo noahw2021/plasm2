@@ -9,6 +9,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "basetypes.h"
+#include "decoder/decoder.h"
 
 int main(int argc, char** argv) {
     printf("PLASM2 Disassembler\n");
@@ -119,6 +120,14 @@ int main(int argc, char** argv) {
     fread(Data, FileLength, 1, InputFile);
     fclose(InputFile);
     
+    DecoderInit();
+    DecoderSetData(Data, FileLength);
+    DecoderSetOutputFile(OutputFile);
+    if (SymbolFile)
+        DecoderSetSymbolFile(SymbolFile);
     
+    while (DecoderGo());
+    
+    printf("[INFO]: Program completed.\n");
     return 0;
 }
