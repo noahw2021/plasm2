@@ -64,7 +64,7 @@ int __nonvideo_main(appargs_t* Args) {
     
 	FILE* a = freopen("rstd", "w", stdout);
 
-	emu_init();
+	EmuInit();
 	Psin2Init();
 	
 	char** FixedDisks = NULL;
@@ -72,7 +72,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	for (int i = 1; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
-			emuctx->DebuggerEnabled = 1;
+			EmuCtx->DebuggerEnabled = 1;
 		}
 		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
 			printf("PLASM2Emu: Help & Usage\n\n");
@@ -138,15 +138,15 @@ int __nonvideo_main(appargs_t* Args) {
 	for (int i = 0; i < FixedDiskCount; i++) {
 		if (!FdiskRegister(FixedDisks[i])) {
 			printf("[ERR]: Failed to open fixed disk '%s'!\n", FixedDisks[i]);
-			emu_register_fatal("Could not obtain drive.");
+			EmuRegisterFatal("Could not obtain drive.");
 		}
 		free(FixedDisks[i]);
 	}
 	if (FixedDisks)
 		free(FixedDisks);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_init();
+	if (EmuCtx->DebuggerEnabled)
+		DecoderInit();
 
 	char TheHaltReason[256];
 
@@ -155,7 +155,7 @@ int __nonvideo_main(appargs_t* Args) {
 	WORD64 ClockCnt = 0;
 
 	while (1) {
-		if (emu_aufhoren(TheHaltReason)) {
+		if (EmuCheckClock(TheHaltReason)) {
 			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
 			printf("%s\n", TheHaltReason);
 			break;
@@ -171,8 +171,8 @@ int __nonvideo_main(appargs_t* Args) {
 
 	time(&Startdown);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_shutdown();
+	if (EmuCtx->DebuggerEnabled)
+		DecoderShutdown();
 
 	VideoClock();
 	printf("Debug Shutdown Interrupt.\n");
@@ -187,7 +187,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	DevicesShutdown();
 	cpu_shutdown();
-	emu_shutdown();
+	EmuShutdown();
 
 	printf("CPU Halted.\n");
 

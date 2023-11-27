@@ -10,8 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-void decoder_print(const char* Format) {
-	fprintf(stdout, "[DBG]: ");
+void DecoderPrint(const char* Format) {
+	printf("[DBG]: ");
 	
 	int i = 0;
 	while (Format[i]) {

@@ -14,19 +14,19 @@
 
 #pragma warning(disable: 6011 6387) // no it couldnt
 
-BYTE decoderi_g1(void) {
-	BYTE Return = mmu_read1(dcctx->SpeculativePointer);
-	dcctx->SpeculativePointer += 1;
+BYTE DecoderRead1(void) {
+	BYTE Return = mmu_read1(DcCtx->SpeculativePointer);
+	DcCtx->SpeculativePointer += 1;
 	return Return;
 }
 
-WORD64  decoderi_gx(BYTE HowMuch) {
-	WORD64 Returns = mmu_readx(dcctx->SpeculativePointer, HowMuch);
-	dcctx->SpeculativePointer += HowMuch;
+WORD64  DecoderReadX(BYTE HowMuch) {
+	WORD64 Returns = mmu_readx(DcCtx->SpeculativePointer, HowMuch);
+	DcCtx->SpeculativePointer += HowMuch;
 	return Returns;
 }
 
-void decoder_go(BYTE Instruction) {
+void DecoderGo(BYTE Instruction) {
 	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);	
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
@@ -40,7 +40,7 @@ void decoder_go(BYTE Instruction) {
 	but not crash the emulator.
 	*/
 
-	dcctx->SpeculativePointer = i->ip;
+	DcCtx->SpeculativePointer = i->ip;
 
 	_bool TwoArgsOneByte = TRUE;
 	_bool IsOperandRegister[2] = { FALSE, FALSE };
@@ -63,7 +63,7 @@ void decoder_go(BYTE Instruction) {
 				BYTE r0 : 4;
 			};
 		}InputData;
-		InputData.Raw = decoderi_g1();
+		InputData.Raw = DecoderRead1();
 		IsOperandRegister[0] = TRUE;
 		IsOperandRegister[1] = TRUE;
 
@@ -80,7 +80,7 @@ void decoder_go(BYTE Instruction) {
 				ActiveOperandSize = StoredSize / 8;
 
 			IsOperandRegister[i] = Psin2iGetOperandType(Psin2Id, i) ^ 1; // psin2 stores these opposite
-			OperandValues[i] = decoderi_gx((BYTE)ActiveOperandSize);
+			OperandValues[i] = DecoderReadX((BYTE)ActiveOperandSize);
 			OperandCnt++;
 		}
 	}
@@ -102,7 +102,7 @@ void decoder_go(BYTE Instruction) {
 		break;
 	}
 
-	decoder_print(DebugStr);
+	DecoderPrint(DebugStr);
 	
 	char* Ctx = malloc(768);
 	Ctx[0] = '\t';
@@ -129,7 +129,7 @@ void decoder_go(BYTE Instruction) {
 	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip, i->sp);
 	strcat(Ctx, CPart);
 
-	decoder_print(Ctx);
+	DecoderPrint(Ctx);
 
 	free(DebugStr);
 	free(Ctx);

@@ -11,33 +11,33 @@
 
 // this will be very simple, we can combine into one file
 
-emuctx_t* emuctx;
+PEMU_CTX EmuCtx;
 
-void emu_init(void) {
-	emuctx = malloc(sizeof(emuctx_t));
-	memset(emuctx, 0, sizeof(emuctx_t));
+void EmuInit(void) {
+	EmuCtx = malloc(sizeof(EMU_CTX));
+	memset(EmuCtx, 0, sizeof(EMU_CTX));
 	return;
 }
 
-void emu_shutdown(void) {
-	free(emuctx);
+void EmuShutdown(void) {
+	free(EmuCtx);
 	return;
 }
 
-void emu_halt(void) {
-	strcpy(emuctx->LastReason, "Unspecified / Unknown Reason");
-	emuctx->RequiresHalt = TRUE;
+void EmuHalt(void) {
+	strcpy(EmuCtx->LastReason, "Unspecified / Unknown Reason");
+	EmuCtx->RequiresHalt = TRUE;
 }
-void emu_register_fatal(const char* Reason) {
+void EmuRegisterFatal(const char* Reason) {
 	if (strlen(Reason) > 255)
 		((char*)(Reason))[255] = 0x00;
-	strcpy(emuctx->LastReason, Reason);
-	emuctx->RequiresHalt = TRUE;
+	strcpy(EmuCtx->LastReason, Reason);
+	EmuCtx->RequiresHalt = TRUE;
 }
 
-_bool emu_aufhoren(char* ThePtr) {
-	if (emuctx->RequiresHalt) {
-		strcpy(ThePtr, emuctx->LastReason);
+_bool EmuCheckClock(char* ThePtr) {
+	if (EmuCtx->RequiresHalt) {
+		strcpy(ThePtr, EmuCtx->LastReason);
 		return TRUE;
 	}
 	return FALSE;

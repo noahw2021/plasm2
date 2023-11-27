@@ -13,18 +13,18 @@ there may be problems that the CPU
 cannot handle.
 */
 
-void emu_init(void);
-void emu_shutdown(void);
+void EmuInit(void);
+void EmuShutdown(void);
 
-void emu_halt(void);
-void emu_register_fatal(const char* Reason);
+void EmuHalt(void);
+void EmuRegisterFatal(const char* Reason);
 
-_bool emu_aufhoren(char* ThePtr); // query if its time to stop
+_bool EmuCheckClock(char* ThePtr); // query if its time to stop
 
-typedef struct _emuctx {
+typedef struct _EMUCTX {
 	_bool RequiresHalt;
 	char LastReason[256];
 
 	_bool DebuggerEnabled;
-}emuctx_t;
-extern emuctx_t* emuctx;
+}EMU_CTX, *PEMU_CTX;
+extern PEMU_CTX EmuCtx;
