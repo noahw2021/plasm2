@@ -8,6 +8,7 @@
 #include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
 #include "../psin2/psin2.h"
+#include "../emu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +28,10 @@ WORD64  DecoderReadX(BYTE HowMuch) {
 }
 
 void DecoderGo(BYTE Instruction) {
-	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);	
+    if (EmuCtx->Flags & EMUFLAG_NODEBUG)
+        return;
+    
+	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
 	as of 7/21/23. this may be implemented in the future, but for now there will

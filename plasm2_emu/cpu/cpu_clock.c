@@ -15,26 +15,31 @@
 
 void CpuClock(void) {
     CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
-    while (CpuCtx->NextTickNanoSecond > CpuCtx->LastTrackedNanoSecond) {
+    // Sadly somewhat messy. - nw 11/27/23
+#ifdef CLOCK_SYSTEM_ACTIVE
+    if (!(EmuCtx->Flags & EMUFLAG_NOCLOCK)) {
+        while (CpuCtx->NextTickNanoSecond > CpuCtx->LastTrackedNanoSecond) {
 #if defined(__unix__) || defined(__MACH__)
 #ifdef HAVE_NANOSLEEP
-        struct timespec NextClockTime, ThisTime;
-        NextClockTime.tv_sec = 0;
-        NextClockTime.tv_nsec = CpuCtx->NextTickNanoSecond - CpuCtx->LastTrackedNanoSecond;
-        nanosleep(&NextClockTime, &ThisTime);
+            struct timespec NextClockTime, ThisTime;
+            NextClockTime.tv_sec = 0;
+            NextClockTime.tv_nsec = CpuCtx->NextTickNanoSecond - CpuCtx->LastTrackedNanoSecond;
+            nanosleep(&NextClockTime, &ThisTime);
 #endif
 #elif _WIN32
-/* @TODO : NtDelayExecution for nanosleep =D
- This is a large CPU hole, that there doesn't seem to be a great solution to.
- When I'm on my Windows desktop, I'll attempt to divide the NextClockTime nanoseconds
- into 100ns chunks that a function such as NtDelayExecution can deal with.
- - nw 11/27/23
- */
+            /* @TODO : NtDelayExecution for nanosleep =D
+             This is a large CPU hole, that there doesn't seem to be a great solution to.
+             When I'm on my Windows desktop, I'll attempt to divide the NextClockTime nanoseconds
+             into 100ns chunks that a function such as NtDelayExecution can deal with.
+             - nw 11/27/23
+             */
 #endif
-        CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+            CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+        }
+        
+        CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / CpuCtx->ClocksPerSecond);
     }
-    
-    CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / CpuCtx->ClocksPerSecond);
+#endif
     
     CpuCtx->SystemTicks++;
     

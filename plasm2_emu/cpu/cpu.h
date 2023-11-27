@@ -33,6 +33,15 @@
 5+: Operating system discretion
 */
 
+/*
+ Change this '1' to a '0' to remove the comparison of flags
+ to determine if clock speed should be regulated. This can save
+ a small amount of performance in the real world.
+ */
+#if 1
+#define CLOCK_SYSTEM_ACTIVE 1
+#endif
+
 enum {
 	// Generic Instructions
 	__MOV = 0x00, // MOV 00 (R:04,04 __DEST) (R:04,04 ___SRC) 16 : Move Registers

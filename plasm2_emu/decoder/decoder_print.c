@@ -12,6 +12,9 @@
 #include <string.h>
 
 void DecoderPrint(const char* Format) {
+    if (EmuCtx->Flags & EMUFLAG_NOPRINT)
+        return;
+    
     printf("[DBG]: ");
     
     int i = 0;

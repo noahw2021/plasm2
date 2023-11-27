@@ -90,6 +90,10 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
 			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
+            printf("%s --no-debug : Prevents the debugger from activating.\n", argv[0]);
+            printf("%s --no-print : Allows the debugger to activate, but without printing.\n", argv[0]);
+            printf("%s --no-clock : Disables the clock speed regulation system. Drastically increases performance.\n", argv[0]);
+            printf("%s --no-secure : Disables virtual memory security.\n", argv[0]);
             
 			printf("\nBy default, PLASM2Emu accepts a properly formed 'bios.bin'.\n");
 			return 0;
@@ -110,6 +114,22 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
 			ToolsMain();
 			return 0;
 		}
+        
+        if (strstr(argv[i], "--no-debug")) {
+            EmuCtx->Flags |= EMUFLAG_NODEBUG;
+        }
+        
+        if (strstr(argv[i], "--no-print")) {
+            EmuCtx->Flags |= EMUFLAG_NOPRINT;
+        }
+        
+        if (strstr(argv[i], "--no-clock")) {
+            EmuCtx->Flags |= EMUFLAG_NOCLOCK;
+        }
+        
+        if (strstr(argv[i], "--no-secure")) {
+            EmuCtx->Flags |= EMUFLAG_NOSECURE;
+        }
 	}
 	
     ECtx = malloc(sizeof(PLASM2_CTX));
@@ -178,8 +198,7 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
 		DecoderShutdown();
 
 	VideoClock();
-	printf("Debug Shutdown Interrupt.\n");
-
+    
 	FILE* MemOut = fopen("memout.bin", "wb");
 	if (MemOut) {
 		fwrite(CpuCtx->PhysicalMemory, CpuCtx->PhysicalMemorySize, 1, MemOut);
