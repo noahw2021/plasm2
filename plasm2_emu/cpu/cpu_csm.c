@@ -21,7 +21,7 @@ void CpuCsmSendMessage(BYTE Code, WORD64 AddtData) {
 	if (ECtx->Security.SecurityLevel >= 3)
 		ECtx->flags_s.XF = 1;
 	for (int c = 0; c < REGCOUNT_SPEC; c++)
-		MmuPush(ECtx->rs_spec[c]);
+		MmuPush(ECtx->SystemRs[c]);
 	MmuPush(Code);
 	MmuPush(AddtData);
 	CpuInstructionCLL(ECtx->ControlRegisters.CSMHandler);
