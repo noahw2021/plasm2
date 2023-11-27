@@ -25,10 +25,10 @@ void CpuInit(void) {
 	CpuCtx = malloc(sizeof(CPU_CTX));
 	memset(CpuCtx, 0, sizeof(CPU_CTX));
 
-	time(&CpuCtx->SystemBoot);
-	CpuCtx->SystemSeconds = CpuCtx->SystemBoot;
+	CpuCtx->SystemTicks = 0;
 	CpuCtx->ClocksPerSecond = BASE_CLOCK;
-
+    CpuCtx->NextTickNanoSecond = 4096;
+    
 	for (int i = 0; i < 256; i++) {
 		if (Instructions[i] == NULL)
 			Instructions[i] = _CpuiInvalidOpcode;

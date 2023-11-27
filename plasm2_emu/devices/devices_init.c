@@ -34,8 +34,14 @@ void DevicesInit(void) {
 	KbInit();
 	FdiskInit();
 }
+
+extern _bool VideoStopped;
+extern _bool ShouldStopVideo;
+
 void DevicesShutdown(void) {
 	KbShutdown();
-	VideoShutdown();
+    ShouldStopVideo = TRUE;
+    while (!VideoStopped)
+        SDL_Delay(10);
 	return;
 }

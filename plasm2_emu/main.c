@@ -36,30 +36,33 @@ int __t_argc;
 char** __t_argv;
 PPLASM2_CTX ECtx;
 
-typedef struct _appargs {
+typedef struct _APP_ARGS {
     char** argv;
     int argc;
-}appargs_t;
-int __nonvideo_main(appargs_t*);
+}APP_ARGS, *PAPP_ARGS;
+int PlasmEmuNonVideoMain(PAPP_ARGS);
 
 #include <SDL.h>
 
 _bool ShouldStartVideo;
+_bool ShouldStopVideo;
+_bool VideoStopped;
 int main(int argc, char** argv) {
     ShouldStartVideo = FALSE;
+    ShouldStopVideo = FALSE;
     
-    appargs_t* Args = malloc(sizeof(appargs_t));
+    PAPP_ARGS Args = malloc(sizeof(APP_ARGS));
     Args->argc = argc;
     Args->argv = argv;
     
-    SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
+    SDL_CreateThread(PlasmEmuNonVideoMain, "Plasm2MainThread", Args);
     
     while (!ShouldStartVideo)
         SDL_Delay(100);
     VideoInit();
 }
 
-int __nonvideo_main(appargs_t* Args) {
+int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
     int argc = Args->argc;
     char** argv = Args->argv;
     
@@ -152,9 +155,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	char TheHaltReason[256];
 
-	time_t Startup, Startdown;
-	Startup = time(NULL);
-	WORD64 ClockCnt = 0;
+	WORD64 PreMs = CpuTimerGetPreciseTimeMilliseconds();
     
 	while (1) {
 		if (EmuCheckClock(TheHaltReason)) {
@@ -166,13 +167,12 @@ int __nonvideo_main(appargs_t* Args) {
 		KbClock();
 		VideoClock();
 		CpuClock();
-		ClockCnt++;
 
 		if (ECtx->flags_s.HF && !ECtx->flags_s.IF)
 			break;
 	}
-
-	time(&Startdown);
+    
+    WORD64 PostMs = CpuTimerGetPreciseTimeMilliseconds();
 
 	if (EmuCtx->DebuggerEnabled)
 		DecoderShutdown();
@@ -186,21 +186,29 @@ int __nonvideo_main(appargs_t* Args) {
 		fclose(MemOut);
 	}
 
-	fgetc(stdin);
+	//fgetc(stdin);
 
+    WORD64 SystemTickBackup = CpuCtx->SystemTicks;
 	DevicesShutdown();
 	CpuShutdown();
 	EmuShutdown();
 
 	printf("CPU Halted.\n");
-
-	printf("Total Clocks: %llu\n", ClockCnt);
-	time_t Diff = (Startdown - Startup) + 1;   
-    printf("Total Time: %ldm %lds\n", Diff / 60, Diff % 60);
-	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
-
-	//fclose(a);
     free(ECtx);
+    
+    WORD64 MsDifference = PostMs - PreMs;
+    WORD64 SDifference = MsDifference / 1000;
+    MsDifference %= 1000;
+    
+    printf("Completed execution of %llu instructions in %llus, %llums.\n",
+           SystemTickBackup, SDifference, MsDifference);
+    
+    long double PreciseFloatingTime = SDifference + (MsDifference / 1000.0);
+    long double PreciseFloatingInstructions = SystemTickBackup;
+    long double PreciseClockSpeed = PreciseFloatingInstructions / PreciseFloatingTime;
+    WORD64 ImpreciseClockSpeed = (WORD64)PreciseClockSpeed;
+    
+    printf("Average Clock Speed: %llu Hz", ImpreciseClockSpeed);
     
 	return 0;
 }

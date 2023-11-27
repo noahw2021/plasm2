@@ -14,46 +14,42 @@
 #include <time.h>
 
 void CpuClock(void) {
-
-	if ( 
-		 !ECtx->flags_s.HF // Do not clock if we are halted
-		&& !ECtx->flags_s.NF // Skip this cycle, due to no-execute
-		) {
-		time(&CpuCtx->SystemSeconds);
-	} else {
-		if (ECtx->flags_s.NF) {
-			ECtx->flags_s.NF = 0;
-			int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(ECtx->ip));
-			BYTE TotalRead = (Psin2iGetTotalSize(Psin2Id) / 8);
-			ECtx->ip += TotalRead;
-		}
-		return;
-	}
-
-	if (ECtx->flags_s.VF &&
-		ECtx->flags_s.MF &&
-		ECtx->ip >= ECtx->ControlRegisters.PageMaxLocation
-		) {
-		CpuCsmSendMessage(CSM_XPAGETOOSMALL, ECtx->ip);
-	}
+    CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+    while (CpuCtx->NextTickNanoSecond > CpuCtx->LastTrackedNanoSecond) {
+#if defined(__unix__) || defined(__MACH__)
+#ifdef HAVE_NANOSLEEP
+        struct timespec NextClockTime, ThisTime;
+        NextClockTime.tv_sec = 0;
+        NextClockTime.tv_nsec = CpuCtx->NextTickNanoSecond - CpuCtx->LastTrackedNanoSecond;
+        nanosleep(&NextClockTime, &ThisTime);
+#endif
+#elif _WIN32
+/* @TODO : NtDelayExecution for nanosleep =D
+ This is a large CPU hole, that there doesn't seem to be a great solution to.
+ When I'm on my Windows desktop, I'll attempt to divide the NextClockTime nanoseconds
+ into 100ns chunks that a function such as NtDelayExecution can deal with.
+ - nw 11/27/23
+ */
+#endif
+        CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+    }
+    
+    CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / CpuCtx->ClocksPerSecond);
+    
+    CpuCtx->SystemTicks++;
+    
+    if (ECtx->flags_s.NF) {
+        ECtx->flags_s.NF = 0;
+        int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(ECtx->ip));
+        BYTE TotalToRead = (Psin2iGetTotalSize(Psin2Id) / 8);
+        ECtx->ip += TotalToRead;
+        return;
+    }
+   
 
 	BYTE ThisInstruction = MmuRead1(ECtx->ip++);
 	if (EmuCtx->DebuggerEnabled)
 		DecoderGo(ThisInstruction);
-
-    if (ThisInstruction == 0x00) {
-        if (MmuRead1(ECtx->ip) == 0x00 &&
-            MmuRead1(ECtx->ip) == 0x00
-        ) {
-            // we might be in a zero loop
-            FILE* Memout = fopen("memout.bin", "wb");
-            fwrite(CpuCtx->PhysicalMemory, CpuCtx->PhysicalMemorySize,
-                   1, Memout);
-            fclose(Memout);
-            printf("[WARN]: CPU appears to be stuck.\n Continue?");
-            SDL_Delay(500);
-        }
-    }
     
 	Instructions[ThisInstruction]();
 

@@ -7,5 +7,5 @@
 #include "../cpu.h"
 
 WORD64 CpuTimerGetTime(void) {
-	return (CpuCtx->SystemSeconds - CpuCtx->SystemBoot) & 0x0FFFFFFFFFFFFFFF;
+	return (CpuCtx->SystemTicks - CpuCtx->SystemBoot) & 0x0FFFFFFFFFFFFFFF;
 }

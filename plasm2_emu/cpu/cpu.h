@@ -9,7 +9,7 @@
 #include <time.h>
 
 // Current clock speed
-#define BASE_CLOCK 1000
+#define BASE_CLOCK 100000000000000
 #define PHYS_MEMSZ 10485760
 
 // Critical System Malfunctions
@@ -131,10 +131,14 @@ void CpuShutdown(void);
 
 void CpuClock(void);
 
+#define NS_PER_S 1000000000
+
 typedef struct _CPU_CTX {
 	WORD64 ClocksPerSecond;
-	WORD64 SystemSeconds;
-	WORD64 SystemNanoSeconds;
+	WORD64 SystemTicks;
+	WORD64 SystemDeadTicks;
+    WORD64 NextTickNanoSecond;
+    WORD64 LastTrackedNanoSecond;
 	time_t SystemBoot; // silly and quick 'timer'
 
 	BYTE* PhysicalMemory; // PM usage good
@@ -236,3 +240,10 @@ void CpuPowerSleep(void);
 void CpuPowerShutdown(void);
 void CpuPowerRestart(void);
 void CpuPowerAwake(void);
+
+// advanced system timer
+
+WORD64 CpuTimerGetPreciseTimeNanoseconds(void);
+WORD64 CpuTimerGetPreciseTimeMicroseconds(void);
+WORD64 CpuTimerGetPreciseTimeMilliseconds(void);
+WORD64 CpuTimerGetPreciseTimeSeconds(void);
