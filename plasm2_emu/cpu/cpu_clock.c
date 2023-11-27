@@ -16,34 +16,34 @@
 void CpuClock(void) {
 
 	if ( 
-		 !i->flags_s.HF // Do not clock if we are halted
-		&& !i->flags_s.NF // Skip this cycle, due to no-execute
+		 !ECtx->flags_s.HF // Do not clock if we are halted
+		&& !ECtx->flags_s.NF // Skip this cycle, due to no-execute
 		) {
 		time(&CpuCtx->SystemSeconds);
 	} else {
-		if (i->flags_s.NF) {
-			i->flags_s.NF = 0;
-			int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(i->ip));
+		if (ECtx->flags_s.NF) {
+			ECtx->flags_s.NF = 0;
+			int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(ECtx->ip));
 			BYTE TotalRead = (Psin2iGetTotalSize(Psin2Id) / 8);
-			i->ip += TotalRead;
+			ECtx->ip += TotalRead;
 		}
 		return;
 	}
 
-	if (i->flags_s.VF &&
-		i->flags_s.MF &&
-		i->ip >= i->ControlRegisters.PageMaxLocation
+	if (ECtx->flags_s.VF &&
+		ECtx->flags_s.MF &&
+		ECtx->ip >= ECtx->ControlRegisters.PageMaxLocation
 		) {
-		CpuCsmSendMessage(CSM_XPAGETOOSMALL, i->ip);
+		CpuCsmSendMessage(CSM_XPAGETOOSMALL, ECtx->ip);
 	}
 
-	BYTE ThisInstruction = MmuRead1(i->ip++);
+	BYTE ThisInstruction = MmuRead1(ECtx->ip++);
 	if (EmuCtx->DebuggerEnabled)
 		DecoderGo(ThisInstruction);
 
     if (ThisInstruction == 0x00) {
-        if (MmuRead1(i->ip) == 0x00 &&
-            MmuRead1(i->ip) == 0x00
+        if (MmuRead1(ECtx->ip) == 0x00 &&
+            MmuRead1(ECtx->ip) == 0x00
         ) {
             // we might be in a zero loop
             FILE* Memout = fopen("memout.bin", "wb");

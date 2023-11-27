@@ -209,7 +209,7 @@ typedef struct _PLASM2_CTX {
 		};
 	};
 }PLASM2_CTX, *PPLASM2_CTX;
-extern PPLASM2_CTX i;
+extern PPLASM2_CTX ECtx;
 
 void CpuCsmSetHandler(WORD64 Handler);
 void CpuCsmSendMessage(BYTE Code, WORD64 AddtData);

@@ -15,8 +15,8 @@ void ADD(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] += i->GPRs[Inputs.Source];
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] += ECtx->GPRs[Inputs.Source];
 	return;
 }
 
@@ -28,8 +28,8 @@ void SUB(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] -= i->GPRs[Inputs.Source];
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] -= ECtx->GPRs[Inputs.Source];
 	return;
 }
 
@@ -41,8 +41,8 @@ void MUL(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] *= i->GPRs[Inputs.Source];
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] *= ECtx->GPRs[Inputs.Source];
 	return;
 }
 
@@ -54,8 +54,8 @@ void DIV(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] /= i->GPRs[Inputs.Source];
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] /= ECtx->GPRs[Inputs.Source];
 	return;
 }
 
@@ -67,8 +67,8 @@ void MOD(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] %= i->GPRs[Inputs.Source];
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] %= ECtx->GPRs[Inputs.Source];
 	return;
 }
 
@@ -80,8 +80,8 @@ void INC(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Source]++;
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Source]++;
 	return;
 }
 
@@ -93,52 +93,52 @@ void DEC(void) {
 			BYTE Destination : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Source]--;
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Source]--;
 	return;
 }
 
 void ADI(void) {
-	BYTE Input = MmuRead1(i->ip++) & 0xF;
-	WORD64 Immediate = MmuRead8(i->ip);
-	i->ip += 8;
+	BYTE Input = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(ECtx->ip);
+	ECtx->ip += 8;
 
-	i->GPRs[Input] += Immediate;
+	ECtx->GPRs[Input] += Immediate;
 	return;
 }
 
 void SBI(void) {
-	BYTE Input = MmuRead1(i->ip++) & 0xF;
-	WORD64 Immediate = MmuRead8(i->ip);
-	i->ip += 8;
+	BYTE Input = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(ECtx->ip);
+	ECtx->ip += 8;
 
-	i->GPRs[Input] -= Immediate;
+	ECtx->GPRs[Input] -= Immediate;
 	return;
 }
 
 void MLI(void) {
-	BYTE Input = MmuRead1(i->ip++) & 0xF;
-	WORD64 Immediate = MmuRead8(i->ip);
-	i->ip += 8;
+	BYTE Input = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(ECtx->ip);
+	ECtx->ip += 8;
 
-	i->GPRs[Input] *= Immediate;
+	ECtx->GPRs[Input] *= Immediate;
 	return;
 }
 
 void DVI(void) {
-	BYTE Input = MmuRead1(i->ip++) & 0xF;
-	WORD64 Immediate = MmuRead8(i->ip);
-	i->ip += 8;
+	BYTE Input = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(ECtx->ip);
+	ECtx->ip += 8;
 
-	i->GPRs[Input] /= Immediate;
+	ECtx->GPRs[Input] /= Immediate;
 	return;
 }
 
 void MDI(void) {
-	BYTE Input = MmuRead1(i->ip++) & 0xF;
-	WORD64 Immediate = MmuRead8(i->ip);
-	i->ip += 8;
+	BYTE Input = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(ECtx->ip);
+	ECtx->ip += 8;
 
-	i->GPRs[Input] %= Immediate;
+	ECtx->GPRs[Input] %= Immediate;
 	return;
 }

@@ -11,7 +11,7 @@
 #include <time.h>
 
 WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
-	if (i->flags_s.VF) {
+	if (ECtx->flags_s.VF) {
 		for (int p = 0; p < MmuCtx->PageCount; p++) {
 			if (InRange(VirtualAddress, MmuCtx->Pages[p].Virtual, MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size)) {
 				if ((Reason & REASON_READ) && !MmuCtx->Pages[p].Read)
@@ -27,8 +27,8 @@ WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
 					if (VirtualAddress + MaxSize >= (MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size))
 						return 0;
 					
-					i->flags_s.MF = 1;
-					i->ControlRegisters.PageMaxLocation = VirtualAddress + MaxSize;
+					ECtx->flags_s.MF = 1;
+					ECtx->ControlRegisters.PageMaxLocation = VirtualAddress + MaxSize;
 				}
 
 				return MmuCtx->Pages[p].Physical + (VirtualAddress - MmuCtx->Pages[p].Virtual);

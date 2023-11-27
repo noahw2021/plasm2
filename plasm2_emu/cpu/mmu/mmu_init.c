@@ -22,7 +22,7 @@ void MmuInit(void) {
 	CpuCtx->PhysicalMemory = malloc(CpuCtx->PhysicalMemorySize); // PM usage good (reason: internal use only)
 	memset(CpuCtx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
 
-	i->sp = 0x3A0;
+	ECtx->sp = 0x3A0;
 
 	return;
 }

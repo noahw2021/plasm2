@@ -10,20 +10,20 @@
 #include <string.h>
 
 void CpuCsmSetHandler(WORD64 Handler) {
-	if (i->Security.SecurityLevel < 2)
-		i->ControlRegisters.CSMHandler = Handler;
+	if (ECtx->Security.SecurityLevel < 2)
+		ECtx->ControlRegisters.CSMHandler = Handler;
 	else
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 	return;
 }
 
 void CpuCsmSendMessage(BYTE Code, WORD64 AddtData) {
-	if (i->Security.SecurityLevel >= 3)
-		i->flags_s.XF = 1;
+	if (ECtx->Security.SecurityLevel >= 3)
+		ECtx->flags_s.XF = 1;
 	for (int c = 0; c < REGCOUNT_SPEC; c++)
-		MmuPush(i->rs_spec[c]);
+		MmuPush(ECtx->rs_spec[c]);
 	MmuPush(Code);
 	MmuPush(AddtData);
-	CpuInstructionCLL(i->ControlRegisters.CSMHandler);
+	CpuInstructionCLL(ECtx->ControlRegisters.CSMHandler);
 	return;
 }

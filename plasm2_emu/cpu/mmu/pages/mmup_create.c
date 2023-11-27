@@ -16,9 +16,9 @@ WORD64 MmuCreatePage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
 	MmuCtx->Pages[MmuCtx->PageCount].Permissions = Permissions;
 	MmuCtx->Pages[MmuCtx->PageCount].Size = Size;
 	MmuCtx->Pages[MmuCtx->PageCount].Physical = PhysicalAddress;
-	MmuCtx->Pages[MmuCtx->PageCount].Virtual = i->ControlRegisters.VirtualStackPointer;
+	MmuCtx->Pages[MmuCtx->PageCount].Virtual = ECtx->ControlRegisters.VirtualStackPointer;
 	MmuCtx->Pages[MmuCtx->PageCount].Active = 1;
-	i->ControlRegisters.VirtualStackPointer += Size + 0x4200;
+	ECtx->ControlRegisters.VirtualStackPointer += Size + 0x4200;
 
 	MmuCtx->PageCount++;
 

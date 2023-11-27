@@ -40,7 +40,7 @@ void DecoderGo(BYTE Instruction) {
 	but not crash the emulator.
 	*/
 
-	DcCtx->SpeculativePointer = i->ip;
+	DcCtx->SpeculativePointer = ECtx->ip;
 
 	_bool TwoArgsOneByte = TRUE;
 	_bool IsOperandRegister[2] = { FALSE, FALSE };
@@ -116,7 +116,7 @@ void DecoderGo(BYTE Instruction) {
 			CPart[0] = '\0';
 			if (Written)
 				strcat(CPart, ", ");
-			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], i->GPRs[OperandValues[c]]);
+			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], ECtx->GPRs[OperandValues[c]]);
 
 			strcat(Ctx, CPart);
 			Written++;
@@ -126,7 +126,7 @@ void DecoderGo(BYTE Instruction) {
 	if (Written)
 		strcat(Ctx, ", ");
 
-	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip, i->sp);
+	sprintf(CPart, "ip=0x%llX, sp=0x%llX", ECtx->ip, ECtx->sp);
 	strcat(Ctx, CPart);
 
 	DecoderPrint(Ctx);

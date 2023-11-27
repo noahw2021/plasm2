@@ -34,7 +34,7 @@ Starting physical memory map:
 
 int __t_argc;
 char** __t_argv;
-PPLASM2_CTX i;
+PPLASM2_CTX ECtx;
 
 typedef struct _appargs {
     char** argv;
@@ -109,16 +109,16 @@ int __nonvideo_main(appargs_t* Args) {
 		}
 	}
 	
-    i = malloc(sizeof(PLASM2_CTX));
-	memset(i, 0, sizeof(*i));
+    ECtx = malloc(sizeof(PLASM2_CTX));
+	memset(ECtx, 0, sizeof(*ECtx));
 
     CpuInit();
     
-	i->ControlRegisters.DeviceMap = 0x0000;
-	i->ip = 0x03A0;
-	i->ControlRegisters.StackPointerLowerBound = 0x24F0;
-	i->ControlRegisters.StackPointerUpperBound = 0x25F0;
-	i->sp = 0x24F0;
+	ECtx->ControlRegisters.DeviceMap = 0x0000;
+	ECtx->ip = 0x03A0;
+	ECtx->ControlRegisters.StackPointerLowerBound = 0x24F0;
+	ECtx->ControlRegisters.StackPointerUpperBound = 0x25F0;
+	ECtx->sp = 0x24F0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
 	if (!Bios) {
@@ -168,7 +168,7 @@ int __nonvideo_main(appargs_t* Args) {
 		CpuClock();
 		ClockCnt++;
 
-		if (i->flags_s.HF && !i->flags_s.IF)
+		if (ECtx->flags_s.HF && !ECtx->flags_s.IF)
 			break;
 	}
 
@@ -200,7 +200,7 @@ int __nonvideo_main(appargs_t* Args) {
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
 	//fclose(a);
-    free(i);
+    free(ECtx);
     
 	return 0;
 }

@@ -10,18 +10,18 @@
 #include <string.h>
 
 void CpuInstructionJMP(WORD64 Address) {
-	i->ip = Address;
+	ECtx->ip = Address;
 	return;
 }
 
 void CpuInstructionCLL(WORD64 Address) {
 	if (!Address) {
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 		return;
 	}
 
-	i->ControlRegisters.ReturnAddressLocation = i->sp + 16;
-    MmuPush(i->ip);
+	ECtx->ControlRegisters.ReturnAddressLocation = ECtx->sp + 16;
+    MmuPush(ECtx->ip);
     
 	union {
 		WORD64 Raw;
@@ -32,23 +32,23 @@ void CpuInstructionCLL(WORD64 Address) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-    i->flags_s.HF = 0;
-	SecurityPacket.Flags = (WORD32)i->Flags;
-	SecurityPacket.SecurityLevel = i->Security.SecurityLevel;
+	SecurityPacket.CallFlag = ECtx->flags_s.CF;
+    ECtx->flags_s.HF = 0;
+	SecurityPacket.Flags = (WORD32)ECtx->Flags;
+	SecurityPacket.SecurityLevel = ECtx->Security.SecurityLevel;
 	MmuPush(SecurityPacket.Raw);
-    i->flags_s.SF = 1;
-	i->flags_s.CF = 1;
+    ECtx->flags_s.SF = 1;
+	ECtx->flags_s.CF = 1;
     
     WORD64 PhysAdr = MmuTranslate(Address, REASON_READ | REASON_EXEC,
         SIZE_WATCHDOG);
     
-    i->ControlRegisters.NextCallAddress = PhysAdr;
+    ECtx->ControlRegisters.NextCallAddress = PhysAdr;
 	return;
 }
 
 void CpuInstructionRET(void) {
-	if (!i->flags_s.CF)
+	if (!ECtx->flags_s.CF)
 		return;
 	
 	//i->sp = i->pti.ral;
@@ -63,27 +63,27 @@ void CpuInstructionRET(void) {
 	}SecurityPacket = { 0 };
 	SecurityPacket.Raw = MmuPop();
 	
-    i->ip = MmuPop();
-    i->Flags = SecurityPacket.Flags;
-    i->Security.SecurityLevel = SecurityPacket.SecurityLevel;
-    i->flags_s.CF = SecurityPacket.CallFlag;
+    ECtx->ip = MmuPop();
+    ECtx->Flags = SecurityPacket.Flags;
+    ECtx->Security.SecurityLevel = SecurityPacket.SecurityLevel;
+    ECtx->flags_s.CF = SecurityPacket.CallFlag;
     
     return;
 }
 
 void CpuInstructionINT(BYTE Interrupt) {
-	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + i->ControlRegisters.InterruptTable); // PM usage good (reason: pti.it is a secure register)
+	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.InterruptTable); // PM usage good (reason: pti.it is a secure register)
 	WORD64 VirtualAddress = InterruptTable[Interrupt];
 	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
-	i->Security.SecurityLevel = SecurityLevel;
+	ECtx->Security.SecurityLevel = SecurityLevel;
 	WORD64 PhysicalAddress = MmuTranslate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (!PhysicalAddress) {
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 		return;
 	}
     
-	i->ControlRegisters.ReturnAddressLocation = i->ip;
-	MmuPush(i->ip);
+	ECtx->ControlRegisters.ReturnAddressLocation = ECtx->ip;
+	MmuPush(ECtx->ip);
 	union {
 		WORD64 Raw;
 		struct {
@@ -93,24 +93,24 @@ void CpuInstructionINT(BYTE Interrupt) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = (WORD32)i->Flags;
-	SecurityPacket.SecurityLevel = i->Security.SecurityLevel;
+	SecurityPacket.CallFlag = ECtx->flags_s.CF;
+	SecurityPacket.Flags = (WORD32)ECtx->Flags;
+	SecurityPacket.SecurityLevel = ECtx->Security.SecurityLevel;
 	MmuPush(SecurityPacket.Raw);
-	i->flags_s.SF = 1;
-	i->ip = PhysicalAddress;
+	ECtx->flags_s.SF = 1;
+	ECtx->ip = PhysicalAddress;
 	return;
 }
 
 void CpuInstructionCLR(void) {
-    WORD64 StackPointerBackup = i->sp;
-    i->sp = i->ControlRegisters.ReturnAddressLocation;
+    WORD64 StackPointerBackup = ECtx->sp;
+    ECtx->sp = ECtx->ControlRegisters.ReturnAddressLocation;
     WORD64 SecurityPacket = MmuPop();
     WORD64 ReturnAddress = MmuPop();
-    ReturnAddress = i->ip;
+    ReturnAddress = ECtx->ip;
     MmuPush(ReturnAddress);
     MmuPush(SecurityPacket);
-    i->sp = StackPointerBackup;
-    if (i->flags_s.CF)
-        i->ip = i->ControlRegisters.NextCallAddress;
+    ECtx->sp = StackPointerBackup;
+    if (ECtx->flags_s.CF)
+        ECtx->ip = ECtx->ControlRegisters.NextCallAddress;
 }

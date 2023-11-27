@@ -94,12 +94,12 @@ WORD64 VideoReset(WORD32 Device, WORD64 NullArg) {
 }
 
 WORD64 VideoOff(WORD32 Device, WORD64 NullArg) {
-	if (i->Security.SecurityLevel < 2)
+	if (ECtx->Security.SecurityLevel < 2)
 		VideoShutdown();
 	return 0;
 }
 WORD64 VideoOn(WORD32 Device, WORD64 NullArg) {
-	if (i->Security.SecurityLevel < 2)
+	if (ECtx->Security.SecurityLevel < 2)
 		VideoInit();
 	return 0;
 }

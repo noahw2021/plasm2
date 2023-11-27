@@ -558,7 +558,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "106"
             endingLineNumber = "106"
-            landmarkName = "cpui_inst_clr()"
+            landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
             <Locations>
                <Location
@@ -636,7 +636,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"
             endingLineNumber = "93"
-            landmarkName = "cpui_inst_int(Interrupt)"
+            landmarkName = "CpuInstructionINT(Interrupt)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -684,7 +684,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
             endingLineNumber = "47"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -732,7 +732,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -828,7 +828,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
             endingLineNumber = "51"
-            landmarkName = "cpui_inst_ret()"
+            landmarkName = "CpuInstructionRET()"
             landmarkType = "9">
             <Locations>
                <Location
@@ -876,7 +876,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
             endingLineNumber = "39"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -892,7 +892,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
             endingLineNumber = "66"
-            landmarkName = "cpui_inst_ret()"
+            landmarkName = "CpuInstructionRET()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -908,7 +908,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
             endingLineNumber = "115"
-            landmarkName = "cpui_inst_clr()"
+            landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

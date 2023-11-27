@@ -9,8 +9,8 @@
 #include "../../devices/devices.h"
 
 void DSQ(void) {
-	BYTE Register = MmuRead1(i->ip++) & 0xF;
-	WORD64 Status = DevicesiStatusQuery((WORD32)i->GPRs[Register] & 0xFFFFFFFF);
+	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
+	WORD64 Status = DevicesiStatusQuery((WORD32)ECtx->GPRs[Register] & 0xFFFFFFFF);
 	MmuPush(Status);
 	return;
 }
@@ -23,8 +23,8 @@ void DSC(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	DevicesiSendCommand((WORD32)i->GPRs[Inputs.Device], i->GPRs[Inputs.Command]);
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	DevicesiSendCommand((WORD32)ECtx->GPRs[Inputs.Device], ECtx->GPRs[Inputs.Command]);
 	return;
 }
 
@@ -36,8 +36,8 @@ void DSD(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	DevicesiSendData((WORD32)i->GPRs[Inputs.Device], i->GPRs[Inputs.Data]);
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	DevicesiSendData((WORD32)ECtx->GPRs[Inputs.Device], ECtx->GPRs[Inputs.Data]);
 	return;
 }
 
@@ -49,31 +49,31 @@ void DGD(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = MmuRead1(i->ip++);
-	i->GPRs[Inputs.Destination] = DevicesiGetData((WORD32)i->GPRs[Inputs.Device]);
+	Inputs.Input = MmuRead1(ECtx->ip++);
+	ECtx->GPRs[Inputs.Destination] = DevicesiGetData((WORD32)ECtx->GPRs[Inputs.Device]);
 	return;
 }
 
 void DRS(void) {
-	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
+	WORD64 Device = ECtx->GPRs[MmuRead1(ECtx->ip++) & 0xF];
 	DevicesiReset((WORD32)Device);
 	return;
 }
 
 void DPE(void) {
-	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
+	WORD64 Device = ECtx->GPRs[MmuRead1(ECtx->ip++) & 0xF];
 	DevicesiOn((WORD32)Device);
 	return;
 }
 
 void DPD(void) {
-	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
+	WORD64 Device = ECtx->GPRs[MmuRead1(ECtx->ip++) & 0xF];
 	DevicesiOff((WORD32)Device);
 	return;
 }
 
 void DGC(void) {
-	BYTE Register = MmuRead1(i->ip++) & 0xF;
-	i->GPRs[Register] = DevicesiDevCount();
+	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
+	ECtx->GPRs[Register] = DevicesiDevCount();
 	return;
 }
