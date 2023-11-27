@@ -9,7 +9,7 @@
 #include <time.h>
 
 // Current clock speed
-#define BASE_CLOCK 1000
+#define BASE_CLOCK 41000000
 #define PHYS_MEMSZ 10485760
 
 // Critical System Malfunctions
@@ -32,6 +32,15 @@
 4: Application Ring: Regular permission application
 5+: Operating system discretion
 */
+
+/*
+ Change this '1' to a '0' to remove the comparison of flags
+ to determine if clock speed should be regulated. This can save
+ a small amount of performance in the real world.
+ */
+#if 1
+#define CLOCK_SYSTEM_ACTIVE 1
+#endif
 
 enum {
 	// Generic Instructions
@@ -126,21 +135,25 @@ enum {
 	__SIT = 0x96, // SIT 96 (R:04,08 IHNDLR)                  16 : Set Interrupt Table
 };
 
-void cpu_init(void);
-void cpu_shutdown(void);
+void CpuInit(void);
+void CpuShutdown(void);
 
-void cpu_clock(void);
+void CpuClock(void);
 
-typedef struct _cpuctx {
+#define NS_PER_S 1000000000
+
+typedef struct _CPU_CTX {
 	WORD64 ClocksPerSecond;
-	WORD64 SystemSeconds;
-	WORD64 SystemNanoSeconds;
+	WORD64 SystemTicks;
+	WORD64 SystemDeadTicks;
+    WORD64 NextTickNanoSecond;
+    WORD64 LastTrackedNanoSecond;
 	time_t SystemBoot; // silly and quick 'timer'
 
 	BYTE* PhysicalMemory; // PM usage good
 	WORD64 PhysicalMemorySize;
-}cpuctx_t;
-extern cpuctx_t* cpuctx;
+}CPU_CTX, *PCPU_CTX;
+extern PCPU_CTX CpuCtx;
 
 #define Instruction(Name) void Name(void)
 #define ListInstruction(Name) [__##Name] = Name
@@ -154,10 +167,10 @@ extern void(*Instructions[256])(void);
 typedef struct _PLASM2_CTX {
 	union {
 		union {
-			WORD64 rs_64[REGCOUNT_TOTAL];
+			WORD64 Registers64[REGCOUNT_TOTAL];
 			struct {
-				WORD64 rs_gprs[REGCOUNT_GPRS];
-				WORD64 rs_spec[REGCOUNT_SPEC];
+				WORD64 GPRs[REGCOUNT_GPRS];
+				WORD64 SystemRs[REGCOUNT_SPEC];
 			};
 		};
 		struct {
@@ -165,7 +178,7 @@ typedef struct _PLASM2_CTX {
 			WORD64 ip;
 			WORD64 sp;
 			union {
-				WORD64 flags;
+				WORD64 Flags;
 				struct {
 					BYTE GF : 1; // Greater flag
 					BYTE EF : 1; // Equal flag
@@ -185,41 +198,41 @@ typedef struct _PLASM2_CTX {
 				}flags_s;
 			};
 			union {
-				WORD64 security;
+				WORD64 SecurityRaw;
 				struct {
 					BYTE SecurityLevel : 5;
 					WORD64 Reserved : 59;
-				}security_s;
+				}Security;
 			};
 			struct {
-				WORD64 ps; // page start
-				WORD64 pe; // page end
-				WORD64 ral; // return address location, backup stack pointer
-				WORD64 it; // interrupt table
-				WORD64 vsp; // virtual trailing arm
-				WORD64 csm; // csm handler
-				WORD64 dvptr; // device map pointer
-				WORD64 spb; // stack pointer upper bound
-				WORD64 slb; // stack lower bound
-				WORD64 pml; // page max location
-                WORD64 nca; // next call address
+				WORD64 PageStart; // page start
+				WORD64 PageEnd; // page end
+				WORD64 ReturnAddressLocation; // return address location, backup stack pointer
+				WORD64 InterruptTable; // interrupt table
+				WORD64 VirtualStackPointer; // virtual trailing arm
+				WORD64 CSMHandler; // csm handler
+				WORD64 DeviceMap; // device map pointer
+				WORD64 StackPointerUpperBound; // stack pointer upper bound
+				WORD64 StackPointerLowerBound; // stack lower bound
+				WORD64 PageMaxLocation; // page max location
+                WORD64 NextCallAddress; // next call address
                 
-				WORD64 reserved[1];
-			}pti;
+				WORD64 Reserved[1];
+			}ControlRegisters;
 		};
 	};
 }PLASM2_CTX, *PPLASM2_CTX;
-extern PPLASM2_CTX i;
+extern PPLASM2_CTX ECtx;
 
-void cpui_csm_set(WORD64 Handler);
-void cpui_csm_msg(BYTE Code, WORD64 AddtData);
+void CpuCsmSetHandler(WORD64 Handler);
+void CpuCsmSendMessage(BYTE Code, WORD64 AddtData);
 
 // addresses are physical
-void cpui_inst_jmp(WORD64 Address);
-void cpui_inst_cll(WORD64 Address);
-void cpui_inst_ret(void);
-void cpui_inst_int(BYTE Interrupt);
-void cpui_inst_clr(void);
+void CpuInstructionJMP(WORD64 Address);
+void CpuInstructionCLL(WORD64 Address);
+void CpuInstructionRET(void);
+void CpuInstructionINT(BYTE Interrupt);
+void CpuInstructionCLR(void);
 
 // cpu advanced functions
 
@@ -231,8 +244,15 @@ timer, but cput_gettime will always return
 the time in MS.
 */
 
-WORD64  cput_gettime(void); // get current ms since system start
-void cput_pwr_sleep(void);
-void cput_pwr_shutdown(void);
-void cput_pwr_restart(void);
-void cput_pwr_awake(void);
+WORD64  CpuTimerGetTime(void); // get current ms since system start
+void CpuPowerSleep(void);
+void CpuPowerShutdown(void);
+void CpuPowerRestart(void);
+void CpuPowerAwake(void);
+
+// advanced system timer
+
+WORD64 CpuTimerGetPreciseTimeNanoseconds(void);
+WORD64 CpuTimerGetPreciseTimeMicroseconds(void);
+WORD64 CpuTimerGetPreciseTimeMilliseconds(void);
+WORD64 CpuTimerGetPreciseTimeSeconds(void);

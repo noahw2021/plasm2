@@ -21,7 +21,7 @@ void KbiSetKeyUpInterrupt(WORD64 Interrupt) {
 }
 
 WORD64  KbiGetKeyMapPointer(void) {
-	return mmu_translate(0x23F0, REASON_READ, 256);
+	return MmuTranslate(0x23F0, REASON_READ, 256);
 }
 
 void KbiiMarkKeyState(BYTE Keycode, BYTE Status) {

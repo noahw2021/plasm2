@@ -9,19 +9,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-void cpui_inst_jmp(WORD64 Address) {
-	i->ip = Address;
+void CpuInstructionJMP(WORD64 Address) {
+	ECtx->ip = Address;
 	return;
 }
 
-void cpui_inst_cll(WORD64 Address) {
+void CpuInstructionCLL(WORD64 Address) {
 	if (!Address) {
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 		return;
 	}
 
-	i->pti.ral = i->sp + 16;
-    mmu_push(i->ip);
+	ECtx->ControlRegisters.ReturnAddressLocation = ECtx->sp + 16;
+    MmuPush(ECtx->ip);
     
 	union {
 		WORD64 Raw;
@@ -32,23 +32,23 @@ void cpui_inst_cll(WORD64 Address) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-    i->flags_s.HF = 0;
-	SecurityPacket.Flags = (WORD32)i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
-    i->flags_s.SF = 1;
-	i->flags_s.CF = 1;
+	SecurityPacket.CallFlag = ECtx->flags_s.CF;
+    ECtx->flags_s.HF = 0;
+	SecurityPacket.Flags = (WORD32)ECtx->Flags;
+	SecurityPacket.SecurityLevel = ECtx->Security.SecurityLevel;
+	MmuPush(SecurityPacket.Raw);
+    ECtx->flags_s.SF = 1;
+	ECtx->flags_s.CF = 1;
     
-    WORD64 PhysAdr = mmu_translate(Address, REASON_READ | REASON_EXEC,
+    WORD64 PhysAdr = MmuTranslate(Address, REASON_READ | REASON_EXEC,
         SIZE_WATCHDOG);
     
-    i->pti.nca = PhysAdr;
+    ECtx->ControlRegisters.NextCallAddress = PhysAdr;
 	return;
 }
 
-void cpui_inst_ret(void) {
-	if (!i->flags_s.CF)
+void CpuInstructionRET(void) {
+	if (!ECtx->flags_s.CF)
 		return;
 	
 	//i->sp = i->pti.ral;
@@ -61,29 +61,29 @@ void cpui_inst_ret(void) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket = { 0 };
-	SecurityPacket.Raw = mmu_pop();
+	SecurityPacket.Raw = MmuPop();
 	
-    i->ip = mmu_pop();
-    i->flags = SecurityPacket.Flags;
-    i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
-    i->flags_s.CF = SecurityPacket.CallFlag;
+    ECtx->ip = MmuPop();
+    ECtx->Flags = SecurityPacket.Flags;
+    ECtx->Security.SecurityLevel = SecurityPacket.SecurityLevel;
+    ECtx->flags_s.CF = SecurityPacket.CallFlag;
     
     return;
 }
 
-void cpui_inst_int(BYTE Interrupt) {
-	WORD64* InterruptTable = (WORD64*)((BYTE*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
+void CpuInstructionINT(BYTE Interrupt) {
+	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.InterruptTable); // PM usage good (reason: pti.it is a secure register)
 	WORD64 VirtualAddress = InterruptTable[Interrupt];
 	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
-	i->security_s.SecurityLevel = SecurityLevel;
-	WORD64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	ECtx->Security.SecurityLevel = SecurityLevel;
+	WORD64 PhysicalAddress = MmuTranslate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (!PhysicalAddress) {
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 		return;
 	}
     
-	i->pti.ral = i->ip;
-	mmu_push(i->ip);
+	ECtx->ControlRegisters.ReturnAddressLocation = ECtx->ip;
+	MmuPush(ECtx->ip);
 	union {
 		WORD64 Raw;
 		struct {
@@ -93,24 +93,24 @@ void cpui_inst_int(BYTE Interrupt) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = (WORD32)i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
-	i->flags_s.SF = 1;
-	i->ip = PhysicalAddress;
+	SecurityPacket.CallFlag = ECtx->flags_s.CF;
+	SecurityPacket.Flags = (WORD32)ECtx->Flags;
+	SecurityPacket.SecurityLevel = ECtx->Security.SecurityLevel;
+	MmuPush(SecurityPacket.Raw);
+	ECtx->flags_s.SF = 1;
+	ECtx->ip = PhysicalAddress;
 	return;
 }
 
-void cpui_inst_clr(void) {
-    WORD64 StackPointerBackup = i->sp;
-    i->sp = i->pti.ral;
-    WORD64 SecurityPacket = mmu_pop();
-    WORD64 ReturnAddress = mmu_pop();
-    ReturnAddress = i->ip;
-    mmu_push(ReturnAddress);
-    mmu_push(SecurityPacket);
-    i->sp = StackPointerBackup;
-    if (i->flags_s.CF)
-        i->ip = i->pti.nca;
+void CpuInstructionCLR(void) {
+    WORD64 StackPointerBackup = ECtx->sp;
+    ECtx->sp = ECtx->ControlRegisters.ReturnAddressLocation;
+    WORD64 SecurityPacket = MmuPop();
+    WORD64 ReturnAddress = MmuPop();
+    ReturnAddress = ECtx->ip;
+    MmuPush(ReturnAddress);
+    MmuPush(SecurityPacket);
+    ECtx->sp = StackPointerBackup;
+    if (ECtx->flags_s.CF)
+        ECtx->ip = ECtx->ControlRegisters.NextCallAddress;
 }

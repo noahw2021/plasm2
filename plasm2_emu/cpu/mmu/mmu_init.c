@@ -1,33 +1,33 @@
+//
+//  mmu_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../cpu.h"
 #include "mmu.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-/*
-mmu_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
-mmuctx_t* mmuctx;
+PMMU_CTX MmuCtx;
 
 #pragma warning(disable: 6387)
 
-void mmu_init(void) {
-	mmuctx = malloc(sizeof(mmuctx_t));
-	memset(mmuctx, 0, sizeof(mmuctx_t));
+void MmuInit(void) {
+	MmuCtx = malloc(sizeof(MMU_CTX));
+	memset(MmuCtx, 0, sizeof(MMU_CTX));
 
-	cpuctx->PhysicalMemorySize = PHYS_MEMSZ;
-	cpuctx->PhysicalMemory = malloc(cpuctx->PhysicalMemorySize); // PM usage good (reason: internal use only)
-	memset(cpuctx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
+	CpuCtx->PhysicalMemorySize = PHYS_MEMSZ;
+	CpuCtx->PhysicalMemory = malloc(CpuCtx->PhysicalMemorySize); // PM usage good (reason: internal use only)
+	memset(CpuCtx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
 
-	i->sp = 0x3A0;
+	ECtx->sp = 0x3A0;
 
 	return;
 }
 
-void mmu_shutdown(void) {
-	free(cpuctx->PhysicalMemory); // PM usage good (reason: internal use only)
-	free(mmuctx);
+void MmuShutdown(void) {
+	free(CpuCtx->PhysicalMemory); // PM usage good (reason: internal use only)
+	free(MmuCtx);
 }

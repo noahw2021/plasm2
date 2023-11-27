@@ -18,6 +18,8 @@ BYTE PauseDrawing;
 PVIDEO_CTX VideoCtx;
 SDL_Thread* LoopThread;
 _bool VideoStarted;
+extern _bool ShouldStopVideo;
+extern _bool VideoStopped;
 
 #pragma warning(disable: 6011 6387)
 
@@ -52,6 +54,11 @@ void VideoLoop(void) {
     VideoStarted = 1;
     
 	while (!Quit) {
+        if (ShouldStopVideo) {
+            VideoShutdown();
+            VideoStopped = TRUE;
+        }
+        
 		while (SDL_PollEvent(&Event)) {
 			if (PauseDrawing)
 				break;

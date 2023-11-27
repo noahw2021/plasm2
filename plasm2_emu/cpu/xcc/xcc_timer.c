@@ -6,6 +6,6 @@
 //
 #include "../cpu.h"
 
-WORD64 cput_gettime(void) {
-	return (cpuctx->SystemSeconds - cpuctx->SystemBoot) & 0x0FFFFFFFFFFFFFFF;
+WORD64 CpuTimerGetTime(void) {
+	return (CpuCtx->SystemTicks - CpuCtx->SystemBoot) & 0x0FFFFFFFFFFFFFFF;
 }

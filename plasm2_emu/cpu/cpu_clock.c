@@ -13,47 +13,48 @@
 #include <string.h>
 #include <time.h>
 
-void cpu_clock(void) {
+void CpuClock(void) {
+    CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+    // Sadly somewhat messy. - nw 11/27/23
+#ifdef CLOCK_SYSTEM_ACTIVE
+    if (!(EmuCtx->Flags & EMUFLAG_NOCLOCK)) {
+        while (CpuCtx->NextTickNanoSecond > CpuCtx->LastTrackedNanoSecond) {
+#if defined(__unix__) || defined(__MACH__)
+#ifdef HAVE_NANOSLEEP
+            struct timespec NextClockTime, ThisTime;
+            NextClockTime.tv_sec = 0;
+            NextClockTime.tv_nsec = CpuCtx->NextTickNanoSecond - CpuCtx->LastTrackedNanoSecond;
+            nanosleep(&NextClockTime, &ThisTime);
+#endif
+#elif _WIN32
+            /* @TODO : NtDelayExecution for nanosleep =D
+             This is a large CPU hole, that there doesn't seem to be a great solution to.
+             When I'm on my Windows desktop, I'll attempt to divide the NextClockTime nanoseconds
+             into 100ns chunks that a function such as NtDelayExecution can deal with.
+             - nw 11/27/23
+             */
+#endif
+            CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
+        }
+        
+        CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / (CpuCtx->ClocksPerSecond * 3));
+    }
+#endif
+    
+    CpuCtx->SystemTicks++;
+    
+    if (ECtx->flags_s.NF) {
+        ECtx->flags_s.NF = 0;
+        int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(ECtx->ip));
+        BYTE TotalToRead = (Psin2iGetTotalSize(Psin2Id) / 8);
+        ECtx->ip += TotalToRead;
+        return;
+    }
+   
 
-	if ( 
-		 !i->flags_s.HF // Do not clock if we are halted
-		&& !i->flags_s.NF // Skip this cycle, due to no-execute
-		) {
-		time(&cpuctx->SystemSeconds);
-	} else {
-		if (i->flags_s.NF) {
-			i->flags_s.NF = 0;
-			int Psin2Id = Psin2iGetInstructionByOpcode(mmu_read1(i->ip));
-			BYTE TotalRead = (Psin2iGetTotalSize(Psin2Id) / 8);
-			i->ip += TotalRead;
-		}
-		return;
-	}
-
-	if (i->flags_s.VF &&
-		i->flags_s.MF &&
-		i->ip >= i->pti.pml
-		) {
-		cpui_csm_msg(CSM_XPAGETOOSMALL, i->ip);
-	}
-
-	BYTE ThisInstruction = mmu_read1(i->ip++);
+	BYTE ThisInstruction = MmuRead1(ECtx->ip++);
 	if (EmuCtx->DebuggerEnabled)
 		DecoderGo(ThisInstruction);
-
-    if (ThisInstruction == 0x00) {
-        if (mmu_read1(i->ip) == 0x00 &&
-            mmu_read1(i->ip) == 0x00
-        ) {
-            // we might be in a zero loop
-            FILE* Memout = fopen("memout.bin", "wb");
-            fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize,
-                   1, Memout);
-            fclose(Memout);
-            printf("[WARN]: CPU appears to be stuck.\n Continue?");
-            SDL_Delay(500);
-        }
-    }
     
 	Instructions[ThisInstruction]();
 

@@ -31,7 +31,7 @@ void SdbgShutdown(void) {
 }
 
 void SdbgClock(void) {
-	if (sdbgctx->LastSend > cput_gettime()) {
+	if (sdbgctx->LastSend > CpuTimerGetTime()) {
 		if (sdbgctx->ReadyOut) {
 			printf("%s", sdbgctx->CollectionBufferOut);
 			sdbgctx->ReadyOut = 0;

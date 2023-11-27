@@ -93,7 +93,7 @@ void FdiskClock(void) {
 	int OldestPair = 0;
 	WORD64 OldestChunk = 0xFFFFFFFFFFFFFFFF;
 	for (int i = 0; i < FdiskCtx->DriveCount; i++) {
-		if (FdiskCtx->Drives[i].NextChunkScan > cput_gettime())
+		if (FdiskCtx->Drives[i].NextChunkScan > CpuTimerGetTime())
 			continue;
 		for (int c = 0; c < 4; c++) {
 			if (FdiskCtx->Drives[i].LoadedChunkCpuTick[c] < OldestChunk) {

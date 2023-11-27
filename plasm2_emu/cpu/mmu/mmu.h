@@ -1,11 +1,11 @@
+//
+//  mmu.h
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #pragma once
 #include "../../basetypes.h"
-/*
-mmu.h
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
 #define REASON_EXEC 0x01
 #define REASON_WRTE 0x02
@@ -14,29 +14,29 @@ plasm2_emu
 #define SIZE_WATCHDOG 0xAFFFFFFFFFFFFFFF
 
 // init
-void mmu_init(void);
-void mmu_shutdown(void);
+void MmuInit(void);
+void MmuShutdown(void);
 
 // i/o
-BYTE mmu_read1(WORD64 Address);
-WORD64  mmu_read8(WORD64 Address);
-WORD64  mmu_readx(WORD64 Address, BYTE BytesToRead);
-void mmu_put8(WORD64 Address, WORD64 Value);
-void mmu_put4(WORD64 Address, WORD32 Value);
-void mmu_put1(WORD64 Address, BYTE Value);
+BYTE MmuRead1(WORD64 Address);
+WORD64  MmuRead8(WORD64 Address);
+WORD64  MmuReadX(WORD64 Address, BYTE BytesToRead);
+void MmuPut8(WORD64 Address, WORD64 Value);
+void MmuPut4(WORD64 Address, WORD32 Value);
+void MmuPut1(WORD64 Address, BYTE Value);
 
 // virtual
-WORD64 mmu_translate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize);
-WORD64 mmu_createpage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions);
-void mmu_deletepage(WORD64 VirtualAddress);
-void mmu_setptstart(WORD64 New);
-void mmu_setptend(WORD64 New);
+WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize);
+WORD64 MmuCreatePage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions);
+void MmuDeletePage(WORD64 VirtualAddress);
+void MmuSetPageTableStart(WORD64 New);
+void MmuSetPageTableEnd(WORD64 New);
 
 // stack
-void mmu_push(WORD64 Value);
-WORD64 mmu_pop(void);
+void MmuPush(WORD64 Value);
+WORD64 MmuPop(void);
 
-typedef struct _mmuctx {
+typedef struct _MMU_CTX {
 	WORD64 MaxPageCount;
 	WORD64 PageCount;
 	struct {
@@ -53,5 +53,5 @@ typedef struct _mmuctx {
 			};
 		};
 	}*Pages;
-}mmuctx_t;
-extern mmuctx_t* mmuctx;
+}MMU_CTX, *PMMU_CTX;
+extern PMMU_CTX MmuCtx;

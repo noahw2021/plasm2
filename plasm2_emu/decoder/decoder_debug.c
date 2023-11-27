@@ -8,6 +8,7 @@
 #include "../cpu/cpu.h"
 #include "../cpu/mmu/mmu.h"
 #include "../psin2/psin2.h"
+#include "../emu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,19 +16,22 @@
 #pragma warning(disable: 6011 6387) // no it couldnt
 
 BYTE DecoderRead1(void) {
-	BYTE Return = mmu_read1(DcCtx->SpeculativePointer);
+	BYTE Return = MmuRead1(DcCtx->SpeculativePointer);
 	DcCtx->SpeculativePointer += 1;
 	return Return;
 }
 
 WORD64  DecoderReadX(BYTE HowMuch) {
-	WORD64 Returns = mmu_readx(DcCtx->SpeculativePointer, HowMuch);
+	WORD64 Returns = MmuReadX(DcCtx->SpeculativePointer, HowMuch);
 	DcCtx->SpeculativePointer += HowMuch;
 	return Returns;
 }
 
 void DecoderGo(BYTE Instruction) {
-	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);	
+    if (EmuCtx->Flags & EMUFLAG_NODEBUG)
+        return;
+    
+	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
 	as of 7/21/23. this may be implemented in the future, but for now there will
@@ -40,7 +44,7 @@ void DecoderGo(BYTE Instruction) {
 	but not crash the emulator.
 	*/
 
-	DcCtx->SpeculativePointer = i->ip;
+	DcCtx->SpeculativePointer = ECtx->ip;
 
 	_bool TwoArgsOneByte = TRUE;
 	_bool IsOperandRegister[2] = { FALSE, FALSE };
@@ -116,7 +120,7 @@ void DecoderGo(BYTE Instruction) {
 			CPart[0] = '\0';
 			if (Written)
 				strcat(CPart, ", ");
-			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], i->rs_gprs[OperandValues[c]]);
+			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], ECtx->GPRs[OperandValues[c]]);
 
 			strcat(Ctx, CPart);
 			Written++;
@@ -126,7 +130,7 @@ void DecoderGo(BYTE Instruction) {
 	if (Written)
 		strcat(Ctx, ", ");
 
-	sprintf(CPart, "ip=0x%llX, sp=0x%llX", i->ip, i->sp);
+	sprintf(CPart, "ip=0x%llX, sp=0x%llX", ECtx->ip, ECtx->sp);
 	strcat(Ctx, CPart);
 
 	DecoderPrint(Ctx);
