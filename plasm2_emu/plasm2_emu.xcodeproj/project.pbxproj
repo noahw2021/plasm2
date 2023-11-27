@@ -51,6 +51,7 @@
 		8C6C48EF2B09677E00B73C87 /* devices_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C48EB2B09677E00B73C87 /* devices_init.c */; };
 		8C6C48F02B09677E00B73C87 /* devices_collect.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C48EC2B09677E00B73C87 /* devices_collect.c */; };
 		8C6C48F12B09677E00B73C87 /* devices_handlers.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C6C48ED2B09677E00B73C87 /* devices_handlers.c */; };
+		8CBC12712B14F94A00890ABD /* xcc_systemtime.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CBC12702B14F94A00890ABD /* xcc_systemtime.c */; };
 		8CEEB0752B095C520026004C /* libSDL2-2.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CEEB0742B095C520026004C /* libSDL2-2.0.0.dylib */; };
 		8CEEB08C2B095F140026004C /* emu.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CEEB0882B095F140026004C /* emu.c */; };
 		8CEEB08D2B095F140026004C /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8CEEB08A2B095F140026004C /* main.c */; };
@@ -127,6 +128,7 @@
 		8C6C48EC2B09677E00B73C87 /* devices_collect.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = devices_collect.c; sourceTree = "<group>"; };
 		8C6C48ED2B09677E00B73C87 /* devices_handlers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = devices_handlers.c; sourceTree = "<group>"; };
 		8C6C48EE2B09677E00B73C87 /* devices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devices.h; sourceTree = "<group>"; };
+		8CBC12702B14F94A00890ABD /* xcc_systemtime.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xcc_systemtime.c; sourceTree = "<group>"; };
 		8CEEAFD92B0954F50026004C /* plasm2_emu */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = plasm2_emu; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CEEB0742B095C520026004C /* libSDL2-2.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libSDL2-2.0.0.dylib"; path = "../../../../../../opt/homebrew/Cellar/sdl2/2.28.5/lib/libSDL2-2.0.0.dylib"; sourceTree = "<group>"; };
 		8CEEB0882B095F140026004C /* emu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = emu.c; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				8C6C48882B09600300B73C87 /* xcc_timer.c */,
+				8CBC12702B14F94A00890ABD /* xcc_systemtime.c */,
 			);
 			path = xcc;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				8CEEB0962B095F420026004C /* cpu_init.c in Sources */,
 				8C6C48CA2B0966D400B73C87 /* kb_handlers.c in Sources */,
 				8C6C489C2B09602200B73C87 /* mmu_virt.c in Sources */,
+				8CBC12712B14F94A00890ABD /* xcc_systemtime.c in Sources */,
 				8CEEB08C2B095F140026004C /* emu.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

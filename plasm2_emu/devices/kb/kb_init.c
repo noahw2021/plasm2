@@ -18,13 +18,13 @@ PKB_CTX KbCtx;
 
 void KbClock(void) {
 	if (KbCtx->NotifyUp) {
-		mmu_push(KbCtx->NotifyUp);
-		cpui_inst_int(KbCtx->KeyUp);
+		MmuPush(KbCtx->NotifyUp);
+		CpuInstructionINT(KbCtx->KeyUp);
 		KbCtx->NotifyUp = 0;
 	}
 	if (KbCtx->NotifyDown) {
-		mmu_push(KbCtx->NotifyDown);
-		cpui_inst_int(KbCtx->KeyDown);
+		MmuPush(KbCtx->NotifyDown);
+		CpuInstructionINT(KbCtx->KeyDown);
 		KbCtx->NotifyDown = 0;
 	}
     

@@ -15,6 +15,11 @@ there may be problems that the CPU
 cannot handle.
 */
 
+#define EMUFLAG_NOPRINT  0x0001
+#define EMUFLAG_NODEBUG  0x0002
+#define EMUFLAG_NOCLOCK  0x0004
+#define EMUFLAG_NOSECURE 0x0008
+
 void EmuInit(void);
 void EmuShutdown(void);
 
@@ -23,8 +28,6 @@ void EmuRegisterFatal(const char* Reason);
 
 _bool EmuCheckClock(char* ThePtr); // query if its time to stop
 
-typedef struct _EMU_PRINTF_EVENT *PEMU_PRINTF_EVENT;
-
 typedef struct _EMU_CTX {
 	_bool RequiresHalt;
 	char LastReason[256];
@@ -32,6 +35,8 @@ typedef struct _EMU_CTX {
 	_bool DebuggerEnabled;
     
     void* VideoMutex;
+    
+    WORD64 Flags;
 }EMU_CTX, *PEMU_CTX;
 
 void* EmutexCreate(void);

@@ -34,32 +34,35 @@ Starting physical memory map:
 
 int __t_argc;
 char** __t_argv;
-PPLASM2_CTX i;
+PPLASM2_CTX ECtx;
 
-typedef struct _appargs {
+typedef struct _APP_ARGS {
     char** argv;
     int argc;
-}appargs_t;
-int __nonvideo_main(appargs_t*);
+}APP_ARGS, *PAPP_ARGS;
+int PlasmEmuNonVideoMain(PAPP_ARGS);
 
 #include <SDL.h>
 
 _bool ShouldStartVideo;
+_bool ShouldStopVideo;
+_bool VideoStopped;
 int main(int argc, char** argv) {
     ShouldStartVideo = FALSE;
+    ShouldStopVideo = FALSE;
     
-    appargs_t* Args = malloc(sizeof(appargs_t));
+    PAPP_ARGS Args = malloc(sizeof(APP_ARGS));
     Args->argc = argc;
     Args->argv = argv;
     
-    SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
+    SDL_CreateThread(PlasmEmuNonVideoMain, "Plasm2MainThread", Args);
     
     while (!ShouldStartVideo)
         SDL_Delay(100);
     VideoInit();
 }
 
-int __nonvideo_main(appargs_t* Args) {
+int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
     int argc = Args->argc;
     char** argv = Args->argv;
     
@@ -87,6 +90,10 @@ int __nonvideo_main(appargs_t* Args) {
 			printf("Misc Switches: (General Function Only)\n\n");
 			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
+            printf("%s --no-debug : Prevents the debugger from activating.\n", argv[0]);
+            printf("%s --no-print : Allows the debugger to activate, but without printing.\n", argv[0]);
+            printf("%s --no-clock : Disables the clock speed regulation system. Drastically increases performance.\n", argv[0]);
+            printf("%s --no-secure : Disables virtual memory security.\n", argv[0]);
             
 			printf("\nBy default, PLASM2Emu accepts a properly formed 'bios.bin'.\n");
 			return 0;
@@ -107,18 +114,34 @@ int __nonvideo_main(appargs_t* Args) {
 			ToolsMain();
 			return 0;
 		}
+        
+        if (strstr(argv[i], "--no-debug")) {
+            EmuCtx->Flags |= EMUFLAG_NODEBUG;
+        }
+        
+        if (strstr(argv[i], "--no-print")) {
+            EmuCtx->Flags |= EMUFLAG_NOPRINT;
+        }
+        
+        if (strstr(argv[i], "--no-clock")) {
+            EmuCtx->Flags |= EMUFLAG_NOCLOCK;
+        }
+        
+        if (strstr(argv[i], "--no-secure")) {
+            EmuCtx->Flags |= EMUFLAG_NOSECURE;
+        }
 	}
 	
-    i = malloc(sizeof(PLASM2_CTX));
-	memset(i, 0, sizeof(*i));
+    ECtx = malloc(sizeof(PLASM2_CTX));
+	memset(ECtx, 0, sizeof(*ECtx));
 
-    cpu_init();
+    CpuInit();
     
-	i->pti.dvptr = 0x0000;
-	i->ip = 0x03A0;
-	i->pti.slb = 0x24F0;
-	i->pti.spb = 0x25F0;
-	i->sp = 0x24F0;
+	ECtx->ControlRegisters.DeviceMap = 0x0000;
+	ECtx->ip = 0x03A0;
+	ECtx->ControlRegisters.StackPointerLowerBound = 0x24F0;
+	ECtx->ControlRegisters.StackPointerUpperBound = 0x25F0;
+	ECtx->sp = 0x24F0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
 	if (!Bios) {
@@ -132,7 +155,7 @@ int __nonvideo_main(appargs_t* Args) {
         BiosLength = 4906;
     fseek(Bios, 0, SEEK_SET);
     
-	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
+	fread((BYTE*)CpuCtx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
     
 	DevicesInit();
 	DevicesCollect();// PM usage good (reason: comes from trust)
@@ -152,9 +175,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	char TheHaltReason[256];
 
-	time_t Startup, Startdown;
-	Startup = time(NULL);
-	WORD64 ClockCnt = 0;
+	WORD64 PreMs = CpuTimerGetPreciseTimeMilliseconds();
     
 	while (1) {
 		if (EmuCheckClock(TheHaltReason)) {
@@ -165,42 +186,48 @@ int __nonvideo_main(appargs_t* Args) {
         
 		KbClock();
 		VideoClock();
-		cpu_clock();
-		ClockCnt++;
+		CpuClock();
 
-		if (i->flags_s.HF && !i->flags_s.IF)
+		if (ECtx->flags_s.HF && !ECtx->flags_s.IF)
 			break;
 	}
-
-	time(&Startdown);
+    
+    WORD64 PostMs = CpuTimerGetPreciseTimeMilliseconds();
 
 	if (EmuCtx->DebuggerEnabled)
 		DecoderShutdown();
 
 	VideoClock();
-	printf("Debug Shutdown Interrupt.\n");
-
+    
 	FILE* MemOut = fopen("memout.bin", "wb");
 	if (MemOut) {
-		fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize, 1, MemOut);
+		fwrite(CpuCtx->PhysicalMemory, CpuCtx->PhysicalMemorySize, 1, MemOut);
 		fclose(MemOut);
 	}
 
-	fgetc(stdin);
+	//fgetc(stdin);
 
+    WORD64 SystemTickBackup = CpuCtx->SystemTicks;
 	DevicesShutdown();
-	cpu_shutdown();
+	CpuShutdown();
 	EmuShutdown();
 
 	printf("CPU Halted.\n");
-
-	printf("Total Clocks: %llu\n", ClockCnt);
-	time_t Diff = (Startdown - Startup) + 1;   
-    printf("Total Time: %ldm %lds\n", Diff / 60, Diff % 60);
-	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
-
-	//fclose(a);
-    free(i);
+    free(ECtx);
+    
+    WORD64 MsDifference = PostMs - PreMs;
+    WORD64 SDifference = MsDifference / 1000;
+    MsDifference %= 1000;
+    
+    printf("Completed execution of %llu instructions in %llus, %llums.\n",
+           SystemTickBackup, SDifference, MsDifference);
+    
+    long double PreciseFloatingTime = SDifference + (MsDifference / 1000.0);
+    long double PreciseFloatingInstructions = SystemTickBackup;
+    long double PreciseClockSpeed = PreciseFloatingInstructions / PreciseFloatingTime;
+    WORD64 ImpreciseClockSpeed = (WORD64)PreciseClockSpeed;
+    
+    printf("Average Clock Speed: %llu Hz", ImpreciseClockSpeed);
     
 	return 0;
 }

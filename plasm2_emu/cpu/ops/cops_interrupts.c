@@ -8,8 +8,8 @@
 #include "../mmu/mmu.h"
 
 void INT(void) {
-	BYTE Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;
-	cpui_inst_int(Interrupt);
+	BYTE Interrupt = ECtx->GPRs[MmuRead1(ECtx->ip++) & 0xF] & 0xFF;
+	CpuInstructionINT(Interrupt);
 	return;
 }
 
@@ -21,32 +21,32 @@ void HND(void) {
 			BYTE Interrupt : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1(i->ip++);
-	BYTE SecurityLevel = (BYTE)mmu_pop();
-	if (!i->flags_s.TF) {
-		i->flags_s.XF = 1;
+	Input.Byte = MmuRead1(ECtx->ip++);
+	BYTE SecurityLevel = (BYTE)MmuPop();
+	if (!ECtx->flags_s.TF) {
+		ECtx->flags_s.XF = 1;
 		return;
 	}
-	if (SecurityLevel < i->security_s.SecurityLevel) {
-		i->flags_s.XF = 1;
+	if (SecurityLevel < ECtx->Security.SecurityLevel) {
+		ECtx->flags_s.XF = 1;
 		return;
 	}
-	WORD64 VirtualAddress = i->rs_gprs[Input.Handler];
+	WORD64 VirtualAddress = ECtx->GPRs[Input.Handler];
 	VirtualAddress &= 0x00FFFFFFFFFFFFFF;
 	VirtualAddress |= ((WORD64)SecurityLevel) << 56;
-	mmu_put8(i->pti.it + ((WORD64)Input.Interrupt * 8), VirtualAddress);
+	MmuPut8(ECtx->ControlRegisters.InterruptTable + ((WORD64)Input.Interrupt * 8), VirtualAddress);
 	return;
 }
 
 void IRT(void) {
-	if (i->sp != i->pti.ral) {
-		i->flags_s.XF = 1;
-		if (i->flags_s.AF) {
-			cpui_csm_msg(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
+	if (ECtx->sp != ECtx->ControlRegisters.ReturnAddressLocation) {
+		ECtx->flags_s.XF = 1;
+		if (ECtx->flags_s.AF) {
+			CpuCsmSendMessage(CSM_IMPROPERSTACK, ECtx->sp - ECtx->ControlRegisters.ReturnAddressLocation);
 			return;
 		}
 	}
-	i->sp = i->pti.ral;
+	ECtx->sp = ECtx->ControlRegisters.ReturnAddressLocation;
 	union {
 		WORD64 Raw;
 		struct {
@@ -56,36 +56,36 @@ void IRT(void) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket;
-	SecurityPacket.Raw = mmu_pop();
-	i->flags = SecurityPacket.Flags;
-	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
-	i->flags_s.CF = SecurityPacket.CallFlag;
-	i->ip = mmu_pop();
+	SecurityPacket.Raw = MmuPop();
+	ECtx->Flags = SecurityPacket.Flags;
+	ECtx->Security.SecurityLevel = SecurityPacket.SecurityLevel;
+	ECtx->flags_s.CF = SecurityPacket.CallFlag;
+	ECtx->ip = MmuPop();
 	return;
 }
 
 void ENI(void) {
-	i->flags_s.IF = 1;
+	ECtx->flags_s.IF = 1;
 	return;
 }
 
 void DSI(void) {
-	i->flags_s.IF = 0;
+	ECtx->flags_s.IF = 0;
 	return;
 }
 
 void SMH(void) {
-	BYTE Register = mmu_read1(i->ip++) & 0xF;
-	if (i->security_s.SecurityLevel == 0)
-		cpui_csm_set(i->rs_gprs[Register]);
+	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
+	if (ECtx->Security.SecurityLevel == 0)
+		CpuCsmSetHandler(ECtx->GPRs[Register]);
 	else
-		i->flags_s.XF = 1;
+		ECtx->flags_s.XF = 1;
 	return;
 }
 
 void SIT(void) {
-	WORD64 PhysicalAddress = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
-	if (i->security_s.SecurityLevel < 2)
-		i->pti.it = PhysicalAddress;
+	WORD64 PhysicalAddress = ECtx->GPRs[MmuRead1(ECtx->ip++) & 0xF];
+	if (ECtx->Security.SecurityLevel < 2)
+		ECtx->ControlRegisters.InterruptTable = PhysicalAddress;
 	return;
 }

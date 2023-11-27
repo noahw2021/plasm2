@@ -10,37 +10,37 @@
 #include <string.h>
 #include <stdio.h>
 
-cpuctx_t* cpuctx;
+PCPU_CTX CpuCtx;
 
 // invalid opcode
-void __cpui_invopc(void) {
-	i->flags_s.HF = 1;
+void _CpuiInvalidOpcode(void) {
+	ECtx->flags_s.HF = 1;
 	printf("[ERR]: Invalid opcode presented. Continuing...\n");
 	return;
 }
 
 #pragma warning(disable: 6011 6387)
 
-void cpu_init(void) {
-	cpuctx = malloc(sizeof(cpuctx_t));
-	memset(cpuctx, 0, sizeof(cpuctx_t));
+void CpuInit(void) {
+	CpuCtx = malloc(sizeof(CPU_CTX));
+	memset(CpuCtx, 0, sizeof(CPU_CTX));
 
-	time(&cpuctx->SystemBoot);
-	cpuctx->SystemSeconds = cpuctx->SystemBoot;
-	cpuctx->ClocksPerSecond = BASE_CLOCK;
-
+	CpuCtx->SystemTicks = 0;
+	CpuCtx->ClocksPerSecond = BASE_CLOCK;
+    CpuCtx->NextTickNanoSecond = 4096;
+    
 	for (int i = 0; i < 256; i++) {
 		if (Instructions[i] == NULL)
-			Instructions[i] = __cpui_invopc;
+			Instructions[i] = _CpuiInvalidOpcode;
 	}
 
-	mmu_init();
+	MmuInit();
 	return;
 }
 
-void cpu_shutdown(void) {
-	mmu_shutdown();
+void CpuShutdown(void) {
+	MmuShutdown();
 
-	free(cpuctx);
+	free(CpuCtx);
 	return;
 }
