@@ -10,19 +10,20 @@
 void LinkInit(void);
 void LinkShutdown(void);
 
-WORD64 LinkGetSymbol(const char* Name, WORD32 Offset);
+WORD64 LinkGetSymbol(const char* Name, WORD32 Offset, BYTE Opcode);
 void LinkResolve(const char* Name, WORD64 Pointer);
 void LinkGo(void);
 
 typedef struct _LINK_CTX {
 	WORD64 SymbolCount;
-	struct {
-		WORD64 Resolution;
-		char* SymbolName;
-		BYTE Resolved;
-
-		WORD64 LocationCount;
-		WORD64* Locations;
-	}*Symbols;
+    struct {
+        WORD64 Resolution;
+        char* SymbolName;
+        BYTE Resolved;
+        
+        WORD64 LocationCount;
+        WORD64* Locations;
+        BYTE* LocationOpcodes;
+    }*Symbols;
 }LINK_CTX, *PLINK_CTX;
 extern PLINK_CTX LinkCtx;

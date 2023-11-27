@@ -71,7 +71,7 @@ int __nonvideo_main(appargs_t* Args) {
 	int FixedDiskCount = 0;
 
 	for (int i = 1; i < argc; i++) {
-		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
+		if (1 || strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
 			emuctx->DebuggerEnabled = 1;
 		}
 		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {

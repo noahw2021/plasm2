@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8CEEAFD82B0954F50026004C"
-               BuildableName = "plasm2_emu"
-               BlueprintName = "plasm2_emu"
-               ReferencedContainer = "container:plasm2_emu.xcodeproj">
+               BlueprintIdentifier = "8C8312712B0BA903001322C3"
+               BuildableName = "plasm2_disassembler"
+               BlueprintName = "plasm2_disassembler"
+               ReferencedContainer = "container:plasm2_disassembler.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,15 +45,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8CEEAFD82B0954F50026004C"
-            BuildableName = "plasm2_emu"
-            BlueprintName = "plasm2_emu"
-            ReferencedContainer = "container:plasm2_emu.xcodeproj">
+            BlueprintIdentifier = "8C8312712B0BA903001322C3"
+            BuildableName = "plasm2_disassembler"
+            BlueprintName = "plasm2_disassembler"
+            ReferencedContainer = "container:plasm2_disassembler.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--debug"
+            argument = "-i=bios.bin"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -68,10 +68,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "8CEEAFD82B0954F50026004C"
-            BuildableName = "plasm2_emu"
-            BlueprintName = "plasm2_emu"
-            ReferencedContainer = "container:plasm2_emu.xcodeproj">
+            BlueprintIdentifier = "8C8312712B0BA903001322C3"
+            BuildableName = "plasm2_disassembler"
+            BlueprintName = "plasm2_disassembler"
+            ReferencedContainer = "container:plasm2_disassembler.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

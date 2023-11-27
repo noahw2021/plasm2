@@ -12,21 +12,34 @@
 #include <string.h>
 #pragma warning(disable: 6308 26451)
 
-WORD64 LinkGetSymbol(const char* Name, WORD32 Offset) {
+WORD64 LinkGetSymbol(const char* Name, WORD32 Offset, BYTE Opcode) {
 	for (int i = 0; i < LinkCtx->SymbolCount; i++) {
-		if (!strcmp(LinkCtx->Symbols[i].SymbolName, Name)) {
-			if (LinkCtx->Symbols[i].Resolved)
-				return LinkCtx->Symbols[i].Resolution;
-			if (!LinkCtx->Symbols[i].Locations) {
-				LinkCtx->Symbols[i].Locations = malloc(sizeof(LinkCtx->Symbols[i].Locations[0]));
-			} else {
-				LinkCtx->Symbols[i].Locations = realloc(LinkCtx->Symbols[i].Locations, (sizeof(WORD64) * (LinkCtx->Symbols[i].LocationCount + 1)));
-			}
-
+        if (!strcmp(LinkCtx->Symbols[i].SymbolName, Name)) {
+            if (LinkCtx->Symbols[i].Resolved)
+                return LinkCtx->Symbols[i].Resolution;
+            if (!LinkCtx->Symbols[i].Locations) {
+                LinkCtx->Symbols[i].Locations = malloc(sizeof(LinkCtx->Symbols[i].Locations[0]));
+            } else {
+                LinkCtx->Symbols[i].Locations = realloc(LinkCtx->Symbols[i].Locations, (sizeof(WORD64) * (LinkCtx->Symbols[i].LocationCount + 1)));
+            }
+            
+            if (!LinkCtx->Symbols[i].LocationOpcodes) {
+                LinkCtx->Symbols[i].LocationOpcodes = malloc(sizeof(BYTE));
+            } else {
+                LinkCtx->Symbols[i].LocationOpcodes =
+                realloc(LinkCtx->Symbols[i].LocationOpcodes,
+                        sizeof(BYTE) *
+                        (LinkCtx->Symbols[i].LocationCount + 1));
+            }
+            BYTE* ThisOpcode = &LinkCtx->Symbols[i].LocationOpcodes
+                [LinkCtx->Symbols[i].LocationCount++];
+            
 			WORD64 CodePos = CgCtx->DataPosition + Offset;
-			int Loc = LinkCtx->Symbols[i].LocationCount;
+			WORD32 Loc = LinkCtx->Symbols[i].LocationCount;
 			LinkCtx->Symbols[i].Locations[Loc] = CodePos;
 			LinkCtx->Symbols[i].LocationCount++;
+            *ThisOpcode = Opcode;
+            
 			return LinkCtx->Symbols[i].Resolution;
 		}
 	}
@@ -38,7 +51,9 @@ WORD64 LinkGetSymbol(const char* Name, WORD32 Offset) {
 
 	LinkCtx->Symbols[LinkCtx->SymbolCount].LocationCount = 1;
 	LinkCtx->Symbols[LinkCtx->SymbolCount].Locations = malloc(sizeof(WORD64));
-	LinkCtx->Symbols[LinkCtx->SymbolCount].Locations[0] = CgCtx->DataPosition + Offset;
+    LinkCtx->Symbols[LinkCtx->SymbolCount].LocationOpcodes = malloc(sizeof(BYTE));
+    LinkCtx->Symbols[LinkCtx->SymbolCount].LocationOpcodes[0] = Opcode;
+    LinkCtx->Symbols[LinkCtx->SymbolCount].Locations[0] = CgCtx->DataPosition + Offset;
 	LinkCtx->Symbols[LinkCtx->SymbolCount].Resolution = 0;
 	LinkCtx->Symbols[LinkCtx->SymbolCount].Resolved = 0;
 	LinkCtx->Symbols[LinkCtx->SymbolCount].SymbolName = malloc(strlen(Name) + 1);
