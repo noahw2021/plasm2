@@ -75,9 +75,10 @@ void Psin2Load(void) {
 	Psin2Parse("__SWS = 0x73, // SWS 73 (R:04,08 __DEST) (I:64,64 _VALUE) 80 : Store Word Immediate (2nd Value Imm)");
 	Psin2Parse("__LDH = 0x74, // LDH 74 (R:04,04 __DEST) (R:04,04____PTR) 16 : Load HalfWord (32bits) From Memory");
 	Psin2Parse("__STH = 0x75, // STH 75 (R:04,04 __DEST) (R:04,04____PTR) 16 : Stor HalfWord (32bits) Into Memory");
-    Psin2Parse("__PSI = 0x76, // PSI 76 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
-
-	Psin2Parse("// Device Instructions");
+    Psin2Parse("__PPW = 0x76, // PPW 76                                   08 : Stack Pop and Waste (does not store value)");
+    Psin2Parse("__PSI = 0x77, // PSI 77 (I:64,64 __IMMD)                  72 : Push Immediate (64bits)");
+    
+    Psin2Parse("// Device Instructions");
 	Psin2Parse("__DSQ = 0x80, // DSQ 80 (R:04,08 ___DEV)                  16 : Device Status Query");
 	Psin2Parse("__DSC = 0x81, // DSC 81 (R:04,04 ___DEV) (R:04,04 ___CMD) 16 : Device Send Command");
 	Psin2Parse("__DSD = 0x82, // DSD 82 (R:04,04 ___DEV) (R:04,04 __DATA) 16 : Device Send Data");

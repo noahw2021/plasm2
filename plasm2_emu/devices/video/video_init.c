@@ -7,6 +7,7 @@
 #include "../devices.h"
 #include "../kb/kb.h"
 #include "../../cpu/cpu.h"
+#include "../../emu.h"
 #include "video.h"
 #include <string.h>
 #include <SDL.h>
@@ -16,10 +17,11 @@ SDL_Renderer* Renderer;
 BYTE PauseDrawing;
 PVIDEO_CTX VideoCtx;
 SDL_Thread* LoopThread;
+_bool VideoStarted;
 
 #pragma warning(disable: 6011 6387)
 
-void videoii_loop(void);
+void VideoLoop(void);
 
 void VideoInit(void) {
 	VideoCtx = malloc(sizeof(VIDEO_CTX));
@@ -28,7 +30,7 @@ void VideoInit(void) {
 	VideoCtx->Status = DEVSTATUS_GOOD;
 
 	PauseDrawing = 0;
-    videoii_loop();
+    VideoLoop();
 }
 
 void VideoShutdown(void) {
@@ -39,13 +41,15 @@ void VideoShutdown(void) {
 	SDL_Quit();
 }
 
-void videoii_loop(void) {
+void VideoLoop(void) {
 	SDL_Event Event;
 	BYTE Quit = 0;
     
     SDL_Init(SDL_INIT_VIDEO);
     Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
-    Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+    Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_SOFTWARE);
+    
+    VideoStarted = 1;
     
 	while (!Quit) {
 		while (SDL_PollEvent(&Event)) {

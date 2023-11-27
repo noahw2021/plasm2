@@ -82,6 +82,7 @@ DeclInstruction(LDH);
 DeclInstruction(STH);
 DeclInstruction(PSI);
 DeclInstruction(CLR);
+DeclInstruction(PPW);
 
 void(*Instructions[256])(void) = {
 	ListInstruction(MOV),
@@ -160,4 +161,5 @@ void(*Instructions[256])(void) = {
 	ListInstruction(STH),
     ListInstruction(PSI),
     ListInstruction(CLR),
+    ListInstruction(PPW),
 };

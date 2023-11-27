@@ -8,14 +8,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-dcctx_t* dcctx;
+PDC_CTX DcCtx;
 
-void decoder_init(void) {
-	dcctx = malloc(sizeof(dcctx_t));
-	memset(dcctx, 0, sizeof(dcctx_t));
+void DecoderInit(void) {
+	DcCtx = malloc(sizeof(DC_CTX));
+	memset(DcCtx, 0, sizeof(DC_CTX));
 	return;
 }
 
-void decoder_shutdown(void) {
-	free(dcctx);
+void DecoderShutdown(void) {
+	free(DcCtx);
 }

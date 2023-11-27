@@ -9,17 +9,17 @@
 
 // decoder, debugger, and disassembler
 
-void decoder_init(void);
-void decoder_shutdown(void);
+void DecoderInit(void);
+void DecoderShutdown(void);
 
-BYTE decoderi_g1(void);
-WORD64  decoderi_gx(BYTE HowMuch);
+BYTE DecoderRead1(void);
+WORD64  DecoderReadX(BYTE HowMuch);
 
-void decoder_go(BYTE Instruction);
+void DecoderGo(BYTE Instruction);
 
-void decoder_print(const char* Format);
+void DecoderPrint(const char* Format);
 
-typedef struct _dcctx {
-	WORD64 SpeculativePointer; 
-}dcctx_t;
-extern dcctx_t* dcctx;
+typedef struct _DCCTX {
+	WORD64 SpeculativePointer;
+}DC_CTX, *PDC_CTX;
+extern PDC_CTX DcCtx;

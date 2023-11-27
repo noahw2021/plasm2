@@ -54,7 +54,8 @@ int main(int argc, char** argv) {
     
     SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
     
-    while (!ShouldStartVideo);
+    while (!ShouldStartVideo)
+        SDL_Delay(100);
     VideoInit();
 }
 
@@ -62,17 +63,17 @@ int __nonvideo_main(appargs_t* Args) {
     int argc = Args->argc;
     char** argv = Args->argv;
     
-	FILE* a = freopen("rstd", "w", stdout);
-
-	emu_init();
+    EmuInit();
 	Psin2Init();
+    
+    EmuCtx->VideoMutex = EmutexCreate();
 	
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
 
 	for (int i = 1; i < argc; i++) {
 		if (strstr(argv[i], "-d") || strstr(argv[i], "--debug")) {
-			emuctx->DebuggerEnabled = 1;
+			EmuCtx->DebuggerEnabled = 1;
 		}
 		if (strstr(argv[i], "-h") || strstr(argv[i], "--help")) {
 			printf("PLASM2Emu: Help & Usage\n\n");
@@ -129,37 +130,39 @@ int __nonvideo_main(appargs_t* Args) {
     WORD32 BiosLength = ftell(Bios);
     if (BiosLength > 4096)
         BiosLength = 4906;
+    fseek(Bios, 0, SEEK_SET);
     
 	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
-
+    
 	DevicesInit();
 	DevicesCollect();// PM usage good (reason: comes from trust)
 
 	for (int i = 0; i < FixedDiskCount; i++) {
 		if (!FdiskRegister(FixedDisks[i])) {
 			printf("[ERR]: Failed to open fixed disk '%s'!\n", FixedDisks[i]);
-			emu_register_fatal("Could not obtain drive.");
+			EmuRegisterFatal("Could not obtain drive.");
 		}
 		free(FixedDisks[i]);
 	}
 	if (FixedDisks)
 		free(FixedDisks);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_init();
+	if (EmuCtx->DebuggerEnabled)
+		DecoderInit();
 
 	char TheHaltReason[256];
 
 	time_t Startup, Startdown;
 	Startup = time(NULL);
 	WORD64 ClockCnt = 0;
-
+    
 	while (1) {
-		if (emu_aufhoren(TheHaltReason)) {
+		if (EmuCheckClock(TheHaltReason)) {
 			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
 			printf("%s\n", TheHaltReason);
 			break;
 		}
+        
 		KbClock();
 		VideoClock();
 		cpu_clock();
@@ -171,8 +174,8 @@ int __nonvideo_main(appargs_t* Args) {
 
 	time(&Startdown);
 
-	if (emuctx->DebuggerEnabled)
-		decoder_shutdown();
+	if (EmuCtx->DebuggerEnabled)
+		DecoderShutdown();
 
 	VideoClock();
 	printf("Debug Shutdown Interrupt.\n");
@@ -187,7 +190,7 @@ int __nonvideo_main(appargs_t* Args) {
 
 	DevicesShutdown();
 	cpu_shutdown();
-	emu_shutdown();
+	EmuShutdown();
 
 	printf("CPU Halted.\n");
 
@@ -196,7 +199,7 @@ int __nonvideo_main(appargs_t* Args) {
     printf("Total Time: %ldm %lds\n", Diff / 60, Diff % 60);
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
-	fclose(a);
+	//fclose(a);
     free(i);
     
 	return 0;
