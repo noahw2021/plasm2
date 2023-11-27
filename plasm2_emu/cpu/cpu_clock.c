@@ -37,7 +37,7 @@ void CpuClock(void) {
             CpuCtx->LastTrackedNanoSecond = CpuTimerGetPreciseTimeNanoseconds();
         }
         
-        CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / CpuCtx->ClocksPerSecond);
+        CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond + (NS_PER_S / (CpuCtx->ClocksPerSecond * 3));
     }
 #endif
     

@@ -9,7 +9,7 @@
 #include <time.h>
 
 // Current clock speed
-#define BASE_CLOCK 100000000000000
+#define BASE_CLOCK 41000000
 #define PHYS_MEMSZ 10485760
 
 // Critical System Malfunctions
