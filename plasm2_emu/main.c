@@ -46,25 +46,30 @@ int __nonvideo_main(appargs_t*);
 
 _bool ShouldStartVideo;
 int main(int argc, char** argv) {
+    printf("test.\n");
+    
     ShouldStartVideo = FALSE;
     
     appargs_t* Args = malloc(sizeof(appargs_t));
     Args->argc = argc;
     Args->argv = argv;
     
+    EmuInit();    EmuCtx->VideoMutex = EmutexCreate();
+    
     SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
     
-    while (!ShouldStartVideo);
+    while (!ShouldStartVideo)
+        SDL_Delay(100);
     VideoInit();
+    
 }
 
 int __nonvideo_main(appargs_t* Args) {
     int argc = Args->argc;
     char** argv = Args->argv;
     
-	FILE* a = freopen("rstd", "w", stdout);
+	//FILE* a = freopen("rstd", "w", stdout);
 
-	EmuInit();
 	Psin2Init();
 	
 	char** FixedDisks = NULL;
@@ -131,7 +136,7 @@ int __nonvideo_main(appargs_t* Args) {
         BiosLength = 4906;
     
 	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
-
+    
 	DevicesInit();
 	DevicesCollect();// PM usage good (reason: comes from trust)
 
@@ -153,13 +158,14 @@ int __nonvideo_main(appargs_t* Args) {
 	time_t Startup, Startdown;
 	Startup = time(NULL);
 	WORD64 ClockCnt = 0;
-
+    
 	while (1) {
 		if (EmuCheckClock(TheHaltReason)) {
 			printf("Emergancy CPU Stop: Virtual Execution Error.\n");
 			printf("%s\n", TheHaltReason);
 			break;
 		}
+        
 		KbClock();
 		VideoClock();
 		cpu_clock();
@@ -196,7 +202,7 @@ int __nonvideo_main(appargs_t* Args) {
     printf("Total Time: %ldm %lds\n", Diff / 60, Diff % 60);
 	printf("Clocks Per Sec: %llu\n", (ClockCnt) / (Diff));
 
-	fclose(a);
+	//fclose(a);
     free(i);
     
 	return 0;

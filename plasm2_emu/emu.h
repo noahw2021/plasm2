@@ -6,6 +6,8 @@
 //
 #pragma once
 #include "basetypes.h"
+#include <stdio.h>
+#include <SDL.h>
 
 /*
 This is an emulator, and thus
@@ -21,10 +23,20 @@ void EmuRegisterFatal(const char* Reason);
 
 _bool EmuCheckClock(char* ThePtr); // query if its time to stop
 
-typedef struct _EMUCTX {
+typedef struct _EMU_PRINTF_EVENT *PEMU_PRINTF_EVENT;
+
+typedef struct _EMU_CTX {
 	_bool RequiresHalt;
 	char LastReason[256];
 
 	_bool DebuggerEnabled;
+    
+    void* VideoMutex;
 }EMU_CTX, *PEMU_CTX;
+
+void* EmutexCreate(void);
+void EmutexLock(void* Mutex);
+void EmutexUnlock(void* Mutex);
+void EmutexDestory(void* Mutex);
+
 extern PEMU_CTX EmuCtx;
