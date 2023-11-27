@@ -9,7 +9,7 @@
 
 void INT(void) {
 	BYTE Interrupt = i->rs_gprs[mmu_read1(i->ip++) & 0xF] & 0xFF;
-	cpui_inst_int(Interrupt);
+	CpuInstructionINT(Interrupt);
 	return;
 }
 
@@ -42,7 +42,7 @@ void IRT(void) {
 	if (i->sp != i->pti.ral) {
 		i->flags_s.XF = 1;
 		if (i->flags_s.AF) {
-			cpui_csm_msg(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
+			CpuCsmSendMessage(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
 			return;
 		}
 	}
@@ -77,7 +77,7 @@ void DSI(void) {
 void SMH(void) {
 	BYTE Register = mmu_read1(i->ip++) & 0xF;
 	if (i->security_s.SecurityLevel == 0)
-		cpui_csm_set(i->rs_gprs[Register]);
+		CpuCsmSetHandler(i->rs_gprs[Register]);
 	else
 		i->flags_s.XF = 1;
 	return;

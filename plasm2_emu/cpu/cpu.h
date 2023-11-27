@@ -211,15 +211,15 @@ typedef struct _PLASM2_CTX {
 }PLASM2_CTX, *PPLASM2_CTX;
 extern PPLASM2_CTX i;
 
-void cpui_csm_set(WORD64 Handler);
-void cpui_csm_msg(BYTE Code, WORD64 AddtData);
+void CpuCsmSetHandler(WORD64 Handler);
+void CpuCsmSendMessage(BYTE Code, WORD64 AddtData);
 
 // addresses are physical
-void cpui_inst_jmp(WORD64 Address);
-void cpui_inst_cll(WORD64 Address);
-void cpui_inst_ret(void);
-void cpui_inst_int(BYTE Interrupt);
-void cpui_inst_clr(void);
+void CpuInstructionJMP(WORD64 Address);
+void CpuInstructionCLL(WORD64 Address);
+void CpuInstructionRET(void);
+void CpuInstructionINT(BYTE Interrupt);
+void CpuInstructionCLR(void);
 
 // cpu advanced functions
 

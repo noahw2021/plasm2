@@ -32,7 +32,7 @@ void JMP(void) {
 	BYTE Address = mmu_read1(i->ip++) & 0xF;
 	WORD64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (PhysicalAddress)
-		cpui_inst_jmp(PhysicalAddress);
+		CpuInstructionJMP(PhysicalAddress);
 	else
 		i->flags_s.XF = 1;
 	return;
@@ -68,14 +68,14 @@ void CLL(void) {
 	WORD64 Address = i->rs_gprs[Register];
 	WORD64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (PhysicalAddress)
-		cpui_inst_cll(PhysicalAddress);
+		CpuInstructionCLL(PhysicalAddress);
 	else
 		i->flags_s.XF = 1;
 	return;
 }
 
 void RET(void) {
-	cpui_inst_ret();
+	CpuInstructionRET();
 }
 
 void IMR(void) {
@@ -120,7 +120,7 @@ void JMI(void) {
 	i->ip += 8;
 	WORD64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
-		cpui_inst_jmp(Translated);
+		CpuInstructionJMP(Translated);
 	else
 		i->flags_s.XF = 1;
 	return;
@@ -131,7 +131,7 @@ void CLI(void) {
 	i->ip += 8;
 	WORD64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
-		cpui_inst_cll(Translated);
+		CpuInstructionCLL(Translated);
 	else
 		i->flags_s.XF = 1;
 	return;
@@ -157,5 +157,5 @@ void CMI(void) {
 }
 
 void CLR(void) {
-    return cpui_inst_clr();
+    return CpuInstructionCLR();
 }

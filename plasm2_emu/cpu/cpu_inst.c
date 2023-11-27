@@ -9,12 +9,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-void cpui_inst_jmp(WORD64 Address) {
+void CpuInstructionJMP(WORD64 Address) {
 	i->ip = Address;
 	return;
 }
 
-void cpui_inst_cll(WORD64 Address) {
+void CpuInstructionCLL(WORD64 Address) {
 	if (!Address) {
 		i->flags_s.XF = 1;
 		return;
@@ -47,7 +47,7 @@ void cpui_inst_cll(WORD64 Address) {
 	return;
 }
 
-void cpui_inst_ret(void) {
+void CpuInstructionRET(void) {
 	if (!i->flags_s.CF)
 		return;
 	
@@ -71,7 +71,7 @@ void cpui_inst_ret(void) {
     return;
 }
 
-void cpui_inst_int(BYTE Interrupt) {
+void CpuInstructionINT(BYTE Interrupt) {
 	WORD64* InterruptTable = (WORD64*)((BYTE*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
 	WORD64 VirtualAddress = InterruptTable[Interrupt];
 	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
@@ -102,7 +102,7 @@ void cpui_inst_int(BYTE Interrupt) {
 	return;
 }
 
-void cpui_inst_clr(void) {
+void CpuInstructionCLR(void) {
     WORD64 StackPointerBackup = i->sp;
     i->sp = i->pti.ral;
     WORD64 SecurityPacket = mmu_pop();

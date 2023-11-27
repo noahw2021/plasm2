@@ -34,7 +34,7 @@ void cpu_clock(void) {
 		i->flags_s.MF &&
 		i->ip >= i->pti.pml
 		) {
-		cpui_csm_msg(CSM_XPAGETOOSMALL, i->ip);
+		CpuCsmSendMessage(CSM_XPAGETOOSMALL, i->ip);
 	}
 
 	BYTE ThisInstruction = mmu_read1(i->ip++);

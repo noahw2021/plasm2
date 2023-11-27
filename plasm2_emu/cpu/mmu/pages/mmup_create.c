@@ -9,7 +9,7 @@ plasm2_emu
 
 WORD64 mmu_createpage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
 	if (mmuctx->PageCount + 1 > mmuctx->MaxPageCount) {
-		cpui_csm_msg(CSM_PTFAILNOTSIZE, mmuctx->PageCount + 1LLU);
+		CpuCsmSendMessage(CSM_PTFAILNOTSIZE, mmuctx->PageCount + 1LLU);
 		return 0;
 	}
 	
