@@ -6,3 +6,9 @@
 //
 
 #include <stdio.h>
+#include <stdarg.h>
+#include "decoder.h"
+
+void DecoderPrint(const char* Format, ...) {
+    printf("%s", Format);
+}

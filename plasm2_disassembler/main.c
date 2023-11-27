@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
             
             // Argument Finder
             
-            if (!strcmp(ThisArg, "-i=")) { // input
+            if (strstr(ThisArg, "-i=")) { // input
                 char* ArgumentBase = ThisArg + 0x3;
                 strcpy(InputName, ArgumentBase);
                 

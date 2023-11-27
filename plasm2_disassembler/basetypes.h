@@ -20,4 +20,6 @@ typedef unsigned char byte, BYTE, _bool;
 #define FALSE
 #endif
 
+#define InRange(x, min, max) (x >= min && x <= max)
+
 #endif /* basetypes_h */

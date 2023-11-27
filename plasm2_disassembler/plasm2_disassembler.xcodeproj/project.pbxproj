@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C4E222D2B0CDAB0006D70ED /* decoder_print.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C4E222C2B0CDAB0006D70ED /* decoder_print.c */; };
 		8C8312852B0BA911001322C3 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C8312842B0BA911001322C3 /* main.c */; };
 		8C891EDB2B0BC7F1005851F3 /* psin2_data.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C891ED62B0BC7F1005851F3 /* psin2_data.c */; };
 		8C891EDC2B0BC7F1005851F3 /* psin2_getcg.c in Sources */ = {isa = PBXBuildFile; fileRef = 8C891ED72B0BC7F1005851F3 /* psin2_getcg.c */; };
@@ -31,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		8C4E22252B0C607E006D70ED /* symbols_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_init.c; sourceTree = "<group>"; };
+		8C4E22262B0CD02E006D70ED /* symbols_resolve.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_resolve.c; sourceTree = "<group>"; };
+		8C4E222C2B0CDAB0006D70ED /* decoder_print.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = decoder_print.c; sourceTree = "<group>"; };
 		8C8312722B0BA903001322C3 /* plasm2_disassembler */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = plasm2_disassembler; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8312842B0BA911001322C3 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		8C891ED42B0BC6B2005851F3 /* basetypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = basetypes.h; sourceTree = "<group>"; };
@@ -96,6 +99,7 @@
 				8C891EE12B0BD7C4005851F3 /* decoder_init.c */,
 				8C891EE52B0BD953005851F3 /* decoder_go.c */,
 				8C891EE72B0BDDD7005851F3 /* decoder_read.c */,
+				8C4E222C2B0CDAB0006D70ED /* decoder_print.c */,
 			);
 			path = decoder;
 			sourceTree = "<group>";
@@ -105,6 +109,7 @@
 			children = (
 				8C891EE42B0BD85D005851F3 /* symbols.h */,
 				8C4E22252B0C607E006D70ED /* symbols_init.c */,
+				8C4E22262B0CD02E006D70ED /* symbols_resolve.c */,
 			);
 			path = symbols;
 			sourceTree = "<group>";
@@ -166,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C4E222D2B0CDAB0006D70ED /* decoder_print.c in Sources */,
 				8C891EE82B0BDDD7005851F3 /* decoder_read.c in Sources */,
 				8C891EDD2B0BC7F1005851F3 /* psin2_parse.c in Sources */,
 				8C891EDB2B0BC7F1005851F3 /* psin2_data.c in Sources */,

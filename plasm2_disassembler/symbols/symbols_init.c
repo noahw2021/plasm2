@@ -6,7 +6,8 @@
 //
 
 #include "symbols.h"
-#include "../decoder.h"
+
+#include "../decoder/decoder.h"
 
 PSYMBOL_CTX MainCtx;
 

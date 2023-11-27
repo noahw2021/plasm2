@@ -38,6 +38,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8C4E22282B0CD24C006D70ED /* symbols.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = symbols.h; sourceTree = "<group>"; };
+		8C4E22292B0CD2BC006D70ED /* symbols_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_init.c; sourceTree = "<group>"; };
+		8C4E222A2B0CD2C6006D70ED /* symbols_generate.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_generate.c; sourceTree = "<group>"; };
+		8C4E222B2B0CD32B006D70ED /* symbols_io.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = symbols_io.c; sourceTree = "<group>"; };
 		8C6C48F72B097DE500B73C87 /* cg_init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cg_init.c; sourceTree = "<group>"; };
 		8C6C48F82B097DE500B73C87 /* cg_put.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cg_put.c; sourceTree = "<group>"; };
 		8C6C48F92B097DE500B73C87 /* cg_errors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cg_errors.c; sourceTree = "<group>"; };
@@ -73,6 +77,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C4E22272B0CD242006D70ED /* symbols */ = {
+			isa = PBXGroup;
+			children = (
+				8C4E22282B0CD24C006D70ED /* symbols.h */,
+				8C4E22292B0CD2BC006D70ED /* symbols_init.c */,
+				8C4E222A2B0CD2C6006D70ED /* symbols_generate.c */,
+				8C4E222B2B0CD32B006D70ED /* symbols_io.c */,
+			);
+			path = symbols;
+			sourceTree = "<group>";
+		};
 		8C6C48F62B097DCF00B73C87 /* cg */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +140,7 @@
 			children = (
 				8C6C49142B097E9E00B73C87 /* main.c */,
 				8C6C49132B097E9000B73C87 /* basetypes.h */,
+				8C4E22272B0CD242006D70ED /* symbols */,
 				8C6C49122B097E7600B73C87 /* vf */,
 				8C6C49082B097E5B00B73C87 /* psin2 */,
 				8C6C49002B097DEF00B73C87 /* link */,

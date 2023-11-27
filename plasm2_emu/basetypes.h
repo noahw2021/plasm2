@@ -11,7 +11,7 @@ typedef unsigned long WORD32;
 typedef unsigned short WORD16;
 typedef unsigned char BYTE, _bool;
 
-#define InRange(x, min, max) (x > min && x < max)
+#define InRange(x, min, max) (x >= min && x <= max)
 
 #define TRUE 1
 #define FALSE 0

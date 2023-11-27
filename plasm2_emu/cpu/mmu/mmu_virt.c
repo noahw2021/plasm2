@@ -20,6 +20,7 @@ WORD64 mmu_translate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
 					return 0;
 				if ((Reason & REASON_EXEC) && !mmuctx->Pages[p].Execute)
 					return 0;
+                
 				if (MaxSize != SIZE_WATCHDOG) {
 					if (VirtualAddress + MaxSize >= (mmuctx->Pages[p].Virtual + mmuctx->Pages[p].Size))
 						return 0;
