@@ -112,12 +112,12 @@ int __nonvideo_main(appargs_t* Args) {
     i = malloc(sizeof(PLASM2_CTX));
 	memset(i, 0, sizeof(*i));
 
-    cpu_init();
+    CpuInit();
     
-	i->pti.dvptr = 0x0000;
+	i->ControlRegisters.DeviceMap = 0x0000;
 	i->ip = 0x03A0;
-	i->pti.slb = 0x24F0;
-	i->pti.spb = 0x25F0;
+	i->ControlRegisters.StackPointerLowerBound = 0x24F0;
+	i->ControlRegisters.StackPointerUpperBound = 0x25F0;
 	i->sp = 0x24F0;
 
 	FILE* Bios = fopen("bios.bin", "rb");
@@ -132,7 +132,7 @@ int __nonvideo_main(appargs_t* Args) {
         BiosLength = 4906;
     fseek(Bios, 0, SEEK_SET);
     
-	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
+	fread((BYTE*)CpuCtx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
     
 	DevicesInit();
 	DevicesCollect();// PM usage good (reason: comes from trust)
@@ -165,7 +165,7 @@ int __nonvideo_main(appargs_t* Args) {
         
 		KbClock();
 		VideoClock();
-		cpu_clock();
+		CpuClock();
 		ClockCnt++;
 
 		if (i->flags_s.HF && !i->flags_s.IF)
@@ -182,14 +182,14 @@ int __nonvideo_main(appargs_t* Args) {
 
 	FILE* MemOut = fopen("memout.bin", "wb");
 	if (MemOut) {
-		fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize, 1, MemOut);
+		fwrite(CpuCtx->PhysicalMemory, CpuCtx->PhysicalMemorySize, 1, MemOut);
 		fclose(MemOut);
 	}
 
 	fgetc(stdin);
 
 	DevicesShutdown();
-	cpu_shutdown();
+	CpuShutdown();
 	EmuShutdown();
 
 	printf("CPU Halted.\n");

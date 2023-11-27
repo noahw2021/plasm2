@@ -335,7 +335,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -462,7 +462,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -478,7 +478,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -494,7 +494,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -526,7 +526,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
             endingLineNumber = "20"
-            landmarkName = "mmu_read8(Address)"
+            landmarkName = "MmuRead8(Address)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -780,7 +780,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
             endingLineNumber = "17"
-            landmarkName = "__cpui_invopc()"
+            landmarkName = "_CpuiInvalidOpcode()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

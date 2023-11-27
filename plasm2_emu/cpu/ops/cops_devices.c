@@ -9,9 +9,9 @@
 #include "../../devices/devices.h"
 
 void DSQ(void) {
-	BYTE Register = mmu_read1(i->ip++) & 0xF;
-	WORD64 Status = DevicesiStatusQuery((WORD32)i->rs_gprs[Register] & 0xFFFFFFFF);
-	mmu_push(Status);
+	BYTE Register = MmuRead1(i->ip++) & 0xF;
+	WORD64 Status = DevicesiStatusQuery((WORD32)i->GPRs[Register] & 0xFFFFFFFF);
+	MmuPush(Status);
 	return;
 }
 
@@ -23,8 +23,8 @@ void DSC(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(i->ip++);
-	DevicesiSendCommand((WORD32)i->rs_gprs[Inputs.Device], i->rs_gprs[Inputs.Command]);
+	Inputs.Input = MmuRead1(i->ip++);
+	DevicesiSendCommand((WORD32)i->GPRs[Inputs.Device], i->GPRs[Inputs.Command]);
 	return;
 }
 
@@ -36,8 +36,8 @@ void DSD(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(i->ip++);
-	DevicesiSendData((WORD32)i->rs_gprs[Inputs.Device], i->rs_gprs[Inputs.Data]);
+	Inputs.Input = MmuRead1(i->ip++);
+	DevicesiSendData((WORD32)i->GPRs[Inputs.Device], i->GPRs[Inputs.Data]);
 	return;
 }
 
@@ -49,31 +49,31 @@ void DGD(void) {
 			BYTE Device : 4;
 		};
 	}Inputs;
-	Inputs.Input = mmu_read1(i->ip++);
-	i->rs_gprs[Inputs.Destination] = DevicesiGetData((WORD32)i->rs_gprs[Inputs.Device]);
+	Inputs.Input = MmuRead1(i->ip++);
+	i->GPRs[Inputs.Destination] = DevicesiGetData((WORD32)i->GPRs[Inputs.Device]);
 	return;
 }
 
 void DRS(void) {
-	WORD64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
 	DevicesiReset((WORD32)Device);
 	return;
 }
 
 void DPE(void) {
-	WORD64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
 	DevicesiOn((WORD32)Device);
 	return;
 }
 
 void DPD(void) {
-	WORD64 Device = i->rs_gprs[mmu_read1(i->ip++) & 0xF];
+	WORD64 Device = i->GPRs[MmuRead1(i->ip++) & 0xF];
 	DevicesiOff((WORD32)Device);
 	return;
 }
 
 void DGC(void) {
-	BYTE Register = mmu_read1(i->ip++) & 0xF;
-	i->rs_gprs[Register] = DevicesiDevCount();
+	BYTE Register = MmuRead1(i->ip++) & 0xF;
+	i->GPRs[Register] = DevicesiDevCount();
 	return;
 }

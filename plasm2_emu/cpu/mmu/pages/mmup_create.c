@@ -1,26 +1,26 @@
+//
+//  mmup_create.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../../cpu.h"
 #include "../mmu.h"
-/*
-mmup_create.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
-WORD64 mmu_createpage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
-	if (mmuctx->PageCount + 1 > mmuctx->MaxPageCount) {
-		CpuCsmSendMessage(CSM_PTFAILNOTSIZE, mmuctx->PageCount + 1LLU);
+WORD64 MmuCreatePage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
+	if (MmuCtx->PageCount + 1 > MmuCtx->MaxPageCount) {
+		CpuCsmSendMessage(CSM_PTFAILNOTSIZE, MmuCtx->PageCount + 1LLU);
 		return 0;
 	}
 	
-	mmuctx->Pages[mmuctx->PageCount].Permissions = Permissions;
-	mmuctx->Pages[mmuctx->PageCount].Size = Size;
-	mmuctx->Pages[mmuctx->PageCount].Physical = PhysicalAddress;
-	mmuctx->Pages[mmuctx->PageCount].Virtual = i->pti.vsp;
-	mmuctx->Pages[mmuctx->PageCount].Active = 1;
-	i->pti.vsp += Size + 0x4200;
+	MmuCtx->Pages[MmuCtx->PageCount].Permissions = Permissions;
+	MmuCtx->Pages[MmuCtx->PageCount].Size = Size;
+	MmuCtx->Pages[MmuCtx->PageCount].Physical = PhysicalAddress;
+	MmuCtx->Pages[MmuCtx->PageCount].Virtual = i->ControlRegisters.VirtualStackPointer;
+	MmuCtx->Pages[MmuCtx->PageCount].Active = 1;
+	i->ControlRegisters.VirtualStackPointer += Size + 0x4200;
 
-	mmuctx->PageCount++;
+	MmuCtx->PageCount++;
 
-	return mmuctx->Pages[mmuctx->PageCount - 1].Virtual;
+	return MmuCtx->Pages[MmuCtx->PageCount - 1].Virtual;
 }

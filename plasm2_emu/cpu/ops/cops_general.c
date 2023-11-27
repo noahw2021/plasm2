@@ -15,22 +15,22 @@ void MOV(void) {
 			BYTE Dest : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1(i->ip++);
-	i->rs_gprs[Input.Dest] = i->rs_gprs[Input.Source];
+	Input.Byte = MmuRead1(i->ip++);
+	i->GPRs[Input.Dest] = i->GPRs[Input.Source];
 	return;
 }
 
 void LDI(void) {
-	BYTE Destination = mmu_read1(i->ip++) & 0xF;
-	WORD64 Immediate = mmu_read8(i->ip);
+	BYTE Destination = MmuRead1(i->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(i->ip);
 	i->ip += 8;
-	i->rs_gprs[Destination] = Immediate;
+	i->GPRs[Destination] = Immediate;
 	return;
 }
 
 void JMP(void) {
-	BYTE Address = mmu_read1(i->ip++) & 0xF;
-	WORD64 PhysicalAddress = mmu_translate(i->rs_gprs[Address], REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	BYTE Address = MmuRead1(i->ip++) & 0xF;
+	WORD64 PhysicalAddress = MmuTranslate(i->GPRs[Address], REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		CpuInstructionJMP(PhysicalAddress);
 	else
@@ -64,9 +64,9 @@ void NXL(void) {
 }
 
 void CLL(void) {
-	BYTE Register = mmu_read1(i->ip++) & 0xF;
-	WORD64 Address = i->rs_gprs[Register];
-	WORD64 PhysicalAddress = mmu_translate(Address, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	BYTE Register = MmuRead1(i->ip++) & 0xF;
+	WORD64 Address = i->GPRs[Register];
+	WORD64 PhysicalAddress = MmuTranslate(Address, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		CpuInstructionCLL(PhysicalAddress);
 	else
@@ -79,7 +79,7 @@ void RET(void) {
 }
 
 void IMR(void) {
-	WORD16 ReturnValue = (WORD16)mmu_readx(i->ip, 2);
+	WORD16 ReturnValue = (WORD16)MmuReadX(i->ip, 2);
 	i->ip += 2;
 	i->r0 = ReturnValue;
 	RET(); // reuse
@@ -103,22 +103,22 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 			BYTE r1 : 4;
 		};
 	}Input;
-	Input.Byte = mmu_read1(i->ip++);
+	Input.Byte = MmuRead1(i->ip++);
 
-	if (i->rs_gprs[Input.r1] > i->rs_gprs[Input.r2])
+	if (i->GPRs[Input.r1] > i->GPRs[Input.r2])
 		i->flags_s.GF = 1;
-	if (i->rs_gprs[Input.r1] == i->rs_gprs[Input.r2])
+	if (i->GPRs[Input.r1] == i->GPRs[Input.r2])
 		i->flags_s.EF = 1;
-	if (i->rs_gprs[Input.r1] < i->rs_gprs[Input.r2])
+	if (i->GPRs[Input.r1] < i->GPRs[Input.r2])
 		i->flags_s.LF = 1;
 	
 	return;
 }
 
 void JMI(void) {
-	WORD64 Immediate = mmu_read8(i->ip);
+	WORD64 Immediate = MmuRead8(i->ip);
 	i->ip += 8;
-	WORD64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	WORD64 Translated = MmuTranslate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		CpuInstructionJMP(Translated);
 	else
@@ -127,9 +127,9 @@ void JMI(void) {
 }
 
 void CLI(void) {
-	WORD64 Immediate = mmu_read8(i->ip);
+	WORD64 Immediate = MmuRead8(i->ip);
 	i->ip += 8;
-	WORD64 Translated = mmu_translate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	WORD64 Translated = MmuTranslate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		CpuInstructionCLL(Translated);
 	else
@@ -142,15 +142,15 @@ void CMI(void) {
 	i->flags_s.GF = 0;
 	i->flags_s.LF = 0;
 
-	BYTE Register = mmu_read1(i->ip++) & 0xF;
-	WORD64 Immediate = mmu_read8(i->ip);
+	BYTE Register = MmuRead1(i->ip++) & 0xF;
+	WORD64 Immediate = MmuRead8(i->ip);
 	i->ip += 8;
 
-	if (i->rs_gprs[Register] > Immediate)
+	if (i->GPRs[Register] > Immediate)
 		i->flags_s.GF = 1;
-	if (i->rs_gprs[Register] < Immediate)
+	if (i->GPRs[Register] < Immediate)
 		i->flags_s.LF = 1;
-	if (i->rs_gprs[Register] == Immediate)
+	if (i->GPRs[Register] == Immediate)
 		i->flags_s.EF = 1;
 
 	return;

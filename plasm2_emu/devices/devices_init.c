@@ -25,7 +25,7 @@ void DevicesInit(void) {
 	memset(DevicesCtx, 0, sizeof(DEVICES_CTX));
 	
 	DevicesCtx->DeviceCount = 0;
-	DevicesCtx->Devices = (void*)cpuctx->PhysicalMemory; // PM usage good: (reason: internal usage only)
+	DevicesCtx->Devices = (void*)CpuCtx->PhysicalMemory; // PM usage good: (reason: internal usage only)
 
     ShouldStartVideo = TRUE;
     while (!VideoStarted)

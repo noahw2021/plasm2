@@ -15,13 +15,13 @@
 #pragma warning(disable: 6011 6387) // no it couldnt
 
 BYTE DecoderRead1(void) {
-	BYTE Return = mmu_read1(DcCtx->SpeculativePointer);
+	BYTE Return = MmuRead1(DcCtx->SpeculativePointer);
 	DcCtx->SpeculativePointer += 1;
 	return Return;
 }
 
 WORD64  DecoderReadX(BYTE HowMuch) {
-	WORD64 Returns = mmu_readx(DcCtx->SpeculativePointer, HowMuch);
+	WORD64 Returns = MmuReadX(DcCtx->SpeculativePointer, HowMuch);
 	DcCtx->SpeculativePointer += HowMuch;
 	return Returns;
 }
@@ -116,7 +116,7 @@ void DecoderGo(BYTE Instruction) {
 			CPart[0] = '\0';
 			if (Written)
 				strcat(CPart, ", ");
-			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], i->rs_gprs[OperandValues[c]]);
+			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], i->GPRs[OperandValues[c]]);
 
 			strcat(Ctx, CPart);
 			Written++;

@@ -1,16 +1,16 @@
+//
+//  mmu_init.c
+//  plasm2_emu
+//
+//  Created by Noah Wooten on 4/21/23.
+//
 #include "../cpu.h"
 #include "mmu.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-/*
-mmu_init.c
-plasm2
-plasm2_emu
-(c) Noah Wooten 2023, All Rights Reserved
-*/
 
-MMU_CTX* MmuCtx;
+PMMU_CTX MmuCtx;
 
 #pragma warning(disable: 6387)
 

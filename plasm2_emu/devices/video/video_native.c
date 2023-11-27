@@ -75,11 +75,11 @@ void VideoiDrawFill(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD32 color) {
 
 void VideoiCopyRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD64 ptr) {
 	PauseDrawing = 1;
-	WORD64 VAdr = mmu_translate(ptr, REASON_READ, w * h * 4);
+	WORD64 VAdr = MmuTranslate(ptr, REASON_READ, w * h * 4);
 	if (!VAdr) {
 		CpuCsmSendMessage(CSM_PAGETOOSMALL, ptr);
 	}
-	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((cpuctx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK);
+	SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((CpuCtx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK);
 	SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
 	SDL_FreeSurface(Surface);
 	SDL_Rect DestRect = { x, y, w, h };

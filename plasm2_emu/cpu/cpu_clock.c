@@ -23,7 +23,7 @@ void CpuClock(void) {
 	} else {
 		if (i->flags_s.NF) {
 			i->flags_s.NF = 0;
-			int Psin2Id = Psin2iGetInstructionByOpcode(mmu_read1(i->ip));
+			int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(i->ip));
 			BYTE TotalRead = (Psin2iGetTotalSize(Psin2Id) / 8);
 			i->ip += TotalRead;
 		}
@@ -32,18 +32,18 @@ void CpuClock(void) {
 
 	if (i->flags_s.VF &&
 		i->flags_s.MF &&
-		i->ip >= i->pti.pml
+		i->ip >= i->ControlRegisters.PageMaxLocation
 		) {
 		CpuCsmSendMessage(CSM_XPAGETOOSMALL, i->ip);
 	}
 
-	BYTE ThisInstruction = mmu_read1(i->ip++);
+	BYTE ThisInstruction = MmuRead1(i->ip++);
 	if (EmuCtx->DebuggerEnabled)
 		DecoderGo(ThisInstruction);
 
     if (ThisInstruction == 0x00) {
-        if (mmu_read1(i->ip) == 0x00 &&
-            mmu_read1(i->ip) == 0x00
+        if (MmuRead1(i->ip) == 0x00 &&
+            MmuRead1(i->ip) == 0x00
         ) {
             // we might be in a zero loop
             FILE* Memout = fopen("memout.bin", "wb");

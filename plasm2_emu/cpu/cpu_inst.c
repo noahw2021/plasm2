@@ -20,8 +20,8 @@ void CpuInstructionCLL(WORD64 Address) {
 		return;
 	}
 
-	i->pti.ral = i->sp + 16;
-    mmu_push(i->ip);
+	i->ControlRegisters.ReturnAddressLocation = i->sp + 16;
+    MmuPush(i->ip);
     
 	union {
 		WORD64 Raw;
@@ -34,16 +34,16 @@ void CpuInstructionCLL(WORD64 Address) {
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
     i->flags_s.HF = 0;
-	SecurityPacket.Flags = (WORD32)i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
+	SecurityPacket.Flags = (WORD32)i->Flags;
+	SecurityPacket.SecurityLevel = i->Security.SecurityLevel;
+	MmuPush(SecurityPacket.Raw);
     i->flags_s.SF = 1;
 	i->flags_s.CF = 1;
     
-    WORD64 PhysAdr = mmu_translate(Address, REASON_READ | REASON_EXEC,
+    WORD64 PhysAdr = MmuTranslate(Address, REASON_READ | REASON_EXEC,
         SIZE_WATCHDOG);
     
-    i->pti.nca = PhysAdr;
+    i->ControlRegisters.NextCallAddress = PhysAdr;
 	return;
 }
 
@@ -61,29 +61,29 @@ void CpuInstructionRET(void) {
 			WORD16 Reserved;
 		};
 	}SecurityPacket = { 0 };
-	SecurityPacket.Raw = mmu_pop();
+	SecurityPacket.Raw = MmuPop();
 	
-    i->ip = mmu_pop();
-    i->flags = SecurityPacket.Flags;
-    i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
+    i->ip = MmuPop();
+    i->Flags = SecurityPacket.Flags;
+    i->Security.SecurityLevel = SecurityPacket.SecurityLevel;
     i->flags_s.CF = SecurityPacket.CallFlag;
     
     return;
 }
 
 void CpuInstructionINT(BYTE Interrupt) {
-	WORD64* InterruptTable = (WORD64*)((BYTE*)cpuctx->PhysicalMemory + i->pti.it); // PM usage good (reason: pti.it is a secure register)
+	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + i->ControlRegisters.InterruptTable); // PM usage good (reason: pti.it is a secure register)
 	WORD64 VirtualAddress = InterruptTable[Interrupt];
 	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
-	i->security_s.SecurityLevel = SecurityLevel;
-	WORD64 PhysicalAddress = mmu_translate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	i->Security.SecurityLevel = SecurityLevel;
+	WORD64 PhysicalAddress = MmuTranslate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (!PhysicalAddress) {
 		i->flags_s.XF = 1;
 		return;
 	}
     
-	i->pti.ral = i->ip;
-	mmu_push(i->ip);
+	i->ControlRegisters.ReturnAddressLocation = i->ip;
+	MmuPush(i->ip);
 	union {
 		WORD64 Raw;
 		struct {
@@ -94,9 +94,9 @@ void CpuInstructionINT(BYTE Interrupt) {
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
-	SecurityPacket.Flags = (WORD32)i->flags;
-	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
-	mmu_push(SecurityPacket.Raw);
+	SecurityPacket.Flags = (WORD32)i->Flags;
+	SecurityPacket.SecurityLevel = i->Security.SecurityLevel;
+	MmuPush(SecurityPacket.Raw);
 	i->flags_s.SF = 1;
 	i->ip = PhysicalAddress;
 	return;
@@ -104,13 +104,13 @@ void CpuInstructionINT(BYTE Interrupt) {
 
 void CpuInstructionCLR(void) {
     WORD64 StackPointerBackup = i->sp;
-    i->sp = i->pti.ral;
-    WORD64 SecurityPacket = mmu_pop();
-    WORD64 ReturnAddress = mmu_pop();
+    i->sp = i->ControlRegisters.ReturnAddressLocation;
+    WORD64 SecurityPacket = MmuPop();
+    WORD64 ReturnAddress = MmuPop();
     ReturnAddress = i->ip;
-    mmu_push(ReturnAddress);
-    mmu_push(SecurityPacket);
+    MmuPush(ReturnAddress);
+    MmuPush(SecurityPacket);
     i->sp = StackPointerBackup;
     if (i->flags_s.CF)
-        i->ip = i->pti.nca;
+        i->ip = i->ControlRegisters.NextCallAddress;
 }
