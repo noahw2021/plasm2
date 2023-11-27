@@ -180,7 +180,7 @@
     <ClCompile Include="cpu\ops\cops_interrupts.c" />
     <ClCompile Include="cpu\ops\cops_memory.c" />
     <ClCompile Include="cpu\xcc\xcc_timer.c" />
-    <ClCopmile Include="cpu\xcc\xcc_systemtime.c" />
+    <ClCompile Include="cpu\xcc\xcc_systemtime.c" />
     <ClCompile Include="decoder\decoder_debug.c" />
     <ClCompile Include="decoder\decoder_init.c" />
     <ClCompile Include="decoder\decoder_print.c" />
