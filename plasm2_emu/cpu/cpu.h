@@ -202,7 +202,9 @@ typedef struct _PLASM2_CTX {
 				WORD64 spb; // stack pointer upper bound
 				WORD64 slb; // stack lower bound
 				WORD64 pml; // page max location
-				WORD64 reserved[2];
+                WORD64 nca; // next call address
+                
+				WORD64 reserved[1];
 			}pti;
 		};
 	};

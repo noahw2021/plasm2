@@ -46,31 +46,27 @@ int __nonvideo_main(appargs_t*);
 
 _bool ShouldStartVideo;
 int main(int argc, char** argv) {
-    printf("test.\n");
-    
     ShouldStartVideo = FALSE;
     
     appargs_t* Args = malloc(sizeof(appargs_t));
     Args->argc = argc;
     Args->argv = argv;
     
-    EmuInit();    EmuCtx->VideoMutex = EmutexCreate();
-    
     SDL_CreateThread(__nonvideo_main, "Plasm2MainThread", Args);
     
     while (!ShouldStartVideo)
         SDL_Delay(100);
     VideoInit();
-    
 }
 
 int __nonvideo_main(appargs_t* Args) {
     int argc = Args->argc;
     char** argv = Args->argv;
     
-	//FILE* a = freopen("rstd", "w", stdout);
-
+    EmuInit();
 	Psin2Init();
+    
+    EmuCtx->VideoMutex = EmutexCreate();
 	
 	char** FixedDisks = NULL;
 	int FixedDiskCount = 0;
@@ -134,6 +130,7 @@ int __nonvideo_main(appargs_t* Args) {
     WORD32 BiosLength = ftell(Bios);
     if (BiosLength > 4096)
         BiosLength = 4906;
+    fseek(Bios, 0, SEEK_SET);
     
 	fread((BYTE*)cpuctx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
     

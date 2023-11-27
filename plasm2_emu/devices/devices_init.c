@@ -11,12 +11,14 @@
 #include "fdisk/fdisk.h"
 #include <string.h>
 #include <stdlib.h>
+#include <SDL.h>
 
 PDEVICES_CTX DevicesCtx;
 
 #pragma warning(disable: 6011 6387)
 
 extern _bool ShouldStartVideo;
+extern _bool VideoStarted;
 
 void DevicesInit(void) {
 	DevicesCtx = malloc(sizeof(DEVICES_CTX));
@@ -26,6 +28,9 @@ void DevicesInit(void) {
 	DevicesCtx->Devices = (void*)cpuctx->PhysicalMemory; // PM usage good: (reason: internal usage only)
 
     ShouldStartVideo = TRUE;
+    while (!VideoStarted)
+        SDL_Delay(100);
+    
 	KbInit();
 	FdiskInit();
 }

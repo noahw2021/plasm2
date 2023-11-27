@@ -141,8 +141,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
             <Locations>
@@ -189,8 +189,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -205,8 +205,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -333,8 +333,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "cpu_clock()"
             landmarkType = "9">
          </BreakpointContent>
@@ -412,8 +412,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -428,8 +428,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
             landmarkName = "main(argc, argv)"
             landmarkType = "9">
          </BreakpointContent>
@@ -444,8 +444,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "__nonvideo_main(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -508,8 +508,8 @@
             filePath = "plasm2_emu/devices/video/video_init.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "VideoLoop()"
             landmarkType = "9">
          </BreakpointContent>
@@ -527,6 +527,420 @@
             startingLineNumber = "20"
             endingLineNumber = "20"
             landmarkName = "mmu_read8(Address)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4EDB6475-7E57-49DE-BED4-1A6BD0D41B7D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/main.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
+            landmarkName = "__nonvideo_main(Args)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24CDC1F5-F8AF-4733-8411-70ED91DD2D1E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "cpui_inst_clr()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "24CDC1F5-F8AF-4733-8411-70ED91DD2D1E - d997e27ddb02f8e0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_clr"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "102"
+                  endingLineNumber = "102"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "24CDC1F5-F8AF-4733-8411-70ED91DD2D1E - d997e27ddb02f801"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_clr"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  uuid = "24CDC1F5-F8AF-4733-8411-70ED91DD2D1E - d997e27ddb02f801"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_clr"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  uuid = "24CDC1F5-F8AF-4733-8411-70ED91DD2D1E - d997e27ddb02f86c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_clr"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "106"
+                  endingLineNumber = "106"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3E1BD7AF-81F8-49E1-8D89-CBFB6BE6F37D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "cpui_inst_int(Interrupt)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "3E1BD7AF-81F8-49E1-8D89-CBFB6BE6F37D - d997e27ea539ab60"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_int"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "92"
+                  endingLineNumber = "92"
+                  offsetFromSymbolStart = "232">
+               </Location>
+               <Location
+                  uuid = "3E1BD7AF-81F8-49E1-8D89-CBFB6BE6F37D - d997e27ea539ab41"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_int"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "232">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7DEC00BA-C13A-4742-A5F8-60DBA3D2742C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "cpui_inst_cll(Address)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "7DEC00BA-C13A-4742-A5F8-60DBA3D2742C - d997e27ddb01b0ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_cll"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  uuid = "7DEC00BA-C13A-4742-A5F8-60DBA3D2742C - d997e27ddb01b0ec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_cll"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "833D53BB-B319-4700-867C-3E6ABACA55CF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "cpui_inst_cll(Address)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "833D53BB-B319-4700-867C-3E6ABACA55CF - d997e27ddb01b0cf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_cll"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "833D53BB-B319-4700-867C-3E6ABACA55CF - d997e27ddb01b0cf"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_cll"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "39"
+                  endingLineNumber = "39"
+                  offsetFromSymbolStart = "176">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0E0B2D1F-0F61-487B-990C-A85BC78CE5F6"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_init.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "__cpui_invopc()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C98B42DB-12D4-46F0-8555-6BAFFE87EA35"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/ops/cops_devices.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "DSC()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4CB133F4-D707-4D69-BAF8-8A20B4EAC4EF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/main.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "__nonvideo_main(Args)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A0CB7B4E-FF26-4702-85F0-643F6C2AE66F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "cpui_inst_ret()"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "A0CB7B4E-FF26-4702-85F0-643F6C2AE66F - d997e27fc41294ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_ret"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "56">
+               </Location>
+               <Location
+                  uuid = "A0CB7B4E-FF26-4702-85F0-643F6C2AE66F - d997e27fc41294ab"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "cpui_inst_ret"
+                  moduleName = "plasm2_emu"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/cpu/cpu_inst.c"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "24">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "406ED15B-E323-4849-BF45-90DF0409F8F8"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "cpui_inst_cll(Address)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2D3E28BD-7058-4AFE-ACD9-55C5054FDA64"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "cpui_inst_ret()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D46A3C4A-807A-45EA-BB24-55951AE6A9A0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/cpu/cpu_inst.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "cpui_inst_clr()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1CB207A2-B27C-4556-971B-F9A41D593AE4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/devices/video/video_native.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "VideoiCopyRect(x, y, w, h, ptr)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "27E82C54-D2C6-417C-A2F0-811B2C4222F8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_emu/devices/video/video_init.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "VideoLoop()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>

@@ -252,3 +252,8 @@ void PSI(void) {
     mmu_push(Immediate);
     return;
 }
+
+void PPW(void) {
+    mmu_pop();
+    return;
+}

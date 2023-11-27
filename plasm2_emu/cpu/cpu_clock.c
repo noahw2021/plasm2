@@ -41,6 +41,20 @@ void cpu_clock(void) {
 	if (EmuCtx->DebuggerEnabled)
 		DecoderGo(ThisInstruction);
 
+    if (ThisInstruction == 0x00) {
+        if (mmu_read1(i->ip) == 0x00 &&
+            mmu_read1(i->ip) == 0x00
+        ) {
+            // we might be in a zero loop
+            FILE* Memout = fopen("memout.bin", "wb");
+            fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize,
+                   1, Memout);
+            fclose(Memout);
+            printf("[WARN]: CPU appears to be stuck.\n Continue?");
+            SDL_Delay(500);
+        }
+    }
+    
 	Instructions[ThisInstruction]();
 
 	return;

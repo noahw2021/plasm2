@@ -37,7 +37,6 @@ void EmuRegisterFatal(const char* Reason) {
 }
 
 _bool EmuCheckClock(char* ThePtr) {
-    
     if (EmuCtx->RequiresHalt) {
 		strcpy(ThePtr, EmuCtx->LastReason);
 		return TRUE;

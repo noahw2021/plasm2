@@ -17,6 +17,7 @@ SDL_Renderer* Renderer;
 BYTE PauseDrawing;
 PVIDEO_CTX VideoCtx;
 SDL_Thread* LoopThread;
+_bool VideoStarted;
 
 #pragma warning(disable: 6011 6387)
 
@@ -46,7 +47,9 @@ void VideoLoop(void) {
     
     SDL_Init(SDL_INIT_VIDEO);
     Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
-    Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+    Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_SOFTWARE);
+    
+    VideoStarted = 1;
     
 	while (!Quit) {
 		while (SDL_PollEvent(&Event)) {

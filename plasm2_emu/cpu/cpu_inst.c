@@ -20,7 +20,9 @@ void cpui_inst_cll(WORD64 Address) {
 		return;
 	}
 
-	i->pti.ral = i->sp;
+	i->pti.ral = i->sp + 16;
+    mmu_push(i->ip);
+    
 	union {
 		WORD64 Raw;
 		struct {
@@ -31,26 +33,25 @@ void cpui_inst_cll(WORD64 Address) {
 		};
 	}SecurityPacket;
 	SecurityPacket.CallFlag = i->flags_s.CF;
+    i->flags_s.HF = 0;
 	SecurityPacket.Flags = (WORD32)i->flags;
 	SecurityPacket.SecurityLevel = i->security_s.SecurityLevel;
 	mmu_push(SecurityPacket.Raw);
     i->flags_s.SF = 1;
-	i->ip = Address;
 	i->flags_s.CF = 1;
+    
+    WORD64 PhysAdr = mmu_translate(Address, REASON_READ | REASON_EXEC,
+        SIZE_WATCHDOG);
+    
+    i->pti.nca = PhysAdr;
 	return;
 }
 
 void cpui_inst_ret(void) {
 	if (!i->flags_s.CF)
 		return;
-	if (i->sp != i->pti.ral) {
-		i->flags_s.XF = 1;
-		if (i->flags_s.AF) {
-			cpui_csm_msg(CSM_IMPROPERSTACK, i->sp - i->pti.ral);
-			return;
-		}
-	}
-	i->sp = i->pti.ral;
+	
+	//i->sp = i->pti.ral;
 	union {
 		WORD64 Raw;
 		struct {
@@ -61,11 +62,13 @@ void cpui_inst_ret(void) {
 		};
 	}SecurityPacket = { 0 };
 	SecurityPacket.Raw = mmu_pop();
-	i->flags = SecurityPacket.Flags;
-	i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
-	i->flags_s.CF = SecurityPacket.CallFlag;
-	i->ip = mmu_pop();
-	return;
+	
+    i->ip = mmu_pop();
+    i->flags = SecurityPacket.Flags;
+    i->security_s.SecurityLevel = SecurityPacket.SecurityLevel;
+    i->flags_s.CF = SecurityPacket.CallFlag;
+    
+    return;
 }
 
 void cpui_inst_int(BYTE Interrupt) {
@@ -78,7 +81,8 @@ void cpui_inst_int(BYTE Interrupt) {
 		i->flags_s.XF = 1;
 		return;
 	}
-	i->pti.ral = i->sp;
+    
+	i->pti.ral = i->ip;
 	mmu_push(i->ip);
 	union {
 		WORD64 Raw;
@@ -99,6 +103,14 @@ void cpui_inst_int(BYTE Interrupt) {
 }
 
 void cpui_inst_clr(void) {
-    mmu_push(i->pti.ral);
-    return;
+    WORD64 StackPointerBackup = i->sp;
+    i->sp = i->pti.ral;
+    WORD64 SecurityPacket = mmu_pop();
+    WORD64 ReturnAddress = mmu_pop();
+    ReturnAddress = i->ip;
+    mmu_push(ReturnAddress);
+    mmu_push(SecurityPacket);
+    i->sp = StackPointerBackup;
+    if (i->flags_s.CF)
+        i->ip = i->pti.nca;
 }
