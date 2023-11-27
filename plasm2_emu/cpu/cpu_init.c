@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdio.h>
 
-cpuctx_t* cpuctx;
+CPU_CTX* CpuCtx;
 
 // invalid opcode
 void __cpui_invopc(void) {
@@ -21,13 +21,13 @@ void __cpui_invopc(void) {
 
 #pragma warning(disable: 6011 6387)
 
-void cpu_init(void) {
-	cpuctx = malloc(sizeof(cpuctx_t));
-	memset(cpuctx, 0, sizeof(cpuctx_t));
+void CpuInit(void) {
+	CpuCtx = malloc(sizeof(CPU_CTX));
+	memset(CpuCtx, 0, sizeof(CPU_CTX));
 
-	time(&cpuctx->SystemBoot);
-	cpuctx->SystemSeconds = cpuctx->SystemBoot;
-	cpuctx->ClocksPerSecond = BASE_CLOCK;
+	time(&CpuCtx->SystemBoot);
+	CpuCtx->SystemSeconds = CpuCtx->SystemBoot;
+	CpuCtx->ClocksPerSecond = BASE_CLOCK;
 
 	for (int i = 0; i < 256; i++) {
 		if (Instructions[i] == NULL)
@@ -38,9 +38,9 @@ void cpu_init(void) {
 	return;
 }
 
-void cpu_shutdown(void) {
+void CpuShutdown(void) {
 	mmu_shutdown();
 
-	free(cpuctx);
+	free(CpuCtx);
 	return;
 }

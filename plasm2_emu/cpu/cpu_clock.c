@@ -13,13 +13,13 @@
 #include <string.h>
 #include <time.h>
 
-void cpu_clock(void) {
+void CpuClock(void) {
 
 	if ( 
 		 !i->flags_s.HF // Do not clock if we are halted
 		&& !i->flags_s.NF // Skip this cycle, due to no-execute
 		) {
-		time(&cpuctx->SystemSeconds);
+		time(&CpuCtx->SystemSeconds);
 	} else {
 		if (i->flags_s.NF) {
 			i->flags_s.NF = 0;
@@ -47,7 +47,7 @@ void cpu_clock(void) {
         ) {
             // we might be in a zero loop
             FILE* Memout = fopen("memout.bin", "wb");
-            fwrite(cpuctx->PhysicalMemory, cpuctx->PhysicalMemorySize,
+            fwrite(CpuCtx->PhysicalMemory, CpuCtx->PhysicalMemorySize,
                    1, Memout);
             fclose(Memout);
             printf("[WARN]: CPU appears to be stuck.\n Continue?");
