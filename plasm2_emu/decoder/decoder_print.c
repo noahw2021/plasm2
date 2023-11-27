@@ -12,6 +12,18 @@
 #include <string.h>
 
 void DecoderPrint(const char* Format) {
-    fprintf(stdout, "[DBG]: %s\n", Format);
-	return;
+    printf("[DBG]: ");
+    
+    int i = 0;
+    while (Format[i]) {
+        if (Format[i] == -18) {
+            i++;
+            continue;
+        }
+
+        fputc(Format[i], stdout);
+        i++;
+    }
+
+    fputc('\n', stdout);
 }
