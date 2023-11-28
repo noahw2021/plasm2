@@ -10,5 +10,9 @@
 #include "decoder.h"
 
 void DecoderPrint(const char* Format, ...) {
-    printf("%s", Format);
+    va_list List;
+    va_start(List, Format);
+    vfprintf(stdout, Format, List);
+    va_end(List);
+    return;
 }

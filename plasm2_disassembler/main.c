@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "basetypes.h"
 #include "decoder/decoder.h"
+#include "psin2/psin2.h"
 
 int main(int argc, char** argv) {
     printf("PLASM2 Disassembler\n");
@@ -120,6 +121,8 @@ int main(int argc, char** argv) {
     fread(Data, FileLength, 1, InputFile);
     fclose(InputFile);
     
+    Psin2Init();
+    Psin2Load();
     DecoderInit();
     DecoderSetData(Data, FileLength);
     DecoderSetOutputFile(OutputFile);

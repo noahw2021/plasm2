@@ -6,6 +6,8 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "symbols.h"
 
 PSYMBOL_CTX SymbolsCtx;
@@ -21,7 +23,7 @@ void SymbolsShutdown(void) {
         return;
     
     if (SymbolsCtx->SymbolFile)
-        fclose(SymbolCtx->SymbolFile);
+        fclose(SymbolsCtx->SymbolFile);
     if (SymbolsCtx->ResolvedSymbols)
         free(SymbolsCtx->ResolvedSymbols);
     

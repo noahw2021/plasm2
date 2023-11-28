@@ -20,6 +20,7 @@ BYTE DecoderGo(void) {
     int ArgumentCnt = Psin2iGetOperandCount(InId);
     switch (ArgumentCnt) {
         case 0:
+            DecoderPrint("\n");
             break;
         case 1:
             if (Psin2iGetOperandType(InId, 0) == 0) { // R

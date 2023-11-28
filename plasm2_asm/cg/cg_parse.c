@@ -154,7 +154,9 @@ void CgParse(const char* Line) {
 
 		if (OperandA[0] != 'r') {
 			if (!(InRange(OperandA[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandA[0], 'A', 'F')))) {
-				WORD64 Resolved = LinkGetSymbol(OperandA, 1);
+				WORD64 Resolved = LinkGetSymbol(OperandA, 1, 
+                    Psin2iGetInstructinOpcode(Psin));
+                
 				char* ToString = malloc(64);
 				if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
@@ -180,7 +182,9 @@ OutA:
 
 		if (OperandB[0] != 'r') {
 			if (!(InRange(OperandB[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
-				WORD64 Resolved = LinkGetSymbol(OperandB, 1);
+				WORD64 Resolved = LinkGetSymbol(OperandB, 1,
+                    Psin2iGetInstructinOpcode(Psin));
+                
 				char* ToString = malloc(64);
 				if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);

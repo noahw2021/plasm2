@@ -9,6 +9,7 @@
 #define symbols_h
 
 #include <stdio.h>
+#include "../basetypes.h"
 
 #define SYMBOL_TYPE_FUNCTION 0x01
 #define SYMBOL_TYPE_VARIABLE 0x02
