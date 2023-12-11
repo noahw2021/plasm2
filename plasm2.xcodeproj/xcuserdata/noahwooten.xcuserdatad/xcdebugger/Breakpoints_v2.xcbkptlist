@@ -311,7 +311,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B4D5D49A-FB00-41D8-8492-06207F9262BB"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "plasm2_disassembler/main.c"
@@ -367,7 +367,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "58"
             endingLineNumber = "58"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -494,7 +494,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -510,7 +510,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -526,7 +526,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -973,6 +973,38 @@
             startingLineNumber = "71"
             endingLineNumber = "71"
             landmarkName = "VideoLoop()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5D50369C-D359-42E0-BBFA-D1E9AEBD406F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_disassembler/decoder/decoder_go.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "DecoderGo()"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ABDE79A1-7BEE-4D1F-A98E-720B5658A714"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "plasm2_disassembler/decoder/decoder_go.c"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "DecoderGo()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
