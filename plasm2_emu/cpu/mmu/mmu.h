@@ -50,6 +50,8 @@ typedef struct _MMU_CTX {
                 WORD64 Selector : 1; // 0 = W, 1 = X
                 WORD64 Read : 1;
                 WORD64 Active : 1;
+                
+                WORD64 Reserved : 60;
 			};
 		};
 	}*Pages;
