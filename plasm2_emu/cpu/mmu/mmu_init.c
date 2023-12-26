@@ -28,7 +28,7 @@ void MmuInit(void) {
     
     ECtx->ControlRegisters.PageStart = 0x2600;
     ECtx->ControlRegisters.PageEnd = 0x2600 + (256 * 0x20);
-    MmuCtx->Pages = (void*)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.PageStart;
+    MmuCtx->Pages = (PMMU_PAGE)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.PageStart;
     
 	return;
 }

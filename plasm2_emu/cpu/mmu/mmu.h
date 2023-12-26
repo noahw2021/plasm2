@@ -36,24 +36,26 @@ void MmuSetPageTableEnd(WORD64 New);
 void MmuPush(WORD64 Value);
 WORD64 MmuPop(void);
 
+typedef struct _MMU_PAGE {
+    WORD64 Physical;
+    WORD64 Virtual;
+    WORD64 Size;
+    union {
+        WORD64 Permissions;
+        struct {
+            WORD64 Secure : 1;
+            WORD64 Selector : 1; // 0 = W, 1 = X
+            WORD64 Read : 1;
+            WORD64 Active : 1;
+            
+            WORD64 Reserved : 60;
+        };
+    };
+}MMU_PAGE, *PMMU_PAGE;
+
 typedef struct _MMU_CTX {
 	WORD64 MaxPageCount;
 	WORD64 PageCount;
-	struct {
-		WORD64 Physical;
-		WORD64 Virtual;
-		WORD64 Size;
-		union {
-			WORD64 Permissions;
-			struct {
-                WORD64 Secure : 1;
-                WORD64 Selector : 1; // 0 = W, 1 = X
-                WORD64 Read : 1;
-                WORD64 Active : 1;
-                
-                WORD64 Reserved : 60;
-			};
-		};
-	}*Pages;
+    PMMU_PAGE Pages;
 }MMU_CTX, *PMMU_CTX;
 extern PMMU_CTX MmuCtx;
