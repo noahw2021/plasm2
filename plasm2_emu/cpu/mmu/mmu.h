@@ -46,9 +46,9 @@ typedef struct _MMU_CTX {
 		union {
 			WORD64 Permissions;
 			struct {
-                WORD64 Execute : 1;
+                WORD64 Secure : 1;
+                WORD64 Selector : 1; // 0 = W, 1 = X
                 WORD64 Read : 1;
-                WORD64 Write : 1;
                 WORD64 Active : 1;
 			};
 		};

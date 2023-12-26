@@ -18,10 +18,16 @@ WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
                 if (!(EmuCtx->Flags & EMUFLAG_NOSECURE)) {
                     if ((Reason & REASON_READ) && !MmuCtx->Pages[p].Read)
                         return 0;
-                    if ((Reason & REASON_WRTE) && !MmuCtx->Pages[p].Write)
-                        return 0;
-                    if ((Reason & REASON_EXEC) && !MmuCtx->Pages[p].Execute)
-                        return 0;
+                    if ((Reason & (REASON_WRTE | REASON_EXEC))) {
+                        if (!MmuCtx->Pages[p].Secure)
+                            return 0;
+                        
+                        if (MmuCtx->Pages[p].Selector && (Reason & REASON_WRTE))
+                            return 0;
+                        if (!MmuCtx->Pages[p].Selector && (Reason & REASON_EXEC))
+                            return 0;
+                    }
+                    
                     if (MaxSize != SIZE_WATCHDOG) {
                         if (VirtualAddress + MaxSize >= (MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size))
                             return 0;
