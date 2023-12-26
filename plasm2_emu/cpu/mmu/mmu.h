@@ -44,12 +44,12 @@ typedef struct _MMU_CTX {
 		WORD64 Virtual;
 		WORD64 Size;
 		union {
-			BYTE Permissions;
+			WORD64 Permissions;
 			struct {
-				BYTE Execute : 1;
-				BYTE Read : 1;
-				BYTE Write : 1;
-				BYTE Active : 1;
+                WORD64 Execute : 1;
+                WORD64 Read : 1;
+                WORD64 Write : 1;
+                WORD64 Active : 1;
 			};
 		};
 	}*Pages;

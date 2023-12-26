@@ -30,6 +30,8 @@ Starting physical memory map:
 0x23F0: keyboard bitmap
 0x24F0: Base Stack Pointer
 0x25F0: End of stack
+0x2600: Beginning of first page table
+0x3600: End of first page table
 */
 
 int __t_argc;

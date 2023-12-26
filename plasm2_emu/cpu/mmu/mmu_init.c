@@ -22,8 +22,14 @@ void MmuInit(void) {
 	CpuCtx->PhysicalMemory = malloc(CpuCtx->PhysicalMemorySize); // PM usage good (reason: internal use only)
 	memset(CpuCtx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
 
-	ECtx->sp = 0x3A0;
-
+	ECtx->sp = 0x24F0;
+    ECtx->ControlRegisters.StackPointerUpperBound = 0x25F0;
+    ECtx->ControlRegisters.StackPointerLowerBound = 0x24F0;
+    
+    ECtx->ControlRegisters.PageStart = 0x2600;
+    ECtx->ControlRegisters.PageEnd = 0x2600 + (256 * 0x20);
+    MmuCtx->Pages = (void*)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.PageStart;
+    
 	return;
 }
 
