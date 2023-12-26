@@ -333,8 +333,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>

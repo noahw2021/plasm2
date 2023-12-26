@@ -28,6 +28,7 @@ void CpuInit(void) {
 	CpuCtx->SystemTicks = 0;
 	CpuCtx->ClocksPerSecond = BASE_CLOCK;
     CpuCtx->NextTickNanoSecond = 4096;
+    CpuCtx->NextTickNanoSecond = 10000;
     
 	for (int i = 0; i < 256; i++) {
 		if (Instructions[i] == NULL)

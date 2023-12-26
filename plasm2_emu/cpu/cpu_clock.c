@@ -41,8 +41,10 @@ void CpuClock(void) {
     }
 #endif
     
-    if (CpuCtx->NextInterruptNS <= CpuCtx->LastTrackedNanoSecond)
+    if (CpuCtx->NextInterruptNS <= CpuCtx->LastTrackedNanoSecond) {
         CpuCtx->NeedsFireThisTick = 1;
+        CpuCtx->NextInterruptNS += 10000;
+    }
     
     CpuCtx->SystemTicks++;
     
