@@ -41,10 +41,16 @@ void CpuClock(void) {
     }
 #endif
     
+    if (CpuCtx->NextInterruptNS <= CpuCtx->LastTrackedNanoSecond)
+        CpuCtx->NeedsFireThisTick = 1;
+    
     CpuCtx->SystemTicks++;
     
-    if (ECtx->flags_s.NF) {
-        ECtx->flags_s.NF = 0;
+    if (CpuCtx->NeedsFireThisTick)
+        CpuInstructionINT(0x00);
+    
+    if (ECtx->FlagsS.NF) {
+        ECtx->FlagsS.NF = 0;
         int Psin2Id = Psin2iGetInstructionByOpcode(MmuRead1(ECtx->ip));
         BYTE TotalToRead = (Psin2iGetTotalSize(Psin2Id) / 8);
         ECtx->ip += TotalToRead;

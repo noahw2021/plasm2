@@ -23,12 +23,12 @@ void HND(void) {
 	}Input;
 	Input.Byte = MmuRead1(ECtx->ip++);
 	BYTE SecurityLevel = (BYTE)MmuPop();
-	if (!ECtx->flags_s.TF) {
-		ECtx->flags_s.XF = 1;
+	if (!ECtx->FlagsS.TF) {
+		ECtx->FlagsS.XF = 1;
 		return;
 	}
 	if (SecurityLevel < ECtx->Security.SecurityLevel) {
-		ECtx->flags_s.XF = 1;
+		ECtx->FlagsS.XF = 1;
 		return;
 	}
 	WORD64 VirtualAddress = ECtx->GPRs[Input.Handler];
@@ -39,38 +39,17 @@ void HND(void) {
 }
 
 void IRT(void) {
-	if (ECtx->sp != ECtx->ControlRegisters.ReturnAddressLocation) {
-		ECtx->flags_s.XF = 1;
-		if (ECtx->flags_s.AF) {
-			CpuCsmSendMessage(CSM_IMPROPERSTACK, ECtx->sp - ECtx->ControlRegisters.ReturnAddressLocation);
-			return;
-		}
-	}
-	ECtx->sp = ECtx->ControlRegisters.ReturnAddressLocation;
-	union {
-		WORD64 Raw;
-		struct {
-			WORD32 Flags;
-			BYTE SecurityLevel;
-			BYTE CallFlag;
-			WORD16 Reserved;
-		};
-	}SecurityPacket;
-	SecurityPacket.Raw = MmuPop();
-	ECtx->Flags = SecurityPacket.Flags;
-	ECtx->Security.SecurityLevel = SecurityPacket.SecurityLevel;
-	ECtx->flags_s.CF = SecurityPacket.CallFlag;
-	ECtx->ip = MmuPop();
-	return;
+    CpuInstructionIRT();
+    return;
 }
 
 void ENI(void) {
-	ECtx->flags_s.IF = 1;
+	ECtx->FlagsS.IF = 1;
 	return;
 }
 
 void DSI(void) {
-	ECtx->flags_s.IF = 0;
+	ECtx->FlagsS.IF = 0;
 	return;
 }
 
@@ -79,7 +58,7 @@ void SMH(void) {
 	if (ECtx->Security.SecurityLevel == 0)
 		CpuCsmSetHandler(ECtx->GPRs[Register]);
 	else
-		ECtx->flags_s.XF = 1;
+		ECtx->FlagsS.XF = 1;
 	return;
 }
 

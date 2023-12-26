@@ -149,6 +149,8 @@ typedef struct _CPU_CTX {
     WORD64 NextTickNanoSecond;
     WORD64 LastTrackedNanoSecond;
 	time_t SystemBoot; // silly and quick 'timer'
+    WORD64 NextInterruptNS;
+    BYTE NeedsFireThisTick;
 
 	BYTE* PhysicalMemory; // PM usage good
 	WORD64 PhysicalMemorySize;
@@ -195,7 +197,7 @@ typedef struct _PLASM2_CTX {
 					BYTE TF : 1; // Interrupt table set
 					BYTE MF : 1; // Memory Guard Flag
 					BYTE LF : 1; // Less than flag
-				}flags_s;
+				}FlagsS;
 			};
 			union {
 				WORD64 SecurityRaw;
@@ -233,14 +235,15 @@ void CpuInstructionCLL(WORD64 Address);
 void CpuInstructionRET(void);
 void CpuInstructionINT(BYTE Interrupt);
 void CpuInstructionCLR(void);
+void CpuInstructionIRT(void);
 
 // cpu advanced functions
 
 /*
 these functions need to be expanded on,
-but for now cput_gettime will return MS,
+but for now CpuTimerGetTime will return MS,
 but in the future I plan on a nanosecond
-timer, but cput_gettime will always return
+timer, but CpuTimerGetTime will always return
 the time in MS.
 */
 

@@ -14,7 +14,7 @@ PCPU_CTX CpuCtx;
 
 // invalid opcode
 void _CpuiInvalidOpcode(void) {
-	ECtx->flags_s.HF = 1;
+	ECtx->FlagsS.HF = 1;
 	printf("[ERR]: Invalid opcode presented. Continuing...\n");
 	return;
 }

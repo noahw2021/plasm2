@@ -25,7 +25,7 @@ _BiosNoDrivesStr:
 -s "PLASM2 BIOS: No drives found!\n"
 -z 1
 _BiosVersionString:
--s "PLASM2 BIOS v1.00, Build 56, 25 Sept 2023 1031 EST"
+-s "PLASM2 BIOS v1.00, Build 81, 15 December 2023 0010 EST"
 -z 1
 
 -b 16
@@ -63,8 +63,9 @@ _BiosMainOSLoader:
 CLI _BiosOSLoader
 CLR
 
-DSI
-SHF
+_BiosLinuxLoop:
+LDI r0, _BiosLinuxLoop
+JMP r0
 
 -i exit.asm
 -e

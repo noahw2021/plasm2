@@ -143,7 +143,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "123"
             endingLineNumber = "123"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -191,7 +191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "156"
             endingLineNumber = "156"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -207,7 +207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -333,9 +333,9 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "cpu_clock()"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -446,7 +446,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "159"
             endingLineNumber = "159"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -462,7 +462,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -478,7 +478,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "42"
             endingLineNumber = "42"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -494,7 +494,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "cpu_clock()"
+            landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -526,7 +526,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
             endingLineNumber = "20"
-            landmarkName = "mmu_read8(Address)"
+            landmarkName = "MmuRead8(Address)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -542,7 +542,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
             endingLineNumber = "135"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -556,9 +556,9 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "cpui_inst_clr()"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
             <Locations>
                <Location
@@ -634,9 +634,9 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "cpui_inst_int(Interrupt)"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "CpuInstructionINT(Interrupt)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -684,7 +684,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "47"
             endingLineNumber = "47"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -732,7 +732,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "41"
             endingLineNumber = "41"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
             <Locations>
                <Location
@@ -780,7 +780,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
             endingLineNumber = "17"
-            landmarkName = "__cpui_invopc()"
+            landmarkName = "_CpuiInvalidOpcode()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -804,7 +804,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "4CB133F4-D707-4D69-BAF8-8A20B4EAC4EF"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "plasm2_emu/main.c"
@@ -812,7 +812,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "172"
             endingLineNumber = "172"
-            landmarkName = "__nonvideo_main(Args)"
+            landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -828,7 +828,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "51"
             endingLineNumber = "51"
-            landmarkName = "cpui_inst_ret()"
+            landmarkName = "CpuInstructionRET()"
             landmarkType = "9">
             <Locations>
                <Location
@@ -876,7 +876,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "39"
             endingLineNumber = "39"
-            landmarkName = "cpui_inst_cll(Address)"
+            landmarkName = "CpuInstructionCLL(Address)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -890,9 +890,9 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "cpui_inst_ret()"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "CpuInstructionRET()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -906,9 +906,9 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
-            landmarkName = "cpui_inst_clr()"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
