@@ -49,18 +49,20 @@ typedef union _CPU_DEVICE_FLAGS {
     };
 }CPU_DEVICE_FLAGS, *PCPU_DEVICE_FLAGS;
 
+typedef struct _CPU_DEVICE {
+    int DeviceType;
+    char DeviceName[32];
+    char DeviceVendor[32];
+    WORD64 VendorId;
+    WORD64 DeviceModel;
+    WORD64 DeviceSerial;
+    WORD64(*Callbacks[7])(WORD32 DeviceId, WORD64 Argument);
+    CPU_DEVICE_FLAGS Flags;
+}CPU_DEVICE, *PCPU_DEVICE;
+
 typedef struct _DEVICES_CTX {
 	WORD64 DeviceCount;
-	struct {
-		int DeviceType;
-		char DeviceName[32];
-		char DeviceVendor[32];
-		WORD64 VendorId;
-		WORD64 DeviceModel;
-		WORD64 DeviceSerial;
-		WORD64(*Callbacks[7])(WORD32 DeviceId, WORD64 Argument);
-        CPU_DEVICE_FLAGS Flags;
-	}*Devices;
+    PCPU_DEVICE Devices;
 }DEVICES_CTX, *PDEVICES_CTX;
 extern PDEVICES_CTX DevicesCtx;
 
