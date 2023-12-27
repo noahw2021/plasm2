@@ -50,7 +50,7 @@ typedef struct _FDISK_HDR {
 	WORD64 DeviceSerial;
 	WORD64 DeviceVendorId;
 	WORD64 DeviceModelNum;
-	WORD64 PartsSum; // not really a hash, but will tell us if something is wrong
+	WORD64 PartsSum; // fast checksum
 }FDISK_HDR;
 
 typedef struct _FDISK_DRIVE {
@@ -106,12 +106,15 @@ c
 0A GetDriveModelNumber: Gets the drive's model number
 0B GetDriveVendorId : Gets the drive's vendor's ID
 0C FarSeek : Specutively preloads a far address to seek to
-0D DriveSkipFpIncrement : Disables the seek pos increment for the next read/write
+0D DriveSkipFpIncrement : Disables the seek pos increment for the next 
+    read/write
 0E DriveDisableFpIncrement : Disables the seek pos increment until reenabled
 0F DriveEnableFpIncrement : Reenables the seek pos increment
 10 DriveSeek : Sets the drive seek pos (current)
-11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given in the stack
-12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
+11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given in 
+    the stack
+12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in 
+    the stack
 */
 
 void FdiskiSetActiveDrive(WORD32 DriveId);

@@ -47,9 +47,13 @@ void FdiskiDriveAwake(WORD32 DriveId) {
 		return;
 	
 	for (int i = 0; i < 4; i++) {
-		ThisDrive->CurrentLoadedChunks[i] = malloc(ThisDrive->LoadedChunkSize[i]);
-		pfseek(FdiskCtx->Drives[i].DrivePhysicalPointer, ThisDrive->LoadedChunkBaseAddr[i] + sizeof(FDISK_HDR), SEEK_SET);
-		fread(ThisDrive->CurrentLoadedChunks[i], ThisDrive->LoadedChunkSize[i], 1, ThisDrive->DrivePhysicalPointer);
+		ThisDrive->CurrentLoadedChunks[i] = malloc(
+            ThisDrive->LoadedChunkSize[i]);
+		pfseek(FdiskCtx->Drives[i].DrivePhysicalPointer, 
+            ThisDrive->LoadedChunkBaseAddr[i] + sizeof(FDISK_HDR), SEEK_SET);
+		fread(ThisDrive->CurrentLoadedChunks[i], 
+            ThisDrive->LoadedChunkSize[i], 1,
+            ThisDrive->DrivePhysicalPointer);
 		ThisDrive->LoadedChunkCpuTick[i] &= ~(0xF000000000000000);
 	}
 
@@ -87,10 +91,16 @@ WORD64  FdiskiDriveRead(WORD32 DriveId) {
 	if (!ThisDrive->IsDriveAwake)
 		return 0;
 
-
 	for (int i = 0; i < 4; i++) {
-		if (InRange(ThisDrive->CurrentFilePointer, ThisDrive->LoadedChunkBaseAddr[i], ThisDrive->LoadedChunkBaseAddr[i] + ThisDrive->LoadedChunkSize[i])) {
-			BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[i] + (ThisDrive->CurrentFilePointer - ThisDrive->LoadedChunkBaseAddr[i]));
+		if (InRange(ThisDrive->CurrentFilePointer, 
+                ThisDrive->LoadedChunkBaseAddr[i],
+                ThisDrive->LoadedChunkBaseAddr[i]
+                + ThisDrive->LoadedChunkSize[i])
+        ) {
+			BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[i] +
+                (ThisDrive->CurrentFilePointer -
+                ThisDrive->LoadedChunkBaseAddr[i]));
+            
 			WORD64* AsU64 = (WORD64*)AsBytes;
 			ThisDrive->LoadedChunkCpuTick[i] = CpuTimerGetTime();
 			if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
@@ -104,26 +114,33 @@ WORD64  FdiskiDriveRead(WORD32 DriveId) {
 		}
 	}
 
-	// hdd cache miss eh
+	// hdd cache miss
 	int NewChunkId = ThisDrive->OldestChunk;
 	free(ThisDrive->CurrentLoadedChunks[NewChunkId]);
-	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = ThisDrive->CurrentFilePointer - (FDISK_CACHE_CHUNK / 2 );
+	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = 
+        ThisDrive->CurrentFilePointer - (FDISK_CACHE_CHUNK / 2 );
 	ThisDrive->LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	ThisDrive->LoadedChunkCpuTick[NewChunkId] = CpuTimerGetTime();
 	ThisDrive->CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(ThisDrive->DrivePhysicalPointer, ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, ThisDrive->DrivePhysicalPointer);
+	pfseek(ThisDrive->DrivePhysicalPointer, 
+        ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 
+        1, ThisDrive->DrivePhysicalPointer);
 	ThisDrive->NextChunkScan = 0; // force a chunk scan
 
-	BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[NewChunkId] + (ThisDrive->CurrentFilePointer - ThisDrive->LoadedChunkBaseAddr[NewChunkId]));
+	BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[NewChunkId]
+        + (ThisDrive->CurrentFilePointer -
+        ThisDrive->LoadedChunkBaseAddr[NewChunkId]));
+    
 	WORD64* AsU64 = (WORD64*)AsBytes;
-	if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
+	
+    if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
 		ThisDrive->CurrentFilePointer += 0x8;
-	}
-	else {
+	} else {
 		if (ThisDrive->SkipInc)
 			ThisDrive->SkipInc = 0;
 	}
+    
 	return AsU64[0];
 }
 
@@ -136,11 +153,19 @@ void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data) {
 		return;
 
 	for (int i = 0; i < 4; i++) {
-		if (InRange(ThisDrive->CurrentFilePointer, ThisDrive->LoadedChunkBaseAddr[i], ThisDrive->LoadedChunkBaseAddr[i] + ThisDrive->LoadedChunkSize[i])) {
-			BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[i] + (ThisDrive->CurrentFilePointer - ThisDrive->LoadedChunkBaseAddr[i]));
+		if (InRange(ThisDrive->CurrentFilePointer, 
+                ThisDrive->LoadedChunkBaseAddr[i],
+                ThisDrive->LoadedChunkBaseAddr[i]
+                + ThisDrive->LoadedChunkSize[i])
+        ) {
+			BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[i] + 
+                (ThisDrive->CurrentFilePointer -
+                ThisDrive->LoadedChunkBaseAddr[i]));
+            
 			WORD64* AsU64 = (WORD64*)AsBytes;
 			ThisDrive->LoadedChunkCpuTick[i] = CpuTimerGetTime();
 			AsU64[0] = Data;
+            
 			if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
 				ThisDrive->CurrentFilePointer += 0x8;
 			} else {
@@ -153,21 +178,27 @@ void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data) {
 
 	int NewChunkId = ThisDrive->OldestChunk;
 	free(ThisDrive->CurrentLoadedChunks[NewChunkId]);
-	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = ThisDrive->CurrentFilePointer - (FDISK_CACHE_CHUNK / 2);
+	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = 
+        ThisDrive->CurrentFilePointer - (FDISK_CACHE_CHUNK / 2);
 	ThisDrive->LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	ThisDrive->LoadedChunkCpuTick[NewChunkId] = CpuTimerGetTime();
 	ThisDrive->CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(ThisDrive->DrivePhysicalPointer, ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, ThisDrive->DrivePhysicalPointer);
+	pfseek(ThisDrive->DrivePhysicalPointer, 
+        ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, 
+        ThisDrive->DrivePhysicalPointer);
 	ThisDrive->NextChunkScan = 0; // force a chunk scan
 
-	BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[NewChunkId] + (ThisDrive->CurrentFilePointer - ThisDrive->LoadedChunkBaseAddr[NewChunkId]));
+	BYTE* AsBytes = ((BYTE*)ThisDrive->CurrentLoadedChunks[NewChunkId]
+        + (ThisDrive->CurrentFilePointer -
+        ThisDrive->LoadedChunkBaseAddr[NewChunkId]));
+    
 	WORD64* AsU64 = (WORD64*)AsBytes;
 	AsU64[0] = Data;
-	if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
+	
+    if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
 		ThisDrive->CurrentFilePointer += 0x8;
-	}
-	else {
+	} else {
 		if (ThisDrive->SkipInc)
 			ThisDrive->SkipInc = 0;
 	}
@@ -175,11 +206,10 @@ void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data) {
 	return;
 }
 
-WORD64  FdiskiGetDriveSerial(WORD32 DriveId) {
+WORD64 FdiskiGetDriveSerial(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
     PFDISK_DRIVE ThisDrive = &FdiskCtx->Drives[DriveId];
-    
 	if (!ThisDrive->IsDriveAwake)
 		return 0;
 
@@ -235,12 +265,15 @@ void FdiskiFarSeek(WORD32 DriveId, WORD64 SpecPos) {
 	ThisDrive->SpeculativeSeek = SpecPos;
 	int NewChunkId = ThisDrive->OldestChunk;
 	free(ThisDrive->CurrentLoadedChunks[NewChunkId]);
-	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = ThisDrive->SpeculativeSeek - (FDISK_CACHE_CHUNK / 2);
+	ThisDrive->LoadedChunkBaseAddr[NewChunkId] = 
+        ThisDrive->SpeculativeSeek - (FDISK_CACHE_CHUNK / 2);
 	ThisDrive->LoadedChunkSize[NewChunkId] = FDISK_CACHE_CHUNK;
 	ThisDrive->LoadedChunkCpuTick[NewChunkId] = CpuTimerGetTime();
 	ThisDrive->CurrentLoadedChunks[NewChunkId] = malloc(FDISK_CACHE_CHUNK);
-	pfseek(ThisDrive->DrivePhysicalPointer, ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
-	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, ThisDrive->DrivePhysicalPointer);
+	pfseek(ThisDrive->DrivePhysicalPointer, 
+        ThisDrive->LoadedChunkBaseAddr[NewChunkId], SEEK_SET);
+	fread(ThisDrive->CurrentLoadedChunks[NewChunkId], FDISK_CACHE_CHUNK, 1, 
+        ThisDrive->DrivePhysicalPointer);
 	ThisDrive->NextChunkScan = 0;
 
 	return;
@@ -255,6 +288,7 @@ void FdiskiSkipFpIncrement(WORD32 DriveId) {
 		return;
 
 	ThisDrive->SkipInc = 1;
+    return;
 }
 
 void FdiskiEnableFpIncrement(WORD32 DriveId) {
@@ -266,6 +300,7 @@ void FdiskiEnableFpIncrement(WORD32 DriveId) {
 		return;
 
 	ThisDrive->DisableInc = 0;
+    return;
 }
 
 void FdiskiDisableFpIncrement(WORD32 DriveId) {
@@ -277,6 +312,7 @@ void FdiskiDisableFpIncrement(WORD32 DriveId) {
 		return;
 
 	ThisDrive->DisableInc = 1;
+    return;
 }
 
 void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos) {
@@ -288,6 +324,7 @@ void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos) {
 		return;
 
 	ThisDrive->CurrentFilePointer = NewPos;
+    return;
 }
 
 WORD64  FdiskiDriveReadStack(WORD32 DriveId) {
