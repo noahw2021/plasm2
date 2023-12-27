@@ -62,19 +62,23 @@ WORD64 VideoSendData(WORD32 Device, WORD64 Data) {
 		break;
 	case 0x02:
 		Color = (WORD32)MmuPop();
-		VideoiDrawLine((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
+		VideoiDrawLine((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data),
+            (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x03:
 		Color = (WORD32)MmuPop();
-		VideoiDrawRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
+		VideoiDrawRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data),
+            (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x04:
 		Color = (WORD32)MmuPop();
-		VideoiDrawFill((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
+		VideoiDrawFill((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), 
+            (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Color);
 		break;
 	case 0x05:
 		Ptr = MmuPop(); // aka pointer here
-		VideoiCopyRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Ptr);
+		VideoiCopyRect((WORD16)GET16_HIHI(Data), (WORD16)GET16_HILO(Data), 
+            (WORD16)GET16_LOHI(Data), (WORD16)GET16_LOLO(Data), Ptr);
 		break;
 	case 0x06: // wip
 		break;
