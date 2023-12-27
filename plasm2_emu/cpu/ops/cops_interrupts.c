@@ -34,7 +34,8 @@ void HND(void) {
 	WORD64 VirtualAddress = ECtx->GPRs[Input.Handler];
 	VirtualAddress &= 0x00FFFFFFFFFFFFFF;
 	VirtualAddress |= ((WORD64)SecurityLevel) << 56;
-	MmuPut8(ECtx->ControlRegisters.InterruptTable + ((WORD64)Input.Interrupt * 8), VirtualAddress);
+	MmuPut8(ECtx->ControlRegisters.InterruptTable + 
+        ((WORD64)Input.Interrupt * 8), VirtualAddress);
 	return;
 }
 

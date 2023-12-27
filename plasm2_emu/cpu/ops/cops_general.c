@@ -30,7 +30,8 @@ void LDI(void) {
 
 void JMP(void) {
 	BYTE Address = MmuRead1(ECtx->ip++) & 0xF;
-	WORD64 PhysicalAddress = MmuTranslate(ECtx->GPRs[Address], REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	WORD64 PhysicalAddress = MmuTranslate(ECtx->GPRs[Address], 
+        REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		CpuInstructionJMP(PhysicalAddress);
 	else
@@ -66,7 +67,8 @@ void NXL(void) {
 void CLL(void) {
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
 	WORD64 Address = ECtx->GPRs[Register];
-	WORD64 PhysicalAddress = MmuTranslate(Address, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	WORD64 PhysicalAddress = MmuTranslate(Address, 
+        REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
 	if (PhysicalAddress)
 		CpuInstructionCLL(PhysicalAddress);
 	else
@@ -118,7 +120,8 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 void JMI(void) {
 	WORD64 Immediate = MmuRead8(ECtx->ip);
 	ECtx->ip += 8;
-	WORD64 Translated = MmuTranslate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	WORD64 Translated = MmuTranslate(Immediate, 
+        REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		CpuInstructionJMP(Translated);
 	else
@@ -129,7 +132,8 @@ void JMI(void) {
 void CLI(void) {
 	WORD64 Immediate = MmuRead8(ECtx->ip);
 	ECtx->ip += 8;
-	WORD64 Translated = MmuTranslate(Immediate, REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
+	WORD64 Translated = MmuTranslate(Immediate, 
+        REASON_READ | REASON_EXEC, SIZE_WATCHDOG);
 	if (Translated)
 		CpuInstructionCLL(Translated);
 	else

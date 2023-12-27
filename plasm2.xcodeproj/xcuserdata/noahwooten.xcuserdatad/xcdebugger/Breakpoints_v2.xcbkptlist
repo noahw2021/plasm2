@@ -746,8 +746,8 @@
             filePath = "plasm2_emu/cpu/ops/cops_devices.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
             landmarkName = "DSC()"
             landmarkType = "9">
          </BreakpointContent>
