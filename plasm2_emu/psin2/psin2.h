@@ -22,7 +22,7 @@ typedef struct _PSIN_INSTRUCTION {
 	BYTE OperandCount;
 	BYTE TotalInstructionSize;
 	char* InstructionDescription;
-}PSIN_INSTRUCTION;
+}PSIN_INSTRUCTION, *PPSIN_INSTRUCTION;
 
 typedef struct PSIN2_CTX {
 	PSIN_INSTRUCTION* Instructions;
