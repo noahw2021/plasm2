@@ -94,10 +94,18 @@ void POP(void) {
 void PSR(void) {
 	for (int c = 0; c < 16; c++)
 		MmuPush(ECtx->GPRs[c]);
+    if (ECtx->Security.SecurityLevel <= 1) {
+        for (int c = 0; c < 16; c++)
+            MmuPush(ECtx->SystemRs[c]);
+    }
 	return;
 }
 
 void POR(void) {
+    if (ECtx->Security.SecurityLevel <= 1) {
+        for (int c = 0; c < 16; c++)
+            ECtx->SystemRs[c] = MmuPop();
+    }
 	for (int c = 0; c < 16; c++)
 		ECtx->GPRs[c] = MmuPop();
 	return;

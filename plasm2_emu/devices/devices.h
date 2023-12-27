@@ -39,6 +39,16 @@ WORD64  DevicesiDevCount(void);
 #define DEVSTATUS_RSN_INVCMD 0x00010000
 #define DEVSTATUS_RSN_CLEAR  0x00FF0000
 
+typedef union _CPU_DEVICE_FLAGS {
+    WORD32 FlagsRaw;
+    struct {
+        WORD32 Active : 1;
+        WORD32 On : 1;
+        WORD32 Sleep : 1;
+        WORD32 Hotswappable : 1;
+    };
+}CPU_DEVICE_FLAGS, *PCPU_DEVICE_FLAGS;
+
 typedef struct _DEVICES_CTX {
 	WORD64 DeviceCount;
 	struct {
@@ -49,15 +59,7 @@ typedef struct _DEVICES_CTX {
 		WORD64 DeviceModel;
 		WORD64 DeviceSerial;
 		WORD64(*Callbacks[7])(WORD32 DeviceId, WORD64 Argument);
-		union {
-			WORD32 FlagsRaw;
-			struct {
-				BYTE Active : 1;
-				BYTE On : 1;
-				BYTE Sleep : 1;
-				BYTE Hotswappable : 1;
-			};
-		}Flags;
+        CPU_DEVICE_FLAGS Flags;
 	}*Devices;
 }DEVICES_CTX, *PDEVICES_CTX;
 extern PDEVICES_CTX DevicesCtx;
