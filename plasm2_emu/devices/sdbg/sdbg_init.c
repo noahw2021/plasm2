@@ -40,25 +40,26 @@ void SdbgClock(void) {
 }
 
 void SdbgCollect(void) {
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_TERMINAL;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
+    
+    PCPU_DEVICE SdbDevice = &DevicesCtx->Devices[DevicesCtx->DeviceCount];
+    DevicesCtx->DeviceCount++;
+    
+	SdbDevice->DeviceType = DEVTYPE_TERMINAL;
+	SdbDevice->DeviceModel = 1;
 
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Serialish Debugger");
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4279;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
+	strcpy(SdbDevice->DeviceName, "PLASM2EMU Serialish Debugger");
+	strcpy(SdbDevice->DeviceVendor, "noahw2021");
+	SdbDevice->DeviceSerial = 4279;
+	SdbDevice->VendorId = 1;
+	SdbDevice->Flags.Active = 1;
+	SdbDevice->Flags.On = 1;
 
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = SdbgStatusQuery;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = SdbgSendCommand;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = SdbgSendData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = SdbgGetData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = SdbgReset;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = SdbgOff;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = SdbgOn;
-
-	DevicesCtx->DeviceCount++;
-
+	SdbDevice->Callbacks[0] = SdbgStatusQuery;
+	SdbDevice->Callbacks[1] = SdbgSendCommand;
+	SdbDevice->Callbacks[2] = SdbgSendData;
+	SdbDevice->Callbacks[3] = SdbgGetData;
+	SdbDevice->Callbacks[4] = SdbgReset;
+	SdbDevice->Callbacks[5] = SdbgOff;
+	SdbDevice->Callbacks[6] = SdbgOn;
 	return;
 }
