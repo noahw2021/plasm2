@@ -12,15 +12,15 @@
 
 #pragma warning(disable: 6387)
 
-void FdiskiSetActiveDrive(int DriveId) {
+void FdiskiSetActiveDrive(WORD32 DriveId) {
 	FdiskCtx->CurrentDrive = DriveId;
 }
 
-int  FdiskiGetDriveCount(void) {
+WORD32 FdiskiGetDriveCount(void) {
 	return FdiskCtx->DriveCount;
 }
 
-void FdiskiDriveSleep(int DriveId) {
+void FdiskiDriveSleep(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -35,7 +35,7 @@ void FdiskiDriveSleep(int DriveId) {
 	FdiskCtx->Drives[DriveId].IsDriveAwake = 0;
 }
 
-void FdiskiDriveAwake(int DriveId) {
+void FdiskiDriveAwake(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -52,7 +52,7 @@ void FdiskiDriveAwake(int DriveId) {
 	return;
 } 
 
-WORD64  FdiskiGetDriveSize(int DriveId) {
+WORD64  FdiskiGetDriveSize(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -61,7 +61,7 @@ WORD64  FdiskiGetDriveSize(int DriveId) {
 	return FdiskCtx->Drives[DriveId].DrivePhysicalSize;
 }
 
-_bool FdiskiIsDriveReady(int DriveId) {
+_bool FdiskiIsDriveReady(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -70,7 +70,7 @@ _bool FdiskiIsDriveReady(int DriveId) {
 	return 1;
 }
 
-WORD64  FdiskiDriveRead(int DriveId) {
+WORD64  FdiskiDriveRead(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -116,7 +116,7 @@ WORD64  FdiskiDriveRead(int DriveId) {
 	return AsU64[0];
 }
 
-void FdiskiDriveWrite(int DriveId, WORD64 Data) {
+void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -162,7 +162,7 @@ void FdiskiDriveWrite(int DriveId, WORD64 Data) {
 	return;
 }
 
-WORD64  FdiskiGetDriveSerial(int DriveId) {
+WORD64  FdiskiGetDriveSerial(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -171,7 +171,7 @@ WORD64  FdiskiGetDriveSerial(int DriveId) {
 	return FdiskCtx->Drives[DriveId].DeviceSerial;
 }
 
-void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer) {
+void FdiskiGetDriveVendorString(WORD32 DriveId, WORD64 Pointer) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -184,7 +184,7 @@ void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer) {
 	return;
 }
 
-WORD64  FdiskiGetDriveModel(int DriveId) {
+WORD64  FdiskiGetDriveModel(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -193,7 +193,7 @@ WORD64  FdiskiGetDriveModel(int DriveId) {
 	return FdiskCtx->Drives[DriveId].DeviceModelNum;
 }
 
-WORD64  FdiskiGetDriveVendorId(int DriveId) {
+WORD64  FdiskiGetDriveVendorId(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -202,7 +202,7 @@ WORD64  FdiskiGetDriveVendorId(int DriveId) {
 	return FdiskCtx->Drives[DriveId].DeviceVendorId;
 }
 
-void FdiskiFarSeek(int DriveId, WORD64 SpecPos) {
+void FdiskiFarSeek(WORD32 DriveId, WORD64 SpecPos) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -223,7 +223,7 @@ void FdiskiFarSeek(int DriveId, WORD64 SpecPos) {
 	return;
 }
 
-void FdiskiSkipFpIncrement(int DriveId) {
+void FdiskiSkipFpIncrement(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -232,7 +232,7 @@ void FdiskiSkipFpIncrement(int DriveId) {
 	FdiskCtx->Drives[DriveId].SkipInc = 1;
 }
 
-void FdiskiEnableFpIncrement(int DriveId) {
+void FdiskiEnableFpIncrement(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -241,7 +241,7 @@ void FdiskiEnableFpIncrement(int DriveId) {
 	FdiskCtx->Drives[DriveId].DisableInc = 0;
 }
 
-void FdiskiDisableFpIncrement(int DriveId) {
+void FdiskiDisableFpIncrement(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -250,7 +250,7 @@ void FdiskiDisableFpIncrement(int DriveId) {
 	FdiskCtx->Drives[DriveId].DisableInc = 1;
 }
 
-void FdiskiDriveSeek(int DriveId, WORD64 NewPos) {
+void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -259,7 +259,7 @@ void FdiskiDriveSeek(int DriveId, WORD64 NewPos) {
 	FdiskCtx->Drives[DriveId].CurrentFilePointer = NewPos;
 }
 
-WORD64  FdiskiDriveReadStack(int DriveId) {
+WORD64  FdiskiDriveReadStack(WORD32 DriveId) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return 0;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)
@@ -272,7 +272,7 @@ WORD64  FdiskiDriveReadStack(int DriveId) {
 	return Return;
 }
 
-void FdiskiDriveWriteStack(int DriveId, WORD64 Data) {
+void FdiskiDriveWriteStack(WORD32 DriveId, WORD64 Data) {
 	if (DriveId >= FdiskCtx->DriveCount)
 		return;
 	if (!FdiskCtx->Drives[DriveId].IsDriveAwake)

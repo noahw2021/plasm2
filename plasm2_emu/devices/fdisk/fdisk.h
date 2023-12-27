@@ -114,22 +114,22 @@ c
 12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
 */
 
-void FdiskiSetActiveDrive(int DriveId);
-int  FdiskiGetDriveCount(void);
-void FdiskiDriveSleep(int DriveId);
-void FdiskiDriveAwake(int DriveId);
-WORD64 FdiskiGetDriveSize(int DriveId);
-_bool FdiskiIsDriveReady(int DriveId);
-WORD64 FdiskiDriveRead(int DriveId);
-void FdiskiDriveWrite(int DriveId, WORD64 Data);
-WORD64 FdiskiGetDriveSerial(int DriveId);
-void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer);
-WORD64 FdiskiGetDriveModel(int DriveId);
-WORD64 FdiskiGetDriveVendorId(int DriveId);
-void FdiskiFarSeek(int DriveId, WORD64 SpecPos);
-void FdiskiSkipFpIncrement(int DriveId);
-void FdiskiEnableFpIncrement(int DriveId);
-void FdiskiDisableFpIncrement(int DriveId);
-void FdiskiDriveSeek(int DriveId, WORD64 NewPos);
-WORD64 FdiskiDriveReadStack(int DriveId);
-void FdiskiDriveWriteStack(int DriveId, WORD64 Data);
+void FdiskiSetActiveDrive(WORD32 DriveId);
+WORD32  FdiskiGetDriveCount(void);
+void FdiskiDriveSleep(WORD32 DriveId);
+void FdiskiDriveAwake(WORD32 DriveId);
+WORD64 FdiskiGetDriveSize(WORD32 DriveId);
+_bool FdiskiIsDriveReady(WORD32 DriveId);
+WORD64 FdiskiDriveRead(WORD32 DriveId);
+void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data);
+WORD64 FdiskiGetDriveSerial(WORD32 DriveId);
+void FdiskiGetDriveVendorString(WORD32 DriveId, WORD64 Pointer);
+WORD64 FdiskiGetDriveModel(WORD32 DriveId);
+WORD64 FdiskiGetDriveVendorId(WORD32 DriveId);
+void FdiskiFarSeek(WORD32 DriveId, WORD64 SpecPos);
+void FdiskiSkipFpIncrement(WORD32 DriveId);
+void FdiskiEnableFpIncrement(WORD32 DriveId);
+void FdiskiDisableFpIncrement(WORD32 DriveId);
+void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos);
+WORD64 FdiskiDriveReadStack(WORD32 DriveId);
+void FdiskiDriveWriteStack(WORD32 DriveId, WORD64 Data);
