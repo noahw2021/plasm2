@@ -69,23 +69,29 @@ _bool FdiskRegister(const char* DiskFile) {
 		return 0;
 	}
 
-	if (!FdiskCtx->Drives)
-		FdiskCtx->Drives = malloc(sizeof(*FdiskCtx->Drives));
-	else
-		FdiskCtx->Drives = realloc(FdiskCtx->Drives, sizeof(*FdiskCtx->Drives) * (FdiskCtx->DriveCount + 1));
-	memset(&FdiskCtx->Drives[FdiskCtx->DriveCount], 0, sizeof(*FdiskCtx->Drives));
+    if (!FdiskCtx->Drives) {
+        FdiskCtx->Drives = malloc(sizeof(*FdiskCtx->Drives));
+    } else {
+        FdiskCtx->Drives = realloc(FdiskCtx->Drives,
+            sizeof(*FdiskCtx->Drives) * (FdiskCtx->DriveCount + 1));
+    }
+    
+	memset(&FdiskCtx->Drives[FdiskCtx->DriveCount], 0,
+        sizeof(*FdiskCtx->Drives));
 
 	FdiskCtx->Drives[FdiskCtx->DriveCount].CurrentFilePointer = 0x00;
-	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceSerial = PotHeader->DeviceSerial;
-	memcpy(FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendor, PotHeader->DeviceVendor, 16);
-	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendorId = PotHeader->DeviceVendorId;
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceSerial =
+        PotHeader->DeviceSerial;
+	memcpy(FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendor, 
+        PotHeader->DeviceVendor, 16);
+	FdiskCtx->Drives[FdiskCtx->DriveCount].DeviceVendorId = 
+        PotHeader->DeviceVendorId;
 	FdiskCtx->Drives[FdiskCtx->DriveCount].DrivePhysicalPointer = Tfp;
 	FdiskCtx->Drives[FdiskCtx->DriveCount].DrivePhysicalSize = FileSize;
 	FdiskCtx->Drives[FdiskCtx->DriveCount].IsDriveActive = 1;
 	FdiskCtx->Drives[FdiskCtx->DriveCount].IsDriveAwake = 1;
 
 	FdiskCtx->DriveCount++;
-
 	return 0;
 }
 

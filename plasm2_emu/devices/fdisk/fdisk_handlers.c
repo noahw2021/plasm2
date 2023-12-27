@@ -32,8 +32,10 @@ commands:
 0E DriveDisableFpIncrement : Disables the seek pos increment until reenabled
 0F DriveEnableFpIncrement : Reenables the seek pos increment
 10 DriveSeek : Sets the drive seek pos (current)
-11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given in the stack
-12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
+11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given 
+    in the stack
+12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given 
+    in the stack
 */
 
 WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command) {
@@ -70,7 +72,8 @@ WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command) {
 		break;
 	case 0x08:
 		FdiskCtx->RecvData = 1;
-		FdiskCtx->OutgoingData = FdiskiGetDriveSerial(FdiskCtx->CurrentDrive);
+		FdiskCtx->OutgoingData = FdiskiGetDriveSerial(
+            FdiskCtx->CurrentDrive);
 		break;
 	case 0x09:
 		FdiskCtx->CurrentCommand = (BYTE)Command;
@@ -82,7 +85,8 @@ WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command) {
 		break;
 	case 0x0B:
 		FdiskCtx->RecvData = 1;
-		FdiskCtx->OutgoingData = FdiskiGetDriveVendorId(FdiskCtx->CurrentDrive);
+		FdiskCtx->OutgoingData = FdiskiGetDriveVendorId(
+            FdiskCtx->CurrentDrive);
 		break;
 	case 0x0C:
 		FdiskCtx->CurrentCommand = (BYTE)Command;
@@ -103,7 +107,8 @@ WORD64 FdiskSendCommand(WORD32 Device, WORD64 Command) {
 		break;
 	case 0x11:
 		FdiskCtx->RecvData = 1;
-		FdiskCtx->OutgoingData = FdiskiDriveReadStack(FdiskCtx->CurrentCommand);
+		FdiskCtx->OutgoingData = FdiskiDriveReadStack(
+            FdiskCtx->CurrentCommand);
 		break;
 	case 0x12:
 		FdiskCtx->CurrentCommand = (BYTE)Command;

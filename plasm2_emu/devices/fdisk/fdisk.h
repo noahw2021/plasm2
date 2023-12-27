@@ -53,32 +53,34 @@ typedef struct _FDISK_HDR {
 	WORD64 PartsSum; // not really a hash, but will tell us if something is wrong
 }FDISK_HDR;
 
+typedef struct _FDISK_DRIVE {
+    _bool IsDriveAwake;
+    _bool IsDriveActive;
+
+    FILE* DrivePhysicalPointer;
+    WORD64 DrivePhysicalSize;
+    void* CurrentLoadedChunks[4];
+    WORD64 LoadedChunkSize[4];
+    WORD64 LoadedChunkBaseAddr[4];
+    WORD64 LoadedChunkCpuTick[4];
+    int OldestChunk;
+    WORD64 NextChunkScan;
+
+    char DeviceVendor[16];
+    WORD64 DeviceSerial;
+    WORD64 DeviceVendorId;
+    WORD64 DeviceModelNum;
+
+    WORD64 CurrentFilePointer;
+    WORD64 SpeculativeSeek;
+    BYTE DisableInc;
+    BYTE SkipInc;
+}FDISK_DRIVE, *PFDISK_DRIVE;
+
 typedef struct _FDISK_CTX {
-	int DriveCount;
-	int CurrentDrive;
-	struct {
-		_bool IsDriveAwake;
-		_bool IsDriveActive;
-
-		FILE* DrivePhysicalPointer;
-		WORD64 DrivePhysicalSize;
-		void* CurrentLoadedChunks[4];
-		WORD64 LoadedChunkSize[4];
-		WORD64 LoadedChunkBaseAddr[4];
-		WORD64 LoadedChunkCpuTick[4];
-		int OldestChunk;
-		WORD64 NextChunkScan;
-
-		char DeviceVendor[16];
-		WORD64 DeviceSerial;
-		WORD64 DeviceVendorId;
-		WORD64 DeviceModelNum;
-
-		WORD64 CurrentFilePointer;
-		WORD64 SpeculativeSeek;
-		BYTE DisableInc;
-		BYTE SkipInc;
-	}*Drives;
+	WORD32 DriveCount;
+	WORD32 CurrentDrive;
+    PFDISK_DRIVE Drives;
 
 	WORD64 OutgoingData;
 	BYTE RecvData;

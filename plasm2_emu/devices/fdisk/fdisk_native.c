@@ -28,7 +28,8 @@ void FdiskiDriveSleep(int DriveId) {
 
 	for (int i = 0; i < 4; i++) {
 		free(FdiskCtx->Drives[DriveId].CurrentLoadedChunks[i]);
-		FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] |= 0xF000000000000000;
+		FdiskCtx->Drives[DriveId].LoadedChunkCpuTick[i] |= 
+            0xF000000000000000;
 	}
 
 	FdiskCtx->Drives[DriveId].IsDriveAwake = 0;
