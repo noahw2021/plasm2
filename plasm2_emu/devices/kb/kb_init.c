@@ -22,6 +22,7 @@ void KbClock(void) {
 		CpuInstructionINT(KbCtx->KeyUp);
 		KbCtx->NotifyUp = 0;
 	}
+    
 	if (KbCtx->NotifyDown) {
 		MmuPush(KbCtx->NotifyDown);
 		CpuInstructionINT(KbCtx->KeyDown);
