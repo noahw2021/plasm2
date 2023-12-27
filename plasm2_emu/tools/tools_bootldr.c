@@ -15,7 +15,7 @@
 #pragma warning(disable: 6011 6031 6387)
 
 #define BOOTIMG_MAGIC 0x504C4D4254494D47
-typedef struct _bootimg {
+typedef struct _BOOTIMG {
 	WORD64 Magic;
 	WORD64 EntryPoint;
 	WORD64 ExpectedMapPoint;
@@ -31,7 +31,7 @@ typedef struct _bootimg {
 	WORD64 Reserved0[2];
 
 	WORD64 Reserved1[4];
-}bootimg_t;
+}BOOT_IMG, *PBOOT_IMG;
 
 #define BOOTLDRFLAG_SAVE 0x01
 #define BOOTLDRFLAG_LOAD 0x02
@@ -97,8 +97,8 @@ void ToolsiBootloader(void) {
 	fread(_Data, FileSize, 1, _Input);
 	fclose(_Input);
 
-	bootimg_t* BootImg = malloc(sizeof(bootimg_t));
-	memset(BootImg, 0, sizeof(bootimg_t));
+	PBOOT_IMG BootImg = malloc(sizeof(BOOT_IMG));
+	memset(BootImg, 0, sizeof(BOOT_IMG));
 	
 	BYTE Flags = 0x00;
 	if (__t_argv) {
@@ -119,7 +119,7 @@ void ToolsiBootloader(void) {
 			return;
 		}
 
-		fread(BootImg, sizeof(bootimg_t), 1, __Input);
+		fread(BootImg, sizeof(BOOT_IMG), 1, __Input);
 		fclose(__Input);
 	}
 	else {
@@ -153,13 +153,13 @@ void ToolsiBootloader(void) {
 				return;
 			}
 
-			fwrite(BootImg, sizeof(bootimg_t), 1, __Output);
+			fwrite(BootImg, sizeof(BOOT_IMG), 1, __Output);
 			fclose(__Output);
 		}
 	}
 	fseek(_Output, 0, SEEK_SET);
-	fwrite(BootImg, sizeof(bootimg_t), 1, _Output);
-	fseek(_Output, sizeof(bootimg_t), SEEK_SET);
+	fwrite(BootImg, sizeof(BOOT_IMG), 1, _Output);
+	fseek(_Output, sizeof(BOOT_IMG), SEEK_SET);
 	fwrite(_Data, FileSize, 1, _Output);
 	free(_Data);
 	fclose(_Output);

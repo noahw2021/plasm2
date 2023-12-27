@@ -18,7 +18,8 @@
 #define SINGLE_CLR(Single, Bit) (Single &= (~(1LLU << Bit)))
 
 #define BIT_READ(Pair, Bit)  SINGLE_GET(Pair[Bit / 64], Bit % 64)
-#define BIT_WRTE(Pair, Bit, State) SINGLE_CLR(Pair[Bit / 64], Bit % 64); SINGLE_SET(Pair[Bit / 64], Bit % 64)
+#define BIT_WRTE(Pair, Bit, State) SINGLE_CLR(Pair[Bit / 64], Bit % 64); \
+    SINGLE_SET(Pair[Bit / 64], Bit % 64)
 
 int ToolsiiRenderThread(void* __a0) {
 	return 0;
@@ -68,6 +69,7 @@ void ToolsiFontGen(void) {
 		}
 		fclose(InFile);
 	}
+    
 	InFile = fopen(FileName, "wb");
 	if (!InFile) {
 		printf("Failed to open the file.\n");
@@ -77,8 +79,10 @@ void ToolsiFontGen(void) {
 		return;
 	}
 
-	SDL_Window* FontWindow = SDL_CreateWindow("PLASM2 Font Generator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 640, 0);
-	SDL_Renderer* FontRenderer = SDL_CreateRenderer(FontWindow, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Window* FontWindow = SDL_CreateWindow("PLASM2 Font Generator", 
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 640, 0);
+	SDL_Renderer* FontRenderer = SDL_CreateRenderer(FontWindow, -1, 
+        SDL_RENDERER_ACCELERATED);
 
 	char Quit = 0;
 	while (!Quit) {
@@ -122,8 +126,12 @@ void ToolsiFontGen(void) {
 					SDL_SetRenderDrawColor(FontRenderer, 200, 200, 200, 255);
 				}
 				SDL_RenderDrawRect(FontRenderer, &Rectangle);
-				if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
-					if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h)) {
+				if (InRange(MousePos[0], Rectangle.x, 
+                    Rectangle.x + Rectangle.w)
+                ) {
+					if (InRange(MousePos[1], Rectangle.y, Rectangle.y + 
+                        Rectangle.h)
+                    ) {
 						if (IsMouseDown[0])
 							Bitmap[CurrentChar][(y * 8) + x] = 1;
 						if (IsMouseDown[1])
@@ -138,7 +146,9 @@ void ToolsiFontGen(void) {
 			SDL_RenderDrawRect(FontRenderer, &Rectangle);
 
 			if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
-				if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h) && IsMouseDown[0]) {
+				if (InRange(MousePos[1], Rectangle.y, Rectangle.y + 
+                    Rectangle.h) && IsMouseDown[0]
+                ) {
 					if (b)
 						CurrentChar++;
 					else
@@ -149,16 +159,21 @@ void ToolsiFontGen(void) {
 			}
 
 			if (b) {
-				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
-				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 107, Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, 
+                    Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 107, 
+                    Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
 			} else {
-				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
-				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, 
+                    Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
+				SDL_RenderDrawLine(FontRenderer, Rectangle.x + 20, 
+                    Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
 			}
 		}
 
 		if (LastChar != CurrentChar) {
-			printf("Current Char: 0x%02hX, '%c'\n", CurrentChar, CurrentChar);
+			printf("Current Char: 0x%02hX, '%c'\n", 
+                CurrentChar, CurrentChar);
 			LastChar = CurrentChar;
 			IsMouseDown[0] = 0;
 
@@ -190,5 +205,9 @@ void ToolsiFontGen(void) {
 		fwrite(OutPairs, sizeof(WORD64), 2, InFile);
 	}	
 
+    for (int i = 0; i < 256; i++)
+        free(Bitmap[i]);
+    free(Bitmap);
+    
 	return;
 }
