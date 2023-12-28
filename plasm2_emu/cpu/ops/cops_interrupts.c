@@ -23,18 +23,19 @@ void HND(void) {
 	}Input;
 	Input.Byte = MmuRead1(ECtx->ip++);
 	BYTE SecurityLevel = (BYTE)MmuPop();
-	if (!ECtx->FlagsS.TF) {
-		ECtx->FlagsS.XF = 1;
+	if (!ECtx->Flags.TF) {
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	if (SecurityLevel < ECtx->Security.SecurityLevel) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	WORD64 VirtualAddress = ECtx->GPRs[Input.Handler];
 	VirtualAddress &= 0x00FFFFFFFFFFFFFF;
 	VirtualAddress |= ((WORD64)SecurityLevel) << 56;
-	MmuPut8(ECtx->ControlRegisters.InterruptTable + ((WORD64)Input.Interrupt * 8), VirtualAddress);
+	MmuPut8(ECtx->ControlRegisters.InterruptTable + 
+        ((WORD64)Input.Interrupt * 8), VirtualAddress);
 	return;
 }
 
@@ -44,12 +45,12 @@ void IRT(void) {
 }
 
 void ENI(void) {
-	ECtx->FlagsS.IF = 1;
+	ECtx->Flags.IF = 1;
 	return;
 }
 
 void DSI(void) {
-	ECtx->FlagsS.IF = 0;
+	ECtx->Flags.IF = 0;
 	return;
 }
 
@@ -58,7 +59,7 @@ void SMH(void) {
 	if (ECtx->Security.SecurityLevel == 0)
 		CpuCsmSetHandler(ECtx->GPRs[Register]);
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	return;
 }
 

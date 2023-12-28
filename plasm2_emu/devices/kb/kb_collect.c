@@ -10,24 +10,24 @@
 #include <string.h>
 
 void KbCollect(void) {
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_KB;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Emulated I/O Keyboard");
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4271;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
+    PCPU_DEVICE KbDevice = &DevicesCtx->Devices[DevicesCtx->DeviceCount];
+    DevicesCtx->DeviceCount++;
+    
+	KbDevice->DeviceType = DEVTYPE_KB;
+	KbDevice->DeviceModel = 1;
+	strcpy(KbDevice->DeviceName, "PLASM2EMU Emulated I/O Keyboard");
+	strcpy(KbDevice->DeviceVendor, "noahw2021");
+	KbDevice->DeviceSerial = 4271;
+	KbDevice->VendorId = 1;
+	KbDevice->Flags.Active = 1;
+	KbDevice->Flags.On = 1;
 
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = KbStatusQuery;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = KbSendCommand;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = KbSendData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = KbGetData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = KbReset;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = KbOff;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = KbOn;
-
-	DevicesCtx->DeviceCount++;
-
+	KbDevice->Callbacks[0] = KbStatusQuery;
+	KbDevice->Callbacks[1] = KbSendCommand;
+	KbDevice->Callbacks[2] = KbSendData;
+	KbDevice->Callbacks[3] = KbGetData;
+	KbDevice->Callbacks[4] = KbReset;
+	KbDevice->Callbacks[5] = KbOff;
+	KbDevice->Callbacks[6] = KbOn;
 	return;
 }

@@ -13,9 +13,15 @@
 #include <stdio.h>
 
 void MmuPush(WORD64 Value) {
-	while(InRange(ECtx->sp, ECtx->ControlRegisters.ReturnAddressLocation, ECtx->ControlRegisters.ReturnAddressLocation + 16))
-		ECtx->sp += 1;
-	WORD64* Stack = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + MmuTranslate(ECtx->sp, REASON_WRTE, 8)); // PM usage good: (reason: virtual memory)
+	while (InRange(ECtx->sp, ECtx->ControlRegisters.ReturnAddressLocation,
+        ECtx->ControlRegisters.ReturnAddressLocation + 16)
+    ) {
+        ECtx->sp++;
+    }
+		
+	WORD64* Stack = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + 
+        MmuTranslate(ECtx->sp, REASON_WRTE, 8));
+    // PM usage good: (reason: virtual memory)
 	Stack[1] = Value;
 	if ((ECtx->sp + 8) <= ECtx->ControlRegisters.StackPointerUpperBound)
 		ECtx->sp += 8;
@@ -25,7 +31,9 @@ void MmuPush(WORD64 Value) {
 }
 
 WORD64 MmuPop(void) {
-	WORD64* Stack = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + MmuTranslate(ECtx->sp, REASON_READ, 8)); // PM usage good: (reason: virtual memory)
+	WORD64* Stack = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + 
+        MmuTranslate(ECtx->sp, REASON_READ, 8));
+    // PM usage good: (reason: virtual memory)
 	WORD64 Return = Stack[0];
 	if ((ECtx->sp - 8) >= ECtx->ControlRegisters.StackPointerLowerBound)
 		ECtx->sp -= 8;

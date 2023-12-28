@@ -55,7 +55,8 @@ void ToolsiHddGen(void) {
 		printf("  Where would you like to mount this file?: 0x");
 		scanf("%llX ", &WhereToMount);
 		if (WhereToMount == 0xFFFFFFFF) {
-			printf("  Please choose a different mounting point.\n"); // this is dumb but whatever
+            // this is dumb but whatever (@TODO 12/27/23 FIX - nw)
+			printf("  Please choose a different mounting point.\n");
 			goto GoBackHere;
 		}
 
@@ -77,7 +78,8 @@ SizeTryAgain:
 	WantedSize = strtoull(TempBfr, NULL, 10);
 	if (WhereToMount != 0xFFFFFFFF) {
 		if (WantedSize < (WhereToMount + DestinedSize)) {
-			printf(" Invalid drive size. Drive must be able to at least the given map.\n");
+			printf(" Invalid drive size. Drive must be able to at "
+                   "least the given map.\n");
 			goto SizeTryAgain;
 		}
 	}
@@ -91,7 +93,8 @@ SizeTryAgain:
 			BYTE* Zeros = malloc(1024);
 			memset(Zeros, 0, 1024);
 			for (int i = 0; i < (WantedSize / 1024); i++) {
-				fseek(AttemptedFile, (i * 1024) + sizeof(FDISK_HDR), SEEK_SET);
+				fseek(AttemptedFile, (i * 1024) + sizeof(FDISK_HDR), 
+                    SEEK_SET);
 				fwrite(Zeros, 1024, 1, AttemptedFile);
 				if ((i * 1024) > WhereToMount) {
 					LBreak = (i * 1024);
@@ -101,14 +104,16 @@ SizeTryAgain:
 
 			if (!LBreak) {
 				Zeros = realloc(Zeros, WantedSize % 1024);
-				fseek(AttemptedFile, (long)(sizeof(FDISK_HDR) + (WantedSize / 1024)), SEEK_SET);
+				fseek(AttemptedFile, (long)(sizeof(FDISK_HDR) + 
+                    (WantedSize / 1024)), SEEK_SET);
 				if (Zeros) {
 					fwrite(Zeros, WantedSize % 1024, 1, AttemptedFile);
 					free(Zeros);
 				}
-			} // shouldnt ever happen
+			} // shouldn't ever happen
 
-			fseek(AttemptedFile, (long)WhereToMount + sizeof(FDISK_HDR), SEEK_SET);
+			fseek(AttemptedFile, (long)WhereToMount + sizeof(FDISK_HDR), 
+                SEEK_SET);
 			fwrite(AttemptedBuffer, DestinedSize, 1, AttemptedFile);
 			free(AttemptedBuffer);
 		}
@@ -124,10 +129,12 @@ SizeTryAgain:
 	srand(time(NULL) & 0xFFFFFFFF);
 	FdHdr->DeviceSerial = rand();
 	FdHdr->DeviceVendorId = 0x4273;
+    
 	strcpy(FdHdr->DeviceVendor, "PLASM2 HDDGnr8r");
 	FdHdr->PartsSum = FdHdr->DeviceSerial + FdHdr->DeviceVendorId;
 	for (int i = 0; i < 16; i++)
 		FdHdr->PartsSum += FdHdr->DeviceVendor[i];
+    
 	FdHdr->DriveVirtualSize = WantedSize;
 	if (LBreak)
 		FdHdr->ExpectedPhysicalSize = LBreak + sizeof(FDISK_HDR);

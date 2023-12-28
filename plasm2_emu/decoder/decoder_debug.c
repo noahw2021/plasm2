@@ -34,14 +34,14 @@ void DecoderGo(BYTE Instruction) {
 	int Psin2Id = Psin2iGetInstructionByOpcode(Instruction);
 	/*
 	if debugger is disabled, the cpu does no opcode checking by default (yet)
-	as of 7/21/23. this may be implemented in the future, but for now there will
-	be no error checking within the debugger. this may seem bad, but it should 
-	encourage me to get on error checking within the cpu, as this debugger may
-	be slow and shouldn't be functioning all the time. thus, we will not do
-	any checking and pretend everything is all good, all the time. until the system
-	burns. right now, the only real thing that can go wrong is an invalid opcode,
-	or a malformed argument package. both of which should cause the cpu to go haywire,
-	but not crash the emulator.
+	as of 7/21/23. this may be implemented in the future, but for now there 
+    will be no error checking within the debugger. this may seem bad, but it
+    should encourage me to get on error checking within the cpu, as this
+    debugger may be slow and shouldn't be functioning all the time. thus, we
+    will not do any checking and pretend everything is all good, all the
+    time. until the system burns. right now, the only real thing that can go
+    wrong is an invalid opcode, or a malformed argument package. both of
+    which should cause the cpu to go haywire, but not crash the emulator.
 	*/
 
 	DcCtx->SpeculativePointer = ECtx->ip;
@@ -96,12 +96,16 @@ void DecoderGo(BYTE Instruction) {
 		sprintf(DebugStr, "%s", Psin2iGetInstructionName(Psin2Id));
 		break;
 	case 1: // OPC ARG
-		sprintf(DebugStr, "%s %s=%c%llu", Psin2iGetInstructionName(Psin2Id), Psin2iGetOperandName(Psin2Id, 0), 
+		sprintf(DebugStr, "%s %s=%c%llu", Psin2iGetInstructionName(Psin2Id), 
+            Psin2iGetOperandName(Psin2Id, 0),
 			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0]);
 		break;
 	case 2: // OPC ARG, RG2
-		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", Psin2iGetInstructionName(Psin2Id), Psin2iGetOperandName(Psin2Id, 0), 
-			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], Psin2iGetOperandName(Psin2Id, 1), 
+		sprintf(DebugStr, "%s %s=%c%llu, %s=%c%llu", 
+            Psin2iGetInstructionName(Psin2Id),
+            Psin2iGetOperandName(Psin2Id, 0),
+			(IsOperandRegister[0] == 1 ? 'r' : 0xEE), OperandValues[0], 
+            Psin2iGetOperandName(Psin2Id, 1),
 			(IsOperandRegister[1] == 1 ? 'r' : 0xEE), OperandValues[1]);
 		break;
 	}
@@ -120,7 +124,8 @@ void DecoderGo(BYTE Instruction) {
 			CPart[0] = '\0';
 			if (Written)
 				strcat(CPart, ", ");
-			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], ECtx->GPRs[OperandValues[c]]);
+			sprintf(CPart, "%sr%llu=0x%016llX", CPart, OperandValues[c], 
+                ECtx->GPRs[OperandValues[c]]);
 
 			strcat(Ctx, CPart);
 			Written++;

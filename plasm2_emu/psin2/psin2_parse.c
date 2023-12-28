@@ -17,16 +17,21 @@ int Psin2Parse(const char* InstructionData) {
 		return Psin2Ctx->InstructionCount;
 
 	if (!Psin2Ctx->Instructions) {
-		Psin2Ctx->Instructions = malloc(sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
-		memset(Psin2Ctx->Instructions, 0, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
+		Psin2Ctx->Instructions = malloc(sizeof(PSIN_INSTRUCTION) * 
+            (Psin2Ctx->InstructionCount + 1));
+		memset(Psin2Ctx->Instructions, 0, sizeof(PSIN_INSTRUCTION) * 
+            (Psin2Ctx->InstructionCount + 1));
 	} else {
-		Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, (sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1)));
-		memset(&Psin2Ctx->Instructions[Psin2Ctx->InstructionCount], 0, sizeof(PSIN_INSTRUCTION));
+		Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, 
+            (sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1)));
+		memset(&Psin2Ctx->Instructions[Psin2Ctx->InstructionCount], 0, 
+            sizeof(PSIN_INSTRUCTION));
 	}
 
 	
 
-	PSIN_INSTRUCTION* Target = &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount];
+	PPSIN_INSTRUCTION Target =
+        &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount];
 	Psin2Ctx->InstructionCount++;
 
 	char* Temporary = malloc(256);
@@ -58,7 +63,8 @@ int Psin2Parse(const char* InstructionData) {
 		} else if (InstructionData[c] == 'I') {
 			Target->Operands[0].Type = 1;
 		} else {
-			printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
+			printf("[ERR]: Invalid operand type or syntax error. "
+                   "Check line %i.\n", Psin2Ctx->InstructionCount);
 			if (Psin2Ctx->InstructionCount == 1)
 				free(Psin2Ctx->Instructions);
 			else
@@ -95,11 +101,13 @@ int Psin2Parse(const char* InstructionData) {
 				Target->Operands[1].Type = 1;
 			}
 			else {
-				printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
+				printf("[ERR]: Invalid operand type or syntax error. "
+                       "Check line %i.\n", Psin2Ctx->InstructionCount);
 				if (Psin2Ctx->InstructionCount == 1)
 					free(Psin2Ctx->Instructions);
 				else
-					Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
+					Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, 
+                        sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
 				Psin2Ctx->InstructionCount--;
 				return Psin2Ctx->InstructionCount;
 			}

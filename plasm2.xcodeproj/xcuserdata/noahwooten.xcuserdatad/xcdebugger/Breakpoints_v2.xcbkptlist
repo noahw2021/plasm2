@@ -141,8 +141,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
             <Locations>
@@ -189,8 +189,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -209,54 +209,6 @@
             endingLineNumber = "76"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "FB713B83-CA5A-4D48-9F6D-213481C59423"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "plasm2_emu/decoder/decoder_debug.c"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "DecoderGo(Instruction)"
-            landmarkType = "9">
-            <Locations>
-               <Location
-                  uuid = "FB713B83-CA5A-4D48-9F6D-213481C59423 - f20ee9fb50768666"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "decoder_go"
-                  moduleName = "plasm2_emu"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/decoder/decoder_debug.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "64">
-               </Location>
-               <Location
-                  uuid = "FB713B83-CA5A-4D48-9F6D-213481C59423 - c81c4f575c36b406"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "DecoderGo"
-                  moduleName = "plasm2_emu"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/noahwooten/Desktop/Desktop%20-%20Noah%E2%80%99s%20MacBook%20Pro/source/plasm2/plasm2_emu/decoder/decoder_debug.c"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "64">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -333,8 +285,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
@@ -444,8 +396,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "161"
-            endingLineNumber = "161"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -460,8 +412,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
@@ -476,8 +428,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
             landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
@@ -492,8 +444,8 @@
             filePath = "plasm2_emu/cpu/cpu_clock.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "CpuClock()"
             landmarkType = "9">
          </BreakpointContent>
@@ -508,8 +460,8 @@
             filePath = "plasm2_emu/devices/video/video_init.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
             landmarkName = "VideoLoop()"
             landmarkType = "9">
          </BreakpointContent>
@@ -524,8 +476,8 @@
             filePath = "plasm2_emu/cpu/mmu/mmu_io.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "MmuRead8(Address)"
             landmarkType = "9">
          </BreakpointContent>
@@ -540,8 +492,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "137"
-            endingLineNumber = "137"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -556,8 +508,8 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
             <Locations>
@@ -634,8 +586,8 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "CpuInstructionINT(Interrupt)"
             landmarkType = "9">
             <Locations>
@@ -794,8 +746,8 @@
             filePath = "plasm2_emu/cpu/ops/cops_devices.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "19"
-            endingLineNumber = "19"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
             landmarkName = "DSC()"
             landmarkType = "9">
          </BreakpointContent>
@@ -810,8 +762,8 @@
             filePath = "plasm2_emu/main.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "174"
-            endingLineNumber = "174"
+            startingLineNumber = "186"
+            endingLineNumber = "186"
             landmarkName = "PlasmEmuNonVideoMain(Args)"
             landmarkType = "9">
          </BreakpointContent>
@@ -906,8 +858,8 @@
             filePath = "plasm2_emu/cpu/cpu_inst.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "CpuInstructionCLR()"
             landmarkType = "9">
          </BreakpointContent>
@@ -938,8 +890,8 @@
             filePath = "plasm2_emu/devices/video/video_init.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
+            startingLineNumber = "72"
+            endingLineNumber = "72"
             landmarkName = "VideoLoop()"
             landmarkType = "9">
          </BreakpointContent>

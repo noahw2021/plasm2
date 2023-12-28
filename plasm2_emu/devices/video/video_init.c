@@ -48,7 +48,8 @@ void VideoLoop(void) {
 	BYTE Quit = 0;
     
     SDL_Init(SDL_INIT_VIDEO);
-    Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 480, SDL_WINDOW_SHOWN);
+    Window = SDL_CreateWindow("PLASM Emulator", 20, 20, 640, 
+        480, SDL_WINDOW_SHOWN);
     Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_SOFTWARE);
     
     VideoStarted = 1;

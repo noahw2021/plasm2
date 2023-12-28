@@ -10,7 +10,8 @@
 
 void DSQ(void) {
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
-	WORD64 Status = DevicesiStatusQuery((WORD32)ECtx->GPRs[Register] & 0xFFFFFFFF);
+	WORD64 Status = DevicesiStatusQuery((WORD32)ECtx->GPRs[Register] & 
+        0xFFFFFFFF);
 	MmuPush(Status);
 	return;
 }
@@ -24,7 +25,8 @@ void DSC(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	DevicesiSendCommand((WORD32)ECtx->GPRs[Inputs.Device], ECtx->GPRs[Inputs.Command]);
+	DevicesiSendCommand((WORD32)ECtx->GPRs[Inputs.Device], 
+        ECtx->GPRs[Inputs.Command]);
 	return;
 }
 
@@ -37,7 +39,8 @@ void DSD(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	DevicesiSendData((WORD32)ECtx->GPRs[Inputs.Device], ECtx->GPRs[Inputs.Data]);
+	DevicesiSendData((WORD32)ECtx->GPRs[Inputs.Device], 
+        ECtx->GPRs[Inputs.Data]);
 	return;
 }
 
@@ -50,7 +53,8 @@ void DGD(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	ECtx->GPRs[Inputs.Destination] = DevicesiGetData((WORD32)ECtx->GPRs[Inputs.Device]);
+	ECtx->GPRs[Inputs.Destination] = 
+        DevicesiGetData((WORD32)ECtx->GPRs[Inputs.Device]);
 	return;
 }
 

@@ -10,24 +10,26 @@
 #include <string.h>
 
 void VideoCollect(void) {
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceType = DEVTYPE_VIDEO;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceModel = 1;
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceName, "PLASM2EMU Emulated Video Driver");
-	strcpy(DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceVendor, "noahw2021");
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].DeviceSerial = 4270;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].VendorId = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.Active = 1;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Flags.On = 1;
 	
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[0] = VideoStatusQuery;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[1] = VideoSendCommand;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[2] = VideoSendData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[3] = VideoGetData;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[4] = VideoReset;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[5] = VideoOff;
-	DevicesCtx->Devices[DevicesCtx->DeviceCount].Callbacks[6] = VideoOn;
-
-	DevicesCtx->DeviceCount++;
-
+    PCPU_DEVICE VideoDevice =
+        &DevicesCtx->Devices[DevicesCtx->DeviceCount];
+    DevicesCtx->DeviceCount++;
+    
+    VideoDevice->DeviceType = DEVTYPE_VIDEO;
+	VideoDevice->DeviceModel = 1;
+	strcpy(VideoDevice->DeviceName, "PLASM2EMU Emulated Video Driver");
+	strcpy(VideoDevice->DeviceVendor, "noahw2021");
+	VideoDevice->DeviceSerial = 4270;
+	VideoDevice->VendorId = 1;
+	VideoDevice->Flags.Active = 1;
+	VideoDevice->Flags.On = 1;
+	
+	VideoDevice->Callbacks[0] = VideoStatusQuery;
+	VideoDevice->Callbacks[1] = VideoSendCommand;
+	VideoDevice->Callbacks[2] = VideoSendData;
+	VideoDevice->Callbacks[3] = VideoGetData;
+	VideoDevice->Callbacks[4] = VideoReset;
+	VideoDevice->Callbacks[5] = VideoOff;
+    VideoDevice->Callbacks[6] = VideoOn;
 	return;
 }

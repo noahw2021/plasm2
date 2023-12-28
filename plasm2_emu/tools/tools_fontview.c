@@ -48,8 +48,10 @@ void ToolsiFontViewer(void) {
 	}
 	fclose(InFile);
 
-	SDL_Window* Window = SDL_CreateWindow("PLASM2 Font Viewer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 690, 0);
-	SDL_Renderer* Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
+	SDL_Window* Window = SDL_CreateWindow("PLASM2 Font Viewer", 
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 257, 690, 0);
+	SDL_Renderer* Renderer = SDL_CreateRenderer(Window, -1, 
+        SDL_RENDERER_ACCELERATED);
 
 	int MousePos[2] = { 0, 0 };
 	BYTE ClickState[2] = { 0,0 };
@@ -69,11 +71,15 @@ void ToolsiFontViewer(void) {
 				MousePos[1] = Event.motion.y;
 			}
 			
-			if (Event.type == SDL_MOUSEBUTTONDOWN)
-				ClickState[(Event.button.button == SDL_BUTTON_LEFT) ? 0 : 1] = 1;
-
-			if (Event.type == SDL_MOUSEBUTTONUP)
-				ClickState[(Event.button.button == SDL_BUTTON_LEFT) ? 0 : 1] = 0;
+            if (Event.type == SDL_MOUSEBUTTONDOWN) {
+                ClickState[(Event.button.button == SDL_BUTTON_LEFT) ? 0 : 1]
+                    = 1;
+            }
+            
+            if (Event.type == SDL_MOUSEBUTTONUP) {
+                ClickState[(Event.button.button == SDL_BUTTON_LEFT) ? 0 : 1]
+                    = 0;
+            }
 		}
 
 		if (Break)
@@ -95,12 +101,15 @@ void ToolsiFontViewer(void) {
 			}
 		}
 		for (int b = 0; b < 2; b++) {
-			SDL_Rect Rectangle = { 1 + (2 * b) + (127 * b), 523, 128 - (2 * b), 127  };
+			SDL_Rect Rectangle = { 1 + (2 * b) + (127 * b), 523, 
+                128 - (2 * b), 127  };
 			SDL_SetRenderDrawColor(Renderer, 200, 200, 200, 255);
 			SDL_RenderDrawRect(Renderer, &Rectangle);
 
 			if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
-				if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h) && ClickState[0]) {
+				if (InRange(MousePos[1], Rectangle.y, Rectangle.y
+                    + Rectangle.h) && ClickState[0]
+                ) {
 					if (b)
 						CurrentChar++;
 					else
@@ -113,12 +122,16 @@ void ToolsiFontViewer(void) {
 			}
 
 			if (b) {
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 107, Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
+				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, 
+                    Rectangle.y + 20, Rectangle.x + 107, Rectangle.y + 64);
+				SDL_RenderDrawLine(Renderer, Rectangle.x + 107, 
+                    Rectangle.y + 64, Rectangle.x + 20, Rectangle.y + 97);
 			}
 			else {
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
-				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
+				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, 
+                    Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 97);
+				SDL_RenderDrawLine(Renderer, Rectangle.x + 20, 
+                    Rectangle.y + 64, Rectangle.x + 107, Rectangle.y + 20);
 			}
 		}
 
@@ -135,14 +148,17 @@ void ToolsiFontViewer(void) {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 16; y++) {
 					if (Bitmap[YkChar][(y * 8) + x]) {
-						SDL_Rect ThisRect = { Rectangle.x + (x * 2), Rectangle.y + (y * 2), 2, 2 };
+						SDL_Rect ThisRect = { Rectangle.x + (x * 2), 
+                            Rectangle.y + (y * 2), 2, 2 };
 						SDL_RenderFillRect(Renderer, &ThisRect);
 					}
 				}
 			}
 
 			if (InRange(MousePos[0], Rectangle.x, Rectangle.x + Rectangle.w)) {
-				if (InRange(MousePos[1], Rectangle.y, Rectangle.y + Rectangle.h) && ClickState[0]) {
+				if (InRange(MousePos[1], Rectangle.y, Rectangle.y 
+                    + Rectangle.h) && ClickState[0]
+                ) {
 					CurrentChar = YkChar;
 				}
 			}

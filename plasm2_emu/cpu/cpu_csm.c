@@ -13,17 +13,21 @@ void CpuCsmSetHandler(WORD64 Handler) {
 	if (ECtx->Security.SecurityLevel < 2)
 		ECtx->ControlRegisters.CSMHandler = Handler;
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
+    
 	return;
 }
 
 void CpuCsmSendMessage(BYTE Code, WORD64 AddtData) {
 	if (ECtx->Security.SecurityLevel >= 3)
-		ECtx->FlagsS.XF = 1;
-	for (int c = 0; c < REGCOUNT_SPEC; c++)
+		ECtx->Flags.XF = 1;
+	
+    for (int c = 0; c < REGCOUNT_SPEC; c++)
 		MmuPush(ECtx->SystemRs[c]);
-	MmuPush(Code);
+	
+    MmuPush(Code);
 	MmuPush(AddtData);
 	CpuInstructionCLL(ECtx->ControlRegisters.CSMHandler);
+    
 	return;
 }

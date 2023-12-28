@@ -16,9 +16,10 @@ void LDW(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_READ, 8);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_READ, 8);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	ECtx->GPRs[Inputs.Destination] = MmuRead8(VirtualAddress);
@@ -34,9 +35,10 @@ void LDB(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_READ, 1);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_READ, 1);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	ECtx->GPRs[Inputs.Destination] = MmuRead1(VirtualAddress);
@@ -52,9 +54,10 @@ void STW(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_WRTE, 8);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_WRTE, 8);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	MmuPut8(VirtualAddress, ECtx->GPRs[Inputs.Register]);
@@ -70,9 +73,10 @@ void STB(void) {
 		};
 	}Inputs; 
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_WRTE, 1);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_WRTE, 1);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	MmuPut1(VirtualAddress, (BYTE)ECtx->GPRs[Inputs.Register]);
@@ -112,12 +116,12 @@ void POR(void) {
 }
 
 void VME(void) {
-	ECtx->FlagsS.VF = 1;
+	ECtx->Flags.VF = 1;
 	return;
 }
 
 void VMD(void) {
-	ECtx->FlagsS.VF = 0;
+	ECtx->Flags.VF = 0;
 	return;
 }
 
@@ -130,22 +134,24 @@ void VPC(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	if (!ECtx->FlagsS.VF)
+	if (!ECtx->Flags.VF)
 		return;
-	if (ECtx->FlagsS.AF) {
+	if (ECtx->Flags.AF) {
 		if (ECtx->Security.SecurityLevel > 1)
 			return;
 	}
-	WORD64 VirtualAddr = MmuCreatePage(ECtx->GPRs[Inputs.PhysicalAddress], ECtx->GPRs[Inputs.Size], ECtx->r0 & (REASON_EXEC | REASON_READ | REASON_WRTE));
+	WORD64 VirtualAddr = MmuCreatePage(ECtx->GPRs[Inputs.PhysicalAddress], 
+        ECtx->GPRs[Inputs.Size], ECtx->r0 & (REASON_EXEC | REASON_READ |
+        REASON_WRTE));
 	MmuPush(VirtualAddr);
 	return;
 }
 
 void VPD(void) {
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
-	if (!ECtx->FlagsS.VF)
+	if (!ECtx->Flags.VF)
 		return;
-	if (ECtx->FlagsS.AF) {
+	if (ECtx->Flags.AF) {
 		if (ECtx->Security.SecurityLevel > 1)
 			return;
 	}
@@ -159,7 +165,7 @@ void VSI(void) {
 }
 
 void VSD(void) {
-	if (!ECtx->FlagsS.AF)
+	if (!ECtx->Flags.AF)
 		ECtx->Security.SecurityLevel--;
 	return;
 }
@@ -178,7 +184,7 @@ void SPG(void) {
 
 void VSS(void) {
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
-	if (ECtx->FlagsS.AF) {
+	if (ECtx->Flags.AF) {
 		if (ECtx->Security.SecurityLevel > 1)
 			return;
 	}
@@ -188,7 +194,7 @@ void VSS(void) {
 
 void VES(void) {
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
-	if (ECtx->FlagsS.AF) {
+	if (ECtx->Flags.AF) {
 		if (ECtx->Security.SecurityLevel > 1)
 			return;
 	}
@@ -226,9 +232,10 @@ void LDH(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_READ, 4);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_READ, 4);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 	ECtx->GPRs[Inputs.Destination] = MmuReadX(VirtualAddress, 4);
@@ -244,9 +251,10 @@ void STH(void) {
 		};
 	}Inputs;
 	Inputs.Input = MmuRead1(ECtx->ip++);
-	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], REASON_WRTE, 8);
+	WORD64 VirtualAddress = MmuTranslate(ECtx->GPRs[Inputs.Address], 
+        REASON_WRTE, 8);
 	if (!VirtualAddress) {
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 		return;
 	}
 

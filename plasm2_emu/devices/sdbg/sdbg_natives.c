@@ -12,8 +12,11 @@
 void SdbgSend(void) {
 	memset(sdbgctx->CollectionBufferOut, 0, 256);
 	
-	BYTE* RealPointer = (BYTE*)CpuCtx->PhysicalMemory + MmuTranslate(sdbgctx->VirtualPointer, REASON_READ, sdbgctx->VirtualSize);
-	if (RealPointer == CpuCtx->PhysicalMemory) { // failed 
+	BYTE* RealPointer = (BYTE*)CpuCtx->PhysicalMemory + 
+        MmuTranslate(sdbgctx->VirtualPointer, REASON_READ,
+        sdbgctx->VirtualSize);
+    
+	if (RealPointer == CpuCtx->PhysicalMemory) { // failed
 		sdbgctx->Active = 1;
 		return;
 	}

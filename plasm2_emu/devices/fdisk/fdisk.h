@@ -50,35 +50,37 @@ typedef struct _FDISK_HDR {
 	WORD64 DeviceSerial;
 	WORD64 DeviceVendorId;
 	WORD64 DeviceModelNum;
-	WORD64 PartsSum; // not really a hash, but will tell us if something is wrong
+	WORD64 PartsSum; // fast checksum
 }FDISK_HDR;
 
+typedef struct _FDISK_DRIVE {
+    _bool IsDriveAwake;
+    _bool IsDriveActive;
+
+    FILE* DrivePhysicalPointer;
+    WORD64 DrivePhysicalSize;
+    void* CurrentLoadedChunks[4];
+    WORD64 LoadedChunkSize[4];
+    WORD64 LoadedChunkBaseAddr[4];
+    WORD64 LoadedChunkCpuTick[4];
+    int OldestChunk;
+    WORD64 NextChunkScan;
+
+    char DeviceVendor[16];
+    WORD64 DeviceSerial;
+    WORD64 DeviceVendorId;
+    WORD64 DeviceModelNum;
+
+    WORD64 CurrentFilePointer;
+    WORD64 SpeculativeSeek;
+    BYTE DisableInc;
+    BYTE SkipInc;
+}FDISK_DRIVE, *PFDISK_DRIVE;
+
 typedef struct _FDISK_CTX {
-	int DriveCount;
-	int CurrentDrive;
-	struct {
-		_bool IsDriveAwake;
-		_bool IsDriveActive;
-
-		FILE* DrivePhysicalPointer;
-		WORD64 DrivePhysicalSize;
-		void* CurrentLoadedChunks[4];
-		WORD64 LoadedChunkSize[4];
-		WORD64 LoadedChunkBaseAddr[4];
-		WORD64 LoadedChunkCpuTick[4];
-		int OldestChunk;
-		WORD64 NextChunkScan;
-
-		char DeviceVendor[16];
-		WORD64 DeviceSerial;
-		WORD64 DeviceVendorId;
-		WORD64 DeviceModelNum;
-
-		WORD64 CurrentFilePointer;
-		WORD64 SpeculativeSeek;
-		BYTE DisableInc;
-		BYTE SkipInc;
-	}*Drives;
+	WORD32 DriveCount;
+	WORD32 CurrentDrive;
+    PFDISK_DRIVE Drives;
 
 	WORD64 OutgoingData;
 	BYTE RecvData;
@@ -104,30 +106,33 @@ c
 0A GetDriveModelNumber: Gets the drive's model number
 0B GetDriveVendorId : Gets the drive's vendor's ID
 0C FarSeek : Specutively preloads a far address to seek to
-0D DriveSkipFpIncrement : Disables the seek pos increment for the next read/write
+0D DriveSkipFpIncrement : Disables the seek pos increment for the next 
+    read/write
 0E DriveDisableFpIncrement : Disables the seek pos increment until reenabled
 0F DriveEnableFpIncrement : Reenables the seek pos increment
 10 DriveSeek : Sets the drive seek pos (current)
-11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given in the stack
-12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in the stack
+11 DriveReadStack : Reads 8 bytes from a drive, with the seek pos given in 
+    the stack
+12 DriveWriteStack : Writes 8 bytes to a drive, with the seek pos given in 
+    the stack
 */
 
-void FdiskiSetActiveDrive(int DriveId);
-int  FdiskiGetDriveCount(void);
-void FdiskiDriveSleep(int DriveId);
-void FdiskiDriveAwake(int DriveId);
-WORD64 FdiskiGetDriveSize(int DriveId);
-_bool FdiskiIsDriveReady(int DriveId);
-WORD64 FdiskiDriveRead(int DriveId);
-void FdiskiDriveWrite(int DriveId, WORD64 Data);
-WORD64 FdiskiGetDriveSerial(int DriveId);
-void FdiskiGetDriveVendorString(int DriveId, WORD64 Pointer);
-WORD64 FdiskiGetDriveModel(int DriveId);
-WORD64 FdiskiGetDriveVendorId(int DriveId);
-void FdiskiFarSeek(int DriveId, WORD64 SpecPos);
-void FdiskiSkipFpIncrement(int DriveId);
-void FdiskiEnableFpIncrement(int DriveId);
-void FdiskiDisableFpIncrement(int DriveId);
-void FdiskiDriveSeek(int DriveId, WORD64 NewPos);
-WORD64 FdiskiDriveReadStack(int DriveId);
-void FdiskiDriveWriteStack(int DriveId, WORD64 Data);
+void FdiskiSetActiveDrive(WORD32 DriveId);
+WORD32  FdiskiGetDriveCount(void);
+void FdiskiDriveSleep(WORD32 DriveId);
+void FdiskiDriveAwake(WORD32 DriveId);
+WORD64 FdiskiGetDriveSize(WORD32 DriveId);
+_bool FdiskiIsDriveReady(WORD32 DriveId);
+WORD64 FdiskiDriveRead(WORD32 DriveId);
+void FdiskiDriveWrite(WORD32 DriveId, WORD64 Data);
+WORD64 FdiskiGetDriveSerial(WORD32 DriveId);
+void FdiskiGetDriveVendorString(WORD32 DriveId, WORD64 Pointer);
+WORD64 FdiskiGetDriveModel(WORD32 DriveId);
+WORD64 FdiskiGetDriveVendorId(WORD32 DriveId);
+void FdiskiFarSeek(WORD32 DriveId, WORD64 SpecPos);
+void FdiskiSkipFpIncrement(WORD32 DriveId);
+void FdiskiEnableFpIncrement(WORD32 DriveId);
+void FdiskiDisableFpIncrement(WORD32 DriveId);
+void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos);
+WORD64 FdiskiDriveReadStack(WORD32 DriveId);
+void FdiskiDriveWriteStack(WORD32 DriveId, WORD64 Data);

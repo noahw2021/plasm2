@@ -80,11 +80,16 @@ void VideoiCopyRect(WORD16 x, WORD16 y, WORD16 w, WORD16 h, WORD64 ptr) {
         CpuCsmSendMessage(CSM_PAGETOOSMALL, ptr);
     }
 #ifdef _WIN32
-    SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((CpuCtx->PhysicalMemory + VAdr), w, h, 32 * w, 32, RMASK, GMASK, BMASK, AMASK);
+    SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(
+        (CpuCtx->PhysicalMemory + VAdr), w, h, 32 * w, 32, RMASK, GMASK, 
+        BMASK, AMASK);
 #else
-    SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom((CpuCtx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK, GMASK, BMASK, AMASK);
+    SDL_Surface* Surface = SDL_CreateRGBSurfaceFrom(
+        (CpuCtx->PhysicalMemory + VAdr), w, h, 32, 32, RMASK,
+        GMASK, BMASK, AMASK);
 #endif
-    SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, Surface);
+    SDL_Texture* TargetTexture = SDL_CreateTextureFromSurface(Renderer, 
+        Surface);
     SDL_FreeSurface(Surface);
     SDL_Rect DestRect = { x, y, w, h };
     SDL_RenderCopy(Renderer, TargetTexture, NULL, &DestRect);
