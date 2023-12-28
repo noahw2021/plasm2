@@ -26,13 +26,16 @@ WORD64 CpuTimerGetPreciseTimeNanoseconds(void) {
 #elif __MACH__
     clock_serv_t ClockService;
     mach_timespec_t Timer;
-    host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &ClockService);
+    
+    host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, 
+        &ClockService);
     clock_get_time(ClockService, &Timer);
     mach_port_deallocate(mach_task_self(), ClockService);
-    WORD64 Seconds = Timer.tv_sec;
-    Seconds *= NS_PER_S;
-    Seconds += Timer.tv_nsec;
-    return Seconds;
+    WORD64 NSeconds = Timer.tv_sec;
+    NSeconds *= NS_PER_S;
+    NSeconds += Timer.tv_nsec;
+    return NSeconds;
+    
 #elif __unix__
     struct timespec TimeSpec;
     clock_gettime(CLOCK_REALTIME, &TimeSpec);
@@ -41,7 +44,7 @@ WORD64 CpuTimerGetPreciseTimeNanoseconds(void) {
     RealNSeconds += TImeSpec.tv_nsecs;
     return RealNSeconds;
 #else
-#errror "No high precision timer implementation!"
+#error "No high precision timer implementation!"
 #endif
 }
 

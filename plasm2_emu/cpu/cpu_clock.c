@@ -32,10 +32,11 @@ void CpuClock(void) {
 #endif
 #elif _WIN32
             /* @TODO : NtDelayExecution for nanosleep =D
-             This is a large CPU hole, that there doesn't seem to be a 
-             great solution to. When I'm on my Windows desktop, I'll attempt
-             to divide the NextClockTime nanoseconds into 100ns chunks
-             that a function such as NtDelayExecution can deal with.
+             This is a large CPU hole, that there doesn't seem 
+             to be a great solution to. When I'm on my Windows
+             desktop, I'll attempt to divide the NextClockTime
+             nanoseconds into 100ns chunks that a function such
+             as NtDelayExecution can deal with.
              - nw 11/27/23
              */
 #endif
@@ -43,7 +44,8 @@ void CpuClock(void) {
                 CpuTimerGetPreciseTimeNanoseconds();
         }
         
-        CpuCtx->NextTickNanoSecond = CpuCtx->LastTrackedNanoSecond +
+        CpuCtx->NextTickNanoSecond = 
+            CpuCtx->LastTrackedNanoSecond +
             (NS_PER_S / (CpuCtx->ClocksPerSecond * 3));
     }
 #endif
