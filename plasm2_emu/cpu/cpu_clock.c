@@ -19,7 +19,9 @@ void CpuClock(void) {
     // Sadly somewhat messy. - nw 11/27/23
 #ifdef CLOCK_SYSTEM_ACTIVE
     if (!(EmuCtx->Flags & EMUFLAG_NOCLOCK)) {
-        while (CpuCtx->NextTickNanoSecond > CpuCtx->LastTrackedNanoSecond) {
+        while (CpuCtx->NextTickNanoSecond > 
+               CpuCtx->LastTrackedNanoSecond
+        ) {
 #if defined(__unix__) || defined(__MACH__)
 #ifdef HAVE_NANOSLEEP
             struct timespec NextClockTime, ThisTime;
