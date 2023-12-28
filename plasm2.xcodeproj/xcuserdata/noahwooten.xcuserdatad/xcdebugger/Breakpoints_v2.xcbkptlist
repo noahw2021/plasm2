@@ -46,8 +46,8 @@
             filePath = "plasm2_asm/psin2/psin2_getcg.c"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "Psin2iGetInstructionByName(Operand)"
             landmarkType = "9">
             <Locations>

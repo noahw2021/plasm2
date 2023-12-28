@@ -21,9 +21,11 @@ void Psin2Init(void) {
 
 void Psin2Shutdown(void) {
 	for (int i = 0; i < Psin2Ctx->InstructionCount; i++) {
-		if (Psin2Ctx->Instructions[i].InstructionDescription)
-			free(Psin2Ctx->Instructions[i].InstructionDescription);
-	}
+        if (Psin2Ctx->Instructions[i].InstructionDescription) {
+            free(Psin2Ctx->Instructions[i].
+                InstructionDescription);
+        }
+    }
     
 	free(Psin2Ctx->Instructions);
     free(Psin2Ctx);
