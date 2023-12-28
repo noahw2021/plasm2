@@ -102,14 +102,16 @@ WORD64  FdiskiDriveRead(WORD32 DriveId) {
                 ThisDrive->LoadedChunkBaseAddr[i]));
             
 			WORD64* AsU64 = (WORD64*)AsBytes;
+            
 			ThisDrive->LoadedChunkCpuTick[i] = CpuTimerGetTime();
-			if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
+			
+            if (!ThisDrive->SkipInc && !ThisDrive->DisableInc) {
 				ThisDrive->CurrentFilePointer += 0x8;
-			}
-			else {
+			} else {
 				if (ThisDrive->SkipInc)
 					ThisDrive->SkipInc = 0;
 			}
+            
 			return AsU64[0];
 		}
 	}
