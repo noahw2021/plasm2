@@ -36,6 +36,7 @@ void CpuInit(void) {
 	}
 
 	MmuInit();
+    
 	return;
 }
 

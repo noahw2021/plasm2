@@ -71,11 +71,17 @@ void CpuInstructionRET(void) {
 }
 
 void CpuInstructionINT(BYTE Interrupt) {
-	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.InterruptTable); // PM usage good (reason: pti.it is a secure register)
+	WORD64* InterruptTable = (WORD64*)((BYTE*)CpuCtx->PhysicalMemory +
+        ECtx->ControlRegisters.InterruptTable);
+    // PM usage good (reason: ControlRegisters->InterruptTable
+    // is a secure register)
 	WORD64 VirtualAddress = InterruptTable[Interrupt];
-	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) >> 56LLU);
+	BYTE SecurityLevel = (BYTE)((VirtualAddress & 0xFF00000000000000LLU) 
+        >> 56LLU);
 	ECtx->Security.SecurityLevel = SecurityLevel;
-	WORD64 PhysicalAddress = MmuTranslate(VirtualAddress & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+	WORD64 PhysicalAddress = MmuTranslate(VirtualAddress 
+        & 0x00FFFFFFFFFFFFFF, REASON_EXEC | REASON_READ, SIZE_WATCHDOG);
+    // PM usage good (reason: watchdog & trusted register)
 	if (!PhysicalAddress) {
 		ECtx->FlagsS.XF = 1;
 		return;
@@ -109,14 +115,21 @@ void CpuInstructionINT(BYTE Interrupt) {
 void CpuInstructionCLR(void) {
     WORD64 StackPointerBackup = ECtx->sp;
     ECtx->sp = ECtx->ControlRegisters.ReturnAddressLocation;
+    
     WORD64 SecurityPacket = MmuPop();
     WORD64 ReturnAddress = MmuPop();
+    
     ReturnAddress = ECtx->ip;
+    
     MmuPush(ReturnAddress);
     MmuPush(SecurityPacket);
+    
     ECtx->sp = StackPointerBackup;
+    
     if (ECtx->FlagsS.CF)
         ECtx->ip = ECtx->ControlRegisters.NextCallAddress;
+    
+    return;
 }
 
 void CpuInstructionIRT(void) {
@@ -135,8 +148,11 @@ void CpuInstructionIRT(void) {
             WORD16 Reserved;
         };
     }SecurityPacket = { 0 };
+    
     SecurityPacket.Raw = MmuPop();
+    
     ECtx->ip = MmuPop();
     ECtx->Security.SecurityLevel = SecurityPacket.SecurityLevel;
     
+    return;
 }
