@@ -39,15 +39,21 @@ int main(int argc, char** argv) {
 			printf("%s -h: Shows this message.\n", argv[0]);
 			printf("%s -v: Displays version.\n", argv[0]);
 			printf("\n");
-			printf("%s -f=input: Assembles an input file.\n", argv[0]);
-			printf("%s -f=input -o=output: Inputs and outputs.\n", argv[0]);
-			printf("%s -o=output: Output to file in interactive mode.\n", argv[0]);
+			printf("%s -f=input: Assembles an input file.\n", 
+                argv[0]);
+			printf("%s -f=input -o=output: Inputs and outputs"
+                ".\n", argv[0]);
+			printf("%s -o=output: Output to file in interactive "
+                "mode.\n", argv[0]);
 			return 0;
 		}
-		if (!strcmp(argv[i], "-v")) {
-			printf("plasm2_asm v0.1 beta\n(c) Noah Wooten 2023, All Rights Reserved.\n");
+		
+        if (!strcmp(argv[i], "-v")) {
+			printf("plasm2_asm v0.1 beta\n(c) Noah Wooten 2023, "
+                "All Rights Reserved.\n");
 			return 0;
 		}
+        
 		if (strstr(argv[i], "-f=")) {
 			char* FilePtr = strstr(argv[i], "-f=");
 			if (!FilePtr) {
@@ -56,22 +62,28 @@ int main(int argc, char** argv) {
 			}
 			PrimaryInput = fopen(FilePtr + 3, "r");
 			if (!PrimaryInput) {
-				printf("[ERR]: Failed to open file %s.\n", FilePtr + 3);
+				printf("[ERR]: Failed to open file %s.\n", 
+                    FilePtr + 3);
 				return -1;
 			}
 		}
+        
 		if (strstr(argv[i], "-o=")) {
 			char* OutFilePtr = strstr(argv[i], "-o=");
 			if (!OutFilePtr) {
 				printf("[ERR]: Missing file path.\n");
 				return -1;
 			}
-			PrimaryOutput = fopen(OutFilePtr + 3, "wb");
+		
+            PrimaryOutput = fopen(OutFilePtr + 3, "wb");
 			if (!PrimaryOutput) {
-				printf("[ERR]: Failed top open file %s for write.\n", OutFilePtr + 3);
-				if (PrimaryInput != stdin && PrimaryInput)
+				printf("[ERR]: Failed top open file %s for write"
+                    ".\n", OutFilePtr + 3);
+				
+                if (PrimaryInput != stdin && PrimaryInput)
 					fclose(PrimaryInput);
-				return -1;
+				
+                return -1;
 			}
 		}
 	}
@@ -79,10 +91,14 @@ int main(int argc, char** argv) {
 	if (!PrimaryOutput) {
 		PrimaryOutput = fopen("assemout.bin", "wb");
 		if (!PrimaryOutput) {
-			printf("[ERR]: Failed to open 'assemout.bin' for writing. Please enable access, or specify an output file.\n");
-			if (PrimaryInput != stdin && PrimaryInput)
+			printf("[ERR]: Failed to open 'assemout.bin' for "
+                "writing. Please enable access, or specify an "
+                "output file.\n");
+			
+            if (PrimaryInput != stdin && PrimaryInput)
 				fclose(PrimaryInput);
-			return -1;
+			
+            return -1;
 		}
 	}
 
@@ -93,13 +109,16 @@ int main(int argc, char** argv) {
 
 	char* Line = malloc(2048);
 	while (CgCtx) {
-        printf("[%06llX]: ", (WORD32)CgCtx->DataPosition + (CgCtx->ReferencePtr * CgCtx->InSub));
-		strcpy(Line, VfGet());
+        printf("[%06llX]: ", (WORD32)CgCtx->DataPosition + 
+            (CgCtx->ReferencePtr * CgCtx->InSub));
+		
+        strcpy(Line, VfGet());
 		if (VfCi() != stdin)
 			printf("%s", Line);
-		CgParse(Line);
+		
+        CgParse(Line);
 	}
-	free(Line);
     
+	free(Line);
 	return 0;
 }
