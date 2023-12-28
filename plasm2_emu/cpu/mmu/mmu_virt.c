@@ -14,32 +14,52 @@
 WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
 	if (ECtx->FlagsS.VF) {
 		for (int p = 0; p < MmuCtx->PageCount; p++) {
-			if (InRange(VirtualAddress, MmuCtx->Pages[p].Virtual, MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size)) {
+            PMMU_PAGE ThisPage = &MmuCtx->Pages[p];
+			
+            if (InRange(VirtualAddress, ThisPage->Virtual,
+                ThisPage->Virtual + ThisPage->Size)
+            ) {
                 if (!(EmuCtx->Flags & EMUFLAG_NOSECURE)) {
-                    if ((Reason & REASON_READ) && !MmuCtx->Pages[p].Read)
+                    if ((Reason & REASON_READ) && !ThisPage->Flags.Read)
                         return 0;
                     if ((Reason & (REASON_WRTE | REASON_EXEC))) {
-                        if (!MmuCtx->Pages[p].Secure)
+                        if (!ThisPage->Flags.Secure)
                             return 0;
                         
-                        if (MmuCtx->Pages[p].Selector && (Reason & REASON_WRTE))
+                        if (ThisPage->Flags.Selector &&
+                            (Reason & REASON_WRTE)
+                        ) {
                             return 0;
-                        if (!MmuCtx->Pages[p].Selector && (Reason & REASON_EXEC))
+                        }
+                        
+                        if (!ThisPage->Flags.Selector && 
+                            (Reason & REASON_EXEC)
+                        ) {
                             return 0;
+                        }
                     }
                     
                     if (MaxSize != SIZE_WATCHDOG) {
-                        if (VirtualAddress + MaxSize >= (MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size))
+                        if (VirtualAddress + MaxSize >=
+                            (ThisPage->Virtual + ThisPage->Size)
+                        ) {
                             return 0;
+                        }
                     } else {
-                        if (VirtualAddress + MaxSize >= (MmuCtx->Pages[p].Virtual + MmuCtx->Pages[p].Size))
+                        if (VirtualAddress + MaxSize >= 
+                            (ThisPage->Virtual + ThisPage->Size)
+                        ) {
                             return 0;
+                        }
                     }
 				}
+                
                 ECtx->FlagsS.MF = 1;
-                ECtx->ControlRegisters.PageMaxLocation = VirtualAddress + MaxSize;
+                ECtx->ControlRegisters.PageMaxLocation = 
+                    VirtualAddress + MaxSize;
 
-				return MmuCtx->Pages[p].Physical + (VirtualAddress - MmuCtx->Pages[p].Virtual);
+				return ThisPage->Physical + 
+                    (VirtualAddress - ThisPage->Virtual);
 			}
 		}
 		return 0;

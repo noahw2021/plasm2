@@ -19,8 +19,10 @@ void MmuInit(void) {
 	memset(MmuCtx, 0, sizeof(MMU_CTX));
 
 	CpuCtx->PhysicalMemorySize = PHYS_MEMSZ;
-	CpuCtx->PhysicalMemory = malloc(CpuCtx->PhysicalMemorySize); // PM usage good (reason: internal use only)
-	memset(CpuCtx->PhysicalMemory, 0, PHYS_MEMSZ); // PM usage good (reason: internal use only)
+	CpuCtx->PhysicalMemory = malloc(CpuCtx->PhysicalMemorySize); 
+    // PM usage good (reason: internal use only)
+	memset(CpuCtx->PhysicalMemory, 0, PHYS_MEMSZ); 
+    // PM usage good (reason: internal use only)
 
 	ECtx->sp = 0x24F0;
     ECtx->ControlRegisters.StackPointerUpperBound = 0x25F0;
@@ -28,12 +30,14 @@ void MmuInit(void) {
     
     ECtx->ControlRegisters.PageStart = 0x2600;
     ECtx->ControlRegisters.PageEnd = 0x2600 + (256 * 0x20);
-    MmuCtx->Pages = (PMMU_PAGE)CpuCtx->PhysicalMemory + ECtx->ControlRegisters.PageStart;
+    MmuCtx->Pages = (PMMU_PAGE)CpuCtx->PhysicalMemory + 
+        ECtx->ControlRegisters.PageStart;
     
 	return;
 }
 
 void MmuShutdown(void) {
-	free(CpuCtx->PhysicalMemory); // PM usage good (reason: internal use only)
+	free(CpuCtx->PhysicalMemory); 
+    // PM usage good (reason: internal use only)
 	free(MmuCtx);
 }

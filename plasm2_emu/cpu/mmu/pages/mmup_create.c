@@ -13,14 +13,15 @@ WORD64 MmuCreatePage(WORD64 PhysicalAddress, WORD64 Size, BYTE Permissions) {
 		return 0;
 	}
 	
-	MmuCtx->Pages[MmuCtx->PageCount].Permissions = Permissions;
-	MmuCtx->Pages[MmuCtx->PageCount].Size = Size;
-	MmuCtx->Pages[MmuCtx->PageCount].Physical = PhysicalAddress;
-	MmuCtx->Pages[MmuCtx->PageCount].Virtual = ECtx->ControlRegisters.VirtualStackPointer;
-	MmuCtx->Pages[MmuCtx->PageCount].Active = 1;
+    PMMU_PAGE ThisPage = &MmuCtx->Pages[MmuCtx->PageCount];
+    MmuCtx->PageCount++;
+    
+	ThisPage->Flags.Permissions = Permissions;
+	ThisPage->Size = Size;
+	ThisPage->Physical = PhysicalAddress;
+	ThisPage->Virtual = ECtx->ControlRegisters.VirtualStackPointer;
+	ThisPage->Flags.Active = 1;
 	ECtx->ControlRegisters.VirtualStackPointer += Size + 0x4200;
 
-	MmuCtx->PageCount++;
-
-	return MmuCtx->Pages[MmuCtx->PageCount - 1].Virtual;
+    return ThisPage->Virtual;
 }
