@@ -84,28 +84,38 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
 			printf("PLASM2Emu: Help & Usage\n\n");
 			
 			printf("General Switches: \n\n");
-			printf("%s -f=drive.pff : Mounts a fixed disk. Allows multiple.\n", argv[0]);
+			printf("%s -f=drive.pff : Mounts a fixed disk. Allows multiple.\n", 
+                argv[0]);
 			
 			printf("Alt Function Switches: \n\n");
 			printf("%s -t | --tools : Loads PLASM2Emu toolkit.\n", argv[0]);
 
 			printf("Misc Switches: (General Function Only)\n\n");
-			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", argv[0]);
+			printf("%s -d | --debug : Enables disassembler / debugger mode.\n", 
+                argv[0]);
 			printf("%s -h | --help : Shows this screen.\n", argv[0]);
-            printf("%s --no-debug : Prevents the debugger from activating.\n", argv[0]);
-            printf("%s --no-print : Allows the debugger to activate, but without printing.\n", argv[0]);
-            printf("%s --no-clock : Disables the clock speed regulation system. Drastically increases performance.\n", argv[0]);
-            printf("%s --no-secure : Disables virtual memory security.\n", argv[0]);
+            printf("%s --no-debug : Prevents the debugger from activating.\n", 
+                argv[0]);
+            printf("%s --no-print : Allows the debugger to activate, but "
+                "without printing.\n", argv[0]);
+            printf("%s --no-clock : Disables the clock speed regulation "
+                "system. Drastically increases performance.\n", argv[0]);
+            printf("%s --no-secure : Disables virtual memory security.\n", 
+                argv[0]);
             
-			printf("\nBy default, PLASM2Emu accepts a properly formed 'bios.bin'.\n");
+			printf("\nBy default, PLASM2Emu accepts a properly formed "
+                "'bios.bin'.\n");
+            
 			return 0;
 		}
 		if (strstr(argv[i], "-f=")) {
-			if (!FixedDisks)
-				FixedDisks = malloc(sizeof(char*) * (FixedDiskCount + 1));
-			else
-				FixedDisks = realloc(FixedDisks, (sizeof(char*) * (FixedDiskCount + 1)));
-
+            if (!FixedDisks) {
+                FixedDisks = malloc(sizeof(char*) * (FixedDiskCount + 1));
+            } else {
+                FixedDisks = realloc(FixedDisks, 
+                    (sizeof(char*) * (FixedDiskCount + 1)));
+            }
+            
 			FixedDisks[FixedDiskCount] = malloc(strlen(argv[i]) + 1);
 			strcpy(FixedDisks[FixedDiskCount], argv[i] + 3);
 			FixedDiskCount++;
@@ -157,10 +167,12 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
         BiosLength = 4906;
     fseek(Bios, 0, SEEK_SET);
     
-	fread((BYTE*)CpuCtx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); // read the bios into ram
+	fread((BYTE*)CpuCtx->PhysicalMemory + 0x3A0, BiosLength, 1, Bios); 
+    // read the bios into ram
+    // PM usage good (reason: comes from trust)
     
 	DevicesInit();
-	DevicesCollect();// PM usage good (reason: comes from trust)
+	DevicesCollect();
 
 	for (int i = 0; i < FixedDiskCount; i++) {
 		if (!FdiskRegister(FixedDisks[i])) {
@@ -222,11 +234,12 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
     MsDifference %= 1000;
     
     printf("Completed execution of %llu instructions in %llus, %llums.\n",
-           SystemTickBackup, SDifference, MsDifference);
+        SystemTickBackup, SDifference, MsDifference);
     
     long double PreciseFloatingTime = SDifference + (MsDifference / 1000.0);
     long double PreciseFloatingInstructions = SystemTickBackup;
-    long double PreciseClockSpeed = PreciseFloatingInstructions / PreciseFloatingTime;
+    long double PreciseClockSpeed = PreciseFloatingInstructions 
+        / PreciseFloatingTime;
     WORD64 ImpreciseClockSpeed = (WORD64)PreciseClockSpeed;
     
     printf("Average Clock Speed: %llu Hz", ImpreciseClockSpeed);

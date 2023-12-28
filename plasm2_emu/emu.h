@@ -35,7 +35,6 @@ typedef struct _EMU_CTX {
 	_bool DebuggerEnabled;
     
     void* VideoMutex;
-    
     WORD64 Flags;
 }EMU_CTX, *PEMU_CTX;
 
