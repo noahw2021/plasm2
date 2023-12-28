@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _devices_h
+#define _devices_h
+
 #include <stddef.h>
 #include "../basetypes.h"
 
@@ -64,5 +67,7 @@ typedef struct _DEVICES_CTX {
 	WORD64 DeviceCount;
     PCPU_DEVICE Devices;
 }DEVICES_CTX, *PDEVICES_CTX;
+
 extern PDEVICES_CTX DevicesCtx;
 
+#endif

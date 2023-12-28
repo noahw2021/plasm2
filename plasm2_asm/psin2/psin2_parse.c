@@ -16,16 +16,28 @@ int Psin2Parse(const char* InstructionData) {
 		return 0;
 
 	if (!Psin2Ctx->Instructions) {
-		Psin2Ctx->Instructions = malloc(sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
-		memset(Psin2Ctx->Instructions, 0, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1));
+		Psin2Ctx->Instructions = malloc(
+            sizeof(PSIN_INSTRUCTION) *
+            (Psin2Ctx->InstructionCount + 1));
+        
+		memset(Psin2Ctx->Instructions, 0, 
+            sizeof(PSIN_INSTRUCTION) *
+            (Psin2Ctx->InstructionCount + 1));
 	} else {
-		Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, (sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount + 1)));
-		memset(&Psin2Ctx->Instructions[Psin2Ctx->InstructionCount], 0, sizeof(PSIN_INSTRUCTION));
+		Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions,
+            (sizeof(PSIN_INSTRUCTION) *
+            (Psin2Ctx->InstructionCount + 1)));
+        
+		memset(
+            &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount],
+            0, sizeof(PSIN_INSTRUCTION)
+        );
 	}
 
 	
 
-	PPSIN_INSTRUCTION Target = &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount];
+	PPSIN_INSTRUCTION Target = 
+        &Psin2Ctx->Instructions[Psin2Ctx->InstructionCount];
 	Psin2Ctx->InstructionCount++;
 
 	char* Temporary = malloc(256);
@@ -57,12 +69,17 @@ int Psin2Parse(const char* InstructionData) {
 		} else if (InstructionData[c] == 'I') {
 			Target->Operands[0].Type = 1;
 		} else {
-			printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
-			if (Psin2Ctx->InstructionCount == 1)
-				free(Psin2Ctx->Instructions);
-			else
-				Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
-			Psin2Ctx->InstructionCount--;
+			printf("[ERR]: Invalid operand type or syntax error. "
+                "Check line %i.\n", Psin2Ctx->InstructionCount);
+            if (Psin2Ctx->InstructionCount == 1) {
+                free(Psin2Ctx->Instructions);
+            } else {
+                Psin2Ctx->Instructions =
+                    realloc(Psin2Ctx->Instructions, 
+                    sizeof(PSIN_INSTRUCTION) *
+                    (Psin2Ctx->InstructionCount - 1));
+            }
+            Psin2Ctx->InstructionCount--;
 			return 0;
 		}
 		c += 2;
@@ -94,16 +111,24 @@ int Psin2Parse(const char* InstructionData) {
 				Target->Operands[1].Type = 1;
 			}
 			else {
-				printf("[ERR]: Invalid operand type or syntax error. Check line %i.\n", Psin2Ctx->InstructionCount);
-				if (Psin2Ctx->InstructionCount == 1)
-					free(Psin2Ctx->Instructions);
-				else
-					Psin2Ctx->Instructions = realloc(Psin2Ctx->Instructions, sizeof(PSIN_INSTRUCTION) * (Psin2Ctx->InstructionCount - 1));
-				Psin2Ctx->InstructionCount--;
+				printf("[ERR]: Invalid operand type or syntax "
+                    "error. Check line %i.\n",
+                    Psin2Ctx->InstructionCount);
+                
+                if (Psin2Ctx->InstructionCount == 1) {
+                    free(Psin2Ctx->Instructions);
+                } else {
+                    Psin2Ctx->Instructions = 
+                        realloc(Psin2Ctx->Instructions,
+                        sizeof(PSIN_INSTRUCTION) *
+                        (Psin2Ctx->InstructionCount - 1));
+                }
+                
+                Psin2Ctx->InstructionCount--;
 				return 0;
 			}
-			c += 2;
-
+            
+            c += 2;
 			memcpy(Temporary, InstructionData + c, 2);
 			Temporary[2] = 0x00;
 			Target->Operands[1].PhysicalSize = atoi(Temporary);
@@ -119,7 +144,8 @@ int Psin2Parse(const char* InstructionData) {
 					Temporary[i] = ' ';
 			}
 			strcpy(Target->Operands[1].OperandName, Temporary);
-			c += 8;
+			
+            c += 8;
 		} else {
 			c += 17;
 		}
@@ -135,7 +161,10 @@ int Psin2Parse(const char* InstructionData) {
 	int DescriptionStringLength = 0;
 	while (InstructionData[c + DescriptionStringLength])
 		DescriptionStringLength++;
-	Target->InstructionDescription = malloc(DescriptionStringLength + 1);
+    
+	Target->InstructionDescription =
+        malloc(DescriptionStringLength + 1);
+    
 	strcpy(Target->InstructionDescription, InstructionData + c);
 
 	// :)

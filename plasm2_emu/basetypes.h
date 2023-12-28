@@ -4,7 +4,9 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _basetypes_h
+#define _basetypes_h
 
 typedef unsigned long long WORD64;
 typedef unsigned long WORD32;
@@ -15,3 +17,5 @@ typedef unsigned char BYTE, _bool;
 
 #define TRUE 1
 #define FALSE 0
+
+#endif

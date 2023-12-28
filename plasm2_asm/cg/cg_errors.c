@@ -18,8 +18,13 @@ void CgeError(int Line, const char* Reason, ...) {
 		memset(CgCtx->Errors, 0, sizeof(CgCtx->Errors[0]));
 		CgCtx->ErrorCount++;
 	} else {
-		CgCtx->Errors = realloc(CgCtx->Errors, (sizeof(CgCtx->Errors[0]) * (CgCtx->ErrorCount + 1)));
-		memset(&CgCtx->Errors[CgCtx->ErrorCount], 0, sizeof(CgCtx->Errors[0]));
+		CgCtx->Errors = realloc(CgCtx->Errors, 
+            (sizeof(CgCtx->Errors[0]) *
+            (CgCtx->ErrorCount + 1)));
+        
+		memset(&CgCtx->Errors[CgCtx->ErrorCount], 0,
+            sizeof(CgCtx->Errors[0]));
+        
 		CgCtx->ErrorCount++;
 	}
 
@@ -35,7 +40,7 @@ void CgeError(int Line, const char* Reason, ...) {
 	return;
 }
 	
-int  CgeErrorCount(void) {
+int CgeErrorCount(void) {
 	return CgCtx->ErrorCount;
 }
 
@@ -45,11 +50,14 @@ char* CgeGetErrorString(int i) {
 			continue;
 		char* Return = malloc(512);
 
-		if (CgCtx->Errors[e].Line == 0xFFFF)
-			sprintf(Return, "[LINK]: %s", CgCtx->Errors[e].Reason);
-		else
-			sprintf(Return, "[%04i]: %s", CgCtx->Errors[e].Line, CgCtx->Errors[e].Reason);
-
+        if (CgCtx->Errors[e].Line == 0xFFFF) {
+            sprintf(Return, "[LINK]: %s", 
+                CgCtx->Errors[e].Reason);
+        } else {
+            sprintf(Return, "[%04i]: %s",
+                CgCtx->Errors[e].Line, CgCtx->Errors[e].Reason);
+        }
+        
 		return Return;
 	}
 

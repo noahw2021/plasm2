@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _cpu_h
+#define _cpu_h
+
 #include "../basetypes.h"
 #include <time.h>
 
@@ -273,3 +276,5 @@ WORD64 CpuTimerGetPreciseTimeNanoseconds(void);
 WORD64 CpuTimerGetPreciseTimeMicroseconds(void);
 WORD64 CpuTimerGetPreciseTimeMilliseconds(void);
 WORD64 CpuTimerGetPreciseTimeSeconds(void);
+
+#endif

@@ -4,6 +4,7 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+
 #include "cg.h"
 #include <stdlib.h>
 #include <string.h>
@@ -28,10 +29,11 @@ void CgShutdown(void) {
 			if (CgCtx->Errors[i].Reason)
 				free(CgCtx->Errors[i].Reason);
 		}
+        
 		free(CgCtx->Errors);
 	}
+    
 	free(CgCtx);
 	CgCtx = NULL;
-
 	return;
 }

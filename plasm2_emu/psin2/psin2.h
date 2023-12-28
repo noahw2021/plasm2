@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _psin2_h
+#define _psin2_h
+
 #include "../basetypes.h"
 
 void Psin2Init(void);
@@ -45,3 +48,5 @@ char* Psin2iGetDescription(int Id);
 int	  Psin2iGetOperandCount(int Id);
 int   Psin2iGetInstructionByName(const char* Operand);
 int   Psin2iGetInstructionByOpcode(BYTE Opcode);
+
+#endif

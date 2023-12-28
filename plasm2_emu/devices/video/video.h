@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _video_h
+#define _video_h
+
 #include "../devices.h"
 
 void VideoInit(void);
@@ -60,4 +63,7 @@ typedef struct _VIDEO_CTX {
 	int w;
 	int h;
 }VIDEO_CTX, *PVIDEO_CTX;
+
 extern PVIDEO_CTX VideoCtx;
+
+#endif

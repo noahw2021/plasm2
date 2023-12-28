@@ -4,6 +4,7 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+
 #include "cg.h"
 #include "../psin2/psin2.h"
 #include "../link/link.h"
@@ -63,9 +64,9 @@ void CgParse(const char* Line) {
 		while (Line[c] && Line[c] != ' ')
 			Temporary[c2++] = Line[c++];
 	}
+    
 	c++;
 	Temporary[c] = 0x00;
-
 	int Usage = 0;
 	char* FollowString = (char*)Line + 3;
 
@@ -74,41 +75,55 @@ void CgParse(const char* Line) {
 		switch (Temporary[1]) {
 		case 'a': // address set (-a 0000)
 			CgCtx->InSub = 0;
-			CgCtx->DataPosition = strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
-			fseek(PrimaryOutput, (WORD32)CgCtx->DataPosition, SEEK_SET);
+			CgCtx->DataPosition = strtoull(Line + 3, NULL, 
+                CgCtx->CurrentRadix);
+			fseek(PrimaryOutput, (WORD32)CgCtx->DataPosition, 
+                SEEK_SET);
 			break;
+                
 		case 'b': // base set
 			CgCtx->CurrentRadix = atoi(Line  + 3);
 			break;
+                
 		case 'c': // compile
 			CgCtx->DataPosition = CgCtx->HighestPosition;
 			CgCompile();
 			break;
+                
 		case 'f': // fill
 			VfgWrite(Line + 3, CgCtx->DataPosition);
 			break;
+                
 		case 'i': // include
 			VfRegister(FollowString);
 			break;
+                
 		case 'p': // pad with zero until x size
-			Usage = (int)strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
+			Usage = (int)strtoull(Line + 3, NULL, 
+                CgCtx->CurrentRadix);
 			CgCtx->DataPosition = CgCtx->HighestPosition;
 			while (CgCtx->DataPosition < Usage)
 				CgpPut1('\0');
 			break;
+                
 		case 'r': // set the current reference (location in memory)
-			CgCtx->ReferencePtr = strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
+			CgCtx->ReferencePtr = strtoull(Line + 3, NULL, 
+                CgCtx->CurrentRadix);
 			break;
+                
 		case 's': // string
 			Usage = 1;
 			while (FollowString[Usage] != '"')
 				CgpPut1(FollowString[Usage++]);
 			CgpPut1('\0');
 			break;
+                
 		case 'z': // fill with zero
-			Usage = (int)strtoull(Line + 3, NULL, CgCtx->CurrentRadix);
+			Usage = (int)strtoull(Line + 3, NULL, 
+                CgCtx->CurrentRadix);
 			for (int i = 0; i < Usage; i++)
 				CgpPut1('\0');
+                
 			break;
 		}
 		goto ExitThis;
@@ -117,11 +132,13 @@ void CgParse(const char* Line) {
 	char* _Line = (char*)Line;
 	unsigned long __x = strlen(Line);
 	int Count = 0;
-	while (_Line[__x - Count] != ':') {
+	
+    while (_Line[__x - Count] != ':') {
 		Count++;
 		if (Count == __x)
 			break;
 	}
+    
 	if (Count != __x) {
 		if (strstr(_Line, ":"))
 			*(char*)strstr(_Line, ":") = 0x00;
@@ -143,6 +160,7 @@ void CgParse(const char* Line) {
 		Temporary[t++] = Line[c++];
 		OperandAPresent = 1;
 	}
+    
 	if (OperandAPresent) {
 		if (Line[c + 1]) {
 			c++;
@@ -153,14 +171,19 @@ void CgParse(const char* Line) {
 		strcpy(OperandA, Temporary);
 
 		if (OperandA[0] != 'r') {
-			if (!(InRange(OperandA[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandA[0], 'A', 'F')))) {
+			if (!(InRange(OperandA[0], '0', '9') || 
+                ((CgCtx->CurrentRadix == 16) &&
+                InRange(OperandA[0], 'A', 'F')))
+            ) {
 				WORD64 Resolved = LinkGetSymbol(OperandA, 1);
 				char* ToString = malloc(64);
-				if (CgCtx->CurrentRadix == 16)
+				
+                if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
 				else
 					sprintf(ToString, "%llu", Resolved);
-				strcpy(OperandA, ToString);
+				
+                strcpy(OperandA, ToString);
 				free(ToString);
 			}
 		}
@@ -179,14 +202,19 @@ OutA:
 		strcpy(OperandB, Temporary);
 
 		if (OperandB[0] != 'r') {
-			if (!(InRange(OperandB[0], '0', '9') || ((CgCtx->CurrentRadix == 16) && InRange(OperandB[0], 'A', 'F')))) {
+			if (!(InRange(OperandB[0], '0', '9') || 
+                ((CgCtx->CurrentRadix == 16) &&
+                InRange(OperandB[0], 'A', 'F')))
+            ) {
 				WORD64 Resolved = LinkGetSymbol(OperandB, 1);
 				char* ToString = malloc(64);
-				if (CgCtx->CurrentRadix == 16)
+				
+                if (CgCtx->CurrentRadix == 16)
 					sprintf(ToString, "%llX", Resolved);
 				else
 					sprintf(ToString, "%llu", Resolved);
-				strcpy(OperandB, ToString);
+				
+                strcpy(OperandB, ToString);
 				free(ToString);
 			}
 		}
@@ -195,25 +223,30 @@ OutB:
 
 	for (int o = 0; o < Psin2iGetOperandCount(Psin); o++) {
 		if (!OperandPtrs[o]) {
-			CgeError(CgCtx->CurrentLine, "[E1000]: Missing Operand %c", (o == 0) ? 'A' : 'B');
+			CgeError(CgCtx->CurrentLine, "[E1000]: Missing "
+                "Operand %c", (o == 0) ? 'A' : 'B');
 			goto ExitThis;
 		}
 
 		if (Psin2iGetOperandType(Psin, o) == 0) {
 			if (OperandNamePtrs[o][0][0] != 'r') {
-				CgeError(CgCtx->CurrentLine, "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
+				CgeError(CgCtx->CurrentLine, 
+                    "[E1001]: Invalid syntax in Operand %c", (o == 0) ? 'A' : 'B');
 				goto ExitThis;
 			}
 			OperandPhysPtrs[o][0] = atoi(OperandNamePtrs[o][0] + 1);
 			if (Psin2iGetPhysicalSize(Psin, o) == 4) {
-				OperandSingleByte |= *OperandPhysPtrs[o] << (4 * (1 - o));
+				OperandSingleByte |= 
+                    *OperandPhysPtrs[o] << (4 * (1 - o));
 				OperandPtrSizes[o] = 4;
 			} else {
-				OperandPtrSizes[o] = Psin2iGetPhysicalSize(Psin, o);
+				OperandPtrSizes[o] = 
+                    Psin2iGetPhysicalSize(Psin, o);
 			}
 		} else {
 			OperandPtrSizes[o] = Psin2iGetPhysicalSize(Psin, o);
-			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], NULL, CgCtx->CurrentRadix);
+			*OperandPhysPtrs[o] = strtoull(*OperandNamePtrs[o], 
+                NULL, CgCtx->CurrentRadix);
 		}
 	}
 
@@ -245,12 +278,17 @@ OutB:
 	} else {
 		if (TwoOpsOneByte) {
 			CgpPut1(DualOutput);
-		} else {
-			if (OperandAPresent)
-				CgpPutX(*OperandPhysPtrs[0], OperandPtrSizes[0] / 8);
-			if (OperandBPresent)
-				CgpPutX(*OperandPhysPtrs[1], OperandPtrSizes[1] / 8);
-		}
+        } else {
+            if (OperandAPresent) {
+                CgpPutX(*OperandPhysPtrs[0], 
+                    OperandPtrSizes[0] / 8);
+            }
+            
+            if (OperandBPresent) {
+                CgpPutX(*OperandPhysPtrs[1], 
+                    OperandPtrSizes[1] / 8);
+            }
+        }
 	}
 
 	goto ExitThis;

@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _sdbg_h
+#define _sdbg_h
+
 #include "../devices.h"
 #include "../../basetypes.h"
 #include <stdio.h>
@@ -42,6 +45,7 @@ typedef struct SDBG_CTX {
 	BYTE AwaitingData;
 	WORD64 LastCommand;
 }SDBG_CTX, *PSDBG_CTX;
+
 extern PSDBG_CTX sdbgctx;
 
 /*
@@ -53,3 +57,5 @@ extern PSDBG_CTX sdbgctx;
 void SdbgSend(void);
 void SdbgSetLocation(WORD64 Location);
 void SdbgSetSize(WORD64 Size);
+
+#endif

@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _kb_h
+#define _kb_h
+
 #include "../devices.h"
 #include "../../basetypes.h"
 
@@ -50,3 +53,5 @@ commands:
 void KbiSetKeyDownInterrupt(WORD64 Interrupt);
 void KbiSetKeyUpInterrupt(WORD64 Interrupt);
 WORD64 KbiGetKeyMapPointer(void);
+
+#endif

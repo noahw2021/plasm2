@@ -21,10 +21,12 @@ void CgCompile(void) {
 	int ErrorCount = CgeErrorCount();
 	for (int i = 0; i < ErrorCount; i++)
 		fprintf(stdout, "%s\n", CgeGetErrorString(i));
+    
 	fprintf(stdout, "%i errors generated.\n", ErrorCount);
 
 	fclose(PrimaryOutput);
-	fprintf(stdout, "Complation complete, executible size: 0x%08llX\n", CgCtx->DataPosition);
+	fprintf(stdout, "Complation complete, executible size: "
+        "0x%08llX\n", CgCtx->DataPosition);
 
 	if (PrimaryInput != stdin)
 		fclose(PrimaryInput);
@@ -32,7 +34,6 @@ void CgCompile(void) {
 	PrimaryInput = NULL;
 
 	CgShutdown();
-	Psin2Shutdown();
-
+    Psin2Shutdown();
 	return;
 }
