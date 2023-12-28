@@ -1,11 +1,14 @@
-#pragma once
-#include "../basetypes.h"
 //
 //  psin2.h
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+
+#ifndef _psin2_h
+#define _psin2_h
+
+#include "../basetypes.h"
 
 void Psin2Init(void);
 void Psin2Shutdown(void);
@@ -35,13 +38,15 @@ int Psin2Parse(const char* InstructionData);
 int Psin2InstructionCount(void);
 
 char* Psin2iGetInstructionName(int Id);
-BYTE  Psin2iGetInstructinOpcode(int Id);
-BYTE  Psin2iGetOperandType(int Id, BYTE OperandId);
-BYTE  Psin2iGetPhysicalSize(int Id, BYTE OperandId);
-BYTE  Psin2iGetAvailableSize(int Id, BYTE OperandId);
+BYTE Psin2iGetInstructinOpcode(int Id);
+BYTE Psin2iGetOperandType(int Id, BYTE OperandId);
+BYTE Psin2iGetPhysicalSize(int Id, BYTE OperandId);
+BYTE Psin2iGetAvailableSize(int Id, BYTE OperandId);
 char* Psin2iGetOperandName(int Id, BYTE OperandId);
-BYTE  Psin2iGetTotalSize(int Id);
+BYTE Psin2iGetTotalSize(int Id);
 char* Psin2iGetDescription(int Id);
-int	  Psin2iGetOperandCount(int Id);
-int   Psin2iGetInstructionByName(const char* Operand);
-int   Psin2iGetInstructionByOpcode(BYTE Opcode);
+int	Psin2iGetOperandCount(int Id);
+int Psin2iGetInstructionByName(const char* Operand);
+int Psin2iGetInstructionByOpcode(BYTE Opcode);
+
+#endif

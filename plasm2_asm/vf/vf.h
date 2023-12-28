@@ -5,7 +5,9 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-#pragma once
+#ifndef _vf_h
+#define _vf_h
+
 #include "../basetypes.h"
 #include <stdio.h>
 
@@ -35,3 +37,5 @@ char* VfGet(void);
 FILE* VfCi(void);
 void VfiSort(void);
 void VfgWrite(const char* Filename, WORD64 Dp);
+
+#endif

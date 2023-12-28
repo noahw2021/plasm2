@@ -5,7 +5,9 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-#pragma once
+#ifndef _cg_h
+#define _cg_h
+
 #include "../basetypes.h"
 
 void CgInit(void);
@@ -41,3 +43,5 @@ typedef struct _CG_CTX {
 	BYTE Shutdown;
 }CG_CTX, *PCG_CTX;
 extern PCG_CTX CgCtx;
+
+#endif

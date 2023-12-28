@@ -1,11 +1,14 @@
-#pragma once
-#include "../basetypes.h"
 //
 //  link.h
 //  plasm2_asm
 //
 //  Created by Noah Wooten on 4/21/23.
 //
+
+#ifndef _link_h
+#define _link_h
+
+#include "../basetypes.h"
 
 void LinkInit(void);
 void LinkShutdown(void);
@@ -29,3 +32,5 @@ typedef struct _LINK_CTX {
 }LINK_CTX, *PLINK_CTX;
 
 extern PLINK_CTX LinkCtx;
+
+#endif
