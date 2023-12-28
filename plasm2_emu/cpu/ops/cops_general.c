@@ -35,32 +35,32 @@ void JMP(void) {
 	if (PhysicalAddress)
 		CpuInstructionJMP(PhysicalAddress);
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	return;
 }
 
 void NXC(void) {
-	ECtx->FlagsS.NF = 0;
+	ECtx->Flags.NF = 0;
 	return;
 }
 
 void NXE(void) {
-	ECtx->FlagsS.NF = !ECtx->FlagsS.EF;
+	ECtx->Flags.NF = !ECtx->Flags.EF;
 	return;
 }
 
 void NXZ(void) {
-	ECtx->FlagsS.NF = !ECtx->FlagsS.ZF;
+	ECtx->Flags.NF = !ECtx->Flags.ZF;
 	return;
 }
 
 void NXG(void) {
-	ECtx->FlagsS.NF = !ECtx->FlagsS.GF;
+	ECtx->Flags.NF = !ECtx->Flags.GF;
 	return;
 }
 
 void NXL(void) {
-	ECtx->FlagsS.NF = !ECtx->FlagsS.LF;
+	ECtx->Flags.NF = !ECtx->Flags.LF;
 	return;
 }
 
@@ -72,7 +72,7 @@ void CLL(void) {
 	if (PhysicalAddress)
 		CpuInstructionCLL(PhysicalAddress);
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	return;
 }
 
@@ -89,14 +89,14 @@ void IMR(void) {
 }
 
 void SHF(void) {
-	ECtx->FlagsS.HF = 1;
+	ECtx->Flags.HF = 1;
 	return;
 }
 
 void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16 : Compare
-	ECtx->FlagsS.EF = 0;
-	ECtx->FlagsS.GF = 0;
-	ECtx->FlagsS.LF = 0;
+	ECtx->Flags.EF = 0;
+	ECtx->Flags.GF = 0;
+	ECtx->Flags.LF = 0;
 
 	union {
 		BYTE Byte;
@@ -108,11 +108,11 @@ void CMP(void) { // __CMP = 0x0C, // CMP 0C (R:04,04 ___OP1) (R:04,04 ___OP2) 16
 	Input.Byte = MmuRead1(ECtx->ip++);
 
 	if (ECtx->GPRs[Input.r1] > ECtx->GPRs[Input.r2])
-		ECtx->FlagsS.GF = 1;
+		ECtx->Flags.GF = 1;
 	if (ECtx->GPRs[Input.r1] == ECtx->GPRs[Input.r2])
-		ECtx->FlagsS.EF = 1;
+		ECtx->Flags.EF = 1;
 	if (ECtx->GPRs[Input.r1] < ECtx->GPRs[Input.r2])
-		ECtx->FlagsS.LF = 1;
+		ECtx->Flags.LF = 1;
 	
 	return;
 }
@@ -125,7 +125,7 @@ void JMI(void) {
 	if (Translated)
 		CpuInstructionJMP(Translated);
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	return;
 }
 
@@ -137,25 +137,25 @@ void CLI(void) {
 	if (Translated)
 		CpuInstructionCLL(Translated);
 	else
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	return;
 }
 
 void CMI(void) {
-	ECtx->FlagsS.EF = 0;
-	ECtx->FlagsS.GF = 0;
-	ECtx->FlagsS.LF = 0;
+	ECtx->Flags.EF = 0;
+	ECtx->Flags.GF = 0;
+	ECtx->Flags.LF = 0;
 
 	BYTE Register = MmuRead1(ECtx->ip++) & 0xF;
 	WORD64 Immediate = MmuRead8(ECtx->ip);
 	ECtx->ip += 8;
 
 	if (ECtx->GPRs[Register] > Immediate)
-		ECtx->FlagsS.GF = 1;
+		ECtx->Flags.GF = 1;
 	if (ECtx->GPRs[Register] < Immediate)
-		ECtx->FlagsS.LF = 1;
+		ECtx->Flags.LF = 1;
 	if (ECtx->GPRs[Register] == Immediate)
-		ECtx->FlagsS.EF = 1;
+		ECtx->Flags.EF = 1;
 
 	return;
 }

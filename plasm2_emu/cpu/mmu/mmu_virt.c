@@ -12,7 +12,7 @@
 #include <time.h>
 
 WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
-	if (ECtx->FlagsS.VF) {
+    if (ECtx->Flags.VF) {
 		for (int p = 0; p < MmuCtx->PageCount; p++) {
             PMMU_PAGE ThisPage = &MmuCtx->Pages[p];
 			
@@ -54,7 +54,7 @@ WORD64 MmuTranslate(WORD64 VirtualAddress, BYTE Reason, WORD64 MaxSize) {
                     }
 				}
                 
-                ECtx->FlagsS.MF = 1;
+                ECtx->Flags.MF = 1;
                 ECtx->ControlRegisters.PageMaxLocation = 
                     VirtualAddress + MaxSize;
 

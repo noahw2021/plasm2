@@ -190,7 +190,7 @@ int PlasmEmuNonVideoMain(PAPP_ARGS Args) {
 		VideoClock();
 		CpuClock();
 
-		if (ECtx->FlagsS.HF && !ECtx->FlagsS.IF)
+		if (ECtx->Flags.HF && !ECtx->Flags.IF)
 			break;
 	}
     

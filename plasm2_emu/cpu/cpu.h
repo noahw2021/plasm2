@@ -166,63 +166,77 @@ extern void(*Instructions[256])(void);
 #define REGCOUNT_SPEC  16
 #define REGCOUNT_TOTAL REGCOUNT_GPRS + REGCOUNT_SPEC
 
+typedef union _PLASM2_CTX_FLAGS {
+    WORD64 FlagsR;
+    struct {
+        BYTE GF : 1; // Greater flag
+        BYTE EF : 1; // Equal flag
+        BYTE ZF : 1; // Zero flag
+        BYTE HF : 1; // Halt flag
+        BYTE IF : 1; // Interrupt flag
+        BYTE VF : 1; // Virtual flag
+        BYTE XF : 1; // Exception flag
+        BYTE NF : 1; // Next Execute skip flag
+        BYTE OF : 1; // Overflow flag
+        BYTE SF : 1; // StackSkip flag
+        BYTE CF : 1; // Call flag
+        BYTE AF : 1; // Extra security flag
+        BYTE TF : 1; // Interrupt table set
+        BYTE MF : 1; // Memory Guard Flag
+        BYTE LF : 1; // Less than flag
+    };
+}PLASM2_CTX_FLAGS, *PPLASM2_CTX_FLAGS;
+
+typedef union _PLASM2_CTX_SECURITY {
+    WORD64 SecurityRaw;
+    struct {
+        WORD64 SecurityLevel : 5;
+        
+        WORD64 Reserved : 59;
+    };
+}PLASM2_CTX_SECURITY, *PPLASM2_CTX_SECURITY;
+
+typedef union _PLASM2_CTX_CONTROLREGISTERS {
+    WORD64 ControlRegistesrRaw[8];
+    
+    struct {
+        WORD64 PageStart; // page start
+        WORD64 PageEnd; // page end
+        WORD64 ReturnAddressLocation; // return address location, backup stack pointer
+        WORD64 InterruptTable; // interrupt table
+        WORD64 VirtualStackPointer; // virtual trailing arm
+        WORD64 CSMHandler; // csm handler
+        WORD64 DeviceMap; // device map pointer
+        WORD64 StackPointerUpperBound; // stack pointer upper bound
+        WORD64 StackPointerLowerBound; // stack lower bound
+        WORD64 PageMaxLocation; // page max location
+        WORD64 NextCallAddress; // next call address
+        
+        WORD64 Reserved[1];
+    };
+}PLASM2_CTX_CONTROLREGISTERS, *PPLASM2_CTX_CONTROLREGISTERS;
+
 typedef struct _PLASM2_CTX {
-	union {
-		union {
-			WORD64 Registers64[REGCOUNT_TOTAL];
-			struct {
-				WORD64 GPRs[REGCOUNT_GPRS];
-				WORD64 SystemRs[REGCOUNT_SPEC];
-			};
-		};
-		struct {
-			WORD64 r0, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13, r14, r15;
-			WORD64 ip;
-			WORD64 sp;
-			union {
-				WORD64 Flags;
-				struct {
-					BYTE GF : 1; // Greater flag
-					BYTE EF : 1; // Equal flag
-					BYTE ZF : 1; // Zero flag
-					BYTE HF : 1; // Halt flag
-					BYTE IF : 1; // Interrupt flag
-					BYTE VF : 1; // Virtual flag
-					BYTE XF : 1; // Exception flag
-					BYTE NF : 1; // Next Execute skip flag
-					BYTE OF : 1; // Overflow flag
-					BYTE SF : 1; // StackSkip flag
-					BYTE CF : 1; // Call flag
-					BYTE AF : 1; // Extra security flag
-					BYTE TF : 1; // Interrupt table set
-					BYTE MF : 1; // Memory Guard Flag
-					BYTE LF : 1; // Less than flag
-				}FlagsS;
-			};
-			union {
-				WORD64 SecurityRaw;
-				struct {
-					BYTE SecurityLevel : 5;
-					WORD64 Reserved : 59;
-				}Security;
-			};
-			struct {
-				WORD64 PageStart; // page start
-				WORD64 PageEnd; // page end
-				WORD64 ReturnAddressLocation; // return address location, backup stack pointer
-				WORD64 InterruptTable; // interrupt table
-				WORD64 VirtualStackPointer; // virtual trailing arm
-				WORD64 CSMHandler; // csm handler
-				WORD64 DeviceMap; // device map pointer
-				WORD64 StackPointerUpperBound; // stack pointer upper bound
-				WORD64 StackPointerLowerBound; // stack lower bound
-				WORD64 PageMaxLocation; // page max location
-                WORD64 NextCallAddress; // next call address
-                
-				WORD64 Reserved[1];
-			}ControlRegisters;
-		};
-	};
+    // Non-dividible
+    union {
+        WORD64 Registers64[REGCOUNT_TOTAL];
+        struct {
+            WORD64 GPRs[REGCOUNT_GPRS];
+            WORD64 SystemRs[REGCOUNT_SPEC];
+        };
+    };
+    
+    struct {
+        WORD64 r0, r1, r2, r3, r4, r5, r6, r7, r8, 
+               r9, r10, r11, r12, r13, r14, r15;
+        
+        WORD64 ip;
+        WORD64 sp;
+       
+        PLASM2_CTX_FLAGS Flags;
+        PLASM2_CTX_SECURITY Security;
+        PLASM2_CTX_CONTROLREGISTERS ControlRegisters;
+    };
 }PLASM2_CTX, *PPLASM2_CTX;
 extern PPLASM2_CTX ECtx;
 

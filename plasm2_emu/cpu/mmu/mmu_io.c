@@ -13,7 +13,7 @@ BYTE MmuRead1(WORD64 Address) {
 	BYTE* PhysicalMemory = (BYTE*)(CpuCtx->PhysicalMemory); 
     // PM usage good (reason: comes from trust)
 	if (Address > PHYS_MEMSZ)
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	else
 		return PhysicalMemory[Address];
 	return 0;
@@ -41,7 +41,7 @@ void MmuPut8(WORD64 Address, WORD64 Value) {
 	WORD64* PhysicalWords = (WORD64*)PhysicalBytes;
 	
     if (Address > PHYS_MEMSZ)
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	else
         PhysicalWords[0] = Value;
     
@@ -53,7 +53,7 @@ void MmuPut1(WORD64 Address, BYTE Value) {
     // PM usage good (reason: comes from trust)
 	
     if (Address > PHYS_MEMSZ)
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	else
 		PhysicalBytes[0] = Value;
 	
@@ -65,7 +65,7 @@ void MmuPut4(WORD64 Address, WORD32 Value) {
         + Address); // PM usage good (reason: comes from trust)
 	
     if (Address > PHYS_MEMSZ)
-		ECtx->FlagsS.XF = 1;
+		ECtx->Flags.XF = 1;
 	else
 		PhysicalBytes[0] = Value;
 	
