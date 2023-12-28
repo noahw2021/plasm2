@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _emu_h
+#define _emu_h
+
 #include "basetypes.h"
 #include <stdio.h>
 #include <SDL.h>
@@ -44,3 +47,5 @@ void EmutexUnlock(void* Mutex);
 void EmutexDestory(void* Mutex);
 
 extern PEMU_CTX EmuCtx;
+
+#endif

@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _mmu_h
+#define _mmu_h
+
 #include "../../basetypes.h"
 
 #define REASON_EXEC 0x01
@@ -61,3 +64,5 @@ typedef struct _MMU_CTX {
     PMMU_PAGE Pages;
 }MMU_CTX, *PMMU_CTX;
 extern PMMU_CTX MmuCtx;
+
+#endif

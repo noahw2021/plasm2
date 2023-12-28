@@ -4,7 +4,10 @@
 //
 //  Created by Noah Wooten on 4/21/23.
 //
-#pragma once
+
+#ifndef _fdisk_h
+#define _fdisk_h
+
 #include "../devices.h"
 #include "../../basetypes.h"
 #include <stdio.h>
@@ -136,3 +139,5 @@ void FdiskiDisableFpIncrement(WORD32 DriveId);
 void FdiskiDriveSeek(WORD32 DriveId, WORD64 NewPos);
 WORD64 FdiskiDriveReadStack(WORD32 DriveId);
 void FdiskiDriveWriteStack(WORD32 DriveId, WORD64 Data);
+
+#endif

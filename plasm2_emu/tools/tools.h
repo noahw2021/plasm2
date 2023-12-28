@@ -5,7 +5,8 @@
 //  Created by Noah Wooten on 4/21/23.
 //
 
-#pragma once
+#ifndef _tools_h
+#define _tools_h
 
 /*
 There used to be another project called
@@ -21,3 +22,5 @@ void ToolsiHddGen(void);
 void ToolsiFontGen(void);
 void ToolsiFontViewer(void);
 void ToolsiBootloader(void);
+
+#endif
