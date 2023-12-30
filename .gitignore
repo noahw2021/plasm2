@@ -12,6 +12,8 @@
 memout.bin
 assemout.bin
 
+*.xcuserstate
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
