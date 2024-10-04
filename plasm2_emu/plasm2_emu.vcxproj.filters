@@ -206,6 +206,12 @@
     <ClCompile Include="tools\tools_fontview.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cpu\xcc\xcc_systemtime.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\tools_bootldr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
